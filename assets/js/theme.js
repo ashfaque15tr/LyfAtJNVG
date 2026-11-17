@@ -23,14 +23,21 @@
   function applyTheme(theme) {
     const targetTheme = (theme === 'dark') ? 'dark' : 'sky';
     document.documentElement.setAttribute('data-theme', targetTheme);
+    if (targetTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
+    } else {
+      document.documentElement.classList.add('light');
+      document.documentElement.classList.remove('dark');
+    }
 
     if (document.body) {
       if (targetTheme === 'dark') {
-        document.body.classList.add('theme-dark');
-        document.body.classList.remove('theme-sky');
+        document.body.classList.add('theme-dark', 'dark');
+        document.body.classList.remove('theme-sky', 'light');
       } else {
-        document.body.classList.add('theme-sky');
-        document.body.classList.remove('theme-dark');
+        document.body.classList.add('theme-sky', 'light');
+        document.body.classList.remove('theme-dark', 'dark');
       }
     }
 

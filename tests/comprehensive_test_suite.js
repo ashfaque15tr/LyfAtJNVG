@@ -106,7 +106,7 @@ const hostDrAmitabh = loginUser('admin@jnvalumni.org', 'password123');
 assert(hostDrAmitabh.success && hostDrAmitabh.user.role === 'host', 'Event Host & Senior Patron Login (Dr. Amitabh Singh)');
 
 const hostLogin = loginUser('batch1996@jnvalumni.org', 'password123');
-assert(hostLogin.success && (hostLogin.user.role === 'host' || hostLogin.user.role === 'batch_admin'), 'Event Host Login (Smriti Singh)');
+assert(hostLogin.success && (hostLogin.user.role === 'host' || hostLogin.user.role === 'batch_admin') && hostLogin.user.name === 'Sh. Manoj Mishra', 'Event Host Login (Sh. Manoj Mishra)');
 
 const modLogin = loginUser('moderator@jnvalumni.org', 'password123');
 assert(modLogin.success && modLogin.user.role === 'moderator', 'Moderator Login (Priya Mishra)');
@@ -187,7 +187,7 @@ changeUserRole('Rohan Verma', 'moderator');
 let updatedRohan = getAllUsers().find(u => u.name === 'Rohan Verma');
 assert(updatedRohan.role === 'moderator', 'Super Admin promoted Rohan Verma to Moderator');
 
-// 3. Host (Smriti Singh) promotes Deepak Tiwari to Moderator
+// 3. Host (Sh. Manoj Mishra) promotes Deepak Tiwari to Moderator
 setCurrentUser(hostLogin.user, true);
 changeUserRole('Deepak Tiwari', 'moderator');
 let updatedDeepak = getAllUsers().find(u => u.name === 'Deepak Tiwari');
@@ -516,10 +516,20 @@ assert(ashfaqAdmin && ashfaqAdmin.batch === 2005 && ashfaqAdmin.role === 'admin'
 assert(ashfaqAdmin.photo === 'assets/images/ashfaq-ahmed.png', 'Ashfaq Ahmed photo correctly mapped to assets/images/ashfaq-ahmed.png');
 
 // Admin Sahayata Queue & Functions
+const authJs = fs.readFileSync(path.join(rootDir, 'assets', 'js', 'auth.js'), 'utf8');
+const appJs = fs.readFileSync(path.join(rootDir, 'assets', 'js', 'app.js'), 'utf8');
 assert(indexHtml.includes('adminHelpDeskList') && indexHtml.includes('Alumni Sahayata & Grievance Help Desk Queue'), 'index.html contains Admin Sahayata & Grievance Help Desk Queue');
 assert(typeof renderAdminHelpDeskQueue === 'function', 'renderAdminHelpDeskQueue function exists');
+assert(typeof renderAdminSuggestionsList === 'function', 'renderAdminSuggestionsList function exists');
+assert(indexHtml.includes('adminSuggestionsList') && indexHtml.includes('Registered Alumni Suggestions & Issues'), 'index.html contains Issue & Suggestion Tracker section');
 assert(typeof openNotableMessageModal === 'function', 'openNotableMessageModal function exists');
 assert(stylesCss.includes('html[data-theme="sky"] [class*="bg-slate-950"]') && stylesCss.includes('background-image: none !important'), 'styles.css universally enforces high contrast and strips dark gradients in Light Sky mode');
+assert(stylesCss.includes('html[data-theme="sky"] table') && stylesCss.includes('html[data-theme="sky"] thead'), 'styles.css contains high-contrast Light Sky styling for tables');
+assert(indexHtml.includes("darkMode: ['selector', '[data-theme=\"dark\"]']") && loginHtml.includes("darkMode: ['selector', '[data-theme=\"dark\"]']"), 'Tailwind CDN explicitly configured with data-theme selector dark mode');
+assert(!authJs.includes('"Smriti Singh"'), 'Smriti Singh completely eradicated from default auth accounts');
+assert(!appJs.includes('"Smriti Singh"'), 'Smriti Singh completely eradicated from default chat messages');
+assert(stylesCss.includes('news-ticker-track') && stylesCss.includes('#0c2f54'), 'News ticker styled with dark navy high contrast in Light Sky mode');
+assert(stylesCss.includes('html[data-theme="sky"] [class*="border-slate-"]'), 'Universal slate borders overridden for clean light sky aesthetics');
 
 // ----------------------------------------------------
 // TEST SUMMARY

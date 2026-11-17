@@ -13,6 +13,7 @@
   
   <script>
     tailwind.config = {
+      darkMode: ['selector', '[data-theme="dark"]'],
       theme: {
         extend: {
           colors: {
@@ -703,7 +704,7 @@
         <button onclick="switchMobileUser('admin')" class="w-full text-left p-2.5 rounded-xl bg-purple-950/40 border border-purple-500/30 flex items-center justify-between">
           <div>
             <span class="text-xs font-bold text-white block">👑 Super Admin</span>
-            <span class="text-[10px] text-slate-400">Dr. Amitabh Singh ('98)</span>
+            <span class="text-[10px] text-slate-400">Ashfaq Ahmed ('05)</span>
           </div>
           <span class="text-xs text-purple-400">Select →</span>
         </button>
@@ -711,7 +712,7 @@
         <button onclick="switchMobileUser('batch_admin')" class="w-full text-left p-2.5 rounded-xl bg-amber-950/40 border border-amber-500/30 flex items-center justify-between">
           <div>
             <span class="text-xs font-bold text-white block">🏛️ Host Batch 1996 Admin</span>
-            <span class="text-[10px] text-slate-400">Smriti Singh ('96)</span>
+            <span class="text-[10px] text-slate-400">Sh. Manoj Mishra ('96)</span>
           </div>
           <span class="text-xs text-amber-400">Select →</span>
         </button>
@@ -1043,11 +1044,21 @@
           avatarEl.textContent = mActiveChatPartner.substring(0, 2).toUpperCase();
         }
       }
-      if (selectEl) selectEl.value = mActiveChatPartner;
+      if (selectEl) {
+        let optExists = Array.from(selectEl.options).some(o => o.value === mActiveChatPartner);
+        if (!optExists && mActiveChatPartner) {
+          const opt = document.createElement('option');
+          opt.value = mActiveChatPartner;
+          opt.textContent = mActiveChatPartner;
+          selectEl.appendChild(opt);
+        }
+        selectEl.value = mActiveChatPartner;
+      }
 
       let msgs = [];
       try {
         msgs = JSON.parse(localStorage.getItem('JNVG_CHAT_MESSAGES_V2')) || [];
+        msgs = msgs.filter(m => !((m.senderName||'').toLowerCase().includes('smriti') || (m.recipientName||'').toLowerCase().includes('smriti')));
       } catch(e) { msgs = []; }
 
       const curUser = (typeof getCurrentUser === 'function') ? getCurrentUser() : { name: "Alumni Member" };
@@ -2055,9 +2066,14 @@
             <span class="text-[9px] text-slate-400 flex items-center gap-1">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Verified JNV Faculty
             </span>
-            <button onclick="handleMobileTeacherPranam('${t.name.replace(/'/g, "\\'")}')" class="px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-300 font-bold hover:bg-amber-500/30 transition flex items-center gap-1">
-              <span>🙏</span> <span>चरण स्पर्श</span>
-            </button>
+            <div class="flex items-center gap-1.5">
+              <button onclick="openMobileChatWithAlumnus('${t.name.replace(/'/g, "\\'")}')" class="px-2.5 py-1 rounded-lg bg-blue-600/30 text-blue-300 font-bold hover:bg-blue-600/50 transition flex items-center gap-1">
+                <span>💬</span> <span>Message</span>
+              </button>
+              <button onclick="handleMobileTeacherPranam('${t.name.replace(/'/g, "\\'")}')" class="px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-300 font-bold hover:bg-amber-500/30 transition flex items-center gap-1">
+                <span>🙏</span> <span>चरण स्पर्श</span>
+              </button>
+            </div>
           </div>
         `;
         container.appendChild(card);

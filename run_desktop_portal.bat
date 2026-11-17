@@ -14,8 +14,9 @@ start "" "%~dp0login.html"
 echo Portal launched in your default desktop browser!
 echo.
 echo Roles available on the Login screen:
-echo - Super Admin (Dr. Amitabh Singh, '98)
-echo - Host Batch 1996 Organizer (Smriti Singh, '96)
+echo - Super Admin (Ashfaq Ahmed, '05)
+echo - Host Batch 1996 Organizer (Sh. Manoj Mishra, '96)
+echo - Senior Patron (Dr. Amitabh Singh, '98)
 echo - Content Moderator (Priya Mishra, '14)
 echo - Verified Member (Ramesh Yadav, '08)
 echo - Register New Member

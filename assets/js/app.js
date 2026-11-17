@@ -485,6 +485,8 @@ function switchTab(tabId) {
   } else if (tabId === 'admin') {
     renderAdminQueue();
     renderAdminHelpDeskQueue();
+    renderAdminSuggestionsList();
+    renderRoleGovernanceList();
   }
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1661,7 +1663,7 @@ function renderDirectory(append = false) {
           <span class="text-slate-300">Phone Protected</span> • <span class="text-emerald-400">Verified</span>
         </span>
         <div class="flex items-center gap-2">
-          <button onclick="openChatWithAlumnus('${item.name}')" class="px-2.5 py-1 rounded-lg bg-blue-900/40 hover:bg-blue-900/70 border border-blue-500/40 text-blue-300 font-semibold text-xs flex items-center gap-1 transition">
+          <button onclick="openChatWithAlumnus('${item.name}')" class="px-2.5 py-1 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-1 shadow-sm transition">
             <span>💬</span> <span>Message</span>
           </button>
           <button onclick="showToast('🔒 Privacy Protected: Alumni phone numbers are confidential. Direct peer message initiated via portal.')" class="text-gold-400 hover:text-gold-300 font-semibold text-xs flex items-center gap-1">Connect →</button>
@@ -2300,6 +2302,137 @@ function addAdminNoteToHelpRequest(requestId) {
   showToast("Administrative note recorded on assistance ticket.");
 }
 
+// ========================================================
+// 15B. ALUMNI SUGGESTIONS & GRIEVANCES ISSUE TRACKER ENGINE
+// ========================================================
+const DEFAULT_SUGGESTIONS_ISSUES = [
+  {
+    id: "sug-demo-1",
+    category: "Feature Suggestion",
+    name: "Dr. Jai Krishna Mishra",
+    batch: "1993",
+    contact: "jk.mishra@asl.drdo.in",
+    details: "Propose setting up an Annual Science & Space Technology Merit Fellowship at JNV Gauriganj for senior secondary students demonstrating exceptional research aptitude in STEM.",
+    date: "14 Nov 2026",
+    status: "reviewed"
+  },
+  {
+    id: "sug-demo-2",
+    category: "General Grievance / Inundation",
+    name: "Utkrisht Pandey",
+    batch: "1994",
+    contact: "+91 9415098765",
+    details: "During rainy season, the internal approach pathway connecting MP Hall to the Dining Mess needs gravel pavers. Alumni fraternity can collectively fund this concrete pavement upgrade.",
+    date: "16 Nov 2026",
+    status: "pending"
+  }
+];
+
+function getAdminSuggestionsList() {
+  try {
+    const raw = localStorage.getItem('JNVG_SUGGESTIONS_ISSUES');
+    if (!raw) {
+      localStorage.setItem('JNVG_SUGGESTIONS_ISSUES', JSON.stringify(DEFAULT_SUGGESTIONS_ISSUES));
+      return DEFAULT_SUGGESTIONS_ISSUES;
+    }
+    const list = JSON.parse(raw);
+    return Array.isArray(list) && list.length > 0 ? list : DEFAULT_SUGGESTIONS_ISSUES;
+  } catch (e) {
+    return DEFAULT_SUGGESTIONS_ISSUES;
+  }
+}
+
+function saveAdminSuggestionsList(list) {
+  try {
+    localStorage.setItem('JNVG_SUGGESTIONS_ISSUES', JSON.stringify(list));
+  } catch(e) {}
+}
+
+function renderAdminSuggestionsList() {
+  const container = document.getElementById('adminSuggestionsList');
+  if (!container) return;
+  const list = getAdminSuggestionsList();
+  
+  const countBadge = document.getElementById('pendingSugCountText');
+  const pendingCount = list.filter(s => s.status !== 'resolved' && s.status !== 'reviewed').length;
+  if (countBadge) {
+    countBadge.textContent = `${list.length} Total (${pendingCount} Pending Review)`;
+  }
+
+  if (list.length === 0) {
+    container.innerHTML = `<div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-8 rounded-2xl text-center text-slate-500 text-xs">✓ No registered feedback or suggestions in queue.</div>`;
+    return;
+  }
+
+  container.innerHTML = '';
+  list.forEach((item, idx) => {
+    const card = document.createElement('div');
+    card.className = "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl space-y-3 shadow-sm";
+    
+    const isDone = item.status === 'resolved' || item.status === 'reviewed';
+    const statusBadge = isDone 
+      ? '<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">✓ Reviewed & Addressed</span>'
+      : '<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30 animate-pulse">Action Required</span>';
+
+    card.innerHTML = `
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-2.5">
+        <div>
+          <div class="flex items-center gap-2 mb-1 flex-wrap">
+            <span class="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30">${item.category || 'Portal Feedback'}</span>
+            ${statusBadge}
+            <span class="text-[11px] text-slate-400 font-mono font-medium">${item.date || 'Recent'}</span>
+          </div>
+          <h4 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-cinzel">${item.name || 'Anonymous Alumnus'} <span class="text-xs font-normal text-slate-500 font-sans">• Batch of ${item.batch || 'Alumni'}</span></h4>
+          ${item.contact ? `<p class="text-xs text-amber-600 dark:text-amber-400 font-mono mt-0.5">Contact: <strong>${item.contact}</strong></p>` : ''}
+        </div>
+      </div>
+
+      <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
+        ${item.details || 'No additional details provided.'}
+      </div>
+
+      <div class="pt-2 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 dark:border-slate-800 text-xs">
+        <div class="flex items-center gap-2">
+          ${item.name ? `
+            <button onclick="openChatWithAlumnus('${item.name.replace(/'/g, "\\'")}')" class="px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-1 shadow-sm transition">
+              <span>💬 Reply via Chat</span>
+            </button>
+          ` : ''}
+          ${!isDone ? `
+            <button onclick="markAdminSuggestionReviewed(${idx})" class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition">
+              <span>✓ Mark Addressed</span>
+            </button>
+          ` : '<span class="text-xs text-emerald-600 dark:text-emerald-400 font-bold">✓ Closed</span>'}
+        </div>
+        <button onclick="deleteAdminSuggestion(${idx})" class="text-xs text-red-500 hover:text-red-700 hover:underline">
+          Delete Entry
+        </button>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function markAdminSuggestionReviewed(idx) {
+  const list = getAdminSuggestionsList();
+  if (list[idx]) {
+    list[idx].status = 'reviewed';
+    saveAdminSuggestionsList(list);
+    renderAdminSuggestionsList();
+    showToast("Feedback marked as reviewed & addressed.");
+  }
+}
+
+function deleteAdminSuggestion(idx) {
+  const list = getAdminSuggestionsList();
+  if (confirm("Remove this feedback entry from the admin log?")) {
+    list.splice(idx, 1);
+    saveAdminSuggestionsList(list);
+    renderAdminSuggestionsList();
+    showToast("Entry removed.");
+  }
+}
+
 // 16. Countdown: Days To Go
 function updateCountdown() {
   const targetDate = new Date('2026-12-13T09:00:00+05:30').getTime();
@@ -2673,9 +2806,14 @@ function submitTeacherPranam(e) {
 }
 
 function openChatWithTeacher(teacherId) {
-  const teacher = (AppState.teachers || []).find(t => t.id === teacherId || t.name === teacherId);
-  if (!teacher) return;
-  openChatModal(teacher.name);
+  const tList = (AppState.teachers && AppState.teachers.length > 0) ? AppState.teachers : defaultData.teachers;
+  const teacher = tList.find(t => (t.id && t.id.toLowerCase() === (teacherId || '').toLowerCase()) || 
+                                  (t.name && t.name.toLowerCase() === (teacherId || '').toLowerCase()));
+  if (teacher) {
+    openChatModal(teacher.name);
+  } else {
+    openChatModal(teacherId || "Mr. P. K. Singh");
+  }
 }
 
 
@@ -2683,7 +2821,7 @@ function openChatWithTeacher(teacherId) {
 // ========================================================
 // 20. ALUMNI CHAT & INBOX ENGINE (Peer-to-Peer Messaging)
 // ========================================================
-const CHAT_STORAGE_KEY = 'JNVG_CHAT_MESSAGES_V4';
+const CHAT_STORAGE_KEY = 'JNVG_CHAT_MESSAGES_V6';
 
 const DEFAULT_CHAT_MESSAGES = [
   {
@@ -2724,27 +2862,91 @@ const DEFAULT_CHAT_MESSAGES = [
     timestamp: "Today, 10:00 AM",
     createdAt: Date.now() - 3600000,
     read: true
+  },
+  {
+    id: "msg-104",
+    senderId: "usr-tch-principal",
+    senderName: "Mr. P. K. Singh",
+    senderBatch: "Principal",
+    recipientId: "usr-ashfaque-admin",
+    recipientName: "Ashfaq Ahmed",
+    recipientBatch: 2005,
+    text: "सादर आशीष! 13 दिसंबर 2026 के महासम्मेलन हेतु विद्यालय प्रबंधन पूर्ण सहयोग के लिए तत्पर है। सभी पूर्व छात्रों का परिसर में हार्दिक स्वागत है।",
+    timestamp: "Today, 11:30 AM",
+    createdAt: Date.now() - 1800000,
+    read: true
   }
 ];
 
 function initChatDB() {
-  const existing = localStorage.getItem(CHAT_STORAGE_KEY);
-  if (!existing) {
+  const legacyKeys = [
+    'JNVG_CHAT_MESSAGES_V6',
+    'JNVG_CHAT_MESSAGES_V5',
+    'JNVG_CHAT_MESSAGES_V4',
+    'JNVG_CHAT_MESSAGES_V3',
+    'JNVG_CHAT_MESSAGES_V2',
+    'JNVG_CHAT_MESSAGES'
+  ];
+
+  let loadedMsgs = null;
+  for (const k of legacyKeys) {
+    const raw = localStorage.getItem(k);
+    if (raw) {
+      try {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          loadedMsgs = parsed;
+          break;
+        }
+      } catch (e) {}
+    }
+  }
+
+  if (loadedMsgs && Array.isArray(loadedMsgs)) {
+    // Aggressively purge any message mentioning Smriti Singh
+    const cleaned = loadedMsgs.filter(m => {
+      const s = (m.senderName || '').toLowerCase();
+      const r = (m.recipientName || '').toLowerCase();
+      const t = (m.text || '').toLowerCase();
+      return !s.includes('smriti') && !r.includes('smriti') && !t.includes('smriti');
+    });
+
+    if (cleaned.length === 0) {
+      localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(DEFAULT_CHAT_MESSAGES));
+    } else {
+      localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(cleaned));
+    }
+  } else {
     localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(DEFAULT_CHAT_MESSAGES));
   }
+
+  // Remove deprecated keys
+  legacyKeys.slice(1).forEach(k => {
+    try { localStorage.removeItem(k); } catch(e) {}
+  });
 }
 
 function getAllChatMessages() {
   initChatDB();
   try {
-    return JSON.parse(localStorage.getItem(CHAT_STORAGE_KEY)) || DEFAULT_CHAT_MESSAGES;
+    const msgs = JSON.parse(localStorage.getItem(CHAT_STORAGE_KEY)) || DEFAULT_CHAT_MESSAGES;
+    return msgs.filter(m => {
+      const s = (m.senderName || '').toLowerCase();
+      const r = (m.recipientName || '').toLowerCase();
+      return !s.includes('smriti') && !r.includes('smriti');
+    });
   } catch (e) {
     return DEFAULT_CHAT_MESSAGES;
   }
 }
 
 function saveAllChatMessages(msgs) {
-  localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(msgs));
+  const cleaned = (msgs || []).filter(m => {
+    const s = (m.senderName || '').toLowerCase();
+    const r = (m.recipientName || '').toLowerCase();
+    return !s.includes('smriti') && !r.includes('smriti');
+  });
+  localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(cleaned));
 }
 
 let activeChatPartner = null;
@@ -2807,7 +3009,7 @@ function getChatConversations() {
       partnerBatch = m.recipientBatch;
     }
 
-    if (partnerName) {
+    if (partnerName && !partnerName.toLowerCase().includes('smriti')) {
       const key = partnerName.toLowerCase();
       const existing = convMap.get(key);
       const isUnread = isIncoming && !m.read;
@@ -2836,19 +3038,17 @@ function openChatModal(partnerNameOrId) {
   if (!modal) return;
   modal.classList.remove('hidden');
 
-  renderChatConversations();
-
-  if (partnerNameOrId) {
-    selectChatPartner(partnerNameOrId);
-  } else {
-    const convs = getChatConversations();
+  let targetPartner = partnerNameOrId;
+  if (!targetPartner || targetPartner.toLowerCase().includes('smriti')) {
+    const convs = getChatConversations().filter(c => !c.partnerName.toLowerCase().includes('smriti'));
     if (convs.length > 0) {
-      selectChatPartner(convs[0].partnerName);
+      targetPartner = convs[0].partnerName;
     } else {
-      const defaultPartner = (AppState.teachers && AppState.teachers[0]) ? AppState.teachers[0].name : "Mr. P. K. Singh";
-      selectChatPartner(defaultPartner);
+      targetPartner = (AppState.teachers && AppState.teachers[0]) ? AppState.teachers[0].name : "Mr. P. K. Singh";
     }
   }
+
+  selectChatPartner(targetPartner);
 }
 
 function closeChatModal() {
@@ -2901,6 +3101,10 @@ function renderChatConversations() {
 }
 
 function selectChatPartner(partnerIdentifier) {
+  if (!partnerIdentifier || partnerIdentifier.toLowerCase().includes('smriti')) {
+    partnerIdentifier = (AppState.teachers && AppState.teachers[0]) ? AppState.teachers[0].name : "Mr. P. K. Singh";
+  }
+
   let currentUser = getCurrentUser();
   if (!currentUser) {
     currentUser = { id: 'usr-guest', name: 'Alumnus Visitor', batch: 'Guest', role: 'guest' };
@@ -3279,21 +3483,21 @@ function renderHelpRequests(filter = 'all') {
       <!-- Actions -->
       <div class="flex flex-wrap items-center justify-between gap-2 pt-3 border-t border-slate-800 text-xs">
         <div class="flex items-center gap-2">
-          <button onclick="openChatWithAlumnus('${r.requesterName}')" class="px-3 py-1.5 rounded-xl bg-blue-900/40 hover:bg-blue-900/60 border border-blue-500/40 text-blue-300 font-bold flex items-center gap-1.5 transition">
+          <button onclick="openChatWithAlumnus('${r.requesterName}')" class="px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold flex items-center gap-1.5 shadow-sm transition">
             <span>💬</span> <span>Message Requester</span>
           </button>
-          <button onclick="offerHelpRequest('${r.id}')" class="px-3 py-1.5 rounded-xl bg-emerald-600/30 hover:bg-emerald-600/50 border border-emerald-500/40 text-emerald-300 font-bold flex items-center gap-1.5 transition">
+          <button onclick="offerHelpRequest('${r.id}')" class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold flex items-center gap-1.5 shadow-sm transition">
             <span>🤝</span> <span>Offer Support / Pledges</span>
           </button>
         </div>
 
         <div class="flex items-center gap-2">
           ${r.status !== 'resolved' && r.currentTier < 3 ? `
-          <button onclick="escalateHelpRequest('${r.id}')" class="px-3 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 font-bold flex items-center gap-1 transition">
+          <button onclick="escalateHelpRequest('${r.id}')" class="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold flex items-center gap-1 shadow-sm transition">
             <span>⬆️</span> <span>Escalate to Tier ${r.currentTier + 1}</span>
           </button>` : ''}
           ${r.status !== 'resolved' ? `
-          <button onclick="resolveHelpRequest('${r.id}')" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold flex items-center gap-1 transition">
+          <button onclick="resolveHelpRequest('${r.id}')" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold flex items-center gap-1 shadow-sm transition">
             <span>✓</span> <span>Mark Resolved</span>
           </button>` : '<span class="text-[11px] text-emerald-400 font-bold">✓ Closed & Resolved</span>'}
         </div>
@@ -3431,6 +3635,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderAdminQueue();
   renderAdminRegistrations();
   renderAdminHelpDeskQueue();
+  renderAdminSuggestionsList();
   updateQueueBadges();
   
   const user = getCurrentUser();
@@ -4003,18 +4208,45 @@ function handleSuggestionSubmit(e) {
     batch,
     contact,
     details,
-    date: new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })
+    date: new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }),
+    status: 'pending'
   };
 
-  try {
-    const list = JSON.parse(localStorage.getItem('JNVG_SUGGESTIONS_ISSUES') || '[]');
-    list.unshift(report);
-    localStorage.setItem('JNVG_SUGGESTIONS_ISSUES', JSON.stringify(list));
-  } catch (err) {
-    console.warn("Could not save suggestion locally:", err);
+  const list = getAdminSuggestionsList();
+  list.unshift(report);
+  saveAdminSuggestionsList(list);
+
+  // If marked as Issue or Grievance, also route to Help Requests queue
+  if (cat.toLowerCase().includes('issue') || cat.toLowerCase().includes('grievance') || cat.toLowerCase().includes('bug')) {
+    if (!AppState.helpRequests) AppState.helpRequests = [];
+    AppState.helpRequests.unshift({
+      id: `help-sug-${Date.now()}`,
+      title: `[Grievance / Issue]: ${details.substring(0, 60)}...`,
+      requesterName: name || "Portal Alumnus",
+      requesterId: `usr-portal-${Date.now()}`,
+      batch: batch || 2005,
+      house: "Campus",
+      category: "grievance",
+      categoryLabel: "Platform & Alumni Grievance",
+      currentTier: 1,
+      status: "batch_review",
+      statusLabel: "Intake Review: Admin & Support Queue",
+      urgency: "urgent",
+      targetAmount: null,
+      raisedAmount: null,
+      description: `Reported by ${name} (Batch ${batch || 'Alumni'}, Contact: ${contact}): ${details}`,
+      resolutionNotes: [
+        { time: "Just now", note: `Issue ticket automatically generated from Portal Feedback Submission.` }
+      ],
+      date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
+    });
+    saveAppData();
+    renderAdminHelpDeskQueue();
+    renderHelpRequests(currentHelpFilter);
   }
 
+  renderAdminSuggestionsList();
   if (typeof closeModal === 'function') closeModal('suggestionIssueModal');
-  alert(`✓ Thank you ${name}! Your ${cat.toLowerCase()} has been recorded. Our alumni web administration team will review it for Site Version v4.2.1.`);
+  alert(`✓ Thank you ${name}! Your ${cat.toLowerCase()} has been recorded directly into the Administration Dashboard Queue. Our executive committee and Super Admin will review it.`);
   e.target.reset();
 }

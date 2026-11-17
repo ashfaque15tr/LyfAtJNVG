@@ -14,6 +14,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=Tiro+Devanagari+Hindi:ital@0;1&family=Rozha+One&family=Yatra+One&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
+      darkMode: ['selector', '[data-theme="dark"]'],
       theme: {
         extend: {
           colors: {
@@ -1313,6 +1314,21 @@
         </div>
         <div id="adminHelpDeskList" class="space-y-4"></div>
 
+        <!-- ALUMNI SUGGESTIONS & GRIEVANCES ISSUE TRACKER (Public Portal Submissions) -->
+        <div class="bg-slate-900 border border-amber-500/30 p-6 rounded-3xl mt-8">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div>
+              <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-300 text-[10px] font-bold mb-1">
+                <span>📋</span> <span>Feedback & Issue Tracker</span>
+              </div>
+              <h2 class="text-xl font-bold font-cinzel text-white">Registered Alumni Suggestions & Issues</h2>
+              <p class="text-xs text-slate-400 mt-0.5">Read feedback, reported bugs, and recommendations submitted via the public portal footer.</p>
+            </div>
+            <span id="pendingSugCountText" class="px-2.5 py-1 rounded bg-amber-500/20 text-amber-300 font-bold text-xs border border-amber-500/40">0 Submissions</span>
+          </div>
+        </div>
+        <div id="adminSuggestionsList" class="space-y-4"></div>
+
         <!-- ALUMNI LEADERSHIP & ROLE GOVERNANCE (Admin assigns Host/Moderator, Host assigns Moderator) -->
         <div class="bg-slate-900 border border-amber-500/30 p-6 rounded-3xl mt-8 space-y-4">
           <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
@@ -2115,11 +2131,6 @@
         <button onclick="startChatWithSelectedAlumnus('Alok Dubey, IAS')" class="w-full text-left p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 text-xs flex items-center justify-between">
           <span class="text-white font-bold">Alok Dubey, IAS (2007 • Neelgiri)</span>
           <span class="text-slate-400">Civil Services</span>
-        </button>
-      </div>
-    </div>
-  </div>
-          <span class="text-slate-400">Moderator</span>
         </button>
       </div>
     </div>

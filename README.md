@@ -62,13 +62,15 @@ The site features a real authentication gateway (`login.html`) and session engin
      - **Step 2:** Secure 2FA OTP code is dispatched. User enters the 6-digit OTP, sets the new password, and reconfirms it.
      - **Step 3:** Password is encrypted and updated directly in the local alumni database, immediately pre-filling credentials for instant sign-in.
 
-### Available User Roles & 1-Click Demo Accounts:
-1. **👑 Super Admin (`admin@jnvalumni.org` / `password123`)**:
-   - Dr. Amitabh Singh (Batch 1998, Shivalik, Senior Neurosurgeon).
-   - Full system controls: Membership application approvals, audited financial ledger for all batches, content moderation queue.
-2. **🏛️ Host Batch 1996 Admin (`batch1996@jnvalumni.org` / `password123`)**:
-   - Smriti Singh (Batch 1996, Aravali, General Secretary).
+### Available User Roles & Accounts:
+1. **👑 Super Admin (`ashfaque15tr@gmail.com` / `AAaa11!!`)**:
+   - Ashfaq Ahmed (Batch 2005, Aravali, Lead Enterprise & Systems Solutions Architect).
+   - Full system controls: Membership approvals, audited financial ledger for all batches, alumni help desk & issue queue, role governance.
+2. **🏛️ Host Batch 1996 Organizer (`batch1996@jnvalumni.org` / `password123`)**:
+   - Sh. Manoj Mishra (Batch 1996, Aravali, Senior Space Scientist - ISRO).
    - Dedicated batch tools: Host Batch appeal controls, Batch 1996 contribution audit, attendee management.
+3. **🏛️ Senior Patron & Host Organizer (`admin@jnvalumni.org` / `password123`)**:
+   - Dr. Amitabh Singh (Batch 1998, Shivalik, Senior Neurosurgeon).
 3. **🛡️ Content Moderator (`moderator@jnvalumni.org` / `password123`)**:
    - Priya Mishra (Batch 2014, Aravali, Staff Cloud Architect).
    - Semi-admin controls: Approve/reject memory wall stories, photo submissions, and cultural performance acts.

@@ -50,17 +50,18 @@ const DEFAULT_ACCOUNTS = [
     id: "usr-batch-1",
     email: "batch1996@jnvalumni.org",
     password: "password123",
-    name: "Smriti Singh",
+    name: "Sh. Manoj Mishra",
     batch: 1996,
     house: "Arawali",
     role: "batch_admin", // Batch-Wise Admin for Host 1996 Batch
-    roleTitle: "Host Batch Organizer & Admin",
+    roleTitle: "Host Batch Organizer & Senior Space Scientist (ISRO)",
     status: "approved",
     phone: "+91 9415003344",
-    city: "Lucknow, UP",
-    profession: "Host Batch General Secretary & Senior Director",
-    domain: "Corporate Leadership",
-    avatar: "SS",
+    city: "Bengaluru / Lucknow",
+    profession: "Senior Space Scientist, ISRO",
+    domain: "Science & Technology",
+    avatar: "MM",
+    photo: null,
     joinedDate: "Host Committee Organizer"
   },
   {
@@ -109,8 +110,8 @@ const DEFAULT_ACCOUNTS = [
     status: "approved",
     phone: "+91 9793004455",
     city: "New Delhi",
-    profession: "Senior Corporate Legal Counsel",
-    domain: "Law",
+    profession: "Founder, Rishigram Organics • Retd. Assistant Commandant, SSB",
+    domain: "Sustainable Agriculture & Organic Enterprise",
     avatar: "UP",
     joinedDate: "Batch of 2005 • Content Moderator"
   },
@@ -257,6 +258,38 @@ function initUsersDB() {
       }
     });
 
+    // Purge any lingering reference to Smriti Singh from existing users
+    existing.forEach(u => {
+      if ((u.name || '').toLowerCase() === 'smriti singh' || (u.email || '').toLowerCase() === 'batch1996@jnvalumni.org') {
+        u.name = "Sh. Manoj Mishra";
+        u.batch = 1996;
+        u.profession = "Senior Space Scientist, ISRO";
+        u.role = "batch_admin";
+        u.roleTitle = "Host Batch Organizer & Senior Space Scientist (ISRO)";
+        u.avatar = "MM";
+        modified = true;
+      }
+    });
+
+    // Also check session storage and local storage current session for Smriti Singh
+    try {
+      if (typeof window !== 'undefined') {
+        [sessionStorage, localStorage].forEach(store => {
+          const raw = store.getItem(AUTH_STORAGE_KEY);
+          if (raw) {
+            const ses = JSON.parse(raw);
+            if ((ses.name || '').toLowerCase() === 'smriti singh') {
+              ses.name = "Sh. Manoj Mishra";
+              ses.profession = "Senior Space Scientist, ISRO";
+              ses.roleTitle = "Host Batch Organizer & Senior Space Scientist (ISRO)";
+              ses.avatar = "MM";
+              store.setItem(AUTH_STORAGE_KEY, JSON.stringify(ses));
+            }
+          }
+        });
+      }
+    } catch(e) {}
+
     // Auto-approve any pending users so every member has immediate active access
     existing.forEach(u => {
       if (u.status === "pending") {
@@ -402,7 +435,7 @@ function quickRoleLogin(roleKey) {
   } else if (roleKey === 'host' || roleKey === 'batch_admin') {
     target = users.find(u => u.email === "batch1996@jnvalumni.org") || users.find(u => u.email === "admin@jnvalumni.org");
   } else if (roleKey === 'ashfaq' || roleKey === 'tech_lead') {
-    target = users.find(u => u.email === "ashfaque15tr@gmail.com") || users.find(u => u.email === "ashfaq@jnvalumni.org");
+    target = users.find(u => u.email === "ashfaque15tr@gmail.com");
   } else if (roleKey === 'teacher' || roleKey === 'faculty' || roleKey === 'gurujan') {
     target = users.find(u => u.email === "principal@jnvalumni.org") || users.find(u => u.role === 'teacher');
   } else {
