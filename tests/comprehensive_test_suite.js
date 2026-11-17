@@ -54,9 +54,15 @@ global.document = {
 };
 
 global.window = {
-  location: { href: '' },
+  location: { href: '', protocol: 'https:' },
   addEventListener: () => {},
   scrollTo: () => {}
+};
+
+global.navigator = {
+  serviceWorker: {
+    register: () => Promise.resolve({ scope: '/' })
+  }
 };
 
 global.confirm = () => true;

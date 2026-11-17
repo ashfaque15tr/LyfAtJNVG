@@ -2675,7 +2675,7 @@ function offerHelpRequest(requestId) {
 
 
 // 18. PWA Registration
-if ('serviceWorker' in navigator && (window.location.protocol === 'http:' || window.location.protocol === 'https:')) {
+if (typeof navigator !== 'undefined' && 'serviceWorker' in navigator && typeof window !== 'undefined' && (window.location.protocol === 'http:' || window.location.protocol === 'https:')) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js').then((reg) => { console.log('JNVG Service Worker active:', reg.scope); }).catch((err) => { console.warn('SW registration skipped:', err); });
   });
