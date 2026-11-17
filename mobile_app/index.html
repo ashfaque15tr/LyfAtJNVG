@@ -991,7 +991,7 @@
   <script src="../assets/js/storage-engine.js"></script>
   <script src="../assets/js/auth.js"></script>
   <script>
-    let activeMobileUser = getCurrentUser() || getAllUsers()[0];
+    let activeMobileUser = getCurrentUser();
     let selectedMobileAmount = 5000;
 
 
@@ -1191,7 +1191,23 @@
     }
 
     function updateMobileUI() {
-      if (!activeMobileUser) return;
+      if (!activeMobileUser) {
+        const mAv = document.getElementById('mAvatar');
+        if (mAv) mAv.textContent = '👤';
+        const rBadge = document.getElementById('mRoleBadge');
+        if (rBadge) rBadge.textContent = 'GUEST';
+        const gName = document.getElementById('mGreetingName');
+        if (gName) gName.textContent = 'Welcome, Navodayan';
+        const bPill = document.getElementById('mBatchPill');
+        if (bPill) bPill.textContent = 'Guest Mode';
+        const sName = document.getElementById('sheetUserName');
+        if (sName) sName.textContent = 'Guest (Sign in below)';
+        const ledgerWrapper = document.getElementById('mAuditedLedgerWrapper');
+        const restrictedNotice = document.getElementById('mAuditedRestrictedNotice');
+        if (ledgerWrapper) ledgerWrapper.style.display = 'none';
+        if (restrictedNotice) restrictedNotice.style.display = 'block';
+        return;
+      }
       const mAv = document.getElementById('mAvatar');
       if (mAv) {
         if (activeMobileUser.photo) {
@@ -1573,13 +1589,27 @@
 
     // Load data from shared storage
     function loadMobileContent() {
-      // Soft Launch Auto-Purge for Mobile
-      const SOFT_LAUNCH_STORAGE_FLAG = 'JNVG_SOFT_LAUNCH_2026_CLEARED_V1';
+      // Soft Launch Clean Slate for Mobile App Testing
+      const SOFT_LAUNCH_STORAGE_FLAG = 'JNVG_SOFT_LAUNCH_2026_CLEARED_V6';
       if (!localStorage.getItem(SOFT_LAUNCH_STORAGE_FLAG)) {
         localStorage.setItem(SOFT_LAUNCH_STORAGE_FLAG, 'true');
         const existingData = JSON.parse(localStorage.getItem('JNVG_ALUMNI_APP_DATA_V2')) || {};
         existingData.feedPosts = [];
-        existingData.directory = [];
+        existingData.directory = [
+          {
+            id: "dir-ashfaq-ahmed",
+            name: "Ashfaq Ahmed",
+            batch: 2008,
+            house: "Arawali",
+            role: "Lead Enterprise & Systems Solutions Architect",
+            location: "Lucknow / New Delhi",
+            domain: "Software",
+            email: "ashfaque15tr@gmail.com",
+            tag: "Super Admin • Batch of 2008",
+            isSuperAdmin: true,
+            verified: true
+          }
+        ];
         existingData.rsvps = [];
         existingData.contributions = [];
         existingData.queueItems = [];

@@ -34,8 +34,8 @@ const DEFAULT_ACCOUNTS = [
     name: "Dr. Amitabh Singh",
     batch: 1998,
     house: "Shivalik",
-    role: "admin", // Super Admin
-    roleTitle: "Super Admin",
+    role: "host", // Host / Senior Patron (Admin role reserved exclusively for Ashfaq Ahmed)
+    roleTitle: "Host Batch Organizer & Senior Patron",
     status: "approved",
     phone: "+91 9876543210",
     city: "Lucknow, UP",
@@ -253,6 +253,15 @@ function initUsersDB() {
       }
     }
 
+    // Strictly enforce: ONLY ashfaque15tr@gmail.com can have the admin (Super Admin) role!
+    existing.forEach(u => {
+      if ((u.email || '').toLowerCase() !== 'ashfaque15tr@gmail.com' && u.role === 'admin') {
+        u.role = 'host';
+        u.roleTitle = 'Host Batch Organizer & Senior Patron';
+        modified = true;
+      }
+    });
+
     // Auto-approve any pending users so every member has immediate active access
     existing.forEach(u => {
       if (u.status === "pending") {
@@ -392,15 +401,17 @@ function loginUser(email, password, remember = true) {
 // Quick 1-Click Role Login (For Demonstration / Testing)
 function quickRoleLogin(roleKey) {
   const users = getAllUsers();
-  let target = users.find(u => u.role === roleKey);
-  if (!target && roleKey === 'batch_admin') {
-    target = users.find(u => u.email === "batch1996@jnvalumni.org");
-  }
-  if (!target && (roleKey === 'ashfaq' || roleKey === 'tech_lead')) {
-    target = users.find(u => u.email === "ashfaq@jnvalumni.org");
-  }
-  if (!target && (roleKey === 'teacher' || roleKey === 'faculty' || roleKey === 'gurujan')) {
+  let target = null;
+  if (roleKey === 'admin' || roleKey === 'superadmin') {
+    target = users.find(u => (u.email || '').toLowerCase() === 'ashfaque15tr@gmail.com');
+  } else if (roleKey === 'host' || roleKey === 'batch_admin') {
+    target = users.find(u => u.email === "batch1996@jnvalumni.org") || users.find(u => u.email === "admin@jnvalumni.org");
+  } else if (roleKey === 'ashfaq' || roleKey === 'tech_lead') {
+    target = users.find(u => u.email === "ashfaque15tr@gmail.com") || users.find(u => u.email === "ashfaq@jnvalumni.org");
+  } else if (roleKey === 'teacher' || roleKey === 'faculty' || roleKey === 'gurujan') {
     target = users.find(u => u.email === "principal@jnvalumni.org") || users.find(u => u.role === 'teacher');
+  } else {
+    target = users.find(u => u.role === roleKey);
   }
   if (target) {
     setCurrentUser(target, true);

@@ -297,7 +297,28 @@ const defaultData = {
   ]
 };
 
-const SOFT_LAUNCH_STORAGE_FLAG = 'JNVG_SOFT_LAUNCH_2026_CLEARED_V1';
+const SOFT_LAUNCH_STORAGE_FLAG = 'JNVG_SOFT_LAUNCH_2026_CLEARED_V6';
+
+// As of today, Ashfaq Ahmed is the ONLY verified alumni present in the directory as Super Admin
+const defaultDirectoryAlumni = [
+  {
+    id: "dir-ashfaq-ahmed",
+    name: "Ashfaq Ahmed",
+    initials: "AA",
+    batch: 2008,
+    house: "Arawali",
+    role: "Lead Enterprise & Systems Solutions Architect",
+    location: "Lucknow / New Delhi",
+    domain: "Software",
+    email: "ashfaque15tr@gmail.com",
+    badge: "Arawali",
+    tag: "Super Admin • Batch of 2008",
+    systemRole: "admin",
+    isSuperAdmin: true,
+    verified: true,
+    joinedDate: "Platform Super Admin"
+  }
+];
 
 function loadAppData() {
   try {
@@ -312,7 +333,7 @@ function loadAppData() {
         feedPosts: [],
         queueItems: [],
         pendingRegistrations: [],
-        directory: [],
+        directory: defaultDirectoryAlumni.slice(),
 
   meetSchedule: [
     { id: "sch-1", time: "09:00 AM", color: "blue", title: "Tilak Welcome, Registration & Kit Distribution", desc: "Campus entry, welcome tilak, breakfast tea, ID tag & souvenir bag collection." },
@@ -393,6 +414,8 @@ function loadAppData() {
       if (!parsed.culturalActs || !Array.isArray(parsed.culturalActs)) {
         parsed.culturalActs = defaultData.culturalActs;
       }
+      // Ensure only Ashfaq Ahmed is present in directory as sole Super Admin today
+      parsed.directory = defaultDirectoryAlumni.slice();
       return { ...defaultData, ...parsed };
     }
   } catch (e) {
@@ -1526,7 +1549,7 @@ function renderDirectory(append = false) {
   }
 
   if (!append && result.items.length === 0) {
-    grid.innerHTML = '<div class="col-span-full p-8 text-center bg-slate-900/60 border border-slate-800 rounded-3xl space-y-2"><p class="text-slate-400 text-sm">No alumni records found in the directory yet.</p><p class="text-xs text-slate-500">Register your profile to be the first to join the verified Gauriganj Parivar network!</p><button onclick="openModal(\'registerModal\')" class="mt-2 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs hover:bg-amber-400 transition">Register as Alumnus →</button></div>';
+    grid.innerHTML = '<div class="col-span-full p-8 text-center bg-slate-900/60 border border-slate-800 rounded-3xl space-y-2"><p class="text-slate-400 text-sm">No alumni records found matching the selected filters.</p><p class="text-xs text-slate-500">Please adjust your batch, house, or domain filters to view alumni.</p></div>';
     return;
   }
 
@@ -1954,13 +1977,18 @@ function renderTeachers(filter = 'all', searchQuery = '') {
         <p class="text-[11px] text-slate-400 leading-relaxed"><strong class="text-slate-300 font-semibold">Distinction Note:</strong> ${t.specialNote}</p>` : ''}
       </div>
 
-      <div class="pt-3 border-t border-slate-800 flex items-center justify-between gap-2 text-xs">
-        <span class="text-[10px] text-slate-400 flex items-center gap-1">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Verified JNV Faculty
+      <div class="pt-3 border-t border-slate-800 flex items-center justify-between gap-2 text-xs flex-wrap">
+        <span class="text-[10px] text-amber-400 font-bold flex items-center gap-1">
+          <span>🙏</span> <span>${t.respectCount || 0} Respects</span>
         </span>
-        <button onclick="openPranamModal('${t.id}')" class="px-3 py-1.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/30 text-amber-300 hover:text-amber-200 font-bold text-xs flex items-center gap-1.5 transition touch-ripple">
-          <span>🙏</span> <span>चरण स्पर्श / Send Respect</span>
-        </button>
+        <div class="flex items-center gap-1.5">
+          <button onclick="openChatWithTeacher('${t.id}')" class="px-2.5 py-1.5 rounded-xl bg-blue-900/40 hover:bg-blue-900/70 border border-blue-500/40 text-blue-300 hover:text-white font-bold text-xs flex items-center gap-1 transition touch-ripple">
+            <span>💬</span> <span>Send Message</span>
+          </button>
+          <button onclick="openPranamModal('${t.id}')" class="px-2.5 py-1.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/30 text-amber-300 hover:text-amber-200 font-bold text-xs flex items-center gap-1 transition touch-ripple">
+            <span>🙏</span> <span>चरण स्पर्श / Send Respect</span>
+          </button>
+        </div>
       </div>
     `;
     grid.appendChild(card);
@@ -2099,7 +2127,7 @@ function handleTeacherEnrollment(e) {
 
 let activePranamTeacher = null;
 function openPranamModal(teacherId) {
-  const t = (AppState.teachers || []).find(item => item.id === teacherId);
+  const t = (AppState.teachers || []).find(item => item.id === teacherId || item.name === teacherId);
   if (!t) return;
   activePranamTeacher = t;
   const titleEl = document.getElementById('pranamTeacherName');
@@ -2120,10 +2148,43 @@ function submitTeacherPranam(e) {
   const sender = document.getElementById('pranamSenderName').value.trim();
   const batch = document.getElementById('pranamSenderBatch').value.trim();
   const msg = document.getElementById('pranamNote').value.trim();
+  const teacher = activePranamTeacher;
+
+  if (teacher) {
+    const curUser = (typeof getCurrentUser === 'function') ? getCurrentUser() : null;
+    const msgs = getAllChatMessages();
+    const newMsg = {
+      id: "respect-" + Date.now() + "-" + Math.floor(Math.random() * 1000),
+      senderId: curUser ? curUser.id : ('guest-' + Date.now()),
+      senderName: sender || (curUser ? curUser.name : 'Alumnus'),
+      senderBatch: batch || (curUser ? curUser.batch : 'Alumni'),
+      recipientId: teacher.id,
+      recipientName: teacher.name,
+      recipientBatch: teacher.post || 'Faculty',
+      text: `🙏 [चरण स्पर्श एवं सादर प्रणाम / Respect]: ${msg || 'सादर प्रणाम गुरुजी! Batch of ' + (batch || 'Alumni') + ' sends their utmost reverence and respects.'}`,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      createdAt: Date.now(),
+      type: 'respect',
+      read: false
+    };
+    msgs.push(newMsg);
+    saveAllChatMessages(msgs);
+
+    teacher.respectCount = (teacher.respectCount || 0) + 1;
+    saveAppData();
+    renderTeachers(currentTeacherFilter);
+    refreshInboxBadge();
+  }
 
   closePranamModal();
   e.target.reset();
-  showToast(`🙏 सादर प्रणाम प्रेषित! Your respectful regards from Batch of ${batch} have been conveyed to ${activePranamTeacher ? activePranamTeacher.name : 'Guruji'}.`);
+  showToast(`🙏 सादर प्रणाम प्रेषित! Your respectful regards from Batch of ${batch} have been conveyed to ${teacher ? teacher.name : 'Guruji'}.`);
+}
+
+function openChatWithTeacher(teacherId) {
+  const teacher = (AppState.teachers || []).find(t => t.id === teacherId || t.name === teacherId);
+  if (!teacher) return;
+  openChatModal(teacher.name);
 }
 
 
@@ -2383,6 +2444,19 @@ function selectChatPartner(partnerIdentifier) {
   if (!partner && typeof getAllUsers === 'function') {
     partner = getAllUsers().find(u => u.name.toLowerCase() === partnerIdentifier.toLowerCase() || u.id === partnerIdentifier);
   }
+  if (!partner && AppState.teachers) {
+    const t = AppState.teachers.find(item => (item.id && item.id.toLowerCase() === partnerIdentifier.toLowerCase()) || (item.name && item.name.toLowerCase() === partnerIdentifier.toLowerCase()));
+    if (t) {
+      partner = {
+        id: t.id,
+        name: t.name,
+        batch: t.tenure || 'Faculty',
+        role: t.post || 'Revered Faculty',
+        house: t.house || 'Campus',
+        isTeacher: true
+      };
+    }
+  }
   if (!partner) {
     partner = { name: partnerIdentifier, batch: "Alumnus", role: "Verified Alumnus", house: "Aravali" };
   }
@@ -2452,11 +2526,14 @@ function renderActiveChatMessages() {
 
   thread.forEach(m => {
     const isMe = (m.senderName && m.senderName.toLowerCase() === currentUser.name.toLowerCase());
+    const isRespect = m.type === 'respect' || (m.text && m.text.includes('[चरण स्पर्श'));
+    const respectPill = isRespect ? `<div class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-bold mb-1.5"><span>🙏</span> <span>चरण स्पर्श एवं सादर प्रणाम / Reverence Note</span></div>` : '';
     const row = document.createElement('div');
     row.className = `flex ${isMe ? 'justify-end' : 'justify-start'}`;
 
     row.innerHTML = `
-      <div class="max-w-[78%] rounded-2xl p-3.5 space-y-1 shadow ${isMe ? 'bg-gradient-to-r from-brand-700 to-brand-800 text-white rounded-br-none border border-gold-500/30' : 'bg-slate-800 text-slate-200 rounded-bl-none border border-slate-700/80'}">
+      <div class="max-w-[78%] rounded-2xl p-3.5 space-y-1 shadow ${isRespect ? 'bg-gradient-to-br from-amber-950/60 to-slate-900 border border-amber-500/50 text-amber-100' : isMe ? 'bg-gradient-to-r from-brand-700 to-brand-800 text-white rounded-br-none border border-gold-500/30' : 'bg-slate-800 text-slate-200 rounded-bl-none border border-slate-700/80'}">
+        ${respectPill}
         <p class="text-xs leading-relaxed whitespace-pre-wrap">${m.text}</p>
         <div class="flex items-center justify-end gap-1 text-[9px] ${isMe ? 'text-amber-200/80' : 'text-slate-400'} font-mono pt-0.5">
           <span>${m.timestamp}</span>
@@ -3210,132 +3287,68 @@ function renderRoleGovernanceList(searchQuery = '') {
 
   const curUser = (typeof getCurrentUser === 'function' ? getCurrentUser() : null);
   const isCurAdmin = curUser && curUser.role === 'admin';
-  const isCurHost = curUser && (curUser.role === 'host' || curUser.role === 'batch_admin');
-
-  if (!isCurAdmin && !isCurHost) {
-    container.innerHTML = '<div class="p-4 text-center text-xs text-slate-500 bg-slate-950/60 rounded-2xl border border-slate-800">🔒 Leadership Governance is restricted to Event Hosts and Super Admins.</div>';
-    return;
-  }
 
   const allUsers = typeof getAllUsers === 'function' ? getAllUsers() : [];
-  const dirMembers = AppState.directory || [];
 
-  // Merge users uniquely by name
-  const memberMap = new Map();
+  // Ashfaq Ahmed is the ONLY Super Admin
+  const ashfaq = allUsers.find(u => (u.email || '').toLowerCase() === 'ashfaque15tr@gmail.com') || {
+    id: "usr-ashfaque-admin",
+    name: "Ashfaq Ahmed",
+    batch: 2008,
+    house: "Arawali",
+    role: "admin",
+    roleTitle: "Super Admin",
+    email: "ashfaque15tr@gmail.com",
+    profession: "Lead Enterprise & Systems Solutions Architect"
+  };
 
-  allUsers.forEach(u => {
-    memberMap.set((u.name || '').toLowerCase(), {
-      id: u.id,
-      name: u.name,
-      batch: u.batch,
-      house: u.house || 'Navodaya',
-      role: u.role || 'member',
-      roleTitle: u.roleTitle || (u.role === 'admin' ? 'Super Admin' : u.role === 'host' || u.role === 'batch_admin' ? 'Host' : u.role === 'moderator' ? 'Moderator' : 'Member'),
-      email: u.email,
-      profession: u.profession || ''
-    });
-  });
-
-  dirMembers.forEach(d => {
-    const key = (d.name || '').toLowerCase();
-    if (!memberMap.has(key)) {
-      memberMap.set(key, {
-        id: d.id || `dir-${key}`,
-        name: d.name,
-        batch: d.batch,
-        house: d.house || 'Navodaya',
-        role: d.systemRole || 'member',
-        roleTitle: d.systemRole === 'moderator' ? 'Moderator' : d.systemRole === 'host' ? 'Host' : 'Member',
-        email: '',
-        profession: d.role || ''
-      });
-    }
-  });
-
-  let members = Array.from(memberMap.values());
-  const q = (searchQuery || '').trim().toLowerCase();
-  if (q) {
-    members = members.filter(m => (m.name || '').toLowerCase().includes(q) || (m.batch || '').toString().includes(q) || (m.role || '').toLowerCase().includes(q));
-  }
-
-  // Sort: Admins first, then Teachers, then Hosts, then Moderators, then Members
-  const roleWeights = { admin: 1, teacher: 2, batch_admin: 3, host: 3, moderator: 4, member: 5 };
-  members.sort((a, b) => (roleWeights[a.role] || 5) - (roleWeights[b.role] || 5));
-
-  if (members.length === 0) {
-    container.innerHTML = '<div class="p-4 text-center text-xs text-slate-500 bg-slate-950/60 rounded-2xl border border-slate-800">No alumni matching query.</div>';
-    return;
-  }
-
-  container.innerHTML = members.map(m => {
-    const isTargetAdmin = m.role === 'admin';
-    const isTargetTeacher = m.role === 'teacher';
-    const isTargetHost = m.role === 'host' || m.role === 'batch_admin';
-    const isTargetMod = m.role === 'moderator';
-    const isTargetMember = !isTargetAdmin && !isTargetTeacher && !isTargetHost && !isTargetMod;
-
-    let roleBadgeColor = 'bg-slate-800 text-slate-300 border-slate-700';
-    let roleLabel = 'Member';
-    if (isTargetAdmin) { roleBadgeColor = 'bg-purple-500/20 text-purple-300 border-purple-500/40'; roleLabel = 'Super Admin'; }
-    else if (isTargetTeacher) { roleBadgeColor = 'bg-amber-500/20 text-amber-300 border-amber-500/40'; roleLabel = 'Revered Gurujan'; }
-    else if (isTargetHost) { roleBadgeColor = 'bg-amber-500/20 text-amber-300 border-amber-500/40'; roleLabel = 'Host'; }
-    else if (isTargetMod) { roleBadgeColor = 'bg-blue-500/20 text-blue-300 border-blue-500/40'; roleLabel = 'Moderator'; }
-
-    let actionsHtml = '';
-    if (isCurAdmin) {
-      if (isTargetAdmin) {
-        actionsHtml = '<span class="text-[10px] text-purple-400 font-bold px-2 py-1 rounded bg-purple-950/50 border border-purple-500/30">Primary Super Admin</span>';
-      } else {
-        actionsHtml = `
-          <div class="flex items-center gap-1.5">
-            <span class="text-[10px] text-slate-400 font-semibold hidden sm:inline">Set Role:</span>
-            <select onchange="changeUserRole('${m.name}', this.value)" class="bg-slate-950 border border-slate-700 rounded-lg px-2 py-1 text-[11px] text-amber-300 font-bold focus:outline-none focus:border-amber-500">
-              <option value="member" ${isTargetMember ? 'selected' : ''}>Member</option>
-              <option value="moderator" ${isTargetMod ? 'selected' : ''}>Moderator</option>
-              <option value="host" ${isTargetHost ? 'selected' : ''}>Host</option>
-              <option value="teacher" ${isTargetTeacher ? 'selected' : ''}>Teacher / Gurujan</option>
-            </select>
-          </div>
-        `;
-      }
-    } else if (isCurHost) {
-      if (isTargetAdmin || isTargetHost || isTargetTeacher) {
-        actionsHtml = '<span class="text-[10px] text-slate-500 font-semibold px-2 py-1 rounded bg-slate-950 border border-slate-800">Protected</span>';
-      } else if (isTargetMember) {
-        actionsHtml = `
-          <button onclick="changeUserRole('${m.name}', 'moderator')" class="px-2.5 py-1 rounded-lg bg-blue-900/40 hover:bg-blue-900/80 text-blue-300 hover:text-blue-100 border border-blue-500/40 text-[11px] font-bold transition flex items-center gap-1" title="Promote to Batch Moderator">
-            <span>Make Moderator</span>
-          </button>
-        `;
-      } else if (isTargetMod) {
-        actionsHtml = `
-          <button onclick="changeUserRole('${m.name}', 'member')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 text-[11px] font-semibold transition flex items-center gap-1" title="Demote back to regular Member">
-            <span>Demote to Member</span>
-          </button>
-        `;
-      }
-    }
-
-    return `
-      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-slate-950/80 border border-slate-800/90 rounded-2xl p-3.5 hover:border-slate-700 transition">
-        <div class="flex items-center space-x-3">
-          <div class="w-9 h-9 rounded-xl bg-slate-900 border border-slate-800 text-gold-400 font-bold flex items-center justify-center text-xs flex-shrink-0">
-            ${m.name.split(' ').map(n=>n[0]).slice(0,2).join('')}
-          </div>
-          <div>
-            <div class="flex items-center gap-2">
-              <h4 class="text-xs font-bold text-white">${m.name}</h4>
-              <span class="px-1.5 py-0.2 rounded text-[10px] font-bold border ${roleBadgeColor}">${roleLabel}</span>
-            </div>
-            <p class="text-[10px] text-slate-400 mt-0.5">Batch of ${m.batch} • ${m.house} House ${m.profession ? `• ${m.profession}` : ''}</p>
-          </div>
+  container.innerHTML = `
+    <!-- Sole Active Super Admin Record -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-purple-950/30 border border-purple-500/40 rounded-2xl p-4 shadow-lg">
+      <div class="flex items-center space-x-3.5">
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-700 text-white font-bold flex items-center justify-center text-sm shadow flex-shrink-0">
+          AA
         </div>
-        <div class="w-full sm:w-auto flex items-center justify-end">
-          ${actionsHtml}
+        <div>
+          <div class="flex items-center gap-2 flex-wrap">
+            <h4 class="text-sm font-bold text-white font-cinzel">${ashfaq.name}</h4>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-purple-500/20 text-purple-300 border border-purple-400/50">Sole Super Admin</span>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">Permanent Authority</span>
+          </div>
+          <p class="text-xs text-slate-300 mt-0.5">Batch of ${ashfaq.batch} • ${ashfaq.house} House • ${ashfaq.profession || 'Lead Enterprise & Systems Solutions Architect'}</p>
+          <p class="text-[11px] text-amber-400/90 font-mono mt-0.5">${ashfaq.email}</p>
         </div>
       </div>
-    `;
-  }).join('');
+      <div class="w-full sm:w-auto flex items-center justify-end">
+        <span class="text-xs text-purple-300 font-bold px-3 py-1.5 rounded-xl bg-purple-900/60 border border-purple-400/40 flex items-center gap-1.5 shadow">
+          <span>👑</span> <span>Platform Super Admin</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- Governance Status & Role Hierarchy Summary -->
+    <div class="p-4 rounded-2xl bg-slate-950/60 border border-slate-800 text-xs text-slate-400 space-y-2 mt-3">
+      <div class="flex items-center gap-2 text-amber-400 font-bold">
+        <span>🛡️</span> <span>RBAC Governance Cleared (Single Super Admin Mode)</span>
+      </div>
+      <p class="text-[11px] leading-relaxed text-slate-300">
+        All previous legacy admin entries have been cleared. <strong>Ashfaq Ahmed</strong> is the sole administrator holding the Super Admin role.
+      </p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2 text-[11px]">
+        <div class="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-200">
+          <strong class="text-amber-300 block mb-0.5">🏛️ Host Role:</strong>
+          Full access to contribution of the fund, financial ledger, and 4th Mega Meet event coordination.
+        </div>
+        <div class="p-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-200">
+          <strong class="text-blue-300 block mb-0.5">🛡️ Moderator Role:</strong>
+          Authorized to review, approve, and reject new alumni member registration requests.
+        </div>
+      </div>
+      <p class="text-[10px] text-slate-400 italic pt-1">
+        Additional Host (one member per team) and Moderator assignments will be populated as committee nominations are finalized.
+      </p>
+    </div>
+  `;
 }
 
 function changeUserRole(targetIdentifier, newRole) {

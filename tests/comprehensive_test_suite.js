@@ -99,8 +99,11 @@ function assert(condition, testName) {
 // ----------------------------------------------------
 console.log('--- TEST SUITE 1: ROLES & CREDENTIAL AUTHENTICATION ---');
 
-const adminLogin = loginUser('admin@jnvalumni.org', 'password123');
-assert(adminLogin.success && adminLogin.user.role === 'admin', 'Super Admin Login (Dr. Amitabh Singh)');
+const superAdminLogin = loginUser('ashfaque15tr@gmail.com', 'AAaa11!!');
+assert(superAdminLogin.success && superAdminLogin.user.role === 'admin', 'Sole Super Admin Login (Ashfaq Ahmed)');
+
+const hostDrAmitabh = loginUser('admin@jnvalumni.org', 'password123');
+assert(hostDrAmitabh.success && hostDrAmitabh.user.role === 'host', 'Event Host & Senior Patron Login (Dr. Amitabh Singh)');
 
 const hostLogin = loginUser('batch1996@jnvalumni.org', 'password123');
 assert(hostLogin.success && (hostLogin.user.role === 'host' || hostLogin.user.role === 'batch_admin'), 'Event Host Login (Smriti Singh)');
@@ -174,7 +177,7 @@ assert(testProfiles.every(tp => AppState.directory.some(d => d.name === tp.name)
 console.log('\n--- TEST SUITE 3: ROLE PROMOTIONS & ACCESS DELEGATION ---');
 
 // 1. Admin promotes Kavita Sharma to Host
-setCurrentUser(adminLogin.user, true);
+setCurrentUser(superAdminLogin.user, true);
 changeUserRole('Kavita Sharma', 'host');
 let updatedKavita = getAllUsers().find(u => u.name === 'Kavita Sharma');
 assert(updatedKavita.role === 'host', 'Super Admin promoted Kavita Sharma to Host');
@@ -336,8 +339,8 @@ assert(!getOrCreate('contributionLedgerSection').classList.contains('hidden'), '
 assert(getOrCreate('ledgerRestrictedNotice').classList.contains('hidden'), 'Restricted Notice hidden from Event Host');
 
 // As Admin:
-setCurrentUser(adminLogin.user, true);
-applyUserSession(adminLogin.user);
+setCurrentUser(superAdminLogin.user, true);
+applyUserSession(superAdminLogin.user);
 assert(!getOrCreate('contributionLedgerSection').classList.contains('hidden'), 'Audited Ledger visible to Super Admin');
 
 // ----------------------------------------------------
@@ -422,6 +425,73 @@ assert(updatedCfg.apiKey === 'TEST_KEY_123' && updatedCfg.provider === 'twofacto
 // 5. Index & Login OTP Modal Live Preview & Auto-fill elements
 assert(indexHtml.includes('indexOtpModal') && indexHtml.includes('openIndexWhatsAppOtp'), 'index.html contains 2FA indexOtpModal with WhatsApp dispatch');
 assert(loginHtml.includes('regLiveOtpPreview') && loginHtml.includes('autoFillRegOtp'), 'login.html contains live OTP preview & 1-click auto-fill helper');
+
+// ----------------------------------------------------
+// TEST SUITE 11: SOLE SUPER ADMIN, TEACHER MESSAGING & LIGHT CONTRAST
+// ----------------------------------------------------
+console.log('\n--- TEST SUITE 11: SOLE SUPER ADMIN, TEACHER MESSAGING & LIGHT CONTRAST ---');
+
+// 1. Directory Clean Slate: Ashfaq Ahmed is the sole Super Admin in directory
+assert(defaultDirectoryAlumni.length === 1 && defaultDirectoryAlumni[0].name === 'Ashfaq Ahmed' && defaultDirectoryAlumni[0].isSuperAdmin === true, 'Directory contains only Ashfaq Ahmed as sole Super Admin');
+
+// 2. High Contrast Light Mode CSS Overrides
+assert(stylesCss.includes('#homeHeroCard') && stylesCss.includes('footer-association-text'), 'styles.css contains high-contrast Light Sky overrides for hero card & footer');
+
+// 3. Teacher Respect & Messaging Workflow
+const sampleTeacher = AppState.teachers.find(t => t.name === 'Mr. P. K. Singh');
+assert(sampleTeacher !== undefined, 'Mr. P. K. Singh exists in AppState.teachers');
+
+// Simulate sending respect to Mr. P. K. Singh
+let chatMsgs = getAllChatMessages();
+const respectMsg = {
+  id: 'test-respect-1',
+  senderId: 'usr-member-1',
+  senderName: 'Ramesh Yadav',
+  senderBatch: 2008,
+  recipientId: sampleTeacher.id,
+  recipientName: sampleTeacher.name,
+  recipientBatch: sampleTeacher.post,
+  text: '🙏 [चरण स्पर्श एवं सादर प्रणाम / Respect]: सादर प्रणाम प्रिंसिपल सर!',
+  timestamp: 'Just now',
+  createdAt: Date.now(),
+  type: 'respect',
+  read: false
+};
+chatMsgs.push(respectMsg);
+saveAllChatMessages(chatMsgs);
+
+// Principal logs in and checks inbox
+setCurrentUser(teacherLogin.user, true);
+refreshInboxBadge();
+const pConvs = getChatConversations();
+assert(pConvs.some(c => c.partnerName === 'Ramesh Yadav'), 'Incoming respect conversation appears in Principal inbox');
+const unreadForPrincipal = getAllChatMessages().filter(m => (m.recipientId === sampleTeacher.id || m.recipientName.toLowerCase() === teacherLogin.user.name.toLowerCase()) && !m.read);
+assert(unreadForPrincipal.length > 0, 'Principal receives unread notification for respect note');
+
+// Principal replies with blessings
+const replyMsg = {
+  id: 'test-blessing-1',
+  senderId: teacherLogin.user.id,
+  senderName: teacherLogin.user.name,
+  senderBatch: teacherLogin.user.designation || 'Principal',
+  recipientId: 'usr-member-1',
+  recipientName: 'Ramesh Yadav',
+  recipientBatch: 2008,
+  text: 'सदा विजयी रहो! शुभाशीष।',
+  timestamp: 'Just now',
+  createdAt: Date.now(),
+  read: false
+};
+chatMsgs = getAllChatMessages();
+chatMsgs.push(replyMsg);
+saveAllChatMessages(chatMsgs);
+
+// Switch back to Ramesh Yadav session
+const memberSession = loginUser('member@jnvalumni.org', 'password123');
+setCurrentUser(memberSession.user, true);
+refreshInboxBadge();
+const mConvs = getChatConversations();
+assert(mConvs.some(c => c.partnerName === 'Mr. P. K. Singh'), 'Alumnus receives Guru Ashirwad blessing in inbox');
 
 // ----------------------------------------------------
 // TEST SUMMARY

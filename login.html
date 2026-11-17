@@ -44,7 +44,7 @@
 <body class="bg-[#f0f7ff] text-[#0c2f54] font-sans min-h-screen flex flex-col justify-between selection:bg-amber-500 selection:text-white">
 
   <!-- Subtle Ambient Pattern -->
-  <div class="fixed inset-0 pointer-events-none opacity-50 bg-[radial-gradient(#bae6fd_1.5px,transparent_1.5px)] [background-size:24px_24px]"></div>
+  <div class="ambient-pattern fixed inset-0 pointer-events-none opacity-50 bg-[radial-gradient(#bae6fd_1.5px,transparent_1.5px)] [background-size:24px_24px]"></div>
 
   <!-- Header Bar -->
   <header class="border-b border-slate-200 bg-white/95 backdrop-blur px-6 py-4 shadow-sm">
@@ -76,7 +76,7 @@
     <div class="max-w-5xl w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
 
       <!-- Left: Institutional Heritage & 1-Click Role Switcher -->
-      <div class="lg:col-span-5 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 border border-slate-700 rounded-3xl p-6 sm:p-8 flex flex-col justify-between shadow-xl relative overflow-hidden text-white">
+      <div class="lg:col-span-5 auth-card-left bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 border border-slate-700 rounded-3xl p-6 sm:p-8 flex flex-col justify-between shadow-xl relative overflow-hidden text-white">
         
         <div>
           <div class="flex items-center gap-2 mb-3">
@@ -152,7 +152,7 @@
       </div>
 
       <!-- Right: Actual Login & Registration Forms -->
-      <div class="lg:col-span-7 bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xl flex flex-col justify-between">
+      <div class="lg:col-span-7 auth-card-right bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xl flex flex-col justify-between">
         
         <div>
           <!-- Tab Navigation Switcher (Alumni, Gurujan, Register) -->
@@ -729,7 +729,11 @@
         const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || window.innerWidth < 768;
         showAlert("✓ Alumni Login successful! Redirecting to your dashboard...", true);
         setTimeout(() => {
-          window.location.href = isMobile ? 'mobile_app/index.html' : 'index.html';
+          if (res.user && res.user.role === 'teacher') {
+            window.location.href = isMobile ? 'mobile_app/index.html#teachers' : 'index.html#teachers';
+          } else {
+            window.location.href = isMobile ? 'mobile_app/index.html' : 'index.html';
+          }
         }, 500);
       } else {
         showAlert(res.message, false);
@@ -744,9 +748,9 @@
       const res = loginUser(email, pass, true);
       if (res.success) {
         const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || window.innerWidth < 768;
-        showAlert(`✓ सादर प्रणाम! Welcome, Revered <strong>${res.user.name}</strong> (${res.user.roleTitle || 'Faculty'}). Redirecting...`, true);
+        showAlert(`✓ सादर प्रणाम! Welcome, Revered <strong>${res.user.name}</strong> (${res.user.roleTitle || 'Faculty'}). Redirecting to Teachers page...`, true);
         setTimeout(() => {
-          window.location.href = isMobile ? 'mobile_app/index.html' : 'index.html';
+          window.location.href = isMobile ? 'mobile_app/index.html#teachers' : 'index.html#teachers';
         }, 500);
       } else {
         showAlert(res.message, false);
