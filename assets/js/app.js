@@ -969,7 +969,7 @@ function handleStorySubmit(e) {
   const postTag = isTeacher ? '🪔 गुरु शुभाशीष / Faculty Blessing' : (cat.charAt(0).toUpperCase() + cat.slice(1));
 
   const newPost = {
-    id: "pst-" + Date.now(),
+    id: "pst-" + Date.now() + "-" + Math.floor(Math.random() * 1000000),
     author: curUser.name,
     batch: curUser.batch || (isTeacher ? 'Gurujan' : 2008),
     house: curUser.house || "Campus",
@@ -1958,7 +1958,7 @@ function handleTeacherEnrollment(e) {
   // Automatically broadcast Guru Sandesh to the Memory Wall as a Revered Blessing
   if (message) {
     const teacherFeedPost = {
-      id: `pst-${Date.now()}`,
+      id: `pst-${Date.now()}-${Math.floor(Math.random() * 1000000)}`,
       author: name,
       batch: tenure || 'Gurujan',
       house: house || 'Campus',

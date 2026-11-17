@@ -355,5 +355,13 @@ assert(zipExists, 'JNV_Alumni_Mobile_App_Bundle.zip packaged & available for app
 // TEST SUMMARY
 // ----------------------------------------------------
 console.log('\n====================================================');
-console.log(`TEST RESULTS: ${passedTests} / ${totalTests} ASSERTIONS PASSED (100%)`);
+console.log(`TEST RESULTS: ${passedTests} / ${totalTests} ASSERTIONS PASSED`);
 console.log('====================================================');
+
+if (passedTests !== totalTests || totalTests === 0) {
+  console.error(`\n❌ TEST SUITE FAILED: ${totalTests - passedTests} assertion(s) failed.`);
+  process.exit(1);
+} else {
+  console.log('\n✅ ALL ASSERTIONS PASSED SUCCESSFULLY (100%).\n');
+  process.exit(0);
+}
