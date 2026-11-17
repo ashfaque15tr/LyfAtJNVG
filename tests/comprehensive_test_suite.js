@@ -388,6 +388,42 @@ assert(fs.existsSync(path.join(rootDir, 'assets', 'images', 'meet2025-3.jpg')), 
 assert(fs.existsSync(path.join(rootDir, 'assets', 'images', 'meet2025-4.jpg')), 'Photo Gallery asset meet2025-4.jpg exists');
 
 // ----------------------------------------------------
+// TEST SUITE 10: DUAL-THEME SWITCHER, PERMANENT ADMIN & SMS GATEWAY
+// ----------------------------------------------------
+console.log('\n--- TEST SUITE 10: DUAL-THEME SWITCHER, PERMANENT ADMIN & SMS GATEWAY ---');
+
+// 1. Permanent Super Admin credentials (ashfaque15tr@gmail.com / AAaa11!!)
+const ashfaqLogin = loginUser('ashfaque15tr@gmail.com', 'AAaa11!!');
+assert(ashfaqLogin.success === true, 'Permanent Super Admin ashfaque15tr@gmail.com authenticated');
+assert(ashfaqLogin.user.role === 'admin', 'ashfaque15tr@gmail.com possesses admin role');
+assert(ashfaqLogin.user.roleTitle === 'Super Admin', 'ashfaque15tr@gmail.com holds Super Admin title');
+
+// 2. Shivalik Raman & Shivaji mapping in index.html & login.html
+const loginHtml = fs.readFileSync(path.join(rootDir, 'login.html'), 'utf8');
+assert(indexHtml.includes('Shivalik') && indexHtml.includes('Raman & Shivaji'), 'index.html Shivalik strip maps Raman & Shivaji');
+assert(loginHtml.includes('Shivalik') && loginHtml.includes('Raman & Shivaji'), 'login.html Shivalik strip maps Raman & Shivaji');
+
+// 3. Dual-Theme Engine & Switcher
+assert(fs.existsSync(path.join(rootDir, 'assets', 'js', 'theme.js')), 'Theme engine script assets/js/theme.js exists');
+assert(indexHtml.includes('themeToggleBtn') && indexHtml.includes('toggleTheme()'), 'index.html contains themeToggleBtn');
+assert(loginHtml.includes('themeToggleBtn') && loginHtml.includes('toggleTheme()'), 'login.html contains themeToggleBtn');
+const stylesCss = fs.readFileSync(path.join(rootDir, 'assets', 'css', 'styles.css'), 'utf8');
+assert(stylesCss.includes('data-theme="sky"') && stylesCss.includes('data-theme="dark"'), 'styles.css supports both data-theme="sky" and data-theme="dark"');
+
+// 4. SMS Gateway Engine & Storage Configuration
+assert(typeof getSmsGatewayConfig === 'function', 'getSmsGatewayConfig function is exported');
+assert(typeof saveSmsGatewayConfig === 'function', 'saveSmsGatewayConfig function is exported');
+const initialCfg = getSmsGatewayConfig();
+assert(initialCfg.provider === 'fast2sms', 'Default SMS gateway provider is Fast2SMS');
+saveSmsGatewayConfig({ apiKey: 'TEST_KEY_123', provider: 'twofactor' });
+const updatedCfg = getSmsGatewayConfig();
+assert(updatedCfg.apiKey === 'TEST_KEY_123' && updatedCfg.provider === 'twofactor', 'SMS Gateway configuration persisted to storage');
+
+// 5. Index & Login OTP Modal Live Preview & Auto-fill elements
+assert(indexHtml.includes('indexOtpModal') && indexHtml.includes('openIndexWhatsAppOtp'), 'index.html contains 2FA indexOtpModal with WhatsApp dispatch');
+assert(loginHtml.includes('regLiveOtpPreview') && loginHtml.includes('autoFillRegOtp'), 'login.html contains live OTP preview & 1-click auto-fill helper');
+
+// ----------------------------------------------------
 // TEST SUMMARY
 // ----------------------------------------------------
 console.log('\n====================================================');

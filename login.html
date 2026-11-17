@@ -11,6 +11,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Yatra+One&family=Rozha+One&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="assets/css/styles.css">
+  <!-- Theme Engine: Dual-Theme Switching between Light Sky Blue & Dark Navy Blue -->
+  <script src="assets/js/theme.js"></script>
   
   <script>
     tailwind.config = {
@@ -39,10 +41,10 @@
     }
   </script>
 </head>
-<body class="bg-slate-100 text-slate-900 font-sans min-h-screen flex flex-col justify-between selection:bg-amber-500 selection:text-white">
+<body class="bg-[#f0f7ff] text-[#0c2f54] font-sans min-h-screen flex flex-col justify-between selection:bg-amber-500 selection:text-white">
 
   <!-- Subtle Ambient Pattern -->
-  <div class="fixed inset-0 pointer-events-none opacity-40 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:24px_24px]"></div>
+  <div class="fixed inset-0 pointer-events-none opacity-50 bg-[radial-gradient(#bae6fd_1.5px,transparent_1.5px)] [background-size:24px_24px]"></div>
 
   <!-- Header Bar -->
   <header class="border-b border-slate-200 bg-white/95 backdrop-blur px-6 py-4 shadow-sm">
@@ -54,10 +56,17 @@
           <span class="text-xs text-slate-600">Gauriganj, Sultanpur / Amethi (U.P.) • Official Portal: <strong class="text-amber-600 font-mono">jnvgfamily.in</strong></span>
         </div>
       </div>
-      <div class="hidden sm:flex items-center gap-2 text-xs text-amber-700 font-hindi">
-        <span>।। प्रज्ञानं ब्रह्म ।।</span>
-        <span>•</span>
-        <span class="italic font-semibold">"हमी नवोदय हो"</span>
+      <div class="flex items-center gap-3">
+        <!-- Theme Switcher: Light Sky Blue <-> Classic Dark Navy Blue -->
+        <button id="themeToggleBtn" onclick="toggleTheme()" class="px-2.5 py-1 rounded bg-sky-500/20 text-sky-700 border border-sky-400/40 font-bold flex items-center gap-1.5 hover:bg-sky-500/30 transition text-xs shadow-sm touch-ripple" title="Switch Theme (Light Sky Blue / Dark Navy Blue)">
+          <span id="themeToggleIcon" class="text-xs">☀️</span>
+          <span id="themeToggleLabel">Light Sky</span>
+        </button>
+        <div class="hidden sm:flex items-center gap-2 text-xs text-amber-700 font-hindi">
+          <span>।। प्रज्ञानं ब्रह्म ।।</span>
+          <span>•</span>
+          <span class="italic font-semibold">"हमी नवोदय हो"</span>
+        </div>
       </div>
     </div>
   </header>
@@ -91,7 +100,7 @@
             </div>
             <div class="p-1.5 rounded-lg bg-blue-950/80 border border-blue-500/50 text-blue-300">
               <span class="block">Shivalik</span>
-              <span class="text-[8px] font-normal text-blue-400">Raman</span>
+              <span class="text-[8px] font-normal text-blue-400">Raman & Shivaji</span>
             </div>
             <div class="p-1.5 rounded-lg bg-yellow-950/80 border border-yellow-500/50 text-yellow-300">
               <span class="block">Udaigiri</span>
@@ -384,24 +393,51 @@
       </p>
 
       <!-- Real Mobile SMS & Cellular Dispatch Status -->
-      <div class="p-3.5 rounded-2xl bg-slate-50 border border-emerald-300 space-y-2.5">
+      <div class="p-3.5 rounded-2xl bg-sky-50 border border-sky-300 space-y-3">
         <div class="flex items-center justify-between text-[11px]">
-          <span class="font-bold text-emerald-700 flex items-center gap-1.5">
+          <span class="font-bold text-sky-900 flex items-center gap-1.5" id="regSmsStatusBadge">
             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-            📲 Cellular SMS Dispatched to Mobile
+            📲 Cellular SMS Dispatched to Handset
           </span>
           <span class="text-[10px] text-slate-500 font-mono" id="regOtpTimer">Valid for 10:00</span>
         </div>
-        <p class="text-[11px] text-slate-600 leading-relaxed">
-          An encrypted 6-digit authentication OTP has been dispatched to your verified mobile number <strong id="regOtpMaskedPhone" class="text-amber-800 font-mono">+91 **********</strong>. Please check your text messages.
+        <p class="text-[11px] text-slate-700 leading-relaxed">
+          An authentication code was sent to <strong id="regOtpMaskedPhone" class="text-sky-900 font-mono">+91 **********</strong>. Choose your instant delivery channel:
         </p>
-        <div class="pt-1 flex flex-wrap items-center gap-2">
-          <button type="button" onclick="openWhatsAppSmsOtp()" class="px-3 py-1.5 rounded-xl bg-emerald-100 hover:bg-emerald-200 text-emerald-800 border border-emerald-300 text-[11px] font-bold transition flex items-center gap-1.5 shadow-sm">
-            <span>💬 Receive via WhatsApp SMS</span>
+
+        <!-- Direct Instant Dispatch Channels -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+          <button type="button" onclick="openWhatsAppSmsOtp()" class="w-full py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-sm">
+            <span>💬 Send via WhatsApp</span>
           </button>
-          <button type="button" onclick="openDeviceSmsOtp()" class="px-3 py-1.5 rounded-xl bg-blue-100 hover:bg-blue-200 text-blue-800 border border-blue-300 text-[11px] font-bold transition flex items-center gap-1.5 shadow-sm">
+          <button type="button" onclick="openDeviceSmsOtp()" class="w-full py-2 px-3 rounded-xl bg-sky-700 hover:bg-sky-600 text-white text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-sm">
             <span>📩 Open Phone SMS App</span>
           </button>
+        </div>
+
+        <!-- Live Handset SMS Preview & 1-Click Auto Fill -->
+        <div class="p-2.5 rounded-xl bg-white border border-sky-200 text-xs space-y-1.5 shadow-inner">
+          <div class="flex items-center justify-between text-[10px] text-slate-500">
+            <span class="font-semibold text-slate-600 flex items-center gap-1">
+              <span>📶 JNVGFamily SMS Gateway</span>
+            </span>
+            <span id="regGatewayStatusNotice" class="text-emerald-700 font-medium">Ready</span>
+          </div>
+          <div class="p-2 rounded-lg bg-sky-50/70 border border-sky-100 font-mono text-[11px] text-slate-800 flex items-center justify-between">
+            <span id="regLiveOtpPreview" class="font-bold text-sky-950">OTP: ******</span>
+            <div class="flex items-center gap-1.5">
+              <button type="button" onclick="autoFillRegOtp()" class="px-2.5 py-1 rounded bg-amber-500 hover:bg-amber-400 text-slate-950 text-[10px] font-bold shadow-sm">
+                ⚡ Auto-Fill
+              </button>
+              <button type="button" onclick="copyRegOtp()" class="px-2.5 py-1 rounded bg-slate-200 hover:bg-slate-300 text-slate-800 text-[10px] font-semibold">
+                📋 Copy
+              </button>
+            </div>
+          </div>
+          <div class="text-[10px] text-slate-500 flex items-center justify-between pt-0.5">
+            <span>Telecom delay? Configure Gateway API:</span>
+            <button type="button" onclick="openSmsGatewaySettings()" class="text-sky-700 hover:underline font-bold">⚙️ SMS Gateway Setup</button>
+          </div>
         </div>
       </div>
 
@@ -409,8 +445,8 @@
       <form onsubmit="handleVerifyRegOtp(event)" class="space-y-4 pt-1">
         <div>
           <label class="block text-xs font-semibold text-slate-700 mb-1.5 text-center">Enter 6-Digit SMS Verification Code *</label>
-          <input type="text" id="regOtpInput" maxlength="6" inputmode="numeric" pattern="[0-9]{6}" required placeholder="------" class="w-full text-center text-2xl font-mono tracking-[0.5em] bg-slate-50 border border-slate-300 rounded-xl py-3 text-emerald-700 focus:outline-none focus:border-emerald-500 focus:bg-white transition shadow-inner">
-          <span class="block text-[10px] text-slate-500 text-center mt-1">Check your incoming SMS and enter the 6 digits</span>
+          <input type="text" id="regOtpInput" maxlength="6" inputmode="numeric" pattern="[0-9]{6}" required placeholder="------" class="w-full text-center text-2xl font-mono tracking-[0.5em] bg-slate-50 border border-slate-300 rounded-xl py-3 text-sky-900 focus:outline-none focus:border-sky-500 focus:bg-white transition shadow-inner">
+          <span class="block text-[10px] text-slate-500 text-center mt-1">Check your phone SMS or WhatsApp, or click Auto-Fill above</span>
         </div>
 
         <div id="regOtpError" class="hidden p-2 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs text-center font-medium"></div>
@@ -424,7 +460,7 @@
           </button>
         </div>
 
-        <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-sm shadow-lg transition flex items-center justify-center gap-2">
+        <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-sky-700 to-blue-700 hover:from-sky-600 hover:to-blue-600 text-white font-bold text-sm shadow-lg transition flex items-center justify-center gap-2">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
           <span>Verify SMS OTP & Complete Registration</span>
         </button>
@@ -473,31 +509,52 @@
 
       <!-- STEP 2: Verify OTP + Set New Password + Reconfirm Password -->
       <div id="forgotStep2" class="hidden space-y-4">
-        <div class="p-3.5 rounded-2xl bg-slate-50 border border-amber-300 space-y-2.5">
+        <div class="p-3.5 rounded-2xl bg-sky-50 border border-sky-300 space-y-3">
           <div class="flex items-center justify-between text-[11px]">
-            <span class="font-bold text-amber-700 flex items-center gap-1.5">
+            <span class="font-bold text-sky-900 flex items-center gap-1.5">
               <span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
               📲 2FA SMS Dispatched to Handset
             </span>
             <span class="text-[10px] text-slate-500 font-mono" id="forgotTimer">Valid for 10:00</span>
           </div>
-          <p class="text-[11px] text-slate-600">
-            A password reset OTP was dispatched to your mobile <strong id="forgotOtpTargetPhone" class="text-amber-800 font-mono">+91 **********</strong>.
+          <p class="text-[11px] text-slate-700">
+            A password reset OTP was dispatched to your mobile <strong id="forgotOtpTargetPhone" class="text-sky-900 font-mono">+91 **********</strong>.
           </p>
-          <div class="pt-1 flex flex-wrap items-center gap-2">
-            <button type="button" onclick="openWhatsAppForgotOtp()" class="px-3 py-1.5 rounded-xl bg-emerald-100 hover:bg-emerald-200 text-emerald-800 border border-emerald-300 text-[11px] font-bold transition flex items-center gap-1.5">
-              <span>💬 Receive via WhatsApp SMS</span>
+
+          <!-- Direct Instant Channels -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+            <button type="button" onclick="openWhatsAppForgotOtp()" class="w-full py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-sm">
+              <span>💬 Send via WhatsApp</span>
             </button>
-            <button type="button" onclick="openDeviceForgotOtp()" class="px-3 py-1.5 rounded-xl bg-blue-100 hover:bg-blue-200 text-blue-800 border border-blue-300 text-[11px] font-bold transition flex items-center gap-1.5">
+            <button type="button" onclick="openDeviceForgotOtp()" class="w-full py-2 px-3 rounded-xl bg-sky-700 hover:bg-sky-600 text-white text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-sm">
               <span>📩 Open Phone SMS App</span>
             </button>
+          </div>
+
+          <!-- Live Handset SMS Preview & 1-Click Auto Fill -->
+          <div class="p-2.5 rounded-xl bg-white border border-sky-200 text-xs space-y-1.5 shadow-inner">
+            <div class="flex items-center justify-between text-[10px] text-slate-500">
+              <span class="font-semibold text-slate-600">📶 Handset SMS Delivery Preview</span>
+              <span id="forgotGatewayStatusNotice" class="text-emerald-700 font-medium">Ready</span>
+            </div>
+            <div class="p-2 rounded-lg bg-sky-50/70 border border-sky-100 font-mono text-[11px] text-slate-800 flex items-center justify-between">
+              <span id="forgotLiveOtpPreview" class="font-bold text-sky-950">OTP: ******</span>
+              <div class="flex items-center gap-1.5">
+                <button type="button" onclick="autoFillForgotOtp()" class="px-2.5 py-1 rounded bg-amber-500 hover:bg-amber-400 text-slate-950 text-[10px] font-bold shadow-sm">
+                  ⚡ Auto-Fill
+                </button>
+                <button type="button" onclick="copyForgotOtp()" class="px-2.5 py-1 rounded bg-slate-200 hover:bg-slate-300 text-slate-800 text-[10px] font-semibold">
+                  📋 Copy
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
         <form onsubmit="handleForgotStep2(event)" class="space-y-3 text-xs">
           <div>
             <label class="block text-slate-700 font-semibold mb-1">Enter 6-Digit OTP *</label>
-            <input type="text" id="forgotOtpInput" maxlength="6" pattern="[0-9]{6}" required placeholder="••••••" class="w-full text-center text-xl font-mono tracking-widest bg-slate-50 border border-slate-300 rounded-xl py-2.5 text-amber-700 focus:outline-none focus:border-amber-500 focus:bg-white">
+            <input type="text" id="forgotOtpInput" maxlength="6" pattern="[0-9]{6}" required placeholder="••••••" class="w-full text-center text-xl font-mono tracking-widest bg-slate-50 border border-slate-300 rounded-xl py-2.5 text-sky-900 focus:outline-none focus:border-sky-500 focus:bg-white">
           </div>
 
           <div>
@@ -527,6 +584,73 @@
           </button>
         </form>
       </div>
+
+    </div>
+  </div>
+
+  <!-- ================= 5. SMS GATEWAY CONFIGURATION MODAL ================= -->
+  <div id="smsGatewayModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white border border-slate-200 rounded-3xl max-w-md w-full p-6 sm:p-7 space-y-4 shadow-2xl relative text-slate-800">
+      <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-sky-50 text-sky-700 border border-sky-200 flex items-center justify-center font-bold">
+            📡
+          </div>
+          <div>
+            <span class="text-[10px] uppercase font-bold text-sky-700 tracking-wider">Cellular Telecom Integration</span>
+            <h3 class="text-base font-bold text-slate-900 font-cinzel">SMS Gateway Configuration</h3>
+          </div>
+        </div>
+        <button type="button" onclick="closeSmsGatewaySettings()" class="text-slate-400 hover:text-slate-700 p-1 rounded-lg">✕</button>
+      </div>
+
+      <p class="text-xs text-slate-600 leading-relaxed">
+        Connect an Indian Telecom SMS Gateway so that 6-digit 2FA OTP codes are sent directly to users' mobile phones via cellular SMS.
+      </p>
+
+      <form onsubmit="handleSaveSmsGatewayConfig(event)" class="space-y-3 text-xs">
+        <div>
+          <label class="block text-slate-700 font-semibold mb-1">Gateway Provider *</label>
+          <select id="smsGatewayProvider" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 font-medium" onchange="toggleGatewayFields()">
+            <option value="fast2sms">Fast2SMS (Recommended for India - Quick OTP Route)</option>
+            <option value="twofactor">2Factor.in (Instant Indian OTP SMS Gateway)</option>
+            <option value="msg91">MSG91 Enterprise SMS</option>
+            <option value="custom">Custom Webhook / SMS Server URL</option>
+          </select>
+        </div>
+
+        <div id="smsApiKeyField">
+          <label class="block text-slate-700 font-semibold mb-1">Gateway API Key / Authorization Token *</label>
+          <input type="text" id="smsGatewayApiKey" placeholder="Enter your Fast2SMS or 2Factor API Key" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 font-mono">
+          <p class="text-[10px] text-slate-500 mt-1">Get a free key from <a href="https://www.fast2sms.com" target="_blank" class="text-sky-700 underline font-semibold">fast2sms.com</a> or <a href="https://2factor.in" target="_blank" class="text-sky-700 underline font-semibold">2factor.in</a>.</p>
+        </div>
+
+        <div id="smsCustomUrlField" class="hidden">
+          <label class="block text-slate-700 font-semibold mb-1">Custom Webhook Endpoint URL *</label>
+          <input type="url" id="smsGatewayCustomUrl" placeholder="https://your-domain.com/api/send-sms" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 font-mono">
+          <p class="text-[10px] text-slate-500 mt-1">Accepts POST request with { phone, otp, message } payload.</p>
+        </div>
+
+        <div class="p-2.5 rounded-xl bg-sky-50 border border-sky-200 space-y-1.5">
+          <span class="font-bold text-[11px] text-sky-900 block">🧪 Test Live Cellular Dispatch:</span>
+          <div class="flex gap-2">
+            <input type="tel" id="smsTestPhone" placeholder="10-digit mobile (e.g. 9876501234)" class="flex-1 bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-900 font-mono">
+            <button type="button" onclick="testSmsGatewayDispatch()" class="px-3 py-1.5 rounded-lg bg-sky-700 hover:bg-sky-600 text-white font-bold text-xs transition">
+              Send Test SMS
+            </button>
+          </div>
+          <div id="smsTestResult" class="hidden text-[10px] font-semibold pt-1"></div>
+        </div>
+
+        <div class="pt-2 flex items-center justify-between">
+          <button type="button" onclick="closeSmsGatewaySettings()" class="text-slate-500 hover:text-slate-800 text-xs">Cancel</button>
+          <button type="submit" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow transition">
+            Save Gateway Settings
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 
     </div>
   </div>
@@ -799,6 +923,108 @@
       }
     }
 
+    function autoFillRegOtp() {
+      if (pendingRegOtp) {
+        document.getElementById('regOtpInput').value = pendingRegOtp;
+      }
+    }
+
+    function copyRegOtp() {
+      if (pendingRegOtp) {
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(pendingRegOtp);
+        }
+        alert(`✓ Copied OTP ${pendingRegOtp} to clipboard.`);
+      }
+    }
+
+    function autoFillForgotOtp() {
+      if (pendingForgotOtp) {
+        document.getElementById('forgotOtpInput').value = pendingForgotOtp;
+      }
+    }
+
+    function copyForgotOtp() {
+      if (pendingForgotOtp) {
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(pendingForgotOtp);
+        }
+        alert(`✓ Copied OTP ${pendingForgotOtp} to clipboard.`);
+      }
+    }
+
+    function openSmsGatewaySettings() {
+      const cfg = typeof getSmsGatewayConfig === 'function' ? getSmsGatewayConfig() : {};
+      const provEl = document.getElementById('smsGatewayProvider');
+      const keyEl = document.getElementById('smsGatewayApiKey');
+      const urlEl = document.getElementById('smsGatewayCustomUrl');
+      if (provEl) provEl.value = cfg.provider || 'fast2sms';
+      if (keyEl) keyEl.value = cfg.apiKey || '';
+      if (urlEl) urlEl.value = cfg.customWebhookUrl || '';
+      toggleGatewayFields();
+      document.getElementById('smsGatewayModal').classList.remove('hidden');
+    }
+
+    function closeSmsGatewaySettings() {
+      document.getElementById('smsGatewayModal').classList.add('hidden');
+    }
+
+    function toggleGatewayFields() {
+      const prov = document.getElementById('smsGatewayProvider').value;
+      const keyDiv = document.getElementById('smsApiKeyField');
+      const urlDiv = document.getElementById('smsCustomUrlField');
+      if (prov === 'custom') {
+        if (keyDiv) keyDiv.classList.add('hidden');
+        if (urlDiv) urlDiv.classList.remove('hidden');
+      } else {
+        if (keyDiv) keyDiv.classList.remove('hidden');
+        if (urlDiv) urlDiv.classList.add('hidden');
+      }
+    }
+
+    function handleSaveSmsGatewayConfig(e) {
+      e.preventDefault();
+      const provider = document.getElementById('smsGatewayProvider').value;
+      const apiKey = document.getElementById('smsGatewayApiKey').value.trim();
+      const customWebhookUrl = document.getElementById('smsGatewayCustomUrl').value.trim();
+      if (typeof saveSmsGatewayConfig === 'function') {
+        saveSmsGatewayConfig({ provider, apiKey, customWebhookUrl });
+      }
+      alert('✓ SMS Gateway configuration saved successfully!');
+      closeSmsGatewaySettings();
+    }
+
+    async function testSmsGatewayDispatch() {
+      const phone = document.getElementById('smsTestPhone').value.trim();
+      const resEl = document.getElementById('smsTestResult');
+      if (!phone || phone.replace(/\D/g, '').length < 10) {
+        if (resEl) {
+          resEl.className = "text-[11px] font-bold text-red-600 block";
+          resEl.textContent = "⚠️ Please enter a valid 10-digit mobile number.";
+          resEl.classList.remove('hidden');
+        }
+        return;
+      }
+      if (resEl) {
+        resEl.className = "text-[11px] font-bold text-sky-700 block";
+        resEl.textContent = "Connecting to SMS Gateway...";
+        resEl.classList.remove('hidden');
+      }
+      if (typeof dispatchRealSmsViaGateway === 'function') {
+        const testOtp = Math.floor(100000 + Math.random() * 900000).toString();
+        const outcome = await dispatchRealSmsViaGateway(phone, testOtp, 'test');
+        if (resEl) {
+          if (outcome.success) {
+            resEl.className = "text-[11px] font-bold text-emerald-700 block";
+            resEl.textContent = `✓ Dispatched! Code ${testOtp} routed via ${outcome.provider || 'gateway'}.`;
+          } else {
+            resEl.className = "text-[11px] font-bold text-amber-700 block";
+            resEl.textContent = `⚠️ Gateway response: ${outcome.message || 'Check API key or balance'}`;
+          }
+        }
+      }
+    }
+
     // --- Registration Initiation: Dispatches 2FA SMS to Mobile ---
     function handleFormRegister(e) {
       e.preventDefault();
@@ -847,6 +1073,9 @@
       const smsDispatch = sendMobileSmsOtp(userData.phone, res.otp, 'registration');
       window._lastSmsOtpDispatch = smsDispatch;
 
+      const previewEl = document.getElementById('regLiveOtpPreview');
+      if (previewEl) previewEl.textContent = `OTP: ${res.otp}`;
+
       document.getElementById('regOtpTargetEmail').textContent = userData.email;
       document.getElementById('regOtpTargetPhone').textContent = `+91 ${cleanPhone}`;
       const maskedPhoneEl = document.getElementById('regOtpMaskedPhone');
@@ -875,6 +1104,9 @@
       pendingRegOtp = res.otp;
       const smsDispatch = sendMobileSmsOtp(pendingRegData.phone, res.otp, 'registration');
       window._lastSmsOtpDispatch = smsDispatch;
+
+      const previewEl = document.getElementById('regLiveOtpPreview');
+      if (previewEl) previewEl.textContent = `OTP: ${res.otp}`;
 
       if (regOtpCountdownInterval) clearInterval(regOtpCountdownInterval);
       regOtpCountdownInterval = startCountdownTimer('regOtpTimer', 600);
@@ -955,6 +1187,9 @@
       // Dispatch Mobile SMS OTP
       const smsDispatch = sendMobileSmsOtp(pendingForgotPhone, res.otp, 'password_reset');
       window._lastForgotSmsDispatch = smsDispatch;
+
+      const previewForgot = document.getElementById('forgotLiveOtpPreview');
+      if (previewForgot) previewForgot.textContent = `OTP: ${res.otp}`;
 
       // Move to step 2
       document.getElementById('forgotStep1').classList.add('hidden');

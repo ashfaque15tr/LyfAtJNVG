@@ -118,61 +118,459 @@
 }
 
 /* ========================================================================== */
-/* INSTITUTIONAL LIGHT THEME - JNVGFamily (jnvgfamily.in)                    */
-/* Executive, high-contrast, prestigious design for academic & alumni portal */
+/* DUAL THEME ENGINE - JNVGFamily (jnvgfamily.in)                             */
+/* 1. Light Sky Blue Theme (data-theme="sky")                                 */
+/* 2. Classic Dark Navy Blue Theme (data-theme="dark")                       */
 /* ========================================================================== */
 
-body {
-  background-color: #f8fafc;
-  color: #0f172a;
+/* --- 1. LIGHT SKY BLUE THEME (Default & 'sky') --- */
+:root,
+html[data-theme="sky"] {
+  --sky-bg-canvas: #f0f7ff;
+  --sky-bg-surface: #ffffff;
+  --sky-bg-subtle: #e0f2fe;
+  --sky-border-light: #bae6fd;
+  --sky-border-active: #0284c7;
+  --navy-heading: #0c2f54;
+  --navy-subheading: #1e3a8a;
+  --navy-body: #1e3a5f;
+  --navy-muted: #475569;
+  --gold-accent: #b45309;
 }
 
-/* Light Mode Card Surfaces */
-.dir-card,
-.tch-card,
-.feed-card {
+html[data-theme="sky"] body,
+body:not(.theme-dark) {
+  background-color: var(--sky-bg-canvas) !important;
+  color: var(--navy-body) !important;
+}
+
+html[data-theme="sky"] #appViewportContainer,
+html[data-theme="sky"] main,
+body:not(.theme-dark) #appViewportContainer,
+body:not(.theme-dark) main {
+  background-color: var(--sky-bg-canvas) !important;
+}
+
+/* Headings in Light Sky Blue Theme */
+html[data-theme="sky"] h1, 
+html[data-theme="sky"] h2, 
+html[data-theme="sky"] h3, 
+html[data-theme="sky"] h4, 
+html[data-theme="sky"] h5, 
+html[data-theme="sky"] h6,
+html[data-theme="sky"] .font-cinzel,
+body:not(.theme-dark) h1,
+body:not(.theme-dark) h2,
+body:not(.theme-dark) h3,
+body:not(.theme-dark) h4,
+body:not(.theme-dark) h5,
+body:not(.theme-dark) h6,
+body:not(.theme-dark) .font-cinzel {
+  color: var(--navy-heading) !important;
+}
+
+/* Header & Navigation Bar in Sky Theme */
+html[data-theme="sky"] header,
+body:not(.theme-dark) header {
+  background: rgba(255, 255, 255, 0.96) !important;
+  border-bottom: 1px solid var(--sky-border-light) !important;
+  color: var(--navy-heading) !important;
+  box-shadow: 0 1px 4px 0 rgba(12, 74, 110, 0.05) !important;
+}
+
+html[data-theme="sky"] #rbacBanner,
+body:not(.theme-dark) #rbacBanner {
+  background-color: #e0f2fe !important;
+  border-bottom: 1px solid var(--sky-border-light) !important;
+  color: var(--navy-heading) !important;
+}
+
+html[data-theme="sky"] #rbacBanner #roleBadge,
+body:not(.theme-dark) #rbacBanner #roleBadge {
   background-color: #ffffff !important;
-  border-color: #e2e8f0 !important;
-  color: #1e293b !important;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05) !important;
+  border: 1px solid var(--sky-border-light) !important;
+  color: var(--navy-heading) !important;
 }
 
-.dir-card:hover,
-.tch-card:hover,
-.feed-card:hover {
-  border-color: #cbd5e1 !important;
-  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04) !important;
+/* Top Hero Section in Light Sky Blue Theme */
+html[data-theme="sky"] #appViewportContainer > section:first-of-type,
+body:not(.theme-dark) #appViewportContainer > section:first-of-type {
+  background: linear-gradient(135deg, #e0f2fe 0%, #f0f7ff 50%, #ffffff 100%) !important;
+  border-bottom: 1px solid var(--sky-border-light) !important;
 }
 
-/* Card typography in light theme */
-.dir-card h4, 
-.tch-card h3,
-.feed-card h4 {
-  color: #0f172a !important;
+html[data-theme="sky"] #appViewportContainer > section:first-of-type h1,
+html[data-theme="sky"] #appViewportContainer > section:first-of-type p,
+body:not(.theme-dark) #appViewportContainer > section:first-of-type h1,
+body:not(.theme-dark) #appViewportContainer > section:first-of-type p {
+  color: var(--navy-heading) !important;
 }
 
-.dir-card p,
-.tch-card p,
-.feed-card p {
-  color: #334155 !important;
+/* Navigation Tabs Container */
+html[data-theme="sky"] nav,
+body:not(.theme-dark) nav {
+  background: rgba(255, 255, 255, 0.96) !important;
+  border-top: 1px solid var(--sky-border-light) !important;
+  border-bottom: 1px solid var(--sky-border-light) !important;
 }
 
-/* Scrollbar on light mode */
-::-webkit-scrollbar-track {
-  background: #f1f5f9;
+html[data-theme="sky"] .nav-tab,
+body:not(.theme-dark) .nav-tab {
+  color: var(--navy-body) !important;
 }
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+
+html[data-theme="sky"] .nav-tab:hover,
+body:not(.theme-dark) .nav-tab:hover {
+  background-color: #e0f2fe !important;
+  color: #0369a1 !important;
+}
+
+html[data-theme="sky"] .nav-tab.active,
+body:not(.theme-dark) .nav-tab.active {
+  background-color: #0284c7 !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px -1px rgba(2, 132, 199, 0.4) !important;
+}
+
+html[data-theme="sky"] .nav-tab.active svg,
+body:not(.theme-dark) .nav-tab.active svg {
+  color: #ffffff !important;
+}
+
+/* Light Mode Card Surfaces & Panels */
+html[data-theme="sky"] .dir-card,
+html[data-theme="sky"] .tch-card,
+html[data-theme="sky"] .feed-card,
+html[data-theme="sky"] .bg-slate-900,
+html[data-theme="sky"] .bg-slate-950,
+html[data-theme="sky"] .bg-brand-950,
+body:not(.theme-dark) .dir-card,
+body:not(.theme-dark) .tch-card,
+body:not(.theme-dark) .feed-card,
+body:not(.theme-dark) .bg-slate-900,
+body:not(.theme-dark) .bg-slate-950,
+body:not(.theme-dark) .bg-brand-950 {
+  background-color: #ffffff !important;
+  border-color: var(--sky-border-light) !important;
+  color: var(--navy-body) !important;
+  box-shadow: 0 4px 16px -2px rgba(12, 74, 110, 0.06), 0 2px 4px -2px rgba(12, 74, 110, 0.03) !important;
+}
+
+html[data-theme="sky"] .dir-card:hover,
+html[data-theme="sky"] .tch-card:hover,
+html[data-theme="sky"] .feed-card:hover,
+body:not(.theme-dark) .dir-card:hover,
+body:not(.theme-dark) .tch-card:hover,
+body:not(.theme-dark) .feed-card:hover {
+  border-color: #7dd3fc !important;
+  box-shadow: 0 10px 25px -4px rgba(12, 74, 110, 0.12), 0 4px 8px -2px rgba(12, 74, 110, 0.06) !important;
+}
+
+/* Text colors inside cards */
+html[data-theme="sky"] .dir-card h4, 
+html[data-theme="sky"] .tch-card h3,
+html[data-theme="sky"] .feed-card h4,
+html[data-theme="sky"] .bg-slate-900 h2,
+html[data-theme="sky"] .bg-slate-900 h3,
+html[data-theme="sky"] .bg-slate-900 h4,
+html[data-theme="sky"] .bg-slate-950 h2,
+html[data-theme="sky"] .bg-slate-950 h3,
+html[data-theme="sky"] .bg-slate-950 h4,
+body:not(.theme-dark) .dir-card h4, 
+body:not(.theme-dark) .tch-card h3,
+body:not(.theme-dark) .feed-card h4,
+body:not(.theme-dark) .bg-slate-900 h2,
+body:not(.theme-dark) .bg-slate-900 h3,
+body:not(.theme-dark) .bg-slate-900 h4,
+body:not(.theme-dark) .bg-slate-950 h2,
+body:not(.theme-dark) .bg-slate-950 h3,
+body:not(.theme-dark) .bg-slate-950 h4 {
+  color: var(--navy-heading) !important;
+}
+
+html[data-theme="sky"] .dir-card p,
+html[data-theme="sky"] .tch-card p,
+html[data-theme="sky"] .feed-card p,
+html[data-theme="sky"] .bg-slate-900 p,
+html[data-theme="sky"] .bg-slate-950 p,
+body:not(.theme-dark) .dir-card p,
+body:not(.theme-dark) .tch-card p,
+body:not(.theme-dark) .feed-card p,
+body:not(.theme-dark) .bg-slate-900 p,
+body:not(.theme-dark) .bg-slate-950 p {
+  color: var(--navy-body) !important;
+}
+
+html[data-theme="sky"] input,
+html[data-theme="sky"] select,
+html[data-theme="sky"] textarea,
+body:not(.theme-dark) input,
+body:not(.theme-dark) select,
+body:not(.theme-dark) textarea {
+  background-color: #ffffff !important;
+  border-color: var(--sky-border-light) !important;
+  color: var(--navy-heading) !important;
+}
+
+/* Modals in Light Sky Theme */
+html[data-theme="sky"] .modal-content,
+html[data-theme="sky"] div[id$="Modal"] > div:last-child,
+body:not(.theme-dark) .modal-content,
+body:not(.theme-dark) div[id$="Modal"] > div:last-child {
+  background-color: #ffffff !important;
+  border: 1px solid var(--sky-border-light) !important;
+  color: var(--navy-body) !important;
+  box-shadow: 0 20px 45px -10px rgba(12, 74, 110, 0.25) !important;
+}
+
+/* Scrollbar on light sky mode */
+html[data-theme="sky"] ::-webkit-scrollbar-track,
+body:not(.theme-dark) ::-webkit-scrollbar-track {
+  background: #f0f7ff;
+}
+html[data-theme="sky"] ::-webkit-scrollbar-thumb,
+body:not(.theme-dark) ::-webkit-scrollbar-thumb {
+  background: #bae6fd;
   border-radius: 4px;
 }
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+html[data-theme="sky"] ::-webkit-scrollbar-thumb:hover,
+body:not(.theme-dark) ::-webkit-scrollbar-thumb:hover {
+  background: #7dd3fc;
 }
 
-/* Form Inputs in Light Mode */
-input::placeholder,
-textarea::placeholder {
+/* ========================================================================== */
+/* --- 2. CLASSIC DARK NAVY BLUE THEME (data-theme="dark")                   */
+/* ========================================================================== */
+
+html[data-theme="dark"] {
+  --dark-bg-canvas: #030816;
+  --dark-bg-surface: #071330;
+  --dark-border-subtle: #1e293b;
+  --dark-text-heading: #f8fafc;
+  --dark-text-body: #cbd5e1;
+  --dark-text-muted: #94a3b8;
+  --dark-accent-gold: #f59e0b;
+}
+
+html[data-theme="dark"] body,
+body.theme-dark {
+  background-color: #030816 !important;
+  color: #cbd5e1 !important;
+}
+
+html[data-theme="dark"] #appViewportContainer,
+html[data-theme="dark"] main,
+body.theme-dark #appViewportContainer,
+body.theme-dark main {
+  background-color: #030816 !important;
+}
+
+/* Headings in Dark Navy Blue Theme */
+html[data-theme="dark"] h1, 
+html[data-theme="dark"] h2, 
+html[data-theme="dark"] h3, 
+html[data-theme="dark"] h4, 
+html[data-theme="dark"] h5, 
+html[data-theme="dark"] h6,
+html[data-theme="dark"] .font-cinzel,
+body.theme-dark h1,
+body.theme-dark h2,
+body.theme-dark h3,
+body.theme-dark h4,
+body.theme-dark h5,
+body.theme-dark h6,
+body.theme-dark .font-cinzel {
+  color: #f8fafc !important;
+}
+
+/* Header & Nav in Dark Navy Blue Theme */
+html[data-theme="dark"] header,
+body.theme-dark header {
+  background: rgba(7, 19, 48, 0.96) !important;
+  border-bottom: 1px solid #1e293b !important;
+  color: #f8fafc !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5) !important;
+}
+
+html[data-theme="dark"] #rbacBanner,
+body.theme-dark #rbacBanner {
+  background-color: rgba(14, 37, 90, 0.6) !important;
+  border-bottom: 1px solid rgba(30, 58, 138, 0.4) !important;
+  color: #93c5fd !important;
+}
+
+html[data-theme="dark"] #rbacBanner #roleBadge,
+body.theme-dark #rbacBanner #roleBadge {
+  background-color: rgba(16, 185, 129, 0.2) !important;
+  border: 1px solid rgba(52, 211, 153, 0.3) !important;
+  color: #6ee7b7 !important;
+}
+
+html[data-theme="dark"] #appViewportContainer > section:first-of-type,
+body.theme-dark #appViewportContainer > section:first-of-type {
+  background: linear-gradient(to bottom, #030816 0%, #071330 50%, #030816 100%) !important;
+  border-bottom: 1px solid #1e293b !important;
+}
+
+html[data-theme="dark"] #appViewportContainer > section:first-of-type h1,
+body.theme-dark #appViewportContainer > section:first-of-type h1 {
+  color: #ffffff !important;
+}
+
+html[data-theme="dark"] #appViewportContainer > section:first-of-type p,
+body.theme-dark #appViewportContainer > section:first-of-type p {
   color: #94a3b8 !important;
-  opacity: 0.9;
+}
+
+/* Navigation Tabs in Dark Navy */
+html[data-theme="dark"] nav,
+body.theme-dark nav {
+  background: rgba(7, 19, 48, 0.96) !important;
+  border-top: 1px solid #1e293b !important;
+  border-bottom: 1px solid #1e293b !important;
+}
+
+html[data-theme="dark"] .nav-tab,
+body.theme-dark .nav-tab {
+  color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .nav-tab:hover,
+body.theme-dark .nav-tab:hover {
+  background-color: #1e293b !important;
+  color: #ffffff !important;
+}
+
+html[data-theme="dark"] .nav-tab.active,
+body.theme-dark .nav-tab.active {
+  background-color: #153a8a !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px -1px rgba(21, 58, 138, 0.6) !important;
+}
+
+/* Cards in Dark Navy Blue */
+html[data-theme="dark"] .dir-card,
+html[data-theme="dark"] .tch-card,
+html[data-theme="dark"] .feed-card,
+html[data-theme="dark"] .bg-slate-900,
+html[data-theme="dark"] .bg-slate-950,
+html[data-theme="dark"] .bg-brand-950,
+body.theme-dark .dir-card,
+body.theme-dark .tch-card,
+body.theme-dark .feed-card,
+body.theme-dark .bg-slate-900,
+body.theme-dark .bg-slate-950,
+body.theme-dark .bg-brand-950 {
+  background-color: #071330 !important;
+  border-color: #1e293b !important;
+  color: #cbd5e1 !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.6) !important;
+}
+
+html[data-theme="dark"] .dir-card:hover,
+html[data-theme="dark"] .tch-card:hover,
+html[data-theme="dark"] .feed-card:hover,
+body.theme-dark .dir-card:hover,
+body.theme-dark .tch-card:hover,
+body.theme-dark .feed-card:hover {
+  border-color: #f59e0b !important;
+  box-shadow: 0 10px 30px -4px rgba(245, 158, 11, 0.15) !important;
+}
+
+html[data-theme="dark"] .dir-card h4, 
+html[data-theme="dark"] .tch-card h3,
+html[data-theme="dark"] .feed-card h4,
+html[data-theme="dark"] .bg-slate-900 h2,
+html[data-theme="dark"] .bg-slate-900 h3,
+html[data-theme="dark"] .bg-slate-900 h4,
+body.theme-dark .dir-card h4, 
+body.theme-dark .tch-card h3,
+body.theme-dark .feed-card h4,
+body.theme-dark .bg-slate-900 h2,
+body.theme-dark .bg-slate-900 h3,
+body.theme-dark .bg-slate-900 h4 {
+  color: #f8fafc !important;
+}
+
+html[data-theme="dark"] .dir-card p,
+html[data-theme="dark"] .tch-card p,
+html[data-theme="dark"] .feed-card p,
+body.theme-dark .dir-card p,
+body.theme-dark .tch-card p,
+body.theme-dark .feed-card p {
+  color: #cbd5e1 !important;
+}
+
+/* Inputs in Dark Navy */
+html[data-theme="dark"] input,
+html[data-theme="dark"] select,
+html[data-theme="dark"] textarea,
+body.theme-dark input,
+body.theme-dark select,
+body.theme-dark textarea {
+  background-color: #030816 !important;
+  border-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+html[data-theme="dark"] input:focus,
+html[data-theme="dark"] select:focus,
+html[data-theme="dark"] textarea:focus,
+body.theme-dark input:focus,
+body.theme-dark select:focus,
+body.theme-dark textarea:focus {
+  border-color: #f59e0b !important;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2) !important;
+}
+
+/* Modals in Dark Navy */
+html[data-theme="dark"] .modal-content,
+html[data-theme="dark"] div[id$="Modal"] > div:last-child,
+body.theme-dark .modal-content,
+body.theme-dark div[id$="Modal"] > div:last-child {
+  background-color: #071330 !important;
+  border: 1px solid #1e293b !important;
+  color: #cbd5e1 !important;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* Scrollbars in Dark Navy */
+html[data-theme="dark"] ::-webkit-scrollbar-track,
+body.theme-dark ::-webkit-scrollbar-track {
+  background: #090e1a;
+}
+html[data-theme="dark"] ::-webkit-scrollbar-thumb,
+body.theme-dark ::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+}
+html[data-theme="dark"] ::-webkit-scrollbar-thumb:hover,
+body.theme-dark ::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+/* Badges & Universal Elements */
+.badge-gold {
+  background-color: #fef3c7 !important;
+  color: #92400e !important;
+  border: 1px solid #fde68a !important;
+}
+
+.badge-blue {
+  background-color: #e0f2fe !important;
+  color: #0369a1 !important;
+  border: 1px solid #bae6fd !important;
+}
+
+.badge-emerald {
+  background-color: #d1fae5 !important;
+  color: #065f46 !important;
+  border: 1px solid #a7f3d0 !important;
+}
+
+/* TV News Ticker / Headline Marquee Animation */
+@keyframes tickerScroll {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
 }
 

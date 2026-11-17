@@ -1261,6 +1261,42 @@ function removeModalRegPhoto() {
   if (removeBtn) removeBtn.classList.add('hidden');
 }
 
+let pendingIndexReg = null;
+
+function openIndexWhatsAppOtp() {
+  if (pendingIndexReg && pendingIndexReg.otp && typeof sendMobileSmsOtp === 'function') {
+    const dispatch = sendMobileSmsOtp(pendingIndexReg.phone, pendingIndexReg.otp, 'registration');
+    window.open(dispatch.waUrl, '_blank');
+  } else if (window._lastSmsOtpDispatch && window._lastSmsOtpDispatch.waUrl) {
+    window.open(window._lastSmsOtpDispatch.waUrl, '_blank');
+  }
+}
+
+function openIndexDeviceSmsOtp() {
+  if (pendingIndexReg && pendingIndexReg.otp && typeof sendMobileSmsOtp === 'function') {
+    const dispatch = sendMobileSmsOtp(pendingIndexReg.phone, pendingIndexReg.otp, 'registration');
+    window.location.href = dispatch.smsUrl;
+  } else if (window._lastSmsOtpDispatch && window._lastSmsOtpDispatch.smsUrl) {
+    window.location.href = window._lastSmsOtpDispatch.smsUrl;
+  }
+}
+
+function autoFillIndexOtp() {
+  if (pendingIndexReg && pendingIndexReg.otp) {
+    const input = document.getElementById('indexOtpInput');
+    if (input) input.value = pendingIndexReg.otp;
+  }
+}
+
+function copyIndexOtp() {
+  if (pendingIndexReg && pendingIndexReg.otp) {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(pendingIndexReg.otp);
+    }
+    alert(`✓ Copied OTP ${pendingIndexReg.otp} to clipboard.`);
+  }
+}
+
 function handleRegistrationSubmit(e) {
   e.preventDefault();
   const name = document.getElementById('regName').value.trim();
@@ -1289,28 +1325,68 @@ function handleRegistrationSubmit(e) {
 
   const cleanPhone = String(phone).replace(/\D/g, '').slice(-10);
   const maskedPhone = `+91 ******${cleanPhone.slice(-4)}`;
-  const promptMsg = `🛡️ [TWO-FACTOR AUTHENTICATION (2FA) SMS VERIFICATION]\n\nAn encrypted 6-digit verification OTP has been dispatched via SMS to your mobile phone (${maskedPhone}).\n\nPlease check your incoming text messages and enter the 6-digit code below:`;
 
-  const enteredOtp = prompt(promptMsg, "");
-  if (!enteredOtp) { alert("❌ Registration cancelled. 2FA verification is mandatory to submit alumni applications."); return; }
+  pendingIndexReg = {
+    name, batch, house, phone, email, role, domain, city, password,
+    photo: modalUploadedPhoto || null,
+    otp: otpRes.otp
+  };
+
+  const targetEmailEl = document.getElementById('indexOtpTargetEmail');
+  const targetPhoneEl = document.getElementById('indexOtpTargetPhone');
+  const previewEl = document.getElementById('indexLiveOtpPreview');
+  const inputEl = document.getElementById('indexOtpInput');
+  const errEl = document.getElementById('indexOtpError');
+
+  if (targetEmailEl) targetEmailEl.textContent = email;
+  if (targetPhoneEl) targetPhoneEl.textContent = maskedPhone;
+  if (previewEl) previewEl.textContent = `OTP: ${otpRes.otp}`;
+  if (inputEl) inputEl.value = '';
+  if (errEl) errEl.classList.add('hidden');
+
+  closeModal('registerModal');
+  openModal('indexOtpModal');
+}
+
+function handleVerifyIndexOtp(e) {
+  e.preventDefault();
+  const enteredOtp = (document.getElementById('indexOtpInput').value || '').trim();
+  const errEl = document.getElementById('indexOtpError');
+
+  if (!pendingIndexReg) {
+    if (errEl) {
+      errEl.textContent = "Registration session expired. Please refill registration form.";
+      errEl.classList.remove('hidden');
+    }
+    return;
+  }
 
   if (typeof verifyOtp === 'function') {
-    const check = verifyOtp(email, enteredOtp, 'registration');
-    if (!check.success) { alert(`⚠️ 2FA Verification Failed: ${check.message}`); return; }
+    const check = verifyOtp(pendingIndexReg.email, enteredOtp, 'registration');
+    if (!check.success) {
+      if (errEl) {
+        errEl.textContent = `⚠️ Verification Failed: ${check.message}`;
+        errEl.classList.remove('hidden');
+      }
+      return;
+    }
   }
+
+  const { name, batch, house, phone, email, role, domain, city, password, photo } = pendingIndexReg;
 
   if (typeof registerAlumni === 'function') {
-    registerAlumni({ name, batch, house, phone, email, profession: role, domain, city, password, photo: modalUploadedPhoto || null });
+    registerAlumni({ name, batch, house, phone, email, profession: role, domain, city, password, photo });
   }
 
-  const newReg = { id: `reg-${Date.now()}`, name, batch, house, phone, email, role, domain, city, photo: modalUploadedPhoto || null, date: "Just now (Verified with 2FA OTP)" };
+  const newReg = { id: `reg-${Date.now()}`, name, batch, house, phone, email, role, domain, city, photo, date: "Just now (Verified with 2FA OTP)" };
 
   AppState.pendingRegistrations.unshift(newReg);
   saveAppData();
   renderAdminRegistrations();
   updateQueueBadges();
 
-  closeModal('registerModal');
+  closeModal('indexOtpModal');
+  pendingIndexReg = null;
   showToast(`🎉 2FA Verified! Registration submitted for ${name}. Forwarded to Batch Admin & Super Admin for approval.`);
 }
 

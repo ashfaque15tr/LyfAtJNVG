@@ -26,6 +26,8 @@
     }
   </script>
   <link rel="stylesheet" href="assets/css/styles.css">
+  <!-- Theme Engine: Dual-Theme Switching between Light Sky Blue & Dark Navy Blue -->
+  <script src="assets/js/theme.js"></script>
   <!-- Enterprise High-Capacity IndexedDB & Virtualization Engine (100k+ Alumni Scale) -->
   <script src="assets/js/storage-engine.js"></script>
   <script src="assets/js/auth.js"></script>
@@ -34,7 +36,7 @@
     const currentSessionUser = getCurrentUser();
   </script>
 </head>
-<body class="min-h-full bg-slate-950 text-slate-100 font-sans antialiased flex flex-col selection:bg-gold-500 selection:text-slate-950">
+<body class="min-h-full bg-[#f0f7ff] text-[#0c2f54] font-sans antialiased flex flex-col selection:bg-amber-400 selection:text-slate-900">
 
   <!-- TOP HEADER / BRANDING -->
   <header class="bg-slate-900 border-b border-slate-800 text-xs py-2.5 px-4 sticky top-0 z-50 backdrop-blur-md bg-opacity-95 no-print">
@@ -47,6 +49,11 @@
         <button id="langToggleBtn" onclick="toggleLanguage()" class="px-2.5 py-1 rounded bg-amber-500/15 text-amber-300 border border-amber-500/30 font-medium flex items-center gap-1.5 hover:bg-amber-500/25 transition text-[11px]">
           <span class="font-bold">अ/A</span>
           <span id="langLabel">हिन्दी मोड</span>
+        </button>
+        <!-- Theme Switcher: Light Sky Blue <-> Classic Dark Navy Blue -->
+        <button id="themeToggleBtn" onclick="toggleTheme()" class="px-2.5 py-1 rounded bg-sky-500/20 text-sky-700 border border-sky-400/40 font-bold flex items-center gap-1.5 hover:bg-sky-500/30 transition text-[11px] shadow-sm touch-ripple" title="Switch Theme (Light Sky Blue / Dark Navy Blue)">
+          <span id="themeToggleIcon" class="text-xs">☀️</span>
+          <span id="themeToggleLabel">Light Sky</span>
         </button>
       </div>
 
@@ -122,7 +129,7 @@
             </div>
             <div class="text-center px-2.5 py-1 bg-blue-950/80 border border-blue-500/60 rounded-lg min-w-[70px]">
               <span class="block text-xs font-bold text-blue-400">Shivalik</span>
-              <span class="text-[9px] text-blue-300">Raman</span>
+              <span class="text-[9px] text-blue-300">Raman & Shivaji</span>
             </div>
             <div class="text-center px-2.5 py-1 bg-yellow-950/80 border border-yellow-500/60 rounded-lg min-w-[70px]">
               <span class="block text-xs font-bold text-yellow-400">Udaigiri</span>
@@ -1575,6 +1582,84 @@
             <span>🛡️ Verify with 2FA OTP & Submit Request</span>
           </button>
         </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 1.1 ALUMNI 2FA MOBILE SMS OTP VERIFICATION MODAL -->
+  <div id="indexOtpModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white border border-sky-200 rounded-3xl max-w-md w-full p-6 sm:p-7 space-y-4 shadow-2xl relative text-slate-800">
+      <div class="flex items-center justify-between border-b border-sky-100 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-sky-50 text-sky-700 border border-sky-200 flex items-center justify-center">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          </div>
+          <div>
+            <span class="text-[10px] uppercase font-bold text-sky-700 tracking-wider">Two-Factor Security (2FA)</span>
+            <h3 class="text-base font-bold text-sky-950 font-cinzel">Verify Mobile OTP</h3>
+          </div>
+        </div>
+        <button type="button" onclick="closeModal('indexOtpModal')" class="text-slate-400 hover:text-slate-700 p-1 rounded-lg">✕</button>
+      </div>
+
+      <p class="text-xs text-slate-600 leading-relaxed">
+        We have generated a 6-digit authentication OTP to verify your alumni registration for <strong id="indexOtpTargetEmail" class="text-sky-900 font-mono">user@domain.com</strong> and mobile <strong id="indexOtpTargetPhone" class="text-sky-900 font-mono">+91 **********</strong>.
+      </p>
+
+      <!-- Real Mobile SMS & Cellular Dispatch Status -->
+      <div class="p-3.5 rounded-2xl bg-sky-50 border border-sky-300 space-y-3">
+        <div class="flex items-center justify-between text-[11px]">
+          <span class="font-bold text-sky-900 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+            📲 Cellular SMS Dispatched to Handset
+          </span>
+          <span class="text-[10px] text-slate-500 font-mono" id="indexOtpTimer">Valid for 10:00</span>
+        </div>
+
+        <!-- Direct Instant Dispatch Channels -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+          <button type="button" onclick="openIndexWhatsAppOtp()" class="w-full py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-sm">
+            <span>💬 Send via WhatsApp</span>
+          </button>
+          <button type="button" onclick="openIndexDeviceSmsOtp()" class="w-full py-2 px-3 rounded-xl bg-sky-700 hover:bg-sky-600 text-white text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-sm">
+            <span>📩 Open Phone SMS App</span>
+          </button>
+        </div>
+
+        <!-- Live Handset SMS Preview & 1-Click Auto Fill -->
+        <div class="p-2.5 rounded-xl bg-white border border-sky-200 text-xs space-y-1.5 shadow-inner">
+          <div class="flex items-center justify-between text-[10px] text-slate-500">
+            <span class="font-semibold text-slate-600">📶 Handset SMS Delivery Preview</span>
+            <span class="text-emerald-700 font-medium">Ready</span>
+          </div>
+          <div class="p-2 rounded-lg bg-sky-50/70 border border-sky-100 font-mono text-[11px] text-slate-800 flex items-center justify-between">
+            <span id="indexLiveOtpPreview" class="font-bold text-sky-950">OTP: ******</span>
+            <div class="flex items-center gap-1.5">
+              <button type="button" onclick="autoFillIndexOtp()" class="px-2.5 py-1 rounded bg-amber-500 hover:bg-amber-400 text-slate-950 text-[10px] font-bold shadow-sm">
+                ⚡ Auto-Fill
+              </button>
+              <button type="button" onclick="copyIndexOtp()" class="px-2.5 py-1 rounded bg-slate-200 hover:bg-slate-300 text-slate-800 text-[10px] font-semibold">
+                📋 Copy
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- OTP Input Form -->
+      <form onsubmit="handleVerifyIndexOtp(event)" class="space-y-4 pt-1">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1.5 text-center">Enter 6-Digit SMS Verification Code *</label>
+          <input type="text" id="indexOtpInput" maxlength="6" inputmode="numeric" pattern="[0-9]{6}" required placeholder="------" class="w-full text-center text-2xl font-mono tracking-[0.5em] bg-slate-50 border border-slate-300 rounded-xl py-3 text-sky-900 focus:outline-none focus:border-sky-500 focus:bg-white transition shadow-inner">
+          <span class="block text-[10px] text-slate-500 text-center mt-1">Check incoming text on your mobile phone or click Auto-Fill above</span>
+        </div>
+
+        <div id="indexOtpError" class="hidden p-2 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs text-center font-medium"></div>
+
+        <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-sky-700 to-blue-700 hover:from-sky-600 hover:to-blue-600 text-white font-bold text-sm shadow-lg transition flex items-center justify-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+          <span>Verify SMS OTP & Complete Registration</span>
+        </button>
       </form>
     </div>
   </div>
