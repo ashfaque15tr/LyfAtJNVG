@@ -65,6 +65,9 @@ const defaultData = {
   ],
 
   notableMessages: [
+    { id: 101, author: "Dr. Jai Krishna Mishra", batch: "1993 (First Batch)", role: "Project Director, ASL, DRDO Hyderabad", house: "Arawali", quote: "Discipline, relentless inquiry, and dedication to the motherland were ingrained in us at Gauriganj. Whether designing critical solid propulsion technologies or mentoring the next generation, strive for uncompromising national self-reliance." },
+    { id: 102, author: "Sh. Utkrisht Pandey", batch: "Alumnus", role: "Founder, Rishigram Organics • Retd. Assistant Commandant, SSB", house: "Shivalik", quote: "From the discipline of morning assembly and cross-country runs at JNVG to guarding borders with SSB and cultivating heritage Kalanamak rice, the greatest success is creating sustainable, ethical value rooted in our native soil." },
+    { id: 103, author: "Dr. Shailendra Mohan Tripathi", batch: "1997", role: "Addl. Professor, Geriatric Mental Health, KGMU & Univ. of Aberdeen", house: "Nilgiri", quote: "Navodaya taught us empathy for the vulnerable and elder care. As clinicians and researchers battling Dementia, standing by our aged Gurujan and parents with compassionate healthcare is our sacred duty." },
     { id: 1, author: "Sh. Vivek Tiwari", batch: "1987-1994", role: "MD & CEO, Satya MicroCapital Ltd. & Donor", house: "Arawali", quote: "Navodaya gave us the courage to dream and build without fear. Every milestone in corporate or public leadership is rooted in the resilience learned in those Gauriganj classrooms. Support your junior peers relentlessly." },
     { id: 2, author: "Alok Dubey, IAS", batch: "2007", role: "Indian Administrative Service", house: "Nilgiri", quote: "Public service is the natural continuum of Navodaya's core pledge 'Pragyanam Brahma'. To all young scholars: stay disciplined, read widely, and let integrity be your defining hallmark." },
     { id: 3, author: "Ratnesh Tiwari", batch: "1996-2003", role: "CEO, Koshish India & Co-Founder Satyapath Foundation", house: "Nilgiri", quote: "True Navodayan spirit is giving back tenfold to the rural soil that nurtured us. Empower the next generation through education, infrastructure, and sustainable community support." },
@@ -297,22 +300,24 @@ const defaultData = {
   ]
 };
 
-const SOFT_LAUNCH_STORAGE_FLAG = 'JNVG_SOFT_LAUNCH_2026_CLEARED_V6';
+const SOFT_LAUNCH_STORAGE_FLAG = 'JNVG_SOFT_LAUNCH_2026_CLEARED_V8';
 
-// As of today, Ashfaq Ahmed is the ONLY verified alumni present in the directory as Super Admin
+// As of today, Ashfaq Ahmed is the ONLY verified alumni present in the directory as Super Admin (Batch of 2005)
 const defaultDirectoryAlumni = [
   {
     id: "dir-ashfaq-ahmed",
     name: "Ashfaq Ahmed",
     initials: "AA",
-    batch: 2008,
+    photo: "assets/images/ashfaq-ahmed.png",
+    avatarImage: "assets/images/ashfaq-ahmed.png",
+    batch: 2005,
     house: "Arawali",
     role: "Lead Enterprise & Systems Solutions Architect",
     location: "Lucknow / New Delhi",
     domain: "Software",
     email: "ashfaque15tr@gmail.com",
     badge: "Arawali",
-    tag: "Super Admin • Batch of 2008",
+    tag: "Super Admin • Batch of 2005",
     systemRole: "admin",
     isSuperAdmin: true,
     verified: true,
@@ -450,6 +455,7 @@ function saveAppData() {
 
 // 1. Navigation & Tab Switching
 function switchTab(tabId) {
+  if (tabId === 'memories') tabId = 'gallery';
   AppState.activeTab = tabId;
   
   document.querySelectorAll('.tab-content').forEach(el => {
@@ -472,6 +478,14 @@ function switchTab(tabId) {
       btn.classList.add('text-slate-300');
     }
   });
+
+  if (tabId === 'notable') {
+    renderNotableMessages();
+    renderNotableAlumni(currentNotableFilter);
+  } else if (tabId === 'admin') {
+    renderAdminQueue();
+    renderAdminHelpDeskQueue();
+  }
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -1626,8 +1640,8 @@ function renderDirectory(append = false) {
     card.innerHTML = `
       <div class="flex items-start justify-between">
         <div class="flex items-center space-x-3">
-          ${item.photo 
-            ? `<img src="${item.photo}" alt="${item.name}" class="w-12 h-12 rounded-xl object-cover border border-slate-700 shadow-sm flex-shrink-0">` 
+          ${(item.photo || item.avatarImage) 
+            ? `<img src="${item.photo || item.avatarImage}" alt="${item.name}" class="w-12 h-12 rounded-xl object-cover border border-slate-700 shadow-sm flex-shrink-0">` 
             : `<div class="w-12 h-12 rounded-xl border flex items-center justify-center font-bold flex-shrink-0 ${aClass}">${item.initials || 'NV'}</div>`}
           <div>
             <h4 class="text-sm font-bold text-white">${item.name}</h4>
@@ -1726,6 +1740,380 @@ function handleNotableMessageSubmit(e) {
   showToast(`Guidance message from ${name} published on Hall of Distinction!`);
 }
 
+// ========================================================
+// NOTABLE ALUMNI HALL OF FAME DIRECTORY & CATEGORIES
+// ========================================================
+const NOTABLE_ALUMNI_LIST = [
+  {
+    id: "notable-jm-1",
+    name: "Dr. Jai Krishna Mishra",
+    initials: "JM",
+    batch: "1993 (First Batch)",
+    category: "defense",
+    categoryLabel: "Defense & Strategic Systems",
+    house: "Arawali",
+    role: "Project Director, ASL, DRDO Hyderabad",
+    academics: "B.Tech (KNIT Sultanpur) • M.Tech (IIT Roorkee) • Ph.D. (NIT Warangal)",
+    intro: "Project Director at Advanced Systems Laboratory (ASL), DRDO Hyderabad. Pioneering scientist in solid rocket propulsion, aerospace structures, and national IRBM missile systems. Honored with DRDO Performance Excellence Award and Agni Award for Self Reliance; Fellow of AeSI and ISAMPE.",
+    badgeColor: "amber",
+    link: null
+  },
+  {
+    id: "notable-up-1",
+    name: "Sh. Utkrisht Pandey",
+    initials: "UP",
+    batch: "Alumnus",
+    category: "enterprise",
+    categoryLabel: "Agri-Enterprise & Security",
+    house: "Shivalik",
+    role: "Founder, Rishigram Organics • Retd. Assistant Commandant, SSB",
+    academics: "Former Officer, Sashastra Seema Bal (SSB)",
+    intro: "Decorated former Assistant Commandant (SSB) turned agrarian pioneer. Founder of Rishigram Organics, pioneering sustainable high-value sandalwood agroforestry and reviving the heritage GI-tagged Kalanamak 'Buddha Rice'.",
+    badgeColor: "emerald",
+    link: "https://rishigramorganics.com/pages/about-us"
+  },
+  {
+    id: "notable-st-1",
+    name: "Dr. Shailendra Mohan Tripathi",
+    initials: "ST",
+    batch: "1997",
+    category: "health",
+    categoryLabel: "Healthcare & Neuroscience",
+    house: "Nilgiri",
+    role: "Addl. Professor, Geriatric Mental Health, KGMU & Hon. Clinical Lecturer, Univ. of Aberdeen UK",
+    academics: "MBBS (GSVM Kanpur) • MD Psychiatry (SNMC Agra) • Ph.D. (Univ. of Aberdeen, UK)",
+    intro: "Leading Indian medical authority on Dementia, Alzheimer's, and Movement Disorders. Principal Investigator of ICMR Alzheimer's research projects with 50+ global peer-reviewed publications; recognized with state and national clinical excellence awards.",
+    badgeColor: "blue",
+    link: null
+  },
+  {
+    id: "notable-as-1",
+    name: "Sh. Anil Saroj",
+    initials: "AS",
+    batch: "1995",
+    category: "civil",
+    categoryLabel: "Civil Services & Governance",
+    house: "Udaigiri",
+    role: "Provincial Civil Services (PCS) Officer, Govt. of Uttar Pradesh",
+    academics: "UP State Civil Services Administration",
+    intro: "Senior administrator in the Uttar Pradesh Provincial Civil Services (PCS). Leading district administration, grassroots citizen welfare delivery, and public policy execution with integrity.",
+    badgeColor: "emerald",
+    link: null
+  },
+  {
+    id: "notable-vs-1",
+    name: "Virika Solanki",
+    initials: "VS",
+    batch: "Alumna",
+    category: "media",
+    categoryLabel: "Arts & Digital Media",
+    house: "Arawali",
+    role: "Creative Artist, Actor & Digital Content Creator",
+    academics: "Media Arts & Creative Production",
+    intro: "Celebrated creative artist, actor, and digital storyteller with an inspiring social media following. Inspiring young Navodayans to pursue cultural arts, acting, and digital media production with distinction.",
+    badgeColor: "rose",
+    link: "https://www.instagram.com/virika.solanki"
+  },
+  {
+    id: "notable-sk-1",
+    name: "Safeer Khan",
+    initials: "SK",
+    batch: "1995",
+    category: "media",
+    categoryLabel: "Visual Arts & Cinematography",
+    house: "Shivalik",
+    role: "Visual Storyteller, Documentary Filmmaker & Media Creator",
+    academics: "Cinematography & Documentary Arts",
+    intro: "Acclaimed media creator and cinematographer directing evocative social documentaries, human-interest narratives, and cinematic visual stories across India; bringing cinematic distinction to the 1995 batch.",
+    badgeColor: "purple",
+    link: "https://www.instagram.com/ishafeer_khan"
+  },
+  {
+    id: "notable-ss-1",
+    name: "Satyendra Singh Satya (@cybr0x)",
+    initials: "SS",
+    batch: "1998",
+    category: "tech",
+    categoryLabel: "Cybersecurity & Threat Intel",
+    house: "Arawali",
+    role: "Principal Cybersecurity Architect & Threat Researcher",
+    academics: "Enterprise Threat Intelligence & Cyber Defense",
+    intro: "Globally recognized cybersecurity researcher and defense architect (@cybr0x). Specializing in threat intelligence, cloud vulnerability research, and sovereign cyber resilience architectures.",
+    badgeColor: "cyan",
+    link: "https://www.linkedin.com/in/cybr0x"
+  },
+  {
+    id: "notable-ck-1",
+    name: "Sh. Chandan Kumar",
+    initials: "CK",
+    batch: "2004",
+    category: "defense",
+    categoryLabel: "Gallantry & Armed Forces",
+    house: "Nilgiri",
+    role: "Shaurya Chakra Awardee • Indian Armed Forces",
+    academics: "National Defense & Frontline Tactical Command",
+    intro: "Conferred the Shaurya Chakra by the President of India—the nation's 3rd highest peacetime gallantry award—for conspicuous courage, heroic valor, and exceptional tactical command in frontline combat operations.",
+    badgeColor: "amber",
+    link: null
+  },
+  {
+    id: "notable-ak-1",
+    name: "Ashwini Kumar",
+    initials: "AK",
+    batch: "1993 (First Batch)",
+    category: "media",
+    categoryLabel: "Broadcast Journalism",
+    house: "Shivalik",
+    role: "Senior Journalist, Executive Producer & News Anchor, DD News",
+    academics: "Journalism & Broadcast Media",
+    intro: "Senior broadcast journalist, news anchor, and executive producer at DD News (Doordarshan National). Delivering ethical public-interest television journalism and national policy coverage for decades.",
+    badgeColor: "blue",
+    link: null
+  },
+  {
+    id: "notable-mm-1",
+    name: "Sh. Manoj Mishra",
+    initials: "MM",
+    batch: "1996 (Host Batch)",
+    category: "tech",
+    categoryLabel: "Space Research & Aerospace",
+    house: "Arawali",
+    role: "Senior Space Scientist, ISRO",
+    academics: "Indian Space Research Organisation (ISRO)",
+    intro: "Senior Space Scientist at ISRO, actively contributing to India's satellite launch vehicle systems, telemetry operations, and prestigious national space exploration missions.",
+    badgeColor: "cyan",
+    link: null
+  },
+  {
+    id: "notable-jk-1",
+    name: "Sh. Jaikishan",
+    initials: "JK",
+    batch: "1993 (First Batch)",
+    category: "tech",
+    categoryLabel: "Nuclear Science & Research",
+    house: "Udaigiri",
+    role: "Senior Nuclear Research Scientist, BARC",
+    academics: "Bhabha Atomic Research Centre (DAE)",
+    intro: "Senior atomic researcher at Bhabha Atomic Research Centre (BARC, Department of Atomic Energy), researching peaceful atomic energy systems, reactor safety, and applied nuclear technologies.",
+    badgeColor: "purple",
+    link: null
+  },
+  {
+    id: "notable-sj-1",
+    name: "Surabhi Jaiswal",
+    initials: "SJ",
+    batch: "2006",
+    category: "tech",
+    categoryLabel: "Enterprise Technology Strategy",
+    house: "Nilgiri",
+    role: "Global Technology & Cloud Architecture Executive",
+    academics: "Enterprise Cloud Systems & Corporate Strategy",
+    intro: "Global technology executive spearheading strategic digital transformations, enterprise cloud adoption, and system architecture across Fortune 500 corporations.",
+    badgeColor: "cyan",
+    link: "https://www.linkedin.com/in/surabhi-jaiswal-b5a0a03a"
+  },
+  {
+    id: "notable-ss2-1",
+    name: "Shailesh Singh, MIEAust",
+    initials: "SS",
+    batch: "1997",
+    category: "tech",
+    categoryLabel: "Civil Infrastructure & Engineering",
+    house: "Shivalik",
+    role: "Chartered Professional Engineer (MIEAust), Australia",
+    academics: "Engineers Australia (MIEAust)",
+    intro: "Chartered Professional Engineer (MIEAust) and senior infrastructure consultant in Australia. Directing multi-million dollar transportation, civil infrastructure, and sustainable asset management programs.",
+    badgeColor: "blue",
+    link: "https://au.linkedin.com/in/shailesh-s-4327595"
+  },
+  {
+    id: "notable-vt-1",
+    name: "Sh. Vivek Tiwari",
+    initials: "VT",
+    batch: "1987–1994",
+    category: "enterprise",
+    categoryLabel: "Financial Inclusion & Philanthropy",
+    house: "Arawali",
+    role: "MD & CEO, Satya MicroCapital Ltd.",
+    academics: "Finance & Institutional Economics",
+    intro: "Microfinance visionary empowering over 2.5 million rural women entrepreneurs across India. Major Vidyalaya benefactor donating the 125 KVA silent genset, National cricket trophy, and campus ground filling.",
+    badgeColor: "amber",
+    link: null
+  },
+  {
+    id: "notable-ad-1",
+    name: "Alok Dubey, IAS",
+    initials: "AD",
+    batch: "2007",
+    category: "civil",
+    categoryLabel: "Civil Services & Public Policy",
+    house: "Nilgiri",
+    role: "Indian Administrative Service (IAS) Officer",
+    academics: "Public Administration & Governance",
+    intro: "District and state administrative leader executing rural education transformations, public welfare delivery, and governance transparency, embodying Navodaya's pledge 'Pragyanam Brahma'.",
+    badgeColor: "emerald",
+    link: null
+  },
+  {
+    id: "notable-rt-1",
+    name: "Sh. Ratnesh Tiwari",
+    initials: "RT",
+    batch: "1996–2003",
+    category: "enterprise",
+    categoryLabel: "Social Innovation & Education",
+    house: "Nilgiri",
+    role: "CEO, Koshish India • Co-Founder Satyapath Foundation",
+    academics: "Social Sector Leadership",
+    intro: "Transforming primary education, child health clinics, and rural livelihood opportunities across UP; co-donor of the permanent 125 KVA Vidyalaya Genset installation.",
+    badgeColor: "purple",
+    link: null
+  },
+  {
+    id: "notable-ry-1",
+    name: "Sh. Rama Sankar Yadav",
+    initials: "RY",
+    batch: "1987–1994",
+    category: "civil",
+    categoryLabel: "Grassroots Education",
+    house: "Shivalik",
+    role: "Head Master, Model School Pachehari",
+    academics: "Elementary Education & Pedagogy",
+    intro: "Dedicated grassroots educator recognized for innovative pedagogy in government rural schooling; generous benefactor donating permanent cement campus benches to PM Shri JNV Gauriganj.",
+    badgeColor: "blue",
+    link: null
+  }
+];
+
+let currentNotableFilter = 'all';
+
+function renderNotableAlumni(filter = 'all') {
+  currentNotableFilter = filter;
+  const container = document.getElementById('notableAlumniContainer');
+  if (!container) return;
+
+  const filtered = NOTABLE_ALUMNI_LIST.filter(a => {
+    if (filter === 'all') return true;
+    return a.category === filter;
+  });
+
+  // Update filter buttons UI
+  document.querySelectorAll('.notable-filter-btn').forEach(btn => {
+    if (btn.getAttribute('data-filter') === filter) {
+      btn.classList.add('bg-amber-500', 'text-slate-950', 'font-bold');
+      btn.classList.remove('bg-slate-900', 'text-slate-300');
+    } else {
+      btn.classList.remove('bg-amber-500', 'text-slate-950', 'font-bold');
+      btn.classList.add('bg-slate-900', 'text-slate-300');
+    }
+  });
+
+  const countBadge = document.getElementById('notableAlumniCountBadge');
+  if (countBadge) {
+    countBadge.textContent = `${filtered.length} Distinguished Navodayans`;
+  }
+
+  container.innerHTML = '';
+  filtered.forEach(item => {
+    const card = document.createElement('div');
+    card.className = "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 transition duration-300 space-y-3.5 shadow-md hover:shadow-xl hover:border-amber-500/50 flex flex-col justify-between";
+
+    const badgeColorClasses = {
+      amber: "bg-amber-500/15 text-amber-600 dark:text-amber-300 border-amber-500/30",
+      emerald: "bg-emerald-500/15 text-emerald-600 dark:text-emerald-300 border-emerald-500/30",
+      blue: "bg-blue-500/15 text-blue-600 dark:text-blue-300 border-blue-500/30",
+      cyan: "bg-cyan-500/15 text-cyan-600 dark:text-cyan-300 border-cyan-500/30",
+      rose: "bg-rose-500/15 text-rose-600 dark:text-rose-300 border-rose-500/30",
+      purple: "bg-purple-500/15 text-purple-600 dark:text-purple-300 border-purple-500/30"
+    };
+
+    const bClass = badgeColorClasses[item.badgeColor] || badgeColorClasses.amber;
+
+    card.innerHTML = `
+      <div class="space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase border ${bClass}">
+            ${item.categoryLabel}
+          </span>
+          <span class="text-[11px] text-slate-500 dark:text-slate-400 font-mono font-semibold">
+            ${item.batch}
+          </span>
+        </div>
+
+        <div class="flex items-center gap-3.5">
+          <div class="w-13 h-13 rounded-2xl bg-amber-500/15 dark:bg-amber-500/20 text-amber-700 dark:text-amber-300 border border-amber-500/30 flex items-center justify-center font-serif font-black text-lg flex-shrink-0">
+            ${item.initials}
+          </div>
+          <div class="min-w-0 flex-1">
+            <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white font-cinzel leading-snug truncate">
+              ${item.name}
+            </h3>
+            <p class="text-xs text-amber-700 dark:text-amber-400 font-semibold truncate">
+              ${item.role}
+            </p>
+            <p class="text-[10px] text-slate-500 dark:text-slate-400 truncate">
+              ${item.house} House • ${item.academics}
+            </p>
+          </div>
+        </div>
+
+        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+          ${item.intro}
+        </p>
+      </div>
+
+      <div class="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs">
+        ${item.link ? `
+          <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-xs font-bold text-amber-600 dark:text-amber-400 hover:underline">
+            <span>Explore Work / Profile ↗</span>
+          </a>
+        ` : `
+          <span class="text-[11px] text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Hall of Fame
+          </span>
+        `}
+        <button onclick="openChatWithAlumnus('${item.name}')" class="px-3 py-1 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-1 transition shadow-sm">
+          <span>💬 Message</span>
+        </button>
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+function openNotableMessageModal() {
+  const currentUser = getCurrentUser();
+  if (!currentUser) {
+    showToast("Please sign in as a verified Notable Alumnus or Super Admin to post guidance.");
+    openModal('loginModal');
+    return;
+  }
+  const isSuperAdmin = currentUser.role === 'admin' || currentUser.role === 'super_admin' || (currentUser.email && currentUser.email.toLowerCase() === 'ashfaque15tr@gmail.com');
+  const notableNames = [
+    "jai krishna mishra", "utkrisht pandey", "shailendra mohan", "tripathi", "anil saroj", 
+    "virika solanki", "safeer khan", "satyendra singh", "cybr0x", "chandan kumar", 
+    "ashwini kumar", "manoj mishra", "jaikishan", "surabhi jaiswal", "shailesh singh", 
+    "vivek tiwari", "alok dubey", "ratnesh tiwari", "rama sankar yadav"
+  ];
+  const isNotable = notableNames.some(n => (currentUser.name || '').toLowerCase().includes(n));
+  
+  if (!isSuperAdmin && !isNotable) {
+    alert("Hall of Fame Key Guidance messages are reserved exclusively for recognized Notable Alumni and Super Administrators. For sharing memories, stories, and photos, please post on our community Memory Wall!");
+    switchTab('feed');
+    return;
+  }
+  
+  // Pre-fill fields
+  const nameField = document.getElementById('notableName');
+  const batchField = document.getElementById('notableBatch');
+  const roleField = document.getElementById('notableRole');
+  if (nameField) nameField.value = currentUser.name || '';
+  if (batchField) batchField.value = currentUser.batch || '';
+  if (roleField) roleField.value = currentUser.profession || currentUser.roleTitle || '';
+  
+  openModal('notableMessageModal');
+}
+
 // 15. Admin Moderation
 function approveQueueItem(id, successMsg) {
   const index = AppState.queueItems.findIndex(i => i.id === id);
@@ -1805,6 +2193,111 @@ function updateQueueBadges() {
   if (countBadge) countBadge.textContent = contentCount + regCount;
   if (countText) countText.textContent = `${contentCount} Pending Items`;
   if (regCountText) regCountText.textContent = `${regCount} Pending Approval${regCount === 1 ? '' : 's'}`;
+}
+
+// 15B. Admin Sahayata & Grievance Help Desk Queue
+function renderAdminHelpDeskQueue() {
+  const container = document.getElementById('adminHelpDeskList');
+  if (!container) return;
+  const reqs = AppState.helpRequests || [];
+
+  const countBadge = document.getElementById('pendingHelpCountText');
+  const unresolved = reqs.filter(r => r.status !== 'resolved');
+  if (countBadge) countBadge.textContent = `${unresolved.length} Active Ticket${unresolved.length === 1 ? '' : 's'}`;
+
+  if (reqs.length === 0) {
+    container.innerHTML = `<div class="bg-slate-900 border border-slate-800 p-8 rounded-2xl text-center text-slate-400 text-xs">✓ No grievance or assistance requests in queue.</div>`;
+    return;
+  }
+
+  container.innerHTML = '';
+  reqs.forEach(r => {
+    const card = document.createElement('div');
+    card.className = "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl space-y-3.5 shadow-sm";
+    
+    const isResolved = r.status === 'resolved';
+    const urgencyBadge = r.urgency === 'urgent' 
+      ? '<span class="px-2 py-0.5 rounded text-[10px] font-black uppercase bg-red-600/20 text-red-600 dark:text-red-300 border border-red-500/30 animate-pulse">⚡ Urgent Emergency</span>' 
+      : '<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">Standard Intake</span>';
+
+    const statusBadge = isResolved
+      ? '<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">✓ Case Resolved</span>'
+      : `<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30">Tier ${r.currentTier} Active</span>`;
+
+    let notesHtml = '';
+    if (r.resolutionNotes && r.resolutionNotes.length > 0) {
+      notesHtml = `
+        <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 text-[11px] space-y-1">
+          <span class="text-[10px] font-bold uppercase text-slate-500 block">Audit Trail / Log:</span>
+          ${r.resolutionNotes.map(n => `<div class="text-slate-700 dark:text-slate-300">• <strong>${n.time}:</strong> ${n.note}</div>`).join('')}
+        </div>
+      `;
+    }
+
+    card.innerHTML = `
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3">
+        <div>
+          <div class="flex items-center gap-2 flex-wrap mb-1">
+            <span class="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border border-cyan-500/30">${r.categoryLabel || r.category}</span>
+            ${urgencyBadge}
+            ${statusBadge}
+            <span class="text-[11px] text-slate-400 font-mono font-medium">${r.date}</span>
+          </div>
+          <h4 class="text-base font-bold text-slate-900 dark:text-white font-cinzel">${r.title}</h4>
+          <p class="text-xs text-slate-600 dark:text-slate-300">Requester: <strong>${r.requesterName}</strong> • Batch ${r.batch} (${r.house} House)</p>
+        </div>
+        ${r.targetAmount ? `<div class="text-right flex-shrink-0"><span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 block">Goal: ₹${r.targetAmount.toLocaleString('en-IN')}</span><span class="text-[10px] text-slate-400">Raised: ₹${(r.raisedAmount || 0).toLocaleString('en-IN')}</span></div>` : ''}
+      </div>
+
+      <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">${r.description}</p>
+      ${notesHtml}
+
+      <div class="pt-2 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 dark:border-slate-800">
+        <div class="flex items-center gap-2">
+          <button onclick="openChatWithAlumnus('${r.requesterName}')" class="px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-1 shadow-sm transition">
+            <span>💬 Message Requester</span>
+          </button>
+          <button onclick="addAdminNoteToHelpRequest('${r.id}')" class="px-3 py-1.5 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 text-slate-800 dark:text-slate-200 font-bold text-xs transition">
+            <span>📝 Add Action Note</span>
+          </button>
+        </div>
+        <div class="flex items-center gap-2">
+          ${!isResolved && r.currentTier < 3 ? `
+            <button onclick="escalateHelpRequest('${r.id}'); renderAdminHelpDeskQueue();" class="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs transition">
+              <span>⬆️ Escalate Tier</span>
+            </button>
+          ` : ''}
+          ${!isResolved ? `
+            <button onclick="resolveHelpRequest('${r.id}'); renderAdminHelpDeskQueue();" class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition">
+              <span>✓ Mark Resolved</span>
+            </button>
+          ` : '<span class="text-xs text-emerald-600 dark:text-emerald-400 font-bold">✓ Closed & Archived</span>'}
+        </div>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function addAdminNoteToHelpRequest(requestId) {
+  const note = prompt("Enter administrative action or resolution note for this ticket:");
+  if (!note || !note.trim()) return;
+
+  const req = (AppState.helpRequests || []).find(r => r.id === requestId);
+  if (!req) return;
+
+  if (!req.resolutionNotes) req.resolutionNotes = [];
+  const currentUser = getCurrentUser();
+  const adminName = currentUser ? currentUser.name : "Super Admin";
+  req.resolutionNotes.push({
+    time: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }),
+    note: `[Admin Note by ${adminName}]: ${note.trim()}`
+  });
+
+  saveAppData();
+  renderAdminHelpDeskQueue();
+  renderHelpRequests(currentHelpFilter);
+  showToast("Administrative note recorded on assistance ticket.");
 }
 
 // 16. Countdown: Days To Go
@@ -1925,7 +2418,7 @@ function renderTeachers(filter = 'all', searchQuery = '') {
   grid.innerHTML = '';
   filtered.forEach(t => {
     const card = document.createElement('div');
-    card.className = "bg-gradient-to-br from-slate-900 via-slate-900/90 to-slate-950 border border-slate-800 hover:border-amber-500/40 rounded-3xl p-6 transition duration-300 flex flex-col justify-between space-y-4 shadow-xl";
+    card.className = "tch-card bg-gradient-to-br from-slate-900 via-slate-900/90 to-slate-950 border border-slate-800 hover:border-amber-500/40 rounded-3xl p-6 transition duration-300 flex flex-col justify-between space-y-4 shadow-xl";
 
     const hClass = houseBadgeStyles[t.house] || 'bg-slate-800 text-slate-300 border border-slate-700';
     const statusBg = (t.statusLabel && t.statusLabel.toLowerCase().includes('principal'))
@@ -1935,16 +2428,14 @@ function renderTeachers(filter = 'all', searchQuery = '') {
     card.innerHTML = `
       <div class="space-y-4">
         <div class="flex items-start justify-between gap-3">
-          <div class="flex items-center space-x-3.5">
+          <div class="flex items-center space-x-3.5 min-w-0 flex-1">
             <div class="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center font-cinzel font-bold text-amber-400 text-lg flex-shrink-0 shadow-inner">
               ${t.initials || t.name.split(' ').map(w => w[0]).filter(Boolean).slice(-2).join('')}
             </div>
-            <div>
-              <div class="flex items-center gap-2 flex-wrap">
-                <h3 class="text-base sm:text-lg font-bold font-cinzel text-white leading-tight">${t.name}</h3>
-              </div>
-              <p class="text-xs text-amber-300 font-medium mt-0.5">${t.post}</p>
-              <p class="text-[11px] text-slate-400">${t.subject}</p>
+            <div class="min-w-0 flex-1">
+              <h3 class="text-base sm:text-lg font-bold font-sans text-white leading-snug whitespace-nowrap overflow-hidden text-ellipsis">${t.name}</h3>
+              <p class="text-xs text-amber-300 font-medium mt-0.5 truncate">${t.post}</p>
+              <p class="text-[11px] text-slate-400 truncate">${t.subject}</p>
             </div>
           </div>
           <span class="px-2.5 py-1 rounded-full text-[10px] font-bold ${statusBg} flex-shrink-0 whitespace-nowrap">
@@ -1982,10 +2473,10 @@ function renderTeachers(filter = 'all', searchQuery = '') {
           <span>🙏</span> <span>${t.respectCount || 0} Respects</span>
         </span>
         <div class="flex items-center gap-1.5">
-          <button onclick="openChatWithTeacher('${t.id}')" class="px-2.5 py-1.5 rounded-xl bg-blue-900/40 hover:bg-blue-900/70 border border-blue-500/40 text-blue-300 hover:text-white font-bold text-xs flex items-center gap-1 transition touch-ripple">
+          <button onclick="openChatWithTeacher('${t.id}')" class="px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition touch-ripple">
             <span>💬</span> <span>Send Message</span>
           </button>
-          <button onclick="openPranamModal('${t.id}')" class="px-2.5 py-1.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/30 text-amber-300 hover:text-amber-200 font-bold text-xs flex items-center gap-1 transition touch-ripple">
+          <button onclick="openPranamModal('${t.id}')" class="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow-sm transition touch-ripple">
             <span>🙏</span> <span>चरण स्पर्श / Send Respect</span>
           </button>
         </div>
@@ -2192,72 +2683,46 @@ function openChatWithTeacher(teacherId) {
 // ========================================================
 // 20. ALUMNI CHAT & INBOX ENGINE (Peer-to-Peer Messaging)
 // ========================================================
-const CHAT_STORAGE_KEY = 'JNVG_CHAT_MESSAGES_V2';
+const CHAT_STORAGE_KEY = 'JNVG_CHAT_MESSAGES_V4';
 
 const DEFAULT_CHAT_MESSAGES = [
   {
     id: "msg-101",
-    senderId: "usr-batch-1",
-    senderName: "Smriti Singh",
-    senderBatch: 1996,
-    recipientId: "usr-admin-1",
-    recipientName: "Dr. Amitabh Singh",
-    recipientBatch: 1998,
-    text: "Respected Amitabh Bhaiya, we are finalizing the stage arrangements and audio-visual setups for 13th Dec meet. We need your guidance on the medical helpdesk counter for elderly Gurujan.",
+    senderId: "usr-ashfaque-admin",
+    senderName: "Ashfaq Ahmed",
+    senderBatch: 2005,
+    recipientId: "notable-jm-1",
+    recipientName: "Dr. Jai Krishna Mishra",
+    recipientBatch: 1993,
+    text: "Respected Dr. Mishra, we are deeply honored by your continued guidance for the JNV Gauriganj alumni fraternity and upcoming reunion initiatives.",
     timestamp: "Yesterday, 04:30 PM",
     createdAt: Date.now() - 86400000,
-    read: false
-  },
-  {
-    id: "msg-102",
-    senderId: "usr-ashfaq-1",
-    senderName: "Ashfaq Ahmed",
-    senderBatch: 2008,
-    recipientId: "usr-batch-1",
-    recipientName: "Smriti Singh",
-    recipientBatch: 1996,
-    text: "Smriti Di, the new Gurujan & Teachers page has been deployed along with privacy protection for alumni mobile numbers. All teachers from 1989 to present are listed.",
-    timestamp: "Today, 09:15 AM",
-    createdAt: Date.now() - 3600000 * 3,
     read: true
   },
   {
-    id: "msg-103",
-    senderId: "usr-batch-1",
-    senderName: "Smriti Singh",
-    senderBatch: 1996,
-    recipientId: "usr-ashfaq-1",
+    id: "msg-102",
+    senderId: "notable-jm-1",
+    senderName: "Dr. Jai Krishna Mishra",
+    senderBatch: 1993,
+    recipientId: "usr-ashfaque-admin",
     recipientName: "Ashfaq Ahmed",
-    recipientBatch: 2008,
-    text: "Shabaash Ashfaq! The Gurujan wall with blessings looks wonderful. Let's make sure the Helpdesk escalation matrix is also integrated so juniors can get structured help from their batches first.",
-    timestamp: "Today, 09:30 AM",
-    createdAt: Date.now() - 3600000 * 2,
+    recipientBatch: 2005,
+    text: "Thank you Ashfaq. Proud to see our Navodaya fraternity uniting across 30+ batches. My full blessings and support to the Vidyalaya, Gurujan, and younger scholars.",
+    timestamp: "Today, 09:15 AM",
+    createdAt: Date.now() - 3600000 * 3,
     read: false
   },
   {
-    id: "msg-104",
-    senderId: "usr-ashfaq-1",
+    id: "msg-103",
+    senderId: "usr-ashfaque-admin",
     senderName: "Ashfaq Ahmed",
-    senderBatch: 2008,
-    recipientId: "usr-member-1",
-    recipientName: "Ramesh Yadav",
-    recipientBatch: 2008,
-    text: "Ramesh bhai, are you joining the Batch of 2008 delegation for the Gauriganj mega meet? We are coordinating accommodation near the campus.",
+    senderBatch: 2005,
+    recipientId: "notable-vt-1",
+    recipientName: "Vivek Tiwari",
+    recipientBatch: 1994,
+    text: "Respected Vivek Bhaiya, the Vidyalaya infrastructure support matrix, student welfare initiatives, and Gurujan सम्मान programs are being coordinated smoothly.",
     timestamp: "Today, 10:00 AM",
     createdAt: Date.now() - 3600000,
-    read: false
-  },
-  {
-    id: "msg-105",
-    senderId: "usr-member-1",
-    senderName: "Ramesh Yadav",
-    senderBatch: 2008,
-    recipientId: "usr-ashfaq-1",
-    recipientName: "Ashfaq Ahmed",
-    recipientBatch: 2008,
-    text: "Haan Ashfaq, tickets booked! Reaching Gauriganj on 12th Dec evening. Looking forward to meeting all teachers and batchmates.",
-    timestamp: "Today, 10:25 AM",
-    createdAt: Date.now() - 1800000,
     read: true
   }
 ];
@@ -2316,8 +2781,7 @@ function refreshInboxBadge() {
 }
 
 function getChatConversations() {
-  const currentUser = getCurrentUser();
-  if (!currentUser) return [];
+  const currentUser = getCurrentUser() || { id: 'usr-guest', name: 'Alumnus Visitor', role: 'guest' };
   const msgs = getAllChatMessages();
   const convMap = new Map();
 
@@ -2337,6 +2801,10 @@ function getChatConversations() {
       partnerId = m.senderId;
       partnerName = m.senderName;
       partnerBatch = m.senderBatch;
+    } else {
+      partnerId = m.recipientId;
+      partnerName = m.recipientName;
+      partnerBatch = m.recipientBatch;
     }
 
     if (partnerName) {
@@ -2377,8 +2845,7 @@ function openChatModal(partnerNameOrId) {
     if (convs.length > 0) {
       selectChatPartner(convs[0].partnerName);
     } else {
-      // Pick first user from directory as default
-      const defaultPartner = (AppState.directory && AppState.directory[0]) ? AppState.directory[0].name : "Smriti Singh";
+      const defaultPartner = (AppState.teachers && AppState.teachers[0]) ? AppState.teachers[0].name : "Mr. P. K. Singh";
       selectChatPartner(defaultPartner);
     }
   }
@@ -2409,9 +2876,10 @@ function renderChatConversations() {
 
     const initials = c.partnerName.split(' ').map(w => w[0]).filter(Boolean).slice(0, 2).join('').toUpperCase();
     let partnerObj = null;
-    if (AppState.directory) partnerObj = AppState.directory.find(d => (d.name || '').toLowerCase() === c.partnerName.toLowerCase());
+    if (AppState.teachers) partnerObj = AppState.teachers.find(t => (t.name || '').toLowerCase() === c.partnerName.toLowerCase());
+    if (!partnerObj && AppState.directory) partnerObj = AppState.directory.find(d => (d.name || '').toLowerCase() === c.partnerName.toLowerCase());
     if (!partnerObj && typeof getAllUsers === 'function') partnerObj = getAllUsers().find(u => (u.name || '').toLowerCase() === c.partnerName.toLowerCase());
-    const pPhoto = partnerObj ? partnerObj.photo : null;
+    const pPhoto = partnerObj ? (partnerObj.photo || partnerObj.avatarImage) : null;
 
     item.innerHTML = `
       ${pPhoto 
@@ -2433,27 +2901,55 @@ function renderChatConversations() {
 }
 
 function selectChatPartner(partnerIdentifier) {
-  const currentUser = getCurrentUser();
-  if (!currentUser) return;
+  let currentUser = getCurrentUser();
+  if (!currentUser) {
+    currentUser = { id: 'usr-guest', name: 'Alumnus Visitor', batch: 'Guest', role: 'guest' };
+  }
 
-  // Find partner in directory or users
+  // Find partner in teachers, directory, or users
   let partner = null;
-  if (AppState.directory) {
-    partner = AppState.directory.find(d => d.name.toLowerCase() === partnerIdentifier.toLowerCase());
-  }
-  if (!partner && typeof getAllUsers === 'function') {
-    partner = getAllUsers().find(u => u.name.toLowerCase() === partnerIdentifier.toLowerCase() || u.id === partnerIdentifier);
-  }
-  if (!partner && AppState.teachers) {
-    const t = AppState.teachers.find(item => (item.id && item.id.toLowerCase() === partnerIdentifier.toLowerCase()) || (item.name && item.name.toLowerCase() === partnerIdentifier.toLowerCase()));
+  if (AppState.teachers) {
+    const t = AppState.teachers.find(item => 
+      (item.id && item.id.toLowerCase() === partnerIdentifier.toLowerCase()) || 
+      (item.name && item.name.toLowerCase() === partnerIdentifier.toLowerCase())
+    );
     if (t) {
       partner = {
         id: t.id,
         name: t.name,
         batch: t.tenure || 'Faculty',
         role: t.post || 'Revered Faculty',
-        house: t.house || 'Campus',
+        house: t.house || 'Campus Staff',
+        photo: t.photo || null,
         isTeacher: true
+      };
+    }
+  }
+  if (!partner && AppState.directory) {
+    const d = AppState.directory.find(item => item.name.toLowerCase() === partnerIdentifier.toLowerCase());
+    if (d) {
+      partner = {
+        id: d.id,
+        name: d.name,
+        batch: d.batch || 'Alumnus',
+        role: d.role || d.profession || 'Verified Alumnus',
+        house: d.house || 'Navodaya',
+        photo: d.photo || d.avatarImage || null,
+        initials: d.initials
+      };
+    }
+  }
+  if (!partner && typeof getAllUsers === 'function') {
+    const u = getAllUsers().find(user => user.name.toLowerCase() === partnerIdentifier.toLowerCase() || user.id === partnerIdentifier);
+    if (u) {
+      partner = {
+        id: u.id,
+        name: u.name,
+        batch: u.batch || 'Alumnus',
+        role: u.roleTitle || u.profession || 'Verified Alumnus',
+        house: u.house || 'Navodaya',
+        photo: u.photo || u.avatarImage || null,
+        initials: u.avatar
       };
     }
   }
@@ -2463,33 +2959,39 @@ function selectChatPartner(partnerIdentifier) {
 
   activeChatPartner = partner;
 
-  // Mark messages from this partner as read
-  const msgs = getAllChatMessages();
-  let updated = false;
-  msgs.forEach(m => {
-    const isFromPartner = (m.senderName && m.senderName.toLowerCase() === partner.name.toLowerCase());
-    const isToCurrent = (m.recipientId === currentUser.id || (m.recipientName && m.recipientName.toLowerCase() === currentUser.name.toLowerCase()));
-    if (isFromPartner && isToCurrent && !m.read) {
-      m.read = true;
-      updated = true;
+  // Mark messages from this partner as read if logged in
+  if (currentUser && currentUser.id !== 'usr-guest') {
+    const msgs = getAllChatMessages();
+    let updated = false;
+    msgs.forEach(m => {
+      const isFromPartner = (m.senderName && m.senderName.toLowerCase() === partner.name.toLowerCase());
+      const isToCurrent = (m.recipientId === currentUser.id || (m.recipientName && m.recipientName.toLowerCase() === currentUser.name.toLowerCase()));
+      if (isFromPartner && isToCurrent && !m.read) {
+        m.read = true;
+        updated = true;
+      }
+    });
+    if (updated) {
+      saveAllChatMessages(msgs);
+      refreshInboxBadge();
     }
-  });
-  if (updated) {
-    saveAllChatMessages(msgs);
-    refreshInboxBadge();
   }
 
-  // Update Header UI
+  // Update Header UI IMMEDIATELY
   const headerName = document.getElementById('chatHeaderName');
   const headerMeta = document.getElementById('chatHeaderMeta');
   const headerAvatar = document.getElementById('chatHeaderAvatar');
   if (headerName) headerName.textContent = partner.name;
-  if (headerMeta) headerMeta.textContent = `Batch of ${partner.batch || ''} • ${partner.role || 'Verified Alumnus'} (${partner.house || ''})`;
+  if (headerMeta) {
+    const typeLabel = partner.isTeacher ? 'Revered Faculty' : `Batch of ${partner.batch || 'Alumnus'}`;
+    headerMeta.textContent = `${typeLabel} • ${partner.role || 'Verified Alumnus'} (${partner.house || ''})`;
+  }
   if (headerAvatar) {
     if (partner.photo) {
       headerAvatar.innerHTML = `<img src="${partner.photo}" alt="${partner.name}" class="w-full h-full rounded-xl object-cover">`;
     } else {
-      headerAvatar.textContent = partner.initials || partner.name.split(' ').map(w => w[0]).filter(Boolean).slice(0, 2).join('').toUpperCase();
+      const initials = partner.initials || partner.name.split(' ').map(w => w[0]).filter(Boolean).slice(0, 2).join('').toUpperCase();
+      headerAvatar.textContent = initials || 'NV';
     }
   }
 
@@ -2500,8 +3002,7 @@ function selectChatPartner(partnerIdentifier) {
 function renderActiveChatMessages() {
   const container = document.getElementById('chatMessagesContainer');
   if (!container || !activeChatPartner) return;
-  const currentUser = getCurrentUser();
-  if (!currentUser) return;
+  const currentUser = getCurrentUser() || { id: 'usr-guest', name: 'Alumnus Visitor', role: 'guest' };
 
   const msgs = getAllChatMessages();
   const thread = msgs.filter(m => {
@@ -2518,7 +3019,7 @@ function renderActiveChatMessages() {
       <div class="h-full flex flex-col items-center justify-center text-center p-6 space-y-2">
         <span class="text-3xl">🔒</span>
         <h4 class="text-sm font-bold text-white">Private Alumni Conversation</h4>
-        <p class="text-xs text-slate-400 max-w-sm">Messages are confidential between verified alumni. Start the conversation with <strong>${activeChatPartner.name}</strong>.</p>
+        <p class="text-xs text-slate-400 max-w-sm">Messages are confidential between verified members and revered Gurujan. Start the conversation with <strong>${activeChatPartner.name}</strong>.</p>
       </div>
     `;
     return;
@@ -2555,7 +3056,11 @@ function sendChatMessage(e) {
   if (!text) return;
 
   const currentUser = getCurrentUser();
-  if (!currentUser) return;
+  if (!currentUser || currentUser.role === 'guest') {
+    showToast("Please sign in with your verified alumni account to send messages.");
+    openModal('loginModal');
+    return;
+  }
 
   const newMsg = {
     id: `msg-${Date.now()}`,
@@ -2564,7 +3069,7 @@ function sendChatMessage(e) {
     senderBatch: currentUser.batch,
     recipientId: activeChatPartner.id || `partner-${activeChatPartner.name.replace(/\s+/g, '-').toLowerCase()}`,
     recipientName: activeChatPartner.name,
-    recipientBatch: activeChatPartner.batch || 2008,
+    recipientBatch: activeChatPartner.batch || 2005,
     text: text,
     timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     createdAt: Date.now(),
@@ -2596,6 +3101,50 @@ function openChatWithAlumnus(alumnusName) {
 
 function showNewChatSelector() {
   const container = document.getElementById('newChatSelectorModal');
+  const list = document.getElementById('newChatDirectoryList');
+  if (list) {
+    list.innerHTML = '';
+    
+    // 1. Leadership & Teachers
+    if (AppState.teachers && AppState.teachers.length > 0) {
+      const teacherHeader = document.createElement('div');
+      teacherHeader.className = "text-[10px] font-bold uppercase tracking-wider text-amber-400 pt-1 pb-1";
+      teacherHeader.textContent = "Revered Faculty & Gurujan";
+      list.appendChild(teacherHeader);
+
+      AppState.teachers.slice(0, 5).forEach(t => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = "w-full text-left p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 text-xs flex items-center justify-between";
+        btn.onclick = () => startChatWithSelectedAlumnus(t.name);
+        btn.innerHTML = `
+          <span class="text-white font-bold">${t.name} (${t.post})</span>
+          <span class="text-amber-400 font-medium">Faculty</span>
+        `;
+        list.appendChild(btn);
+      });
+    }
+
+    // 2. Verified Alumni Directory
+    const alumniHeader = document.createElement('div');
+    alumniHeader.className = "text-[10px] font-bold uppercase tracking-wider text-amber-400 pt-2 pb-1";
+    alumniHeader.textContent = "Verified Alumni Directory";
+    list.appendChild(alumniHeader);
+
+    const alumniList = AppState.directory || defaultDirectoryAlumni;
+    alumniList.forEach(a => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = "w-full text-left p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 text-xs flex items-center justify-between";
+      btn.onclick = () => startChatWithSelectedAlumnus(a.name);
+      btn.innerHTML = `
+        <span class="text-white font-bold">${a.name} (${a.batch} • ${a.house})</span>
+        <span class="text-amber-400 font-medium">${a.isSuperAdmin ? 'Super Admin' : (a.tag || 'Alumnus')}</span>
+      `;
+      list.appendChild(btn);
+    });
+  }
+
   if (container) container.classList.remove('hidden');
 }
 
@@ -2878,8 +3427,10 @@ document.addEventListener('DOMContentLoaded', () => {
   refreshInboxBadge();
   renderContributionLedger();
   renderNotableMessages();
+  renderNotableAlumni('all');
   renderAdminQueue();
   renderAdminRegistrations();
+  renderAdminHelpDeskQueue();
   updateQueueBadges();
   
   const user = getCurrentUser();

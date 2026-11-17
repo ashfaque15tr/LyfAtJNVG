@@ -107,8 +107,8 @@
     <section class="bg-gradient-to-b from-brand-950 via-slate-900 to-slate-950 border-b border-slate-800 text-white relative overflow-hidden">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 py-5 sm:py-7 relative z-10">
         <div class="flex flex-col md:flex-row items-center justify-between gap-5">
-          <div class="flex items-center space-x-4 sm:space-x-5 text-center md:text-left">
-            <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white p-1 shadow-2xl flex-shrink-0 flex items-center justify-center border-2 border-gold-500/60">
+          <div class="flex items-center space-x-4 sm:space-x-5 text-center md:text-left cursor-pointer group" onclick="switchTab('home')" title="Go to JNVGFamily Home">
+            <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white p-1 shadow-2xl flex-shrink-0 flex items-center justify-center border-2 border-gold-500/60 group-hover:scale-105 transition">
               <img src="assets/images/logo.jpeg" alt="NVS Logo" class="w-full h-full object-contain">
             </div>
             <div>
@@ -116,8 +116,8 @@
                 <span class="px-2 py-0.5 text-[10px] tracking-widest font-semibold uppercase bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded">Est. 1986</span>
                 <span class="text-xs text-amber-300 font-hindi font-bold tracking-wide">।। प्रज्ञानं ब्रह्म ।।</span>
               </div>
-              <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight text-slate-50"><span class="font-sans font-extrabold text-amber-400">JNVGFamily</span> <span class="font-cinzel text-slate-50">• Jawahar Navodaya Vidyalaya Alumni Association</span></h1>
-              <p class="text-xs sm:text-sm text-slate-300 font-medium">Gauriganj, Sultanpur / Amethi (U.P.) • <span class="text-amber-400 font-mono font-bold">jnvgfamily.in</span> <span class="text-amber-400 font-hindi ml-1 italic font-semibold">"हमी नवोदय हो"</span></p>
+              <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight text-slate-50"><span class="font-sans font-extrabold text-amber-400 brand-jnvg-title">JNVGFamily</span> <span class="font-cinzel text-slate-50 brand-association-title">• Jawahar Navodaya Vidyalaya Alumni Association</span></h1>
+              <p class="text-xs sm:text-sm text-slate-300 font-medium header-subtext">Gauriganj, Sultanpur / Amethi (U.P.) • <span class="text-amber-400 font-mono font-bold">jnvgfamily.in</span> <span class="text-amber-400 font-hindi ml-1 italic font-semibold">"हमी नवोदय हो"</span></p>
             </div>
           </div>
           
@@ -180,11 +180,7 @@
           </button>
           <button onclick="switchTab('gallery')" class="nav-tab px-3.5 py-2 text-xs sm:text-sm font-medium rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-1.5" data-tab="gallery">
             <svg class="w-4 h-4 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-            <span class="tab-title" data-en="Gallery" data-hi="चित्र दीर्घा">Gallery</span>
-          </button>
-          <button onclick="switchTab('memories')" class="nav-tab px-3.5 py-2 text-xs sm:text-sm font-medium rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-1.5" data-tab="memories">
-            <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-            <span class="tab-title" data-en="Meet Memories" data-hi="सम्मेलन यादें">Meet Memories</span>
+            <span class="tab-title" data-en="Gallery & Memories" data-hi="चित्र दीर्घा एवं स्मृतियाँ">Gallery & Memories</span>
           </button>
           
           <button id="adminTabNav" onclick="switchTab('admin')" class="hidden nav-tab px-3.5 py-2 text-xs sm:text-sm font-medium rounded-lg text-amber-300 bg-amber-500/10 border border-amber-500/30 hover:bg-amber-500/20 transition flex items-center gap-1.5" data-tab="admin">
@@ -418,7 +414,7 @@
             <!-- Host & Admin Add Event Control -->
             <button id="btnAddScheduleEvent" onclick="openAddScheduleModal()" class="hidden px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold text-xs flex items-center gap-2 shadow-lg shadow-amber-500/20 transition touch-ripple">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-              <span>+ Add Schedule Event</span>
+              <span>Add Schedule Event</span>
             </button>
           </div>
           <div id="meetScheduleTimeline" class="relative border-l-2 border-slate-800 ml-3 sm:ml-6 space-y-6">
@@ -496,14 +492,14 @@
             <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto">
               <button onclick="openTeacherEnrollModal()" class="px-5 py-3 rounded-2xl bg-gradient-to-r from-amber-500 to-gold-500 hover:from-amber-400 hover:to-gold-400 text-slate-950 font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20 transition touch-ripple">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                <span>+ Teacher Enrollment / शिक्षक पंजीकरण</span>
+                <span>Teacher Enrollment / शिक्षक पंजीकरण</span>
               </button>
             </div>
           </div>
         </div>
 
         <!-- TOP INSTITUTIONAL LEADERSHIP & ALUMNI CELL SPOTLIGHT (Principal, Vice Principal, Alumni Coordinator) -->
-        <div class="bg-gradient-to-r from-amber-950/40 via-slate-900 to-slate-900 border border-amber-500/40 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl relative overflow-hidden">
+        <div id="teachersSpotlight" class="bg-gradient-to-r from-amber-950/40 via-slate-900 to-slate-900 border border-amber-500/40 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl relative overflow-hidden">
           <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-amber-500/20 pb-4">
             <div>
               <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-300 text-xs font-bold mb-1">
@@ -532,10 +528,10 @@
                   <div class="w-14 h-14 rounded-2xl bg-amber-500/15 border border-amber-500/40 flex items-center justify-center font-cinzel font-black text-amber-400 text-xl shadow-inner flex-shrink-0">
                     PKS
                   </div>
-                  <div class="min-w-0">
-                    <h4 class="text-base font-bold text-white font-cinzel truncate">Mr. P. K. Singh</h4>
-                    <p class="text-xs text-amber-300 font-semibold">Principal, JNV Gauriganj</p>
-                    <p class="text-[11px] text-slate-400">Institutional Head (Present)</p>
+                  <div class="min-w-0 flex-1">
+                    <h4 class="text-base sm:text-lg font-bold text-white font-cinzel whitespace-nowrap overflow-hidden text-ellipsis">Mr. P. K. Singh</h4>
+                    <p class="text-xs text-amber-300 font-semibold truncate">Principal, JNV Gauriganj</p>
+                    <p class="text-[11px] text-slate-400 truncate">Institutional Head (Present)</p>
                   </div>
                 </div>
                 <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-200 leading-relaxed font-hindi">
@@ -565,10 +561,10 @@
                   <div class="w-14 h-14 rounded-2xl bg-amber-500/15 border border-amber-500/40 flex items-center justify-center font-cinzel font-black text-amber-400 text-xl shadow-inner flex-shrink-0">
                     NNT
                   </div>
-                  <div class="min-w-0">
-                    <h4 class="text-base font-bold text-white font-cinzel truncate">Mr. N. N. Tripathi</h4>
-                    <p class="text-xs text-amber-300 font-semibold">Vice Principal, JNV Gauriganj</p>
-                    <p class="text-[11px] text-slate-400">Academic Administration (Present)</p>
+                  <div class="min-w-0 flex-1">
+                    <h4 class="text-base sm:text-lg font-bold text-white font-cinzel whitespace-nowrap overflow-hidden text-ellipsis">Mr. N. N. Tripathi</h4>
+                    <p class="text-xs text-amber-300 font-semibold truncate">Vice Principal, JNV Gauriganj</p>
+                    <p class="text-[11px] text-slate-400 truncate">Academic Administration (Present)</p>
                   </div>
                 </div>
                 <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-200 leading-relaxed font-hindi">
@@ -598,10 +594,10 @@
                   <div class="w-14 h-14 rounded-2xl bg-emerald-500/15 border border-emerald-500/40 flex items-center justify-center font-cinzel font-black text-emerald-400 text-xl shadow-inner flex-shrink-0">
                     SKS
                   </div>
-                  <div class="min-w-0">
-                    <h4 class="text-base font-bold text-white font-cinzel truncate">Mr. S. K. Singh</h4>
-                    <p class="text-xs text-emerald-300 font-semibold">Alumni Coordinator Teacher</p>
-                    <p class="text-[11px] text-slate-400">In-Charge Alumni Liaison Cell (Present)</p>
+                  <div class="min-w-0 flex-1">
+                    <h4 class="text-base sm:text-lg font-bold text-white font-cinzel whitespace-nowrap overflow-hidden text-ellipsis">Mr. S. K. Singh</h4>
+                    <p class="text-xs text-emerald-300 font-semibold truncate">Alumni Coordinator Teacher</p>
+                    <p class="text-[11px] text-slate-400 truncate">In-Charge Alumni Liaison Cell (Present)</p>
                   </div>
                 </div>
                 <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-200 leading-relaxed font-hindi">
@@ -881,7 +877,7 @@
               <div class="flex items-center gap-2.5 flex-shrink-0">
                 <button onclick="openHelpRequestModal()" class="px-5 py-3 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-slate-950 font-bold text-xs sm:text-sm flex items-center gap-2 shadow-xl shadow-cyan-500/25 transition touch-ripple">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                  <span>+ Request Assistance / सहायता आवेदन</span>
+                  <span>Request Assistance / सहायता आवेदन</span>
                 </button>
               </div>
             </div>
@@ -907,7 +903,7 @@
             <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto flex-shrink-0">
               <button onclick="openHelpRequestModal()" class="px-5 py-3 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-slate-950 font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/20 transition touch-ripple">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                <span>+ Request Assistance / सहायता आवेदन</span>
+                <span>Request Assistance / सहायता आवेदन</span>
               </button>
             </div>
           </div>
@@ -1057,7 +1053,7 @@
               <span class="px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] font-bold uppercase">Leadership Voices</span>
               <h3 class="text-sm font-bold text-white">Key Guidance from Distinguished Alumni</h3>
             </div>
-            <button onclick="openModal('notableMessageModal')" class="px-3 py-1.5 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 font-semibold text-xs">
+            <button onclick="openNotableMessageModal()" class="px-3 py-1.5 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 font-semibold text-xs">
               + Post Guidance Message
             </button>
           </div>
@@ -1165,53 +1161,43 @@
           </div>
         </div>
 
-        <!-- Distinguished Profiles -->
-        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8">
-          <div class="flex items-center gap-2 mb-6">
-            <span class="px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] font-bold uppercase">Distinguished Profiles</span>
-            <h3 class="text-sm font-bold text-white">Hall of Fame</h3>
+        <!-- Distinguished Profiles & Hall of Fame -->
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6">
+          <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+            <div>
+              <span class="px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] font-bold uppercase">Distinguished Profiles</span>
+              <h3 class="text-xl font-bold font-cinzel text-white mt-0.5">Hall of Fame & Notable Alumni</h3>
+              <p class="text-xs text-slate-400">Honoring Navodaya brothers and sisters leading national defense, space, administration, medicine, and enterprise.</p>
+            </div>
+            <span id="notableAlumniCountBadge" class="px-3 py-1.5 rounded-xl bg-amber-500/15 text-amber-300 border border-amber-500/30 text-xs font-bold font-mono">17 Distinguished Navodayans</span>
           </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="bg-gradient-to-b from-slate-950 to-slate-900 border border-slate-700 rounded-3xl p-6 hover:border-gold-500/40 transition">
-              <div class="w-14 h-14 rounded-full bg-brand-900 text-gold-400 font-bold flex items-center justify-center text-lg font-serif mb-4">VT</div>
-              <h3 class="text-lg font-bold text-white">Vivek Tiwari</h3>
-              <p class="text-xs text-gold-400 font-semibold">MD & CEO, Satya MicroCapital</p>
-              <p class="text-xs text-slate-400 mt-3 leading-relaxed">Pioneering financial inclusion for over 2.5 million women entrepreneurs. Benefactor of the Vidyalaya Genset, Trophy & Earth Filling.</p>
-              <div class="mt-4 pt-4 border-t border-slate-700 flex justify-between text-[11px] text-slate-500"><span>Batch 1987–1994</span><span class="text-red-400 font-semibold">Arawali House</span></div>
-            </div>
-            <div class="bg-gradient-to-b from-slate-950 to-slate-900 border border-slate-700 rounded-3xl p-6 hover:border-gold-500/40 transition">
-              <div class="w-14 h-14 rounded-full bg-emerald-900 text-emerald-200 font-bold flex items-center justify-center text-lg font-serif mb-4">AD</div>
-              <h3 class="text-lg font-bold text-white">Alok Dubey, IAS</h3>
-              <p class="text-xs text-gold-400 font-semibold">Indian Administrative Service</p>
-              <p class="text-xs text-slate-400 mt-3 leading-relaxed">Leading state-level public policy, rural transformation, and administrative reforms. Embodying Navodaya's pledge of public service.</p>
-              <div class="mt-4 pt-4 border-t border-slate-700 flex justify-between text-[11px] text-slate-500"><span>Batch 2007</span><span class="text-emerald-400 font-semibold">Nilgiri House</span></div>
-            </div>
-            <div class="bg-gradient-to-b from-slate-950 to-slate-900 border border-slate-700 rounded-3xl p-6 hover:border-gold-500/40 transition">
-              <div class="w-14 h-14 rounded-full bg-amber-900 text-amber-200 font-bold flex items-center justify-center text-lg font-serif mb-4">RT</div>
-              <h3 class="text-lg font-bold text-white">Ratnesh Tiwari</h3>
-              <p class="text-xs text-gold-400 font-semibold">CEO, Koshish India (Social Foundation)</p>
-              <p class="text-xs text-slate-400 mt-3 leading-relaxed">Spearheading community education, livelihood development, and child healthcare in UP; co-donor of the Vidyalaya 125 KVA Genset.</p>
-              <div class="mt-4 pt-4 border-t border-slate-700 flex justify-between text-[11px] text-slate-500"><span>Batch 1996–2003</span><span class="text-emerald-400 font-semibold">Nilgiri House</span></div>
-            </div>
-            <div class="bg-gradient-to-b from-slate-950 to-slate-900 border border-slate-700 rounded-3xl p-6 hover:border-gold-500/40 transition">
-              <div class="w-14 h-14 rounded-full bg-blue-900 text-blue-200 font-bold flex items-center justify-center text-lg font-serif mb-4">RY</div>
-              <h3 class="text-lg font-bold text-white">Rama Sankar Yadav</h3>
-              <p class="text-xs text-gold-400 font-semibold">Head Master, Model School Pachehari</p>
-              <p class="text-xs text-slate-400 mt-3 leading-relaxed">Dedicated educator transforming primary schooling; donor of 8 permanent campus benches to PM Shri JNV Gauriganj.</p>
-              <div class="mt-4 pt-4 border-t border-slate-700 flex justify-between text-[11px] text-slate-500"><span>Batch 1987–1994</span><span class="text-blue-400 font-semibold">Shivalik House</span></div>
-            </div>
+
+          <!-- Category Filter Bar -->
+          <div class="flex items-center gap-2 overflow-x-auto pb-1" id="notableFilterContainer">
+            <button onclick="renderNotableAlumni('all')" data-filter="all" class="notable-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-amber-500 text-slate-950 transition">All Categories</button>
+            <button onclick="renderNotableAlumni('defense')" data-filter="defense" class="notable-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-medium bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition">Defense & Gallantry</button>
+            <button onclick="renderNotableAlumni('tech')" data-filter="tech" class="notable-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-medium bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition">Space & Science Tech</button>
+            <button onclick="renderNotableAlumni('civil')" data-filter="civil" class="notable-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-medium bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition">Civil Services & Education</button>
+            <button onclick="renderNotableAlumni('health')" data-filter="health" class="notable-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-medium bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition">Healthcare & Medicine</button>
+            <button onclick="renderNotableAlumni('media')" data-filter="media" class="notable-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-medium bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition">Media, Arts & Journalism</button>
+            <button onclick="renderNotableAlumni('enterprise')" data-filter="enterprise" class="notable-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-medium bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition">Enterprise & Philanthropy</button>
+          </div>
+
+          <!-- Hall of Fame Cards Container -->
+          <div id="notableAlumniContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+            <!-- Dynamically populated via renderNotableAlumni() with 17 profiles -->
           </div>
         </div>
       </section>
 
       <!-- ============================================== -->
-      <!-- TAB 7: GALLERY                                 -->
+      <!-- TAB 7: GALLERY & MEMORIES                      -->
       <!-- ============================================== -->
       <section id="tab-gallery" class="tab-content hidden space-y-8">
         <div class="text-center max-w-3xl mx-auto">
-          <span class="text-xs font-bold tracking-widest uppercase text-rose-400 bg-rose-500/10 px-3 py-1 rounded-full border border-rose-500/30">Campus Archives & Memories</span>
-          <h2 class="text-2xl sm:text-4xl font-bold font-cinzel text-white mt-2">Photo Gallery</h2>
-          <p class="text-xs sm:text-sm text-slate-400 mt-2">Archival photographs from JNV Gauriganj. Click on any picture to view in high resolution.</p>
+          <span class="text-xs font-bold tracking-widest uppercase text-rose-400 bg-rose-500/10 px-3 py-1 rounded-full border border-rose-500/30">Campus Archives & Reunion Memories</span>
+          <h2 class="text-2xl sm:text-4xl font-bold font-cinzel text-white mt-2">Gallery & Memories</h2>
+          <p class="text-xs sm:text-sm text-slate-400 mt-2">Archival photographs and cherished reunion glimpses from JNV Gauriganj. Click on any picture to view in high resolution.</p>
         </div>
 
         <!-- Alumni Meet 2025 Photos Grid -->
@@ -1252,7 +1238,7 @@
           </div>
         </div>
 
-        <!-- Campus Archival Photos -->
+        <!-- Campus Archival Photos & Landmark Architecture -->
         <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8">
           <div class="flex items-center gap-2 mb-6">
             <span class="px-2.5 py-0.5 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30 text-[10px] font-bold uppercase">Campus Landmarks</span>
@@ -1277,61 +1263,7 @@
               <img src="assets/images/alumni-meet-2026.png" alt="2026 Poster" class="w-full h-48 object-cover group-hover:scale-105 transition duration-500">
               <div class="p-4 bg-slate-900">
                 <h4 class="font-bold text-white text-sm">4th Annual Meet 2026 Poster</h4>
-                <p class="text-[11px] text-slate-400 mt-1">Official Invitation - 13 December 2026</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ============================================== -->
-      <!-- TAB 8: MEET MEMORIES                           -->
-      <!-- ============================================== -->
-      <section id="tab-memories" class="tab-content hidden space-y-8">
-        <div class="text-center max-w-3xl mx-auto">
-          <span class="text-xs font-bold tracking-widest uppercase text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/30">Alumni Meet Memories</span>
-          <h2 class="text-2xl sm:text-4xl font-bold font-cinzel text-white mt-2">Grand Reunion Gallery</h2>
-          <p class="text-xs sm:text-sm text-slate-400 mt-2">Relive the beautiful moments from our past alumni meets. Click on any photo to view full size.</p>
-        </div>
-
-        <!-- 2025 Alumni Meet Grid -->
-        <div class="bg-gradient-to-r from-amber-950/30 via-slate-900 to-slate-950 border border-amber-600/30 rounded-3xl p-6 sm:p-8">
-          <div class="flex items-center gap-2 mb-6">
-            <span class="px-3 py-1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] font-bold uppercase tracking-wider">Alumni Meet 2025</span>
-            <span class="text-xs text-amber-400 font-semibold">Glimpses from the Grand Reunion</span>
-          </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div class="rounded-2xl overflow-hidden border border-slate-700 group cursor-pointer" onclick="openImageModal('assets/images/meet2025-1.jpg', 'Alumni Meet 2025 - Batchmates Reunion at JNV Gauriganj')">
-              <img src="assets/images/meet2025-1.jpg" alt="Alumni Meet 2025" class="w-full h-64 sm:h-80 object-cover group-hover:scale-105 transition duration-500">
-              <div class="bg-slate-900 p-3 text-xs text-slate-400">Alumni Meet 2025 - Batchmates Reunion</div>
-            </div>
-            <div class="rounded-2xl overflow-hidden border border-slate-700 group cursor-pointer" onclick="openImageModal('assets/images/meet2025-2.jpg', 'Alumni Meet 2025 - Group Photo with Families')">
-              <img src="assets/images/meet2025-2.jpg" alt="Alumni Meet 2025" class="w-full h-64 sm:h-80 object-cover group-hover:scale-105 transition duration-500">
-              <div class="bg-slate-900 p-3 text-xs text-slate-400">Alumni Meet 2025 - Group Photo Session</div>
-            </div>
-            <div class="rounded-2xl overflow-hidden border border-slate-700 group cursor-pointer" onclick="openImageModal('assets/images/meet2025-3.jpg', 'Alumni Meet 2025 - Cultural Program and Dinner')">
-              <img src="assets/images/meet2025-3.jpg" alt="Alumni Meet 2025" class="w-full h-64 sm:h-80 object-cover group-hover:scale-105 transition duration-500">
-              <div class="bg-slate-900 p-3 text-xs text-slate-400">Alumni Meet 2025 - Cultural Evening</div>
-            </div>
-            <div class="rounded-2xl overflow-hidden border border-slate-700 group cursor-pointer" onclick="openImageModal('assets/images/meet2025-4.jpg', 'Alumni Meet 2025 - Campus Walk')">
-              <img src="assets/images/meet2025-4.jpg" alt="Alumni Meet 2025" class="w-full h-64 sm:h-80 object-cover group-hover:scale-105 transition duration-500">
-              <div class="bg-slate-900 p-3 text-xs text-slate-400">Alumni Meet 2025 - Campus Memories</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 2026 Meet Poster -->
-        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8">
-          <div class="flex items-center gap-2 mb-6">
-            <span class="px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] font-bold uppercase">Upcoming Meet</span>
-            <h3 class="text-sm font-bold text-white">4th Annual Mega Meet - 13 December 2026</h3>
-          </div>
-          <div class="flex justify-center">
-            <div class="max-w-sm rounded-2xl overflow-hidden border border-slate-700 group cursor-pointer" onclick="openImageModal('assets/images/alumni-meet-2026.png', '4th Annual Alumni Meet 2026 Official Invitation')">
-              <img src="assets/images/alumni-meet-2026.png" alt="2026 Alumni Meet" class="w-full object-cover group-hover:scale-105 transition duration-500">
-              <div class="bg-slate-900 p-4 text-center">
-                <h4 class="font-bold text-white text-sm">4th Annual Meet 2026</h4>
-                <p class="text-[11px] text-amber-400">13 December 2026 | Hosted by 1996 Batch</p>
+                <p class="text-[11px] text-slate-400 mt-1">Official Invitation - 13 December 2026 | Hosted by 1996 Batch</p>
               </div>
             </div>
           </div>
@@ -1365,6 +1297,21 @@
           </div>
         </div>
         <div id="adminQueueList" class="space-y-4"></div>
+
+        <!-- ALUMNI SAHAYATA & GRIEVANCE HELP DESK QUEUE -->
+        <div class="bg-slate-900 border border-cyan-500/30 p-6 rounded-3xl mt-8">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div>
+              <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-cyan-500/15 border border-cyan-500/30 text-cyan-300 text-[10px] font-bold mb-1">
+                <span>🛡️</span> <span>Help Desk Administration</span>
+              </div>
+              <h2 class="text-xl font-bold font-cinzel text-white">Alumni Sahayata & Grievance Help Desk Queue</h2>
+              <p class="text-xs text-slate-400 mt-0.5">Track, audit, escalate, and resolve fraternity assistance requests, medical emergencies, and submitted issues.</p>
+            </div>
+            <span id="pendingHelpCountText" class="px-2.5 py-1 rounded bg-cyan-500/20 text-cyan-300 font-bold text-xs border border-cyan-500/40">3 Active Tickets</span>
+          </div>
+        </div>
+        <div id="adminHelpDeskList" class="space-y-4"></div>
 
         <!-- ALUMNI LEADERSHIP & ROLE GOVERNANCE (Admin assigns Host/Moderator, Host assigns Moderator) -->
         <div class="bg-slate-900 border border-amber-500/30 p-6 rounded-3xl mt-8 space-y-4">
@@ -1943,8 +1890,19 @@
             <input type="text" id="tchPost" required placeholder="e.g. PGT Chemistry / Principal / PET / Warden" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">
           </div>
           <div>
-            <label class="block text-slate-300 mb-1 font-semibold">Subject / Department *</label>
-            <input type="text" id="tchSubject" required placeholder="e.g. Chemistry / Hindi / Physical Education" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">
+            <label class="block text-slate-300 mb-1 font-semibold">Academic Stream / Department *</label>
+            <select id="tchSubject" required class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">
+              <option value="Science (Physics / Chemistry / Biology)">Science (Physics / Chemistry / Biology)</option>
+              <option value="Mathematics">Mathematics</option>
+              <option value="Social Science & Humanities (History / Geography / Civics / Economics)">Social Science & Humanities (History / Geography / Civics / Economics)</option>
+              <option value="Languages (Hindi / English / Sanskrit)">Languages (Hindi / English / Sanskrit)</option>
+              <option value="Commerce (Accountancy / Business Studies)">Commerce (Accountancy / Business Studies)</option>
+              <option value="Computer Science & IT">Computer Science & IT</option>
+              <option value="Physical Education & Sports (PET)">Physical Education & Sports (PET)</option>
+              <option value="Art, Music & Vocational Crafts">Art, Music & Vocational Crafts</option>
+              <option value="School Administration & Leadership">School Administration & Leadership</option>
+              <option value="Campus Care & Pastoral Staff">Campus Care & Pastoral Staff (Mess / Matron / Medical)</option>
+            </select>
           </div>
         </div>
 
@@ -1954,15 +1912,16 @@
             <input type="text" id="tchTenure" required placeholder="e.g. 1990 – 2008 (18 Years)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">
           </div>
           <div>
-            <label class="block text-slate-300 mb-1 font-semibold">House Master Affiliation</label>
+            <label class="block text-slate-300 mb-1 font-semibold">Campus Staff Role / House Affiliation</label>
             <select id="tchHouse" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">
-              <option value="Aravali">Aravali House</option>
-              <option value="Shivalik">Shivalik House</option>
-              <option value="Udaygiri">Udaygiri House</option>
-              <option value="Neelgiri">Neelgiri House</option>
-              <option value="Priyadarshni / Sarojini">Priyadarshni / Sarojini (Girls Wing)</option>
-              <option value="Administration">Administration / Principal</option>
-              <option value="All">All Houses / General Pastoral</option>
+              <option value="Faculty Campus Staff">Faculty Campus Staff (General Academic)</option>
+              <option value="House Master - Aravali">House Master - Aravali House</option>
+              <option value="House Master - Shivalik">House Master - Shivalik House</option>
+              <option value="House Master - Udaygiri">House Master - Udaygiri House</option>
+              <option value="House Master - Neelgiri">House Master - Neelgiri House</option>
+              <option value="House Mistress - Priyadarshni / Sarojini">House Mistress - Priyadarshni / Sarojini</option>
+              <option value="Administration">Institutional Leadership / Principal Office</option>
+              <option value="Campus Support Staff">Campus Support Staff (Non-Teaching / Mess / Hostel)</option>
             </select>
           </div>
         </div>
@@ -2087,15 +2046,15 @@
           <div class="px-4 py-3 bg-slate-950/60 border-b border-slate-800/80 flex items-center justify-between flex-shrink-0">
             <div class="flex items-center gap-3">
               <div id="chatHeaderAvatar" class="w-10 h-10 rounded-xl bg-amber-500/15 border border-amber-500/30 font-bold text-amber-400 flex items-center justify-center text-xs flex-shrink-0">
-                SS
+                💬
               </div>
               <div class="min-w-0">
-                <h4 id="chatHeaderName" class="text-sm font-bold text-white font-cinzel truncate">Smriti Singh</h4>
-                <p id="chatHeaderMeta" class="text-[10px] text-amber-300 truncate">Batch of 1996 • Host Committee</p>
+                <h4 id="chatHeaderName" class="text-sm font-bold text-white font-cinzel truncate">Direct Alumni Messaging</h4>
+                <p id="chatHeaderMeta" class="text-[10px] text-amber-300 truncate">Encrypted Peer-to-Peer Fraternity Channel</p>
               </div>
             </div>
             <span class="text-[9px] px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-bold flex items-center gap-1">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Verified Alumnus
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Verified Channel
             </span>
           </div>
 
@@ -2128,37 +2087,38 @@
   <div id="newChatSelectorModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl relative">
       <div class="flex items-center justify-between border-b border-slate-800 pb-2">
-        <h3 class="text-sm font-bold font-cinzel text-white">Select Alumnus to Message</h3>
+        <h3 class="text-sm font-bold font-cinzel text-white">Select Contact to Message</h3>
         <button onclick="closeNewChatSelector()" class="text-slate-400 hover:text-white text-base font-bold">&times;</button>
       </div>
-      <p class="text-xs text-slate-300">Choose any verified alumnus from the directory to start a private conversation:</p>
+      <p class="text-xs text-slate-300">Choose any verified alumnus or Gurujan from the directory to start a private conversation:</p>
       <div class="max-h-60 overflow-y-auto space-y-1.5" id="newChatDirectoryList">
-        <button onclick="startChatWithSelectedAlumnus('Smriti Singh')" class="w-full text-left p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 text-xs flex items-center justify-between">
-          <span class="text-white font-bold">Smriti Singh (1996 • Shivalik)</span>
-          <span class="text-amber-400">Host Admin</span>
+        <button onclick="startChatWithSelectedAlumnus('Ashfaq Ahmed')" class="w-full text-left p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-amber-500/40 text-xs flex items-center justify-between">
+          <span class="text-white font-bold">Ashfaq Ahmed (2005 • Aravali)</span>
+          <span class="text-amber-400 font-bold">Super Admin</span>
         </button>
-        <button onclick="startChatWithSelectedAlumnus('Dr. Amitabh Singh')" class="w-full text-left p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 text-xs flex items-center justify-between">
-          <span class="text-white font-bold">Dr. Amitabh Singh (1998 • Shivalik)</span>
-          <span class="text-amber-400">Super Admin</span>
+        <button onclick="startChatWithSelectedAlumnus('Mr. P. K. Singh')" class="w-full text-left p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 text-xs flex items-center justify-between">
+          <span class="text-white font-bold">Mr. P. K. Singh (Principal)</span>
+          <span class="text-amber-400 font-medium">Revered Faculty</span>
         </button>
-        <button onclick="startChatWithSelectedAlumnus('Ashfaq Ahmed')" class="w-full text-left p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 text-xs flex items-center justify-between">
-          <span class="text-white font-bold">Ashfaq Ahmed (2008 • Aravali)</span>
-          <span class="text-amber-400">Tech Lead</span>
+        <button onclick="startChatWithSelectedAlumnus('Mr. N. N. Tripathi')" class="w-full text-left p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 text-xs flex items-center justify-between">
+          <span class="text-white font-bold">Mr. N. N. Tripathi (Vice Principal)</span>
+          <span class="text-amber-400 font-medium">Revered Faculty</span>
+        </button>
+        <button onclick="startChatWithSelectedAlumnus('Dr. Jai Krishna Mishra')" class="w-full text-left p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 text-xs flex items-center justify-between">
+          <span class="text-white font-bold">Dr. Jai Krishna Mishra (1993 • First Batch)</span>
+          <span class="text-amber-400 font-medium">Project Director ASL DRDO</span>
         </button>
         <button onclick="startChatWithSelectedAlumnus('Vivek Tiwari')" class="w-full text-left p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 text-xs flex items-center justify-between">
-          <span class="text-white font-bold">Vivek Tiwari (1996 • Aravali)</span>
-          <span class="text-slate-400">Batch 1996 Host</span>
+          <span class="text-white font-bold">Vivek Tiwari (1994 • Aravali)</span>
+          <span class="text-slate-400">MD & CEO Satya MicroCapital</span>
         </button>
         <button onclick="startChatWithSelectedAlumnus('Alok Dubey, IAS')" class="w-full text-left p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 text-xs flex items-center justify-between">
           <span class="text-white font-bold">Alok Dubey, IAS (2007 • Neelgiri)</span>
           <span class="text-slate-400">Civil Services</span>
         </button>
-        <button onclick="startChatWithSelectedAlumnus('Ramesh Yadav')" class="w-full text-left p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 text-xs flex items-center justify-between">
-          <span class="text-white font-bold">Ramesh Yadav (2008 • Shivalik)</span>
-          <span class="text-slate-400">Software Architect</span>
-        </button>
-        <button onclick="startChatWithSelectedAlumnus('Priya Mishra')" class="w-full text-left p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 text-xs flex items-center justify-between">
-          <span class="text-white font-bold">Priya Mishra (2014 • Aravali)</span>
+      </div>
+    </div>
+  </div>
           <span class="text-slate-400">Moderator</span>
         </button>
       </div>

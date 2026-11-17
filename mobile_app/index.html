@@ -585,18 +585,18 @@
       <!-- Mobile Active Partner Bar -->
       <div class="flex items-center justify-between bg-slate-950/80 p-2.5 rounded-2xl border border-slate-800 flex-shrink-0">
         <div class="flex items-center gap-2">
-          <div id="mActivePartnerAvatar" class="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-300 font-bold flex items-center justify-center text-xs">SS</div>
+          <div id="mActivePartnerAvatar" class="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-300 font-bold flex items-center justify-center text-xs">AA</div>
           <div>
-            <span id="mActivePartnerName" class="text-xs font-bold text-white block leading-none">Smriti Singh</span>
-            <span id="mActivePartnerMeta" class="text-[9px] text-amber-400">Batch of 1996 • Host Committee</span>
+            <span id="mActivePartnerName" class="text-xs font-bold text-white block leading-none">Ashfaq Ahmed</span>
+            <span id="mActivePartnerMeta" class="text-[9px] text-amber-400">Batch of 2005 • Super Admin</span>
           </div>
         </div>
         <select id="mChatPartnerSelect" onchange="switchMobileChatPartner(this.value)" class="bg-slate-900 border border-slate-700 text-xs text-white rounded-lg px-2 py-1">
-          <option value="Smriti Singh">Smriti Singh</option>
-          <option value="Dr. Amitabh Singh">Dr. Amitabh Singh</option>
-          <option value="Ashfaq Ahmed">Ashfaq Ahmed</option>
-          <option value="Ramesh Yadav">Ramesh Yadav</option>
-          <option value="Priya Mishra">Priya Mishra</option>
+          <option value="Ashfaq Ahmed">Ashfaq Ahmed (Super Admin)</option>
+          <option value="Mr. P. K. Singh">Mr. P. K. Singh (Principal)</option>
+          <option value="Mr. N. N. Tripathi">Mr. N. N. Tripathi (VP)</option>
+          <option value="Dr. Jai Krishna Mishra">Dr. Jai Krishna Mishra (DRDO)</option>
+          <option value="Vivek Tiwari">Vivek Tiwari (CEO)</option>
           <option value="Alok Dubey, IAS">Alok Dubey, IAS</option>
         </select>
       </div>
@@ -996,7 +996,7 @@
 
 
     // ================= MOBILE CHAT & HELPDESK HANDLERS =================
-    let mActiveChatPartner = "Smriti Singh";
+    let mActiveChatPartner = "Ashfaq Ahmed";
 
     function toggleMobileChatSheet() {
       const sheet = document.getElementById('mChatSheet');

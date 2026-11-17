@@ -494,6 +494,34 @@ const mConvs = getChatConversations();
 assert(mConvs.some(c => c.partnerName === 'Mr. P. K. Singh'), 'Alumnus receives Guru Ashirwad blessing in inbox');
 
 // ----------------------------------------------------
+// TEST SUITE 12: 17 NOTABLE ALUMNI, ADMIN SAHAYATA QUEUE & LIGHT SKY CONTRAST
+// ----------------------------------------------------
+console.log('\n--- TEST SUITE 12: 17 NOTABLE ALUMNI, ADMIN SAHAYATA QUEUE & LIGHT SKY CONTRAST ---');
+
+assert(Array.isArray(NOTABLE_ALUMNI_LIST) && NOTABLE_ALUMNI_LIST.length === 17, 'Full 17 Notable Alumni registered in Hall of Fame');
+const jkm = NOTABLE_ALUMNI_LIST.find(a => a.name.includes('Jai Krishna Mishra'));
+assert(jkm && jkm.batch.includes('1993') && jkm.role.includes('DRDO'), 'Dr. Jai Krishna Mishra (1993, DRDO ASL) verified');
+const up = NOTABLE_ALUMNI_LIST.find(a => a.name.includes('Utkrisht Pandey'));
+assert(up && up.intro.includes('Rishigram Organics') && up.role.includes('SSB'), 'Utkrisht Pandey (SSB & Rishigram Organics) verified');
+const smt = NOTABLE_ALUMNI_LIST.find(a => a.name.includes('Shailendra Mohan Tripathi'));
+assert(smt && smt.batch === '1997' && smt.role.includes('KGMU'), 'Dr. Shailendra Mohan Tripathi (1997, KGMU & Univ of Aberdeen) verified');
+const ck = NOTABLE_ALUMNI_LIST.find(a => a.name.includes('Chandan Kumar'));
+assert(ck && ck.batch === '2004' && ck.role.includes('Shaurya Chakra'), 'Chandan Kumar (2004, Shaurya Chakra) verified');
+const sss = NOTABLE_ALUMNI_LIST.find(a => a.name.includes('Satyendra Singh Satya'));
+assert(sss && sss.batch === '1998' && sss.link.includes('cybr0x'), 'Satyendra Singh Satya (cybr0x, 1998) verified');
+
+// Sole Super Admin Ashfaq Ahmed Batch & Photo
+const ashfaqAdmin = getAllUsers().find(u => u.email === 'ashfaque15tr@gmail.com');
+assert(ashfaqAdmin && ashfaqAdmin.batch === 2005 && ashfaqAdmin.role === 'admin', 'Ashfaq Ahmed sole Super Admin verified as Batch of 2005');
+assert(ashfaqAdmin.photo === 'assets/images/ashfaq-ahmed.png', 'Ashfaq Ahmed photo correctly mapped to assets/images/ashfaq-ahmed.png');
+
+// Admin Sahayata Queue & Functions
+assert(indexHtml.includes('adminHelpDeskList') && indexHtml.includes('Alumni Sahayata & Grievance Help Desk Queue'), 'index.html contains Admin Sahayata & Grievance Help Desk Queue');
+assert(typeof renderAdminHelpDeskQueue === 'function', 'renderAdminHelpDeskQueue function exists');
+assert(typeof openNotableMessageModal === 'function', 'openNotableMessageModal function exists');
+assert(stylesCss.includes('html[data-theme="sky"] [class*="bg-slate-950"]') && stylesCss.includes('background-image: none !important'), 'styles.css universally enforces high contrast and strips dark gradients in Light Sky mode');
+
+// ----------------------------------------------------
 // TEST SUMMARY
 // ----------------------------------------------------
 console.log('\n====================================================');

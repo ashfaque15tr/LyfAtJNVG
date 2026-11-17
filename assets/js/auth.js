@@ -15,7 +15,7 @@ const DEFAULT_ACCOUNTS = [
     email: "ashfaque15tr@gmail.com",
     password: "AAaa11!!",
     name: "Ashfaq Ahmed",
-    batch: 2008,
+    batch: 2005,
     house: "Arawali",
     role: "admin", // Permanent Super Admin
     roleTitle: "Super Admin",
@@ -25,6 +25,8 @@ const DEFAULT_ACCOUNTS = [
     profession: "Lead Enterprise & Systems Solutions Architect",
     domain: "Software",
     avatar: "AA",
+    photo: "assets/images/ashfaq-ahmed.png",
+    avatarImage: "assets/images/ashfaq-ahmed.png",
     joinedDate: "Permanent Platform Super Admin"
   },
   {
@@ -94,23 +96,6 @@ const DEFAULT_ACCOUNTS = [
     domain: "Software",
     avatar: "RY",
     joinedDate: "Batch of 2008"
-  },
-  {
-    id: "usr-ashfaq-1",
-    email: "ashfaq@jnvalumni.org",
-    password: "password123",
-    name: "Ashfaq Ahmed",
-    batch: 2008,
-    house: "Arawali",
-    role: "member",
-    roleTitle: "Lead Enterprise & Systems Solutions Architect",
-    status: "approved",
-    phone: "+91 9876501234",
-    city: "Lucknow / New Delhi",
-    profession: "Lead Enterprise Solutions Architect",
-    domain: "Software",
-    avatar: "AA",
-    joinedDate: "Batch of 2008 • Technology Committee Lead"
   },
   {
     id: "usr-mod-2005",
@@ -221,7 +206,12 @@ function initUsersDB() {
       }
     });
 
-    // Guarantee ashfaque15tr@gmail.com ALWAYS holds permanent Super Admin credentials
+    // Guarantee ashfaque15tr@gmail.com ALWAYS holds permanent Super Admin credentials (Batch 2005)
+    // Remove any legacy duplicate 2008 entry
+    const beforeCount = existing.length;
+    existing = existing.filter(u => u.id !== 'usr-ashfaq-1' && (u.email || '').toLowerCase() !== 'ashfaq@jnvalumni.org');
+    if (existing.length !== beforeCount) modified = true;
+
     let ashfaq = existing.find(u => (u.email || '').toLowerCase() === 'ashfaque15tr@gmail.com');
     if (!ashfaq) {
       ashfaq = {
@@ -229,7 +219,7 @@ function initUsersDB() {
         email: "ashfaque15tr@gmail.com",
         password: "AAaa11!!",
         name: "Ashfaq Ahmed",
-        batch: 2008,
+        batch: 2005,
         house: "Arawali",
         role: "admin",
         roleTitle: "Super Admin",
@@ -239,16 +229,21 @@ function initUsersDB() {
         profession: "Lead Enterprise & Systems Solutions Architect",
         domain: "Software",
         avatar: "AA",
+        photo: "assets/images/ashfaq-ahmed.png",
+        avatarImage: "assets/images/ashfaq-ahmed.png",
         joinedDate: "Permanent Platform Super Admin"
       };
       existing.unshift(ashfaq);
       modified = true;
     } else {
-      if (ashfaq.role !== 'admin' || ashfaq.password !== 'AAaa11!!' || ashfaq.status !== 'approved') {
+      if (ashfaq.batch !== 2005 || ashfaq.role !== 'admin' || ashfaq.password !== 'AAaa11!!' || ashfaq.status !== 'approved' || !ashfaq.photo) {
+        ashfaq.batch = 2005;
         ashfaq.role = 'admin';
         ashfaq.roleTitle = 'Super Admin';
         ashfaq.password = 'AAaa11!!';
         ashfaq.status = 'approved';
+        ashfaq.photo = 'assets/images/ashfaq-ahmed.png';
+        ashfaq.avatarImage = 'assets/images/ashfaq-ahmed.png';
         modified = true;
       }
     }
@@ -347,7 +342,7 @@ function loginUser(email, password, remember = true) {
         email: "ashfaque15tr@gmail.com",
         password: "AAaa11!!",
         name: "Ashfaq Ahmed",
-        batch: 2008,
+        batch: 2005,
         house: "Arawali",
         role: "admin",
         roleTitle: "Super Admin",
