@@ -12,7 +12,7 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="Life@jnvg"
+        android:label="JNVGFamily"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
@@ -20,7 +20,7 @@
 
         <activity
             android:name=".MainActivity"
-            android:label="Life@jnvg"
+            android:label="JNVGFamily"
             android:theme="@style/AppTheme.NoActionBarLaunch"
             android:launchMode="singleTask"
             android:exported="true"
@@ -37,7 +37,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https" android:host="lyfjnvg.in" />
+                <data android:scheme="https" android:host="jnvgfamily.in" />
             </intent-filter>
 
         </activity>

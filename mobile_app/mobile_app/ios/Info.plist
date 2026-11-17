@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Life@jnvg</string>
+	<string>JNVGFamily</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -13,7 +13,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Life@jnvg</string>
+	<string>JNVGFamily</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -39,7 +39,7 @@
 
 	<!-- App Store Mandatory Privacy Usage Descriptions -->
 	<key>NSCameraUsageDescription</key>
-	<string>Life@jnvg needs camera access so you can photograph and share campus reunions, batches, and memory wall stories.</string>
+	<string>JNVGFamily needs camera access so you can photograph and share campus reunions, batches, and memory wall stories.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Select and upload memorable nostalgic batch pictures to the alumni community memory feed.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>

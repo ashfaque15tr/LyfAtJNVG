@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Life@jnvg • Jawahar Navodaya Vidyalaya Alumni App • Gauriganj</title>
+  <title>JNVGFamily • Jawahar Navodaya Vidyalaya Alumni App • Gauriganj</title>
   
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -81,7 +81,7 @@
         <img src="../assets/images/logo.jpeg" alt="NVS" class="w-full h-full object-contain">
       </div>
       <div>
-        <h1 class="text-xs font-bold leading-tight text-white"><span class="font-sans font-extrabold text-amber-400">Life@jnvg</span> <span class="font-cinzel text-slate-100">• Alumni</span></h1>
+        <h1 class="text-xs font-bold leading-tight text-white"><span class="font-sans font-extrabold text-amber-400">JNVGFamily</span> <span class="font-cinzel text-slate-100">• Alumni</span></h1>
         <p class="text-[10px] text-slate-400">Gauriganj, Sultanpur / Amethi • <span class="text-amber-400 font-hindi">"हमी नवोदय हो"</span></p>
       </div>
     </div>
@@ -242,7 +242,7 @@
 
       <!-- Commemorative Poster Preview -->
       <div class="rounded-2xl overflow-hidden border border-slate-800 bg-slate-950">
-        <img src="../assets/images/2026 alumini meet.png" alt="Meet Poster" class="w-full h-auto object-contain block">
+        <img src="../assets/images/alumni-meet-2026.png" alt="Meet Poster" class="w-full h-auto object-contain block">
         <div class="p-2.5 bg-slate-900 text-[11px] text-slate-300 flex justify-between items-center">
           <span>Hosted by 4th Batch (1989-1996)</span>
           <span class="text-amber-400 font-bold">13 Dec 2026</span>
@@ -255,20 +255,20 @@
         <form onsubmit="handleMobileRsvp(event)" class="space-y-2.5 text-xs">
           <div>
             <label class="block text-slate-400 text-[10px] mb-1">Your Name *</label>
-            <input type="text" id="mRsvpName" required value="Ramesh Yadav" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">
+            <input type="text" id="mRsvpName" required placeholder="e.g. Ramesh Yadav" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white placeholder-slate-500">
           </div>
           <div class="grid grid-cols-2 gap-2">
             <div>
               <label class="block text-slate-400 text-[10px] mb-1">Batch *</label>
-              <input type="number" id="mRsvpBatch" required value="2008" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono">
+              <input type="number" id="mRsvpBatch" required placeholder="e.g. 2008" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono placeholder-slate-500">
             </div>
             <div>
               <label class="block text-slate-400 text-[10px] mb-1">House *</label>
               <select id="mRsvpHouse" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-2 py-2 text-white">
-                <option>Aravali</option>
-                <option selected>Shivalik</option>
-                <option>Udaygiri</option>
-                <option>Neelgiri</option>
+                <option value="Arawali">Arawali</option>
+                <option value="Shivalik" selected>Shivalik</option>
+                <option value="Udaigiri">Udaigiri</option>
+                <option value="Nilgiri">Nilgiri</option>
               </select>
             </div>
           </div>
@@ -361,7 +361,7 @@
         <form onsubmit="handleMobileContribution(event)" class="space-y-2.5 text-xs pt-1">
           <div>
             <label class="block text-slate-400 text-[10px] mb-1">Donor Name *</label>
-            <input type="text" id="mDonorName" required value="Ramesh Yadav" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">
+            <input type="text" id="mDonorName" required placeholder="e.g. Ramesh Yadav" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white placeholder-slate-500">
           </div>
           <div>
             <label class="block text-slate-400 text-[10px] mb-1">UPI Ref / Bank UTR Number * (Mandatory)</label>
@@ -856,21 +856,21 @@
 
         <div>
           <label class="block text-slate-300 mb-0.5 font-semibold">Full Legal Name *</label>
-          <input type="text" id="mRegName" required placeholder="e.g. Vikas Upadhyay" value="Vikas Upadhyay" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white">
+          <input type="text" id="mRegName" required placeholder="e.g. Vikas Upadhyay" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white placeholder-slate-500">
         </div>
 
         <div class="grid grid-cols-2 gap-2">
           <div>
             <label class="block text-slate-300 mb-0.5 font-semibold">Batch Year *</label>
-            <input type="number" id="mRegBatch" min="1986" max="2026" value="2012" required class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white font-mono">
+            <input type="number" id="mRegBatch" min="1986" max="2026" required placeholder="e.g. 2012" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white font-mono placeholder-slate-500">
           </div>
           <div>
             <label class="block text-slate-300 mb-0.5 font-semibold">House *</label>
             <select id="mRegHouse" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white">
-              <option value="Aravali">Aravali (Ashok)</option>
-              <option value="Shivalik">Shivalik (Raman)</option>
-              <option value="Udaygiri">Udaygiri (Subhash)</option>
-              <option value="Neelgiri">Neelgiri (Tagore)</option>
+              <option value="Arawali">Arawali (Ashok)</option>
+              <option value="Shivalik">Shivalik (Raman & Shivaji)</option>
+              <option value="Udaigiri">Udaigiri (Subhash)</option>
+              <option value="Nilgiri">Nilgiri (Tagore)</option>
             </select>
           </div>
         </div>
@@ -878,27 +878,27 @@
         <div class="grid grid-cols-2 gap-2">
           <div>
             <label class="block text-slate-300 mb-0.5 font-semibold">WhatsApp / Phone *</label>
-            <input type="tel" id="mRegPhone" required placeholder="9876543210" value="9876543210" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white">
+            <input type="tel" id="mRegPhone" required placeholder="e.g. 9876543210" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white placeholder-slate-500">
           </div>
           <div>
             <label class="block text-slate-300 mb-0.5 font-semibold">Email *</label>
-            <input type="email" id="mRegEmail" required placeholder="user@gmail.com" value="vikas@gmail.com" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white">
+            <input type="email" id="mRegEmail" required placeholder="e.g. user@gmail.com" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white placeholder-slate-500">
           </div>
         </div>
 
         <div>
           <label class="block text-slate-300 mb-0.5 font-semibold">Profession / Role *</label>
-          <input type="text" id="mRegRole" required placeholder="e.g. Software Consultant" value="Software Consultant" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white">
+          <input type="text" id="mRegRole" required placeholder="e.g. Software Consultant" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white placeholder-slate-500">
         </div>
 
         <div class="grid grid-cols-2 gap-2">
           <div>
             <label class="block text-slate-300 mb-0.5 font-semibold">Create Password *</label>
-            <input type="password" id="mRegPass" required minlength="6" placeholder="Min 6 chars" value="password123" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white">
+            <input type="password" id="mRegPass" required minlength="6" placeholder="Min 6 chars" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white placeholder-slate-500">
           </div>
           <div>
             <label class="block text-slate-300 mb-0.5 font-semibold">Confirm Password *</label>
-            <input type="password" id="mRegConfPass" required minlength="6" placeholder="Re-type" value="password123" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white">
+            <input type="password" id="mRegConfPass" required minlength="6" placeholder="Re-enter identical password" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white placeholder-slate-500">
           </div>
         </div>
 
@@ -947,7 +947,7 @@
       <!-- Step 1: Input -->
       <div id="mForgotStep1" class="space-y-3 text-xs">
         <p class="text-slate-300 text-[11px]">Enter your registered alumni email or phone number to receive a 2FA reset OTP.</p>
-        <input type="text" id="mForgotIdentifier" required placeholder="e.g. member@jnvalumni.org or 9876543210" value="member@jnvalumni.org" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white">
+        <input type="text" id="mForgotIdentifier" required placeholder="e.g. member@jnvgfamily.in or 9876543210" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white placeholder-slate-500">
         <button type="button" onclick="handleMobileForgotSendOtp()" class="w-full py-3 rounded-xl bg-gold-500 text-slate-950 font-bold text-xs touch-ripple">
           Send 2FA Reset OTP →
         </button>
@@ -955,9 +955,12 @@
 
       <!-- Step 2: Reset Form -->
       <div id="mForgotStep2" class="hidden space-y-3 text-xs">
-        <div class="p-2.5 rounded-xl bg-amber-950/60 border border-amber-500/40 text-[11px] flex items-center justify-between">
-          <span>OTP: <strong id="mForgotOtpDisplay" class="text-gold-400 font-mono text-base font-extrabold ml-1">123456</strong></span>
-          <button type="button" onclick="autoFillMobileForgotOtp()" class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-bold">Auto-Fill</button>
+        <div class="p-2.5 rounded-xl bg-emerald-950/60 border border-emerald-500/40 text-[11px] flex items-center justify-between">
+          <span class="text-emerald-300 flex items-center gap-1.5 font-semibold">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            📲 2FA SMS dispatched to mobile handset
+          </span>
+          <span class="text-[10px] text-slate-400 font-mono">Valid 10m</span>
         </div>
 
         <div>

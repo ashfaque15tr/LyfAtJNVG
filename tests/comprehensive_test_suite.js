@@ -369,13 +369,17 @@ assert(smsDispatch.maskedPhone === '+91 ******3210', 'Phone number correctly mas
 assert(smsDispatch.waUrl.includes('789123'), 'WhatsApp SMS URL payload contains OTP code');
 assert(smsDispatch.smsUrl.includes('sms:+919876543210'), 'Device SMS URL formatted with Indian country code (+91)');
 
-// Verify Notable Alumni Batches & Houses in index.html
+// Verify Notable Alumni Batches, Houses, & Donor's Board in index.html
 const indexHtml = fs.readFileSync(path.join(rootDir, 'index.html'), 'utf8');
-assert(indexHtml.includes('Batch 2007') && indexHtml.includes('Alok Dubey, IAS'), 'Alok Dubey, IAS passout batch verified as 2007');
-assert(indexHtml.includes('Batch 2003') && indexHtml.includes('Ratnesh Tiwari'), 'Ratnesh Tiwari passout batch verified as 2003');
-assert(indexHtml.includes('Ratnesh Tiwari') && indexHtml.includes('Neelgiri House'), 'Ratnesh Tiwari verified as belonging to Neelgiri House');
-assert(indexHtml.includes('Life@jnvg'), 'Life@jnvg branding in index.html header verified');
-assert(smsDispatch.waUrl.includes('Life%40jnvg') || smsDispatch.waUrl.includes('Life@jnvg'), 'WhatsApp 2FA SMS payload contains Life@jnvg branding');
+assert(indexHtml.includes('Alok Dubey, IAS') && indexHtml.includes('2007'), 'Alok Dubey, IAS passout batch verified as 2007');
+assert(indexHtml.includes('Ratnesh Tiwari') && (indexHtml.includes('2003') || indexHtml.includes('1996–2003')), 'Ratnesh Tiwari passout batch verified as 2003');
+assert(indexHtml.includes('Ratnesh Tiwari') && (indexHtml.includes('Nilgiri House') || indexHtml.includes('Neelgiri House')), 'Ratnesh Tiwari verified as belonging to Nilgiri House');
+assert(indexHtml.includes('JNVGFamily'), 'JNVGFamily branding in index.html header verified');
+assert(indexHtml.includes('jnvgfamily.in'), 'jnvgfamily.in domain verified in index.html');
+assert(smsDispatch.waUrl.includes('JNVGFamily'), 'WhatsApp 2FA SMS payload contains JNVGFamily branding');
+assert(indexHtml.includes('donors-board.jpg') && indexHtml.includes('125 KVA Kirloskar'), 'Official Vidyalaya Donor\'s Board plaque & genset grant verified');
+assert(indexHtml.includes('Suggestion / Issue Report') && indexHtml.includes('Site Version: v4.2.0'), 'Footer Suggestion/Issue Report and Site Version verified');
+assert(indexHtml.includes('Arawali') && indexHtml.includes('Udaigiri') && indexHtml.includes('Nilgiri'), 'Official NVS standard house spellings verified (Arawali, Udaigiri, Nilgiri)');
 
 // Verify Gallery Images exist
 assert(fs.existsSync(path.join(rootDir, 'assets', 'images', 'meet2025-1.jpg')), 'Photo Gallery asset meet2025-1.jpg exists');

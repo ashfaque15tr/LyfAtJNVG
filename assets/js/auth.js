@@ -33,7 +33,7 @@ const DEFAULT_ACCOUNTS = [
     password: "password123",
     name: "Smriti Singh",
     batch: 1996,
-    house: "Aravali",
+    house: "Arawali",
     role: "batch_admin", // Batch-Wise Admin for Host 1996 Batch
     roleTitle: "Host Batch Organizer & Admin",
     status: "approved",
@@ -50,7 +50,7 @@ const DEFAULT_ACCOUNTS = [
     password: "password123",
     name: "Priya Mishra",
     batch: 2014,
-    house: "Aravali",
+    house: "Arawali",
     role: "moderator", // Semi-Admin / Content Moderator
     roleTitle: "Content Moderator",
     status: "approved",
@@ -84,7 +84,7 @@ const DEFAULT_ACCOUNTS = [
     password: "password123",
     name: "Ashfaq Ahmed",
     batch: 2008,
-    house: "Aravali",
+    house: "Arawali",
     role: "member",
     roleTitle: "Lead Enterprise & Systems Solutions Architect",
     status: "approved",
@@ -101,7 +101,7 @@ const DEFAULT_ACCOUNTS = [
     password: "password123",
     name: "Utkrisht Pandey",
     batch: 2005,
-    house: "Udaygiri",
+    house: "Udaigiri",
     role: "moderator",
     roleTitle: "Batch 2005 Moderator",
     status: "approved",
@@ -154,7 +154,7 @@ const DEFAULT_ACCOUNTS = [
     password: "password123",
     name: "Mr. S. K. Singh",
     batch: "Alumni In-Charge",
-    house: "Neelgiri",
+    house: "Nilgiri",
     role: "teacher",
     roleTitle: "Alumni Coordinator Teacher",
     designation: "Alumni Liaison Cell In-Charge",
@@ -172,7 +172,7 @@ const DEFAULT_ACCOUNTS = [
     password: "password123",
     name: "Dr. S. K. Chaudhary",
     batch: "1989-2006",
-    house: "Aravali",
+    house: "Arawali",
     role: "teacher",
     roleTitle: "Revered Faculty Luminary & Former Vice Principal",
     designation: "Senior Chemistry Luminary & Former Vice Principal",
@@ -371,9 +371,9 @@ function sendMobileSmsOtp(phoneNumber, otpCode, purpose = 'registration') {
   if (!phoneNumber) return { success: false, message: "Phone number required" };
   const cleanPhone = String(phoneNumber).replace(/\D/g, '').slice(-10);
   const maskedPhone = `+91 ******${cleanPhone.slice(-4)}`;
-  const message = `Your Life@jnvg 2FA Security Verification OTP for JNV Gauriganj is: ${otpCode}. Valid for 10 minutes.`;
+  const message = `Your JNVGFamily 2FA Security Verification OTP for JNV Gauriganj is: ${otpCode}. Valid for 10 minutes.`;
   
-  const waUrl = `https://api.whatsapp.com/send?phone=91${cleanPhone}&text=${encodeURIComponent('Your Life@jnvg 2FA Security Verification OTP for JNV Gauriganj Alumni is: *' + otpCode + '*. Valid for 10 minutes. (Do not share this code).')}`;
+  const waUrl = `https://api.whatsapp.com/send?phone=91${cleanPhone}&text=${encodeURIComponent('Your JNVGFamily 2FA Security Verification OTP for JNV Gauriganj Alumni is: *' + otpCode + '*. Valid for 10 minutes. (Do not share this code).')}`;
   const smsUrl = `sms:+91${cleanPhone}?body=${encodeURIComponent(message)}`;
 
   if (typeof window !== 'undefined') {
@@ -502,7 +502,7 @@ function registerAlumni(userData) {
     password: userData.password,
     name: userData.name.trim(),
     batch: parseInt(userData.batch),
-    house: userData.house || "Aravali",
+    house: userData.house || "Arawali",
     role: "member",
     roleTitle: "Verified Alumnus",
     status: "approved", // By default granted Member role with immediate active access

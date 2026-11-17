@@ -1,7 +1,7 @@
 {
-  "name": "Life@jnvg • JNV Gauriganj Alumni",
-  "short_name": "Life@jnvg",
-  "description": "Official Alumni Association Platform for Jawahar Navodaya Vidyalaya, Gauriganj (Lyfjnvg.in)",
+  "name": "JNVGFamily • JNV Gauriganj Alumni",
+  "short_name": "JNVGFamily",
+  "description": "Official Alumni Association Platform for Jawahar Navodaya Vidyalaya, Gauriganj (jnvgfamily.in)",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#061026",

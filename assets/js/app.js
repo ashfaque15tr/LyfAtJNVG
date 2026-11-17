@@ -33,7 +33,7 @@ const defaultData = {
     { id: "sch-3", time: "11:30 AM", color: "amber", title: "Keynote Address & Teacher Felicitations (गुरु दक्षिणा सम्मान)", desc: "Honoring former gurus & faculty legends, speech by Principal & Alumni President, unveiling Association projects." },
     { id: "sch-4", time: "01:00 PM", color: "emerald", title: "Nostalgic Navodaya Mess Feast (विशेष मेस भोज)", desc: "Traditional hostel feast (puri-chole, kheer, special menu) together in the central dining hall." },
     { id: "sch-5", time: "02:30 PM", color: "purple", title: "Cultural Fiesta & Open Mic (सांस्कृतिक संगम)", desc: "Music, nostalgic hostel skits, poetry, comedy, and batch memories on the open amphitheater stage." },
-    { id: "sch-6", time: "04:30 PM", color: "red", title: "Inter-House Tug-of-War & Friendly Sports", desc: "Aravali, Shivalik, Udaygiri & Neelgiri face-off on the legendary JNV sports ground." },
+    { id: "sch-6", time: "04:30 PM", color: "red", title: "Inter-House Tug-of-War & Friendly Sports", desc: "Arawali, Shivalik, Udaigiri & Nilgiri face-off on the legendary JNV sports ground." },
     { id: "sch-7", time: "06:00 PM", color: "blue", title: "High Tea, Valedictory & Navodaya Pledge", desc: "Batch group photographs, vote of thanks by Host Batch 1996, collective pledge & farewell." }
   ],
 
@@ -65,9 +65,11 @@ const defaultData = {
   ],
 
   notableMessages: [
-    { id: 1, author: "Sh. Vivek Tiwari", batch: 1996, role: "MD & CEO, Satya MicroCapital Ltd.", house: "Aravali", quote: "Navodaya gave us the courage to dream and build without fear. Every milestone in corporate or public leadership is rooted in the resilience learned in those Gauriganj classrooms. Support your junior peers relentlessly." },
-    { id: 2, author: "Alok Dubey, IAS", batch: 2007, role: "Indian Administrative Service", house: "Neelgiri", quote: "Public service is the natural continuum of Navodaya's core pledge 'Pragyanam Brahma'. To all young scholars: stay disciplined, read widely, and let integrity be your defining hallmark." },
-    { id: 3, author: "Dr. Amitabh Singh", batch: 1998, role: "Senior Consultant Neurosurgeon", house: "Shivalik", quote: "Discipline forged on the sports field under Varshney Sir and analytical clarity from Chaudhary Sir became my greatest surgical instruments. Always stay humble and grounded in our Navodaya values." }
+    { id: 1, author: "Sh. Vivek Tiwari", batch: "1987-1994", role: "MD & CEO, Satya MicroCapital Ltd. & Donor", house: "Arawali", quote: "Navodaya gave us the courage to dream and build without fear. Every milestone in corporate or public leadership is rooted in the resilience learned in those Gauriganj classrooms. Support your junior peers relentlessly." },
+    { id: 2, author: "Alok Dubey, IAS", batch: "2007", role: "Indian Administrative Service", house: "Nilgiri", quote: "Public service is the natural continuum of Navodaya's core pledge 'Pragyanam Brahma'. To all young scholars: stay disciplined, read widely, and let integrity be your defining hallmark." },
+    { id: 3, author: "Ratnesh Tiwari", batch: "1996-2003", role: "CEO, Koshish India & Co-Founder Satyapath Foundation", house: "Nilgiri", quote: "True Navodayan spirit is giving back tenfold to the rural soil that nurtured us. Empower the next generation through education, infrastructure, and sustainable community support." },
+    { id: 4, author: "Sh. Rama Sankar Yadav", batch: "1987-1994", role: "Head Master, Model School Pachehari & Donor", house: "Shivalik", quote: "Education is the greatest tool of nation-building. Every Navodayan who teaches and guides a child fulfills the core mission Rajiv Gandhi envisioned for our Vidyalayas." },
+    { id: 5, author: "Dr. Amitabh Singh", batch: "1998", role: "Senior Consultant Neurosurgeon", house: "Shivalik", quote: "Discipline forged on the sports field under Varshney Sir and analytical clarity from Chaudhary Sir became my greatest surgical instruments. Always stay humble and grounded in our Navodaya values." }
   ],
 
   helpRequests: [
@@ -897,7 +899,15 @@ function renderRsvpTable() {
     return;
   }
 
-  const houseColors = { Aravali: 'bg-red-950 text-red-300 border border-red-500/40', Shivalik: 'bg-blue-950 text-blue-300 border border-blue-500/40', Udaygiri: 'bg-yellow-950 text-yellow-300 border border-yellow-500/40', Neelgiri: 'bg-emerald-950 text-emerald-300 border border-emerald-500/40', Nilgiri: 'bg-emerald-950 text-emerald-300 border border-emerald-500/40' };
+  const houseColors = {
+    Arawali: 'bg-red-950 text-red-300 border border-red-500/40',
+    Aravali: 'bg-red-950 text-red-300 border border-red-500/40',
+    Shivalik: 'bg-blue-950 text-blue-300 border border-blue-500/40',
+    Udaigiri: 'bg-yellow-950 text-yellow-300 border border-yellow-500/40',
+    Udaygiri: 'bg-yellow-950 text-yellow-300 border border-yellow-500/40',
+    Nilgiri: 'bg-emerald-950 text-emerald-300 border border-emerald-500/40',
+    Neelgiri: 'bg-emerald-950 text-emerald-300 border border-emerald-500/40'
+  };
 
   AppState.rsvps.forEach(item => {
     const tr = document.createElement('tr');
@@ -1273,10 +1283,15 @@ function handleRegistrationSubmit(e) {
 
   let otpRes = { otp: "123456" };
   if (typeof generateOtp === 'function') { otpRes = generateOtp(email, 'registration'); }
+  if (typeof sendMobileSmsOtp === 'function') {
+    sendMobileSmsOtp(phone, otpRes.otp, 'registration');
+  }
 
-  const promptMsg = `🛡️ [TWO-FACTOR AUTHENTICATION (2FA) VERIFICATION]\n\nA secure 6-digit authentication code has been generated for:\nEmail: ${email}\nWhatsApp / Phone: +91 ${phone}\n\n⚡ Simulated 2FA Code: ${otpRes.otp}\n\nPlease enter the 6-digit verification code to complete registration:`;
+  const cleanPhone = String(phone).replace(/\D/g, '').slice(-10);
+  const maskedPhone = `+91 ******${cleanPhone.slice(-4)}`;
+  const promptMsg = `🛡️ [TWO-FACTOR AUTHENTICATION (2FA) SMS VERIFICATION]\n\nAn encrypted 6-digit verification OTP has been dispatched via SMS to your mobile phone (${maskedPhone}).\n\nPlease check your incoming text messages and enter the 6-digit code below:`;
 
-  const enteredOtp = prompt(promptMsg, otpRes.otp);
+  const enteredOtp = prompt(promptMsg, "");
   if (!enteredOtp) { alert("❌ Registration cancelled. 2FA verification is mandatory to submit alumni applications."); return; }
 
   if (typeof verifyOtp === 'function') {
@@ -1439,8 +1454,24 @@ function renderDirectory(append = false) {
     return;
   }
 
-  const houseStyles = { Aravali: 'bg-red-950 text-red-300 border border-red-800', Shivalik: 'bg-blue-950 text-blue-300 border border-blue-800', Udaygiri: 'bg-yellow-950 text-yellow-300 border border-yellow-800', Neelgiri: 'bg-emerald-950 text-emerald-300 border border-emerald-800', Nilgiri: 'bg-emerald-950 text-emerald-300 border border-emerald-800' };
-  const avatarStyles = { Aravali: 'bg-red-900/40 border-red-500/30 text-red-300', Shivalik: 'bg-blue-900/40 border-blue-500/30 text-blue-300', Udaygiri: 'bg-yellow-900/40 border-yellow-500/30 text-yellow-300', Neelgiri: 'bg-emerald-900/40 border-emerald-500/30 text-emerald-300', Nilgiri: 'bg-emerald-900/40 border-emerald-500/30 text-emerald-300' };
+  const houseStyles = {
+    Arawali: 'bg-red-950 text-red-300 border border-red-800',
+    Aravali: 'bg-red-950 text-red-300 border border-red-800',
+    Shivalik: 'bg-blue-950 text-blue-300 border border-blue-800',
+    Udaigiri: 'bg-yellow-950 text-yellow-300 border border-yellow-800',
+    Udaygiri: 'bg-yellow-950 text-yellow-300 border border-yellow-800',
+    Nilgiri: 'bg-emerald-950 text-emerald-300 border border-emerald-800',
+    Neelgiri: 'bg-emerald-950 text-emerald-300 border border-emerald-800'
+  };
+  const avatarStyles = {
+    Arawali: 'bg-red-900/40 border-red-500/30 text-red-300',
+    Aravali: 'bg-red-900/40 border-red-500/30 text-red-300',
+    Shivalik: 'bg-blue-900/40 border-blue-500/30 text-blue-300',
+    Udaigiri: 'bg-yellow-900/40 border-yellow-500/30 text-yellow-300',
+    Udaygiri: 'bg-yellow-900/40 border-yellow-500/30 text-yellow-300',
+    Nilgiri: 'bg-emerald-900/40 border-emerald-500/30 text-emerald-300',
+    Neelgiri: 'bg-emerald-900/40 border-emerald-500/30 text-emerald-300'
+  };
 
   result.items.forEach(item => {
     const card = document.createElement('div');
@@ -1714,9 +1745,12 @@ function renderTeachers(filter = 'all', searchQuery = '') {
   if (!grid) return;
 
   const houseBadgeStyles = {
+    Arawali: 'bg-rose-950/70 text-rose-300 border border-rose-500/30',
     Aravali: 'bg-rose-950/70 text-rose-300 border border-rose-500/30',
     Shivalik: 'bg-blue-950/70 text-blue-300 border border-blue-500/30',
+    Udaigiri: 'bg-yellow-950/70 text-yellow-300 border border-yellow-500/30',
     Udaygiri: 'bg-yellow-950/70 text-yellow-300 border border-yellow-500/30',
+    Nilgiri: 'bg-emerald-950/70 text-emerald-300 border border-emerald-500/30',
     Neelgiri: 'bg-emerald-950/70 text-emerald-300 border border-emerald-500/30',
     'Priyadarshni / Sarojini': 'bg-purple-950/70 text-purple-300 border border-purple-500/30',
     Administration: 'bg-amber-950/70 text-amber-300 border border-amber-500/30',
@@ -3311,4 +3345,36 @@ function changeUserRole(targetIdentifier, newRole) {
 
   const cleanRoleName = newRole === 'admin' ? 'Super Admin' : newRole === 'host' ? 'Host' : newRole === 'moderator' ? 'Moderator' : newRole === 'teacher' ? 'Revered Gurujan' : 'Member';
   showToast(`Role updated: ${targetDisplayName} is now a ${cleanRoleName}!`);
+}
+
+// Handler for Footer Suggestion & Issue Report Modal
+function handleSuggestionSubmit(e) {
+  e.preventDefault();
+  const cat = document.getElementById('sugCategory') ? document.getElementById('sugCategory').value : 'Suggestion';
+  const name = document.getElementById('sugName') ? document.getElementById('sugName').value.trim() : '';
+  const batch = document.getElementById('sugBatch') ? document.getElementById('sugBatch').value.trim() : '';
+  const contact = document.getElementById('sugContact') ? document.getElementById('sugContact').value.trim() : '';
+  const details = document.getElementById('sugDetails') ? document.getElementById('sugDetails').value.trim() : '';
+
+  const report = {
+    id: `sug-${Date.now()}`,
+    category: cat,
+    name,
+    batch,
+    contact,
+    details,
+    date: new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })
+  };
+
+  try {
+    const list = JSON.parse(localStorage.getItem('JNVG_SUGGESTIONS_ISSUES') || '[]');
+    list.unshift(report);
+    localStorage.setItem('JNVG_SUGGESTIONS_ISSUES', JSON.stringify(list));
+  } catch (err) {
+    console.warn("Could not save suggestion locally:", err);
+  }
+
+  if (typeof closeModal === 'function') closeModal('suggestionIssueModal');
+  alert(`✓ Thank you ${name}! Your ${cat.toLowerCase()} has been recorded. Our alumni web administration team will review it for Site Version v4.2.1.`);
+  e.target.reset();
 }

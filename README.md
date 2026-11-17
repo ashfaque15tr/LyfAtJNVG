@@ -1,24 +1,24 @@
-# Life@jnvg • Jawahar Navodaya Vidyalaya Alumni Association Platform
-**Official Platform for JNV Gauriganj (Amethi / Sultanpur) • [Lyfjnvg.in](https://lyfjnvg.in)**  
-**Mobile App (Google Play Store & Apple App Store):** `Life@jnvg` (`org.jnvalumni.gauriganj`)
+# JNVGFamily • Jawahar Navodaya Vidyalaya Alumni Association Platform
+**Official Platform for JNV Gauriganj (Amethi / Sultanpur) • [jnvgfamily.in](https://jnvgfamily.in)**  
+**Mobile App (Google Play Store & Apple App Store):** `JNVGFamily` (`org.jnvalumni.gauriganj`)
 
 Motto: **।। प्रज्ञानं ब्रह्म ।।** • *"हमी नवोदय हो"* (Hami Navodaya Ho)  
 Established: **1986** (Pioneer 1st Batch Admitted 1986, Passed out 1993) • Vidyalaya (School Code: 74003)
 
 ---
 
-## 🏛️ Authentic 4 House System & Color Coding
+## 🏛️ Authentic 4 House System & Color Coding (NVS Standard Mapping)
 
 In honour of the heritage of Jawahar Navodaya Vidyalaya, Gauriganj:
 
 | Current House Name | Historical / Old Name | Authentic House Color | Theme & Accents |
 | :--- | :--- | :--- | :--- |
-| **Aravali (अरावली)** | **Ashok House (अशोक)** | **Red** | Crimson / Red (`#dc2626`) |
-| **Shivalik (शिवालिक)** | **Raman House (रमन)** | **Blue** | Royal Blue (`#2563eb`) |
-| **Udaygiri (उदयगिरि)** | **Subhash House (सुभाष)** | **Yellow** | Golden Yellow (`#ca8a04` / `#eab308`) |
-| **Neelgiri (नीलगिरि)** | **Tagore House (टैगोर)** | **Green** | Forest Green (`#16a34a`) |
+| **Arawali (अरावली)** | **Ashok House (अशोक)** | **Red** | Crimson / Red (`#dc2626`) |
+| **Shivalik (शिवालिक)** | **Raman & Shivaji House (रमन और शिवाजी)** | **Blue** | Royal Blue (`#2563eb`) |
+| **Udaigiri (उदयगिरि)** | **Subhash House (सुभाष)** | **Yellow** | Golden Yellow (`#ca8a04` / `#eab308`) |
+| **Nilgiri (नीलगिरि)** | **Tagore House (टैगोर)** | **Green** | Forest Green (`#16a34a`) |
 
-> **Heritage Milestone:** In the founding years, there were previously **Sarojini House** and **Priyadarshini House** for girls, which were subsequently unified into Aravali, Neelgiri, Shivalik, and Udaygiri for complete unity.
+> **Heritage Milestone:** In the founding years, there were previously **Sarojini House** and **Priyadarshini House** for girls, which were subsequently unified into Arawali, Nilgiri, Shivalik, and Udaigiri for complete fraternity and unity.
 
 ---
 

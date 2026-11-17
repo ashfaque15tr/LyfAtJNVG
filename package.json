@@ -1,8 +1,8 @@
 {
   "name": "lyf-at-jnvg",
   "version": "1.0.0",
-  "description": "Life@jnvg - Jawahar Navodaya Vidyalaya Alumni Association Gauriganj Official Platform (Lyfjnvg.in)",
-  "homepage": "https://lyfjnvg.in",
+  "description": "JNVGFamily - Jawahar Navodaya Vidyalaya Alumni Association Gauriganj Official Platform (jnvgfamily.in)",
+  "homepage": "https://jnvgfamily.in",
   "main": "index.html",
   "scripts": {
     "test": "node tests/comprehensive_test_suite.js",
