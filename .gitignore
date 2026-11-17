@@ -9,9 +9,9 @@ cloudflared.exe
 *.exe
 *.dll
 
-# Raw Unoptimized Camera Dumps (>15MB) in Root
-2025 alumini meet*.JPG
-2025 alumini meet*.jpg
+# Raw Unoptimized Camera Dumps (>15MB) in Root only
+/2025 alumini meet*.JPG
+/2025 alumini meet*.jpg
 
 # Logs & Environment
 *.log
@@ -24,6 +24,7 @@ Thumbs.db
 desktop.ini
 
 # Temporary & Scratch Files
+raw_originals_backup/
 scratch/
 .system_generated/
 tmp/

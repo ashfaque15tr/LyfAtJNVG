@@ -358,6 +358,30 @@ assert(mobileHtml.includes('viewport-fit=cover'), 'Mobile App viewport optimized
 assert(zipExists, 'JNV_Alumni_Mobile_App_Bundle.zip packaged & available for app stores');
 
 // ----------------------------------------------------
+// TEST SUITE 9: 2FA MOBILE SMS DISPATCH & NOTABLE ALUMNI
+// ----------------------------------------------------
+console.log('\n--- TEST SUITE 9: 2FA MOBILE SMS DISPATCH & NOTABLE ALUMNI ---');
+
+// Test Mobile SMS OTP Dispatcher
+const smsDispatch = sendMobileSmsOtp('9876543210', '789123', 'registration');
+assert(smsDispatch.success === true, 'Mobile SMS OTP Dispatch returned success');
+assert(smsDispatch.maskedPhone === '+91 ******3210', 'Phone number correctly masked (+91 ******3210)');
+assert(smsDispatch.waUrl.includes('789123'), 'WhatsApp SMS URL payload contains OTP code');
+assert(smsDispatch.smsUrl.includes('sms:+919876543210'), 'Device SMS URL formatted with Indian country code (+91)');
+
+// Verify Notable Alumni Batches in index.html
+const indexHtml = fs.readFileSync(path.join(rootDir, 'index.html'), 'utf8');
+assert(indexHtml.includes('Batch 2007') && indexHtml.includes('Alok Dubey, IAS'), 'Alok Dubey, IAS passout batch verified as 2007');
+assert(indexHtml.includes('Batch 2003') && indexHtml.includes('Ratnesh Tiwari'), 'Ratnesh Tiwari passout batch verified as 2003');
+assert(indexHtml.includes('Lyf@jnvg'), 'Lyf@jnvg lowercase branding in index.html header verified');
+
+// Verify Gallery Images exist
+assert(fs.existsSync(path.join(rootDir, 'assets', 'images', 'meet2025-1.jpg')), 'Photo Gallery asset meet2025-1.jpg exists');
+assert(fs.existsSync(path.join(rootDir, 'assets', 'images', 'meet2025-2.jpg')), 'Photo Gallery asset meet2025-2.jpg exists');
+assert(fs.existsSync(path.join(rootDir, 'assets', 'images', 'meet2025-3.jpg')), 'Photo Gallery asset meet2025-3.jpg exists');
+assert(fs.existsSync(path.join(rootDir, 'assets', 'images', 'meet2025-4.jpg')), 'Photo Gallery asset meet2025-4.jpg exists');
+
+// ----------------------------------------------------
 // TEST SUMMARY
 // ----------------------------------------------------
 console.log('\n====================================================');

@@ -66,7 +66,7 @@ const defaultData = {
 
   notableMessages: [
     { id: 1, author: "Sh. Vivek Tiwari", batch: 1996, role: "MD & CEO, Satya MicroCapital Ltd.", house: "Aravali", quote: "Navodaya gave us the courage to dream and build without fear. Every milestone in corporate or public leadership is rooted in the resilience learned in those Gauriganj classrooms. Support your junior peers relentlessly." },
-    { id: 2, author: "Alok Dubey, IAS", batch: 1994, role: "Indian Administrative Service", house: "Neelgiri", quote: "Public service is the natural continuum of Navodaya's core pledge 'Pragyanam Brahma'. To all young scholars: stay disciplined, read widely, and let integrity be your defining hallmark." },
+    { id: 2, author: "Alok Dubey, IAS", batch: 2007, role: "Indian Administrative Service", house: "Neelgiri", quote: "Public service is the natural continuum of Navodaya's core pledge 'Pragyanam Brahma'. To all young scholars: stay disciplined, read widely, and let integrity be your defining hallmark." },
     { id: 3, author: "Dr. Amitabh Singh", batch: 1998, role: "Senior Consultant Neurosurgeon", house: "Shivalik", quote: "Discipline forged on the sports field under Varshney Sir and analytical clarity from Chaudhary Sir became my greatest surgical instruments. Always stay humble and grounded in our Navodaya values." }
   ],
 
@@ -109,9 +109,9 @@ const defaultData = {
       urgency: "normal",
       targetAmount: null,
       raisedAmount: null,
-      description: "Guidance requested for UPSC Civil Services optional subject strategy (Public Administration & Essay). Successfully connected with senior alumnus Alok Dubey, IAS (Batch 1994) for 1-on-1 mentorship.",
+      description: "Guidance requested for UPSC Civil Services optional subject strategy (Public Administration & Essay). Successfully connected with senior alumnus Alok Dubey, IAS (Batch 2007) for 1-on-1 mentorship.",
       resolutionNotes: [
-        { time: "10 Nov 2026", note: "Tier 1: Batch of 2011 peers connected Anand with Alok Dubey Bhaiya (1994). Strategy session completed." }
+        { time: "10 Nov 2026", note: "Tier 1: Batch of 2011 peers connected Anand with Alok Dubey Bhaiya (2007). Strategy session completed." }
       ],
       date: "10 Nov 2026"
     },
