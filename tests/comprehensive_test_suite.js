@@ -369,11 +369,13 @@ assert(smsDispatch.maskedPhone === '+91 ******3210', 'Phone number correctly mas
 assert(smsDispatch.waUrl.includes('789123'), 'WhatsApp SMS URL payload contains OTP code');
 assert(smsDispatch.smsUrl.includes('sms:+919876543210'), 'Device SMS URL formatted with Indian country code (+91)');
 
-// Verify Notable Alumni Batches in index.html
+// Verify Notable Alumni Batches & Houses in index.html
 const indexHtml = fs.readFileSync(path.join(rootDir, 'index.html'), 'utf8');
 assert(indexHtml.includes('Batch 2007') && indexHtml.includes('Alok Dubey, IAS'), 'Alok Dubey, IAS passout batch verified as 2007');
 assert(indexHtml.includes('Batch 2003') && indexHtml.includes('Ratnesh Tiwari'), 'Ratnesh Tiwari passout batch verified as 2003');
-assert(indexHtml.includes('Lyf@jnvg'), 'Lyf@jnvg lowercase branding in index.html header verified');
+assert(indexHtml.includes('Ratnesh Tiwari') && indexHtml.includes('Neelgiri House'), 'Ratnesh Tiwari verified as belonging to Neelgiri House');
+assert(indexHtml.includes('Life@jnvg'), 'Life@jnvg branding in index.html header verified');
+assert(smsDispatch.waUrl.includes('Life%40jnvg') || smsDispatch.waUrl.includes('Life@jnvg'), 'WhatsApp 2FA SMS payload contains Life@jnvg branding');
 
 // Verify Gallery Images exist
 assert(fs.existsSync(path.join(rootDir, 'assets', 'images', 'meet2025-1.jpg')), 'Photo Gallery asset meet2025-1.jpg exists');

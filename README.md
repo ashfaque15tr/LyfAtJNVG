@@ -1,6 +1,6 @@
-# Lyf@JNVG • Jawahar Navodaya Vidyalaya Alumni Association Platform
+# Life@jnvg • Jawahar Navodaya Vidyalaya Alumni Association Platform
 **Official Platform for JNV Gauriganj (Amethi / Sultanpur) • [Lyfjnvg.in](https://lyfjnvg.in)**  
-**Mobile App (Google Play Store & Apple App Store):** `Lyf@JNVG` (`org.jnvalumni.gauriganj`)
+**Mobile App (Google Play Store & Apple App Store):** `Life@jnvg` (`org.jnvalumni.gauriganj`)
 
 Motto: **।। प्रज्ञानं ब्रह्म ।।** • *"हमी नवोदय हो"* (Hami Navodaya Ho)  
 Established: **1986** (Pioneer 1st Batch Admitted 1986, Passed out 1993) • Vidyalaya (School Code: 74003)
