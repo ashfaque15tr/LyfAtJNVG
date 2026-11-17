@@ -1,0 +1,24 @@
+{
+  "name": "Lyf@JNVG • JNV Gauriganj Alumni",
+  "short_name": "Lyf@JNVG",
+  "description": "Official Alumni Association Platform for Jawahar Navodaya Vidyalaya, Gauriganj (Lyfjnvg.in)",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#061026",
+  "theme_color": "#0c1e4a",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "assets/images/nvs-logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/images/nvs-logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

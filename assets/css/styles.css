@@ -1,0 +1,119 @@
+/* Custom Styles & Overrides for JNV Gauriganj Alumni Platform */
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: #090e1a;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+/* Device Mockup Frame Mode (Simulates Mobile App on Desktop) */
+.mobile-frame-view {
+  max-width: 420px !important;
+  height: 880px !important;
+  border: 12px solid #1e293b !important;
+  border-radius: 44px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  margin: 20px auto !important;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.1) !important;
+  position: relative;
+  background-color: #020617;
+}
+
+.mobile-notch {
+  display: none;
+}
+.mobile-frame-view .mobile-notch {
+  display: block;
+  position: sticky;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150px;
+  height: 22px;
+  background: #1e293b;
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
+  z-index: 9999;
+}
+
+/* Print Specifics for Official Alumni Contribution Receipt */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #printableReceipt, #printableReceipt * {
+    visibility: visible;
+  }
+  #printableReceipt {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 30px;
+    background: #ffffff !important;
+    color: #0f172a !important;
+    box-shadow: none !important;
+    border: 2px solid #0f172a !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* Glassmorphism Accents */
+.glass-panel {
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.gold-glow {
+  box-shadow: 0 0 25px rgba(245, 158, 11, 0.18);
+}
+
+/* Pulse animation for badge */
+@keyframes softPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.02); }
+}
+
+.animate-soft-pulse {
+  animation: softPulse 2.5s infinite ease-in-out;
+}
+
+/* TV News Ticker / Headline Marquee Animation */
+@keyframes tickerScroll {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+.news-ticker-container {
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  width: 100%;
+}
+
+.news-ticker-track {
+  display: inline-block;
+  white-space: nowrap;
+  animation: tickerScroll 24s linear infinite;
+}
+
+.news-ticker-track:hover {
+  animation-play-state: paused;
+}
+

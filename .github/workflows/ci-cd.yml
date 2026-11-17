@@ -1,0 +1,76 @@
+name: JNV Alumni CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+    tags:
+      - 'v*'
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  verify-and-test:
+    name: Automated Verification & Testing
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run Platform Test Suite
+        run: |
+          node tests/comprehensive_test_suite.js
+
+  deploy-github-pages:
+    name: Deploy Production Web Portal (GitHub Pages)
+    needs: verify-and-test
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  build-mobile-bundle:
+    name: Package Mobile App Distribution
+    needs: verify-and-test
+    if: startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v4
+
+      - name: Package Mobile App Distribution Archive
+        run: |
+          cd mobile_app
+          zip -r ../JNV_Alumni_Mobile_App_Bundle.zip . -x "*.DS_Store*"
+
+      - name: Upload Store Distribution Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: JNV_Alumni_Mobile_App_Bundle
+          path: JNV_Alumni_Mobile_App_Bundle.zip

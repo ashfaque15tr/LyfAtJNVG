@@ -1,0 +1,848 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lyf@JNVG • Alumni Portal Login | Lyfjnvg.in</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Yatra+One&family=Rozha+One&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="assets/css/styles.css">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              950: '#030816',
+              900: '#071330',
+              800: '#0e255a',
+              700: '#153a8a',
+            },
+            gold: {
+              400: '#fbbf24',
+              500: '#f59e0b',
+              600: '#d97706',
+            }
+          },
+          fontFamily: {
+            cinzel: ['Cinzel', 'serif'],
+            sans: ['Inter', 'sans-serif'],
+            hindi: ['Yatra One', 'Rozha One', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-gold-500 selection:text-slate-950">
+
+  <!-- Subtle Ambient Glow -->
+  <div class="fixed inset-0 pointer-events-none opacity-20 bg-[radial-gradient(#d97706_1px,transparent_1px)] [background-size:24px_24px]"></div>
+
+  <!-- Header Bar -->
+  <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur px-6 py-4">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <img src="assets/images/logo.jpeg" alt="NVS Crest" class="w-10 h-10 object-contain">
+        <div>
+          <span class="font-cinzel font-bold text-white text-sm sm:text-base tracking-wide block">Lyf@JNVG • JAWAHAR NAVODAYA VIDYALAYA</span>
+          <span class="text-xs text-slate-400">Gauriganj, Sultanpur / Amethi (U.P.) • Official Portal: <strong class="text-amber-400">Lyfjnvg.in</strong></span>
+        </div>
+      </div>
+      <div class="hidden sm:flex items-center gap-2 text-xs text-amber-400 font-hindi">
+        <span>।। प्रज्ञानं ब्रह्म ।।</span>
+        <span>•</span>
+        <span class="italic font-semibold">"हमी नवोदय हो"</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Login & Registration Card Container -->
+  <main class="flex-1 flex items-center justify-center p-4 sm:p-6 my-6 relative z-10">
+    <div class="max-w-5xl w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+
+      <!-- Left: Institutional Heritage & 1-Click Role Switcher -->
+      <div class="lg:col-span-5 bg-gradient-to-b from-brand-900 via-slate-900 to-slate-950 border border-slate-800 rounded-3xl p-6 sm:p-8 flex flex-col justify-between shadow-2xl relative overflow-hidden">
+        
+        <div>
+          <div class="flex items-center gap-2 mb-3">
+            <span class="px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] font-bold uppercase tracking-wider">Verified Alumni Access</span>
+            <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold">2FA Enabled</span>
+          </div>
+          
+          <h2 class="text-2xl sm:text-3xl font-cinzel font-bold text-white tracking-tight leading-tight">
+            Alumni Gateway & Role Access
+          </h2>
+          
+          <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+            Welcome to the official network of JNV Gauriganj. Reconnect with batchmates, participate in the 4th Mega Meet, view audited batch contributions, and cherish institutional memories.
+          </p>
+
+          <!-- 4 Houses Minimal Strip -->
+          <div class="grid grid-cols-4 gap-2 mt-5 text-center text-[10px] font-bold">
+            <div class="p-1.5 rounded-lg bg-red-950/60 border border-red-500/40 text-red-300">Aravali</div>
+            <div class="p-1.5 rounded-lg bg-blue-950/60 border border-blue-500/40 text-blue-300">Shivalik</div>
+            <div class="p-1.5 rounded-lg bg-yellow-950/60 border border-yellow-500/40 text-yellow-300">Udaygiri</div>
+            <div class="p-1.5 rounded-lg bg-emerald-950/60 border border-emerald-500/40 text-emerald-300">Neelgiri</div>
+          </div>
+        </div>
+
+        <!-- 1-Click Role Demonstrator Buttons (For User Testing) -->
+        <div class="mt-8 pt-6 border-t border-slate-800">
+          <span class="text-[11px] font-bold text-amber-400 uppercase tracking-wider block mb-2">⚡ Quick 1-Click Role Login (Demo & Review):</span>
+          
+          <div class="space-y-2">
+            <!-- 1. Super Admin -->
+            <button type="button" onclick="handleQuickLogin('admin')" class="w-full text-left p-2.5 rounded-xl bg-purple-950/40 hover:bg-purple-900/50 border border-purple-500/30 transition flex items-center justify-between group">
+              <div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-xs font-bold text-white">👑 Super Admin</span>
+                  <span class="text-[9px] px-1.5 py-0.2 bg-purple-500 text-slate-950 font-bold rounded">All Controls</span>
+                </div>
+                <span class="text-[10px] text-slate-400">Dr. Amitabh Singh ('98) • Finance, Approvals & Moderation</span>
+              </div>
+              <span class="text-xs text-purple-300 group-hover:translate-x-1 transition font-bold">Log in →</span>
+            </button>
+
+            <!-- 2. Host Batch 1996 Admin -->
+            <button type="button" onclick="handleQuickLogin('batch_admin')" class="w-full text-left p-2.5 rounded-xl bg-amber-950/40 hover:bg-amber-900/50 border border-amber-500/30 transition flex items-center justify-between group">
+              <div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-xs font-bold text-white">🏛️ Host Batch 1996 Admin</span>
+                  <span class="text-[9px] px-1.5 py-0.2 bg-amber-500 text-slate-950 font-bold rounded">Host Organizer</span>
+                </div>
+                <span class="text-[10px] text-slate-400">Smriti Singh ('96) • Host Appeals & Batch 1996 Ledger</span>
+              </div>
+              <span class="text-xs text-amber-300 group-hover:translate-x-1 transition font-bold">Log in →</span>
+            </button>
+
+            <!-- 3. Content Moderator -->
+            <button type="button" onclick="handleQuickLogin('moderator')" class="w-full text-left p-2.5 rounded-xl bg-blue-950/40 hover:bg-blue-900/50 border border-blue-500/30 transition flex items-center justify-between group">
+              <div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-xs font-bold text-white">🛡️ Content Moderator</span>
+                  <span class="text-[9px] px-1.5 py-0.2 bg-blue-500 text-slate-950 font-bold rounded">Semi-Admin</span>
+                </div>
+                <span class="text-[10px] text-slate-400">Priya Mishra ('14) • Memory Wall & Cultural Act Approvals</span>
+              </div>
+              <span class="text-xs text-blue-300 group-hover:translate-x-1 transition font-bold">Log in →</span>
+            </button>
+
+            <!-- 4. Verified Alumni Member -->
+            <button type="button" onclick="handleQuickLogin('member')" class="w-full text-left p-2.5 rounded-xl bg-emerald-950/40 hover:bg-emerald-900/50 border border-emerald-500/30 transition flex items-center justify-between group">
+              <div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-xs font-bold text-white">🎓 Verified Alumni Member</span>
+                  <span class="text-[9px] px-1.5 py-0.2 bg-emerald-500 text-slate-950 font-bold rounded">Member</span>
+                </div>
+                <span class="text-[10px] text-slate-400">Ramesh Yadav ('08) • RSVP, Donate, Stories & Directory</span>
+              </div>
+              <span class="text-xs text-emerald-300 group-hover:translate-x-1 transition font-bold">Log in →</span>
+            </button>
+
+            <!-- 5. Technology Lead Member -->
+            <button onclick="handleQuickLogin('ashfaq@jnvalumni.org', 'password123')" class="w-full text-left p-3 rounded-2xl bg-slate-950/80 hover:bg-slate-800 border border-slate-800 hover:border-amber-500/50 transition flex items-center justify-between group">
+              <div>
+                <span class="text-xs font-bold text-amber-300 block">🚀 Ashfaq Ahmed • Tech Committee Lead</span>
+                <span class="text-[10px] text-slate-400">Batch 2008 • Full Portal, Chat, Helpdesk & Admin Access</span>
+              </div>
+              <span class="text-xs text-amber-300 group-hover:translate-x-1 transition font-bold">Log in →</span>
+            </button>
+
+            <!-- 6. Revered Teacher / Gurujan Login -->
+            <button type="button" onclick="handleQuickLogin('teacher')" class="w-full text-left p-2.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/40 transition flex items-center justify-between group">
+              <div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-xs font-bold text-amber-300">🪔 Revered Gurujan / Faculty</span>
+                  <span class="text-[9px] px-1.5 py-0.2 bg-amber-400 text-slate-950 font-bold rounded">Teacher Login</span>
+                </div>
+                <span class="text-[10px] text-slate-300">Mr. P. K. Singh (Principal) / Dr. S. K. Chaudhary • Memory Wall, Blessings & Posts</span>
+              </div>
+              <span class="text-xs text-amber-300 group-hover:translate-x-1 transition font-bold">Log in →</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right: Actual Login & Registration Forms -->
+      <div class="lg:col-span-7 bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl flex flex-col justify-between">
+        
+        <div>
+          <!-- Tab Navigation Switcher -->
+          <div class="flex items-center border-b border-slate-800 pb-4 mb-6 gap-6">
+            <button type="button" id="tabBtnLogin" onclick="switchAuthTab('login')" class="text-sm font-bold text-white border-b-2 border-gold-500 pb-2 transition flex items-center gap-2">
+              <svg class="w-4 h-4 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/></svg>
+              Alumni Sign In
+            </button>
+            <button type="button" id="tabBtnRegister" onclick="switchAuthTab('register')" class="text-sm font-medium text-slate-400 hover:text-white pb-2 transition flex items-center gap-2">
+              <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
+              Register New Member (2FA)
+            </button>
+          </div>
+
+          <!-- Alert / Status Feedback Box -->
+          <div id="authAlert" class="hidden p-3.5 rounded-2xl mb-4 text-xs font-semibold"></div>
+
+          <!-- ================= 1. SIGN IN FORM ================= -->
+          <form id="loginForm" onsubmit="handleFormLogin(event)" class="space-y-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1.5">Registered Alumni Email *</label>
+              <input type="email" id="loginEmail" required placeholder="e.g. member@jnvalumni.org" value="member@jnvalumni.org" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-500 transition">
+            </div>
+
+            <div>
+              <div class="flex items-center justify-between mb-1.5">
+                <label class="block text-xs font-semibold text-slate-300">Password *</label>
+                <button type="button" onclick="openForgotPasswordModal()" class="text-[11px] text-gold-400 hover:text-gold-300 hover:underline flex items-center gap-1">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
+                  Forgot password?
+                </button>
+              </div>
+              <input type="password" id="loginPassword" required placeholder="••••••••" value="password123" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-500 transition">
+            </div>
+
+            <div class="flex items-center justify-between text-xs text-slate-400 pt-1">
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" id="loginRemember" checked class="rounded border-slate-700 text-gold-500 focus:ring-0">
+                <span>Remember me on this laptop</span>
+              </label>
+              <span class="text-[11px] text-slate-500">2FA Verified Portal</span>
+            </div>
+
+            <div class="pt-2">
+              <button type="submit" class="w-full py-3.5 rounded-xl bg-gold-500 hover:bg-gold-600 text-slate-950 font-bold text-sm shadow-xl shadow-gold-500/20 transition flex items-center justify-center gap-2">
+                <span>Sign In to Alumni Portal</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+              </button>
+            </div>
+          </form>
+
+          <!-- ================= 2. REGISTRATION FORM (With Password Reconfirmation & 2FA OTP) ================= -->
+          <form id="registrationForm" onsubmit="handleFormRegister(event)" class="hidden space-y-3.5 text-xs">
+            
+            <div class="p-3 rounded-xl bg-blue-950/40 border border-blue-800/40 text-blue-300 text-[11px] leading-relaxed flex items-start gap-2">
+              <span class="text-base">🛡️</span>
+              <div>
+                <strong>Two-Factor Authentication & Verification Notice:</strong> Registration requires 2FA OTP verification via email/mobile, followed by verification from the Batch Admin & Super Admin to preserve official directory integrity.
+              </div>
+            </div>
+
+            <!-- Profile Photo Upload -->
+            <div class="flex items-center gap-4 p-3 rounded-2xl bg-slate-950/70 border border-slate-800">
+              <div class="relative w-16 h-16 rounded-full overflow-hidden bg-slate-900 border-2 border-dashed border-amber-500/50 flex items-center justify-center flex-shrink-0 shadow-inner group">
+                <img id="regPhotoPreview" src="" alt="Profile Preview" class="w-full h-full object-cover hidden">
+                <span id="regPhotoPlaceholder" class="text-2xl text-slate-500">📷</span>
+              </div>
+              <div class="flex-1 space-y-1">
+                <label class="block text-slate-200 font-semibold text-xs">Profile Picture <span class="text-slate-400 font-normal">(Optional)</span></label>
+                <div class="flex items-center gap-2">
+                  <label for="regPhotoInput" class="cursor-pointer px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-[11px] font-bold transition">
+                    Choose Photo
+                  </label>
+                  <input type="file" id="regPhotoInput" accept="image/*" class="hidden" onchange="previewRegPhoto(event)">
+                  <button type="button" id="regPhotoRemoveBtn" onclick="removeRegPhoto()" class="hidden text-[11px] text-rose-400 hover:text-rose-300 underline">Remove</button>
+                </div>
+                <p class="text-[10px] text-slate-500">Displayed on your profile, directory card & memory wall</p>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-slate-300 font-semibold mb-1">Full Legal Name *</label>
+              <input type="text" id="regName" required placeholder="e.g. Anand Kumar Maurya" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-gold-500">
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-slate-300 font-semibold mb-1">Passout Batch Year *</label>
+                <input type="number" id="regBatch" required placeholder="e.g. 2011" min="1986" max="2026" value="2011" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-gold-500 font-mono">
+              </div>
+              <div>
+                <label class="block text-slate-300 font-semibold mb-1">House *</label>
+                <select id="regHouse" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-gold-500">
+                  <option value="Aravali">Aravali (Red)</option>
+                  <option value="Shivalik">Shivalik (Blue)</option>
+                  <option value="Udaygiri">Udaygiri (Yellow)</option>
+                  <option value="Neelgiri">Neelgiri (Green)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-slate-300 font-semibold mb-1">WhatsApp / Phone *</label>
+                <input type="tel" id="regPhone" required placeholder="9876543210" value="9876543210" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-gold-500">
+              </div>
+              <div>
+                <label class="block text-slate-300 font-semibold mb-1">Email Address *</label>
+                <input type="email" id="regEmail" required placeholder="name@domain.com" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-gold-500">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-slate-300 font-semibold mb-1">Profession / Role *</label>
+                <input type="text" id="regProfession" required placeholder="e.g. Executive Civil Engineer" value="Executive Civil Engineer" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-gold-500">
+              </div>
+              <div>
+                <label class="block text-slate-300 font-semibold mb-1">Domain *</label>
+                <select id="regDomain" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-gold-500">
+                  <option value="Civil Services">Civil Services / Govt</option>
+                  <option value="Software">Software & Tech</option>
+                  <option value="Defense">Defense & Police</option>
+                  <option value="Medicine">Medicine & Healthcare</option>
+                  <option value="Entrepreneurship">Entrepreneurship / Business</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-slate-300 font-semibold mb-1">Current City / State *</label>
+              <input type="text" id="regCity" required placeholder="e.g. Prayagraj, UP" value="Prayagraj, UP" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-gold-500">
+            </div>
+
+            <!-- Password & Reconfirmation -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+              <div>
+                <label class="block text-slate-300 font-semibold mb-1">Create Password *</label>
+                <input type="password" id="regPassword" required minlength="6" placeholder="Min 6 characters" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-gold-500">
+              </div>
+              <div>
+                <label class="block text-slate-300 font-semibold mb-1">Confirm Password *</label>
+                <input type="password" id="regConfirmPassword" required minlength="6" placeholder="Re-enter identical password" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-gold-500" oninput="checkPasswordMatch()">
+              </div>
+            </div>
+
+            <div id="regPassFeedback" class="hidden text-[11px] font-semibold py-1"></div>
+
+            <div class="pt-2">
+              <button type="submit" id="btnSubmitRegister" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-slate-950 font-bold text-sm shadow-xl transition flex items-center justify-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                <span>Proceed to 2FA OTP Verification</span>
+              </button>
+            </div>
+          </form>
+
+        </div>
+
+        <div class="pt-6 border-t border-slate-800 text-[11px] text-slate-500 text-center">
+          Official Institutional Network • Jawahar Navodaya Vidyalaya, Gauriganj (Amethi / Sultanpur)
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ================= 3. TWO-FACTOR AUTHENTICATION (2FA) OTP MODAL ================= -->
+  <div id="regOtpModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 sm:p-7 space-y-4 shadow-2xl relative">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          </div>
+          <div>
+            <span class="text-[10px] uppercase font-bold text-emerald-400 tracking-wider">Two-Factor Security (2FA)</span>
+            <h3 class="text-base font-bold text-white font-cinzel">Verify Your Identity</h3>
+          </div>
+        </div>
+        <button type="button" onclick="closeRegOtpModal()" class="text-slate-400 hover:text-white p-1 rounded-lg">✕</button>
+      </div>
+
+      <p class="text-xs text-slate-300 leading-relaxed">
+        We have generated a 6-digit authentication OTP to verify your alumni registration for <strong id="regOtpTargetEmail" class="text-amber-400 font-mono">user@example.com</strong> and WhatsApp <strong id="regOtpTargetPhone" class="text-amber-400 font-mono">+91 9876543210</strong>.
+      </p>
+
+      <!-- Demo Notification Toast (Simulating SMS/Email Gateway) -->
+      <div class="p-3 rounded-2xl bg-gradient-to-r from-amber-950/60 to-slate-900 border border-amber-500/40 space-y-2">
+        <div class="flex items-center justify-between text-[11px]">
+          <span class="font-bold text-amber-300 flex items-center gap-1">
+            <span>📲</span> Simulated SMS & Email Dispatch:
+          </span>
+          <span class="text-[10px] text-slate-400 font-mono" id="regOtpTimer">Expires in 10:00</span>
+        </div>
+        <div class="flex items-center justify-between bg-slate-950/80 p-2 rounded-xl border border-amber-500/20">
+          <span class="text-xs text-slate-300">Your 2FA Code is: <strong id="regGeneratedOtpDisplay" class="text-gold-400 font-mono text-base tracking-widest font-extrabold ml-1">123456</strong></span>
+          <button type="button" onclick="autoFillRegOtp()" class="px-2.5 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-[10px] font-bold transition">
+            ⚡ Auto-Fill Code
+          </button>
+        </div>
+      </div>
+
+      <!-- OTP Input Form -->
+      <form onsubmit="handleVerifyRegOtp(event)" class="space-y-4 pt-1">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1.5 text-center">Enter 6-Digit Verification Code</label>
+          <input type="text" id="regOtpInput" maxlength="6" pattern="[0-9]{6}" required placeholder="••••••" class="w-full text-center text-2xl font-mono tracking-[0.5em] bg-slate-950 border border-slate-700 rounded-xl py-3 text-gold-400 focus:outline-none focus:border-gold-500 transition">
+        </div>
+
+        <div id="regOtpError" class="hidden p-2 rounded-xl bg-red-950/80 border border-red-500/40 text-red-300 text-xs text-center font-medium"></div>
+
+        <div class="flex items-center justify-between text-xs pt-1">
+          <button type="button" onclick="resendRegOtp()" class="text-slate-400 hover:text-amber-400 transition text-[11px] underline">
+            Didn't receive? Resend OTP
+          </button>
+          <button type="button" onclick="closeRegOtpModal()" class="text-slate-400 hover:text-white transition text-[11px]">
+            Edit Details
+          </button>
+        </div>
+
+        <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-bold text-sm shadow-xl transition flex items-center justify-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+          <span>Verify 2FA & Complete Registration</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= 4. FORGOT PASSWORD MODAL (2FA OTP + Reconfirm Password) ================= -->
+  <div id="forgotPasswordModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 sm:p-7 space-y-4 shadow-2xl relative">
+      
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center justify-center">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+          </div>
+          <div>
+            <span class="text-[10px] uppercase font-bold text-amber-400 tracking-wider">Account Recovery</span>
+            <h3 class="text-base font-bold text-white font-cinzel">Reset Alumni Password</h3>
+          </div>
+        </div>
+        <button type="button" onclick="closeForgotPasswordModal()" class="text-slate-400 hover:text-white p-1 rounded-lg">✕</button>
+      </div>
+
+      <div id="forgotFeedback" class="hidden p-3 rounded-xl text-xs font-semibold"></div>
+
+      <!-- STEP 1: Enter Registered Email or Phone -->
+      <div id="forgotStep1" class="space-y-4">
+        <p class="text-xs text-slate-300 leading-relaxed">
+          Enter your registered alumni email address or phone number. We will send a 2FA OTP code to securely authenticate your password reset.
+        </p>
+
+        <form onsubmit="handleForgotStep1(event)" class="space-y-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Registered Email or Phone *</label>
+            <input type="text" id="forgotIdentifier" required placeholder="e.g. member@jnvalumni.org or 9876543210" value="member@jnvalumni.org" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-500 transition">
+          </div>
+
+          <!-- Quick Test Hints -->
+          <div class="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800 text-[11px] text-slate-400">
+            <span class="text-amber-400 font-bold block mb-1">Testing Shortcuts:</span>
+            <div class="flex flex-wrap gap-1.5">
+              <button type="button" onclick="fillForgotTest('member@jnvalumni.org')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-mono text-[10px]">member@jnvalumni.org</button>
+              <button type="button" onclick="fillForgotTest('admin@jnvalumni.org')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-mono text-[10px]">admin@jnvalumni.org</button>
+              <button type="button" onclick="fillForgotTest('9876543210')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-mono text-[10px]">9876543210</button>
+            </div>
+          </div>
+
+          <button type="submit" class="w-full py-3 rounded-xl bg-gold-500 hover:bg-gold-600 text-slate-950 font-bold text-sm shadow-xl shadow-gold-500/20 transition flex items-center justify-center gap-2">
+            <span>Send 2FA Reset OTP</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          </button>
+        </form>
+      </div>
+
+      <!-- STEP 2: Verify OTP + Set New Password + Reconfirm Password -->
+      <div id="forgotStep2" class="hidden space-y-4">
+        <div class="p-3 rounded-2xl bg-gradient-to-r from-amber-950/60 to-slate-900 border border-amber-500/40 space-y-2">
+          <div class="flex items-center justify-between text-[11px]">
+            <span class="font-bold text-amber-300 flex items-center gap-1">
+              <span>📲</span> 2FA OTP Dispatched:
+            </span>
+            <span class="text-[10px] text-slate-400 font-mono" id="forgotTimer">Expires in 10:00</span>
+          </div>
+          <div class="flex items-center justify-between bg-slate-950/80 p-2 rounded-xl border border-amber-500/20">
+            <span class="text-xs text-slate-300">Reset OTP: <strong id="forgotGeneratedOtpDisplay" class="text-gold-400 font-mono text-base tracking-widest font-extrabold ml-1">123456</strong></span>
+            <button type="button" onclick="autoFillForgotOtp()" class="px-2.5 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-[10px] font-bold transition">
+              ⚡ Auto-Fill OTP
+            </button>
+          </div>
+        </div>
+
+        <form onsubmit="handleForgotStep2(event)" class="space-y-3 text-xs">
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1">Enter 6-Digit OTP *</label>
+            <input type="text" id="forgotOtpInput" maxlength="6" pattern="[0-9]{6}" required placeholder="••••••" class="w-full text-center text-xl font-mono tracking-widest bg-slate-950 border border-slate-700 rounded-xl py-2.5 text-gold-400 focus:outline-none focus:border-gold-500">
+          </div>
+
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1">New Password (Min 6 chars) *</label>
+            <input type="password" id="forgotNewPassword" required minlength="6" placeholder="Enter new password" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-gold-500">
+          </div>
+
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1">Confirm New Password *</label>
+            <input type="password" id="forgotConfirmPassword" required minlength="6" placeholder="Re-enter new password" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-gold-500" oninput="checkForgotPassMatch()">
+          </div>
+
+          <div id="forgotPassMismatch" class="hidden text-[11px] text-red-400 font-semibold">⚠️ Passwords do not match. Please verify.</div>
+
+          <div class="flex items-center justify-between text-xs pt-1">
+            <button type="button" onclick="backToForgotStep1()" class="text-slate-400 hover:text-white underline text-[11px]">
+              ← Change Email/Phone
+            </button>
+            <button type="button" onclick="resendForgotOtp()" class="text-slate-400 hover:text-amber-400 text-[11px]">
+              Resend Code
+            </button>
+          </div>
+
+          <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-gold-500 to-amber-500 hover:from-gold-600 hover:to-amber-600 text-slate-950 font-bold text-sm shadow-xl transition flex items-center justify-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span>Reset Password & Save</span>
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-900 bg-slate-950 py-4 px-6 text-center text-xs text-slate-500">
+    Jawahar Navodaya Vidyalaya Alumni Association • Non-profit voluntary alumni network registered for education & solidarity.
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/storage-engine.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script>
+    // Global state for in-flight 2FA operations
+    let pendingRegData = null;
+    let pendingRegOtp = null;
+    let pendingForgotIdentifier = null;
+    let pendingForgotOtp = null;
+
+    // --- Tab Switching ---
+    function switchAuthTab(mode) {
+      const loginForm = document.getElementById('loginForm');
+      const regForm = document.getElementById('registrationForm');
+      const btnL = document.getElementById('tabBtnLogin');
+      const btnR = document.getElementById('tabBtnRegister');
+      const alertBox = document.getElementById('authAlert');
+      if (alertBox) alertBox.classList.add('hidden');
+
+      if (mode === 'login') {
+        loginForm.classList.remove('hidden');
+        regForm.classList.add('hidden');
+        btnL.className = "text-sm font-bold text-white border-b-2 border-gold-500 pb-2 transition flex items-center gap-2";
+        btnR.className = "text-sm font-medium text-slate-400 hover:text-white pb-2 transition flex items-center gap-2";
+      } else {
+        loginForm.classList.add('hidden');
+        regForm.classList.remove('hidden');
+        btnR.className = "text-sm font-bold text-white border-b-2 border-emerald-500 pb-2 transition flex items-center gap-2";
+        btnL.className = "text-sm font-medium text-slate-400 hover:text-white pb-2 transition flex items-center gap-2";
+      }
+    }
+
+    function showAlert(msg, isSuccess = false) {
+      const box = document.getElementById('authAlert');
+      box.className = `p-3.5 rounded-2xl mb-4 text-xs font-semibold ${isSuccess ? 'bg-emerald-950/80 border border-emerald-500/40 text-emerald-300' : 'bg-red-950/80 border border-red-500/40 text-red-300'}`;
+      box.innerHTML = msg;
+      box.classList.remove('hidden');
+    }
+
+    // --- Normal Login ---
+    function handleFormLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const pass = document.getElementById('loginPassword').value;
+      const remember = document.getElementById('loginRemember').checked;
+
+      const res = loginUser(email, pass, remember);
+      if (res.success) {
+        const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || window.innerWidth < 768;
+        showAlert("✓ Login successful! Redirecting...", true);
+        setTimeout(() => {
+          window.location.href = isMobile ? 'mobile_app/index.html' : 'index.html';
+        }, 500);
+      } else {
+        showAlert(res.message, false);
+      }
+    }
+
+    // --- Quick 1-Click Role Login ---
+    function handleQuickLogin(roleKey) {
+      const user = quickRoleLogin(roleKey);
+      if (user) {
+        const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || window.innerWidth < 768;
+        showAlert(`✓ Authenticated as ${user.name} (${user.roleTitle}). Redirecting...`, true);
+        setTimeout(() => {
+          window.location.href = isMobile ? 'mobile_app/index.html' : 'index.html';
+        }, 400);
+      }
+    }
+
+    // --- Password Match Verification on Registration ---
+    function checkPasswordMatch() {
+      const pass = document.getElementById('regPassword').value;
+      const conf = document.getElementById('regConfirmPassword').value;
+      const fb = document.getElementById('regPassFeedback');
+
+      if (!conf) {
+        fb.classList.add('hidden');
+        return;
+      }
+      if (pass === conf) {
+        fb.className = "text-[11px] font-semibold text-emerald-400 py-1";
+        fb.textContent = "✓ Passwords match perfectly.";
+        fb.classList.remove('hidden');
+      } else {
+        fb.className = "text-[11px] font-semibold text-red-400 py-1";
+        fb.textContent = "⚠️ Passwords do not match. Please ensure both passwords are identical.";
+        fb.classList.remove('hidden');
+      }
+    }
+
+    let regUploadedPhoto = null;
+
+    function previewRegPhoto(e) {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      if (typeof compressProfileImage === 'function') {
+        compressProfileImage(file, (dataUrl) => {
+          if (dataUrl) {
+            regUploadedPhoto = dataUrl;
+            const previewImg = document.getElementById('regPhotoPreview');
+            const placeholder = document.getElementById('regPhotoPlaceholder');
+            const removeBtn = document.getElementById('regPhotoRemoveBtn');
+            if (previewImg) { previewImg.src = dataUrl; previewImg.classList.remove('hidden'); }
+            if (placeholder) placeholder.classList.add('hidden');
+            if (removeBtn) removeBtn.classList.remove('hidden');
+          }
+        });
+      } else {
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          regUploadedPhoto = ev.target.result;
+          const previewImg = document.getElementById('regPhotoPreview');
+          const placeholder = document.getElementById('regPhotoPlaceholder');
+          const removeBtn = document.getElementById('regPhotoRemoveBtn');
+          if (previewImg) { previewImg.src = ev.target.result; previewImg.classList.remove('hidden'); }
+          if (placeholder) placeholder.classList.add('hidden');
+          if (removeBtn) removeBtn.classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function removeRegPhoto() {
+      regUploadedPhoto = null;
+      const input = document.getElementById('regPhotoInput');
+      const previewImg = document.getElementById('regPhotoPreview');
+      const placeholder = document.getElementById('regPhotoPlaceholder');
+      const removeBtn = document.getElementById('regPhotoRemoveBtn');
+      if (input) input.value = '';
+      if (previewImg) { previewImg.src = ''; previewImg.classList.add('hidden'); }
+      if (placeholder) placeholder.classList.remove('hidden');
+      if (removeBtn) removeBtn.classList.add('hidden');
+    }
+
+    // --- Registration Initiation: Generates 2FA OTP ---
+    function handleFormRegister(e) {
+      e.preventDefault();
+      const pass = document.getElementById('regPassword').value;
+      const conf = document.getElementById('regConfirmPassword').value;
+
+      if (pass !== conf) {
+        showAlert("⚠️ Passwords do not match! Please make sure both password fields are identical.", false);
+        return;
+      }
+
+      if (pass.length < 6) {
+        showAlert("⚠️ Password must be at least 6 characters in length.", false);
+        return;
+      }
+
+      const userData = {
+        name: document.getElementById('regName').value,
+        batch: document.getElementById('regBatch').value,
+        house: document.getElementById('regHouse').value,
+        phone: document.getElementById('regPhone').value,
+        email: document.getElementById('regEmail').value,
+        profession: document.getElementById('regProfession').value,
+        domain: document.getElementById('regDomain').value,
+        city: document.getElementById('regCity').value,
+        photo: regUploadedPhoto || null,
+        password: pass,
+        confirmPassword: conf
+      };
+
+      const res = initiateRegistrationOtp(userData);
+      if (!res.success) {
+        showAlert(res.message, false);
+        return;
+      }
+
+      // Store in memory & open OTP modal
+      pendingRegData = userData;
+      pendingRegOtp = res.otp;
+
+      document.getElementById('regOtpTargetEmail').textContent = userData.email;
+      document.getElementById('regOtpTargetPhone').textContent = `+91 ${userData.phone}`;
+      document.getElementById('regGeneratedOtpDisplay').textContent = res.otp;
+      document.getElementById('regOtpInput').value = '';
+      document.getElementById('regOtpError').classList.add('hidden');
+
+      document.getElementById('regOtpModal').classList.remove('hidden');
+    }
+
+    function closeRegOtpModal() {
+      document.getElementById('regOtpModal').classList.add('hidden');
+    }
+
+    function autoFillRegOtp() {
+      if (pendingRegOtp) {
+        document.getElementById('regOtpInput').value = pendingRegOtp;
+      }
+    }
+
+    function resendRegOtp() {
+      if (!pendingRegData) return;
+      const res = generateOtp(pendingRegData.email, 'registration');
+      pendingRegOtp = res.otp;
+      document.getElementById('regGeneratedOtpDisplay').textContent = res.otp;
+      alert(`New 2FA code generated: ${res.otp}`);
+    }
+
+    function handleVerifyRegOtp(e) {
+      e.preventDefault();
+      const enteredCode = document.getElementById('regOtpInput').value.trim();
+      const errBox = document.getElementById('regOtpError');
+
+      if (!pendingRegData) {
+        errBox.textContent = "Registration session expired. Please refill form.";
+        errBox.classList.remove('hidden');
+        return;
+      }
+
+      const res = completeRegistrationWithOtp(pendingRegData, enteredCode);
+      if (res.success) {
+        closeRegOtpModal();
+        setCurrentUser(res.user, true);
+        showAlert(`🎉 <strong>Registration Successful!</strong> Welcome, <strong>${pendingRegData.name} (Batch of ${pendingRegData.batch})</strong>! You are granted immediate Member access to all directory, meet, and memory features. Redirecting to your dashboard...`, true);
+        document.getElementById('registrationForm').reset();
+        document.getElementById('regPassFeedback').classList.add('hidden');
+        pendingRegData = null;
+        pendingRegOtp = null;
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 1200);
+      } else {
+        errBox.textContent = `⚠️ ${res.message}`;
+        errBox.classList.remove('hidden');
+      }
+    }
+
+    // --- FORGOT PASSWORD FLOW ---
+    function openForgotPasswordModal() {
+      document.getElementById('forgotStep1').classList.remove('hidden');
+      document.getElementById('forgotStep2').classList.add('hidden');
+      const fb = document.getElementById('forgotFeedback');
+      fb.classList.add('hidden');
+      document.getElementById('forgotPasswordModal').classList.remove('hidden');
+    }
+
+    function closeForgotPasswordModal() {
+      document.getElementById('forgotPasswordModal').classList.add('hidden');
+    }
+
+    function fillForgotTest(val) {
+      document.getElementById('forgotIdentifier').value = val;
+    }
+
+    function handleForgotStep1(e) {
+      e.preventDefault();
+      const identifier = document.getElementById('forgotIdentifier').value.trim();
+      const fb = document.getElementById('forgotFeedback');
+      fb.classList.add('hidden');
+
+      const res = initiateForgotPassword(identifier);
+      if (!res.success) {
+        fb.className = "p-3 rounded-xl text-xs font-semibold bg-red-950/80 border border-red-500/40 text-red-300";
+        fb.innerHTML = `⚠️ ${res.message}`;
+        fb.classList.remove('hidden');
+        return;
+      }
+
+      pendingForgotIdentifier = res.user.email;
+      pendingForgotOtp = res.otp;
+
+      // Move to step 2
+      document.getElementById('forgotStep1').classList.add('hidden');
+      document.getElementById('forgotStep2').classList.remove('hidden');
+      document.getElementById('forgotGeneratedOtpDisplay').textContent = res.otp;
+      document.getElementById('forgotOtpInput').value = '';
+      document.getElementById('forgotNewPassword').value = '';
+      document.getElementById('forgotConfirmPassword').value = '';
+      document.getElementById('forgotPassMismatch').classList.add('hidden');
+    }
+
+    function backToForgotStep1() {
+      document.getElementById('forgotStep2').classList.add('hidden');
+      document.getElementById('forgotStep1').classList.remove('hidden');
+    }
+
+    function autoFillForgotOtp() {
+      if (pendingForgotOtp) {
+        document.getElementById('forgotOtpInput').value = pendingForgotOtp;
+      }
+    }
+
+    function resendForgotOtp() {
+      if (!pendingForgotIdentifier) return;
+      const res = generateOtp(pendingForgotIdentifier, 'password_reset');
+      pendingForgotOtp = res.otp;
+      document.getElementById('forgotGeneratedOtpDisplay').textContent = res.otp;
+      alert(`New Reset OTP sent: ${res.otp}`);
+    }
+
+    function checkForgotPassMatch() {
+      const p1 = document.getElementById('forgotNewPassword').value;
+      const p2 = document.getElementById('forgotConfirmPassword').value;
+      const warning = document.getElementById('forgotPassMismatch');
+      if (p2 && p1 !== p2) {
+        warning.classList.remove('hidden');
+      } else {
+        warning.classList.add('hidden');
+      }
+    }
+
+    function handleForgotStep2(e) {
+      e.preventDefault();
+      const otpCode = document.getElementById('forgotOtpInput').value.trim();
+      const newPass = document.getElementById('forgotNewPassword').value;
+      const confPass = document.getElementById('forgotConfirmPassword').value;
+      const fb = document.getElementById('forgotFeedback');
+
+      const res = resetUserPasswordWithOtp(pendingForgotIdentifier, otpCode, newPass, confPass);
+      if (res.success) {
+        closeForgotPasswordModal();
+        showAlert(`✓ <strong>Password Reset Successfully!</strong> You can now log in using your new password. Credentials updated for ${res.email}.`, true);
+        document.getElementById('loginEmail').value = res.email;
+        document.getElementById('loginPassword').value = newPass;
+        pendingForgotIdentifier = null;
+        pendingForgotOtp = null;
+      } else {
+        fb.className = "p-3 rounded-xl text-xs font-semibold bg-red-950/80 border border-red-500/40 text-red-300";
+        fb.innerHTML = `⚠️ ${res.message}`;
+        fb.classList.remove('hidden');
+      }
+    }
+
+    // Auto-fill active session if already logged in
+    document.addEventListener('DOMContentLoaded', () => {
+      const current = getCurrentUser();
+      if (current) {
+        showAlert(`You are currently signed in as <strong>${current.name}</strong> (${current.roleTitle}). <a href="index.html" class="underline text-gold-400 font-bold ml-1">Go to Portal →</a>`, true);
+      }
+    });
+  </script>
+</body>
+</html>
