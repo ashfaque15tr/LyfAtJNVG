@@ -71,7 +71,7 @@ const defaultData = {
     { id: 4, author: "Sh. Utkrisht Pandey", batch: "2002", role: "Founder, Rishigram Organics • Retd. Assistant Commandant, SSB", house: "Shivalik", quote: "From the discipline of morning assembly and cross-country runs at JNVG to guarding borders with SSB and cultivating heritage Kalanamak rice, the greatest success is creating sustainable, ethical value rooted in our native soil." },
     { id: 5, author: "Dr. Jai Krishna Mishra", batch: "1993 (First Batch)", role: "Project Director, ASL, DRDO Hyderabad", house: "Arawali", quote: "Discipline, relentless inquiry, and dedication to the motherland were ingrained in us at Gauriganj. Whether designing critical solid propulsion technologies or mentoring the next generation, strive for uncompromising national self-reliance." },
     { id: 6, author: "Dr. Shailendra Mohan Tripathi", batch: "1997", role: "Addl. Professor, Geriatric Mental Health, KGMU & Univ. of Aberdeen", house: "Nilgiri", quote: "Navodaya taught us empathy for the vulnerable and elder care. As clinicians and researchers battling Dementia, standing by our aged Gurujan and parents with compassionate healthcare is our sacred duty." },
-    { id: 7, author: "Ashwini Mishra", batch: "1993 (First Batch)", role: "Senior Journalist, Executive Producer & News Anchor, DD News", house: "Shivalik", quote: "Ethical public-interest broadcast journalism and truthful communication are the bedrock of an enlightened democracy. Whatever heights you scale, preserve the values instilled in our morning assembly. **Be grounded..Be Honest..**" },
+    { id: 7, author: "Ashwini Mishra", batch: "1993 (First Batch)", role: "Senior Journalist, Executive Producer & News Anchor, DD News", house: "Shivalik", quote: "We are the beneficiaries of a remarkable visionary rural education system, and paying that debt back to society is our highest calling. Measure your success not just by the lives you uplift and the communities you transform **Be grounded..Be Honest..**" },
     { id: 8, author: "Alok Singh", batch: "1995", role: "Senior Analytics & AI Leader • Enterprise Data Strategist", house: "Arawali", quote: "In the era of Artificial Intelligence and rapid technological transition, our most enduring algorithm is the curiosity, character, and lifelong fraternity forged on the campus of JNV Gauriganj." }
   ],
 
@@ -921,11 +921,22 @@ function openReceiptForTxn(txnId) {
 // 8. Modals
 function openModal(id) {
   const modal = document.getElementById(id);
-  if (modal) modal.classList.remove('hidden');
+  if (modal) {
+    modal.classList.remove('hidden');
+    if (modal.style) {
+      modal.style.display = 'flex';
+      modal.style.pointerEvents = 'auto';
+    }
+  }
 }
 function closeModal(id) {
   const modal = document.getElementById(id);
-  if (modal) modal.classList.add('hidden');
+  if (modal) {
+    modal.classList.add('hidden');
+    if (modal.style) {
+      modal.style.display = 'none';
+    }
+  }
 }
 
 // 9. Copy to Clipboard
@@ -1653,6 +1664,12 @@ function renderDirectory(append = false) {
 
     let roleControlHtml = '';
     const canDelete = (isCurAdmin || (isCurHost && targetSystemRole !== 'admin' && targetSystemRole !== 'host' && targetSystemRole !== 'batch_admin')) && item.name.toLowerCase() !== 'ashfaque ahmad' && item.name.toLowerCase() !== 'ashfaq ahmed';
+    const isSelf = curUser && ((item.name || '').toLowerCase() === (curUser.name || '').toLowerCase() || (item.email && curUser.email && item.email.toLowerCase() === curUser.email.toLowerCase()));
+    const editBtn = (isSelf || isCurAdmin) ? `
+      <button onclick="openEditProfileModal('${item.name.replace(/'/g, "\\'")}')" class="px-2 py-0.5 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-[10px] font-bold flex items-center gap-1 transition" title="Edit alumnus profile information">
+        <span>✏️</span> <span>Edit</span>
+      </button>
+    ` : '';
     const deleteBtn = canDelete ? `
       <button onclick="deleteAlumniProfile('${item.name.replace(/'/g, "\\'")}')" class="px-2 py-0.5 rounded bg-rose-950/80 hover:bg-rose-900 text-rose-300 border border-rose-600/40 text-[10px] font-bold flex items-center gap-1 transition" title="Permanently delete alumni profile">
         <span>🗑️</span> <span>Delete</span>
@@ -1732,6 +1749,11 @@ function renderDirectory(append = false) {
           <span class="text-slate-300">Phone Protected</span> • <span class="text-emerald-400">Verified</span>
         </span>
         <div class="flex items-center gap-2">
+          ${(isSelf || isCurAdmin) ? `
+            <button onclick="openEditProfileModal('${item.name.replace(/'/g, "\\'")}')" class="px-2.5 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 font-bold text-xs flex items-center gap-1 shadow-sm transition" title="Modify your alumnus profile">
+              <span>✏️</span> <span>Edit</span>
+            </button>
+          ` : ''}
           <button onclick="openChatWithAlumnus('${item.name}')" class="px-2.5 py-1 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-1 shadow-sm transition">
             <span>💬</span> <span>Message</span>
           </button>
@@ -2032,7 +2054,7 @@ const NOTABLE_ALUMNI_LIST = [
     house: "Shivalik",
     role: "Senior Journalist, Executive Producer & News Anchor, DD News",
     academics: "Journalism & Broadcast Media",
-    intro: "Senior broadcast journalist, news anchor, and executive producer at DD News (Doordarshan National). Delivering ethical public-interest television journalism and national policy coverage for decades. **Be grounded..Be Honest..**",
+    intro: "Senior broadcast journalist, executive producer and prime-time news anchor at DD News (Doordarshan National). We are the beneficiaries of a remarkable visionary rural education system, and paying that debt back to society is our highest calling. Measure your success not just by the lives you uplift and the communities you transform **Be grounded..Be Honest..**",
     badgeColor: "blue",
     link: null
   },
@@ -4511,12 +4533,33 @@ function handleSuggestionSubmit(e) {
 // =============================================================================
 // LOGGED-IN ALUMNUS SELF-SERVICE PROFILE EDIT ENGINE
 // =============================================================================
-function openEditProfileModal() {
-  const user = (typeof getCurrentUser === 'function') ? getCurrentUser() : null;
+function openEditProfileModal(targetIdentifier) {
+  let user = (typeof getCurrentUser === 'function') ? getCurrentUser() : null;
+  
+  // If not logged in, prompt to log in
   if (!user) {
-    alert("Please log in to edit your profile.");
+    if (confirm("Please log in to edit your alumnus profile. Would you like to proceed to the Login page now?")) {
+      window.location.href = 'login.html';
+    }
     return;
   }
+
+  // If Super Admin or Host is editing another user from directory
+  if (targetIdentifier && typeof targetIdentifier === 'string') {
+    const isCurAdmin = user.role === 'admin' || user.role === 'host' || user.role === 'batch_admin';
+    if (isCurAdmin && (AppState.directory || []).some(d => d.name.toLowerCase() === targetIdentifier.toLowerCase())) {
+      const targetDir = AppState.directory.find(d => d.name.toLowerCase() === targetIdentifier.toLowerCase());
+      if (targetDir) {
+        user = {
+          ...user,
+          ...targetDir,
+          profession: targetDir.role,
+          roleTitle: targetDir.role
+        };
+      }
+    }
+  }
+
   const nameEl = document.getElementById('editProfileName');
   const phoneEl = document.getElementById('editProfilePhone');
   const cityEl = document.getElementById('editProfileCity');
@@ -4535,7 +4578,7 @@ function openEditProfileModal() {
   if (bioEl) bioEl.value = user.bio || user.tagline || '';
   if (batchEl) batchEl.value = user.batch || '';
 
-  if (typeof openModal === 'function') openModal('editProfileModal');
+  openModal('editProfileModal');
 }
 
 function handleProfileUpdate(e) {
@@ -4653,3 +4696,6 @@ function handleProfileUpdate(e) {
   if (typeof closeModal === 'function') closeModal('editProfileModal');
   alert("✓ Your alumnus profile has been successfully updated!");
 }
+
+window.openEditProfileModal = openEditProfileModal;
+window.handleProfileUpdate = handleProfileUpdate;

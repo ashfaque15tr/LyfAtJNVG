@@ -1469,36 +1469,37 @@ body:not(.theme-dark) img,
   max-width: 100% !important;
 }
 
-/* 2. Image overlay shields: prevent solid white background overrides from covering images */
-html[data-theme="sky"] .absolute.inset-0,
-html[data-theme="sky"] [class*="inset-0"],
+/* 2. Image overlay shields: ONLY for image containers, NEVER for fixed modal dialogs */
+html[data-theme="sky"] .relative > .absolute.inset-0:not([id*="Modal"]):not([class*="fixed"]),
+html[data-theme="sky"] .group > .absolute.inset-0:not([id*="Modal"]):not([class*="fixed"]),
 html[data-theme="sky"] .image-overlay,
-html[data-theme="sky"] [class*="bg-slate-950/20"],
-html[data-theme="sky"] [class*="bg-slate-950/30"],
-html[data-theme="sky"] [class*="bg-slate-950/40"],
-html[data-theme="sky"] [class*="bg-slate-950/50"],
-html[data-theme="sky"] [class*="bg-slate-950/60"],
-html[data-theme="sky"] [class*="bg-slate-950/70"],
-html[data-theme="sky"] [class*="bg-slate-950/80"],
-html[data-theme="sky"] [class*="bg-slate-950/90"],
-body:not(.theme-dark) .absolute.inset-0,
-body:not(.theme-dark) [class*="inset-0"],
+body:not(.theme-dark) .relative > .absolute.inset-0:not([id*="Modal"]):not([class*="fixed"]),
+body:not(.theme-dark) .group > .absolute.inset-0:not([id*="Modal"]):not([class*="fixed"]),
 body:not(.theme-dark) .image-overlay,
-body:not(.theme-dark) [class*="bg-slate-950/20"],
-body:not(.theme-dark) [class*="bg-slate-950/30"],
-body:not(.theme-dark) [class*="bg-slate-950/40"],
-body:not(.theme-dark) [class*="bg-slate-950/50"],
-body:not(.theme-dark) [class*="bg-slate-950/60"],
-body:not(.theme-dark) [class*="bg-slate-950/70"],
-body:not(.theme-dark) [class*="bg-slate-950/80"],
-body:not(.theme-dark) [class*="bg-slate-950/90"],
-.theme-sky .absolute.inset-0,
-.theme-sky [class*="inset-0"] {
+.theme-sky .relative > .absolute.inset-0:not([id*="Modal"]):not([class*="fixed"]),
+.theme-sky .group > .absolute.inset-0:not([id*="Modal"]):not([class*="fixed"]) {
   background-color: transparent !important;
   background-image: none !important;
   pointer-events: none !important;
   box-shadow: none !important;
   border: none !important;
+}
+
+/* ALL MODALS: ALWAYS interactive, highest z-index, and clickable in all themes */
+[id*="Modal"],
+.fixed.inset-0,
+[id*="Modal"] *,
+.fixed.inset-0 * {
+  pointer-events: auto !important;
+}
+
+/* Modal dark overlay backdrop in all themes */
+[id*="Modal"].fixed.inset-0 {
+  background-color: rgba(3, 8, 22, 0.85) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  z-index: 100 !important;
+  pointer-events: auto !important;
 }
 
 /* 3. Floating interactive badges and buttons over posters/banners */
