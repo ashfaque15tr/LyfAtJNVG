@@ -73,6 +73,11 @@
             <span id="userDisplayRole" class="text-[10px] text-amber-400 font-semibold leading-tight">Member</span>
           </div>
         </div>
+                <!-- Edit Profile Button -->
+        <button id="btnEditProfile" onclick="openEditProfileModal()" class="px-2.5 py-1.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-gold-500/50 text-slate-200 hover:text-white text-xs font-semibold flex items-center gap-1.5 transition shadow" title="Edit My Profile">
+          <span>✏️</span>
+          <span class="hidden sm:inline">Edit Profile</span>
+        </button>
         <button onclick="logoutUser()" class="px-2.5 py-1 rounded bg-red-950/50 hover:bg-red-900/60 border border-red-500/30 text-red-300 font-semibold text-[11px] flex items-center gap-1 transition" title="Sign out of your session">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
           <span>Sign Out</span>
@@ -181,7 +186,7 @@
           </button>
           <button onclick="switchTab('gallery')" class="nav-tab px-3.5 py-2 text-xs sm:text-sm font-medium rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-1.5" data-tab="gallery">
             <svg class="w-4 h-4 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-            <span class="tab-title" data-en="Gallery & Memories" data-hi="चित्र दीर्घा एवं स्मृतियाँ">Gallery & Memories</span>
+            <span class="tab-title" data-en="Meet Memories & Gallery" data-hi="यादें एवं चित्र दीर्घा">Meet Memories & Gallery</span>
           </button>
           
           <button id="adminTabNav" onclick="switchTab('admin')" class="hidden nav-tab px-3.5 py-2 text-xs sm:text-sm font-medium rounded-lg text-amber-300 bg-amber-500/10 border border-amber-500/30 hover:bg-amber-500/20 transition flex items-center gap-1.5" data-tab="admin">
@@ -445,7 +450,8 @@
             <div class="lg:col-span-4 flex justify-center">
               <div class="relative group rounded-2xl overflow-hidden border-2 border-gold-500/50 shadow-2xl cursor-pointer max-w-[240px]" onclick="openImageModal('assets/images/alumni-meet-2026.png', '4th Annual Alumni Meet 2026 Official Invitation')">
                 <img src="assets/images/alumni-meet-2026.png" alt="2026 Alumni Meet Poster" class="w-full object-cover group-hover:scale-105 transition duration-300">
-                <div class="absolute inset-0 bg-slate-950/20 group-hover:bg-transparent transition"></div>
+                <!-- Transparent Hover Accent -->
+                <div class="absolute inset-0 bg-transparent group-hover:bg-black/10 transition pointer-events-none"></div>
                 <div class="absolute bottom-2 inset-x-2 bg-slate-950/80 backdrop-blur text-center py-1 rounded text-[10px] text-amber-300 font-bold">
                   🔍 Click to View Poster
                 </div>
@@ -1353,6 +1359,35 @@
             </div>
           </div>
         </div>
+      
+        <!-- UNIFIED MEMORY WALL SECTION -->
+        <div id="tab-gallery-feed-section" class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-0.5 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30 text-[10px] font-bold uppercase">Nostalgia Hub</span>
+                <h3 class="text-xl font-bold font-cinzel text-white">Memory Wall (यादों का झरोखा)</h3>
+              </div>
+              <p class="text-xs text-slate-400 mt-1">Cherished memories, hostel anecdotes, and assembly nostalgia shared by alumni</p>
+            </div>
+            <button onclick="openModal('storyModal')" class="px-4 py-2.5 rounded-xl bg-gold-500 hover:bg-gold-600 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow">
+              <span>📷 Share a Memory with Photo</span>
+            </button>
+          </div>
+
+          <!-- Filter Tags -->
+          <div class="flex flex-wrap gap-2">
+            <button onclick="filterFeed('all')" class="feed-filter-btn active px-3 py-1.5 rounded-xl bg-brand-700 text-white font-medium text-xs">All Memories</button>
+            <button onclick="filterFeed('assembly')" class="feed-filter-btn px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 font-medium text-xs">Morning Assembly</button>
+            <button onclick="filterFeed('migration')" class="feed-filter-btn px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 font-medium text-xs">Migration Days</button>
+            <button onclick="filterFeed('mess')" class="feed-filter-btn px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 font-medium text-xs">Mess & Hostels</button>
+            <button onclick="filterFeed('sports')" class="feed-filter-btn px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 font-medium text-xs">Sports & PT</button>
+          </div>
+
+          <!-- Feed Posts Stream -->
+          <div id="feedPostsStream" class="space-y-4 max-w-3xl mx-auto pt-2"></div>
+        </div>
+
       </section>
 
       
@@ -1518,6 +1553,85 @@
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
             <span>Submit Suggestion / Issue Report</span>
           </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  
+  <!-- EDIT PROFILE MODAL FOR LOGGED-IN USERS -->
+  <div id="editProfileModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-5 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div>
+          <span class="text-[10px] uppercase tracking-widest text-amber-400 font-bold">Self-Service Profile Editor</span>
+          <h3 class="text-lg font-bold font-cinzel text-white">✏️ Modify My Alumnus Profile</h3>
+        </div>
+        <button onclick="closeModal('editProfileModal')" class="text-slate-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+
+      <form id="editProfileForm" onsubmit="handleProfileUpdate(event)" class="space-y-4 text-xs">
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Full Name *</label>
+          <input type="text" id="editProfileName" required class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white focus:border-amber-400 focus:outline-none">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1">Phone Number</label>
+            <input type="text" id="editProfilePhone" placeholder="+91 9876543210" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white focus:border-amber-400 focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1">Current City / Location</label>
+            <input type="text" id="editProfileCity" placeholder="e.g. Bangalore, India" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white focus:border-amber-400 focus:outline-none">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1">Profession / Role Title</label>
+            <input type="text" id="editProfileProfession" placeholder="e.g. Software Architect" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white focus:border-amber-400 focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1">Professional Domain</label>
+            <select id="editProfileDomain" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white focus:border-amber-400 focus:outline-none">
+              <option value="Software">Software & IT</option>
+              <option value="Medicine">Medicine & Healthcare</option>
+              <option value="Civil Services">Civil Services & Governance</option>
+              <option value="Defense">Defense & Armed Forces</option>
+              <option value="Education">Education & Research</option>
+              <option value="Enterprise">Enterprise & Business</option>
+              <option value="Media">Media, Arts & Journalism</option>
+              <option value="Engineering">Core Engineering</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1">House</label>
+            <select id="editProfileHouse" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white focus:border-amber-400 focus:outline-none">
+              <option value="Nilgiri">Nilgiri</option>
+              <option value="Arawali">Arawali</option>
+              <option value="Shivalik">Shivalik</option>
+              <option value="Udaygiri">Udaygiri</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1">Passout Batch</label>
+            <input type="text" id="editProfileBatch" readonly class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2.5 text-slate-400 cursor-not-allowed">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Bio / Professional Tagline</label>
+          <textarea id="editProfileBio" rows="2" placeholder="Brief professional intro or hostel memories tagline..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white focus:border-amber-400 focus:outline-none"></textarea>
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
+          <button type="button" onclick="closeModal('editProfileModal')" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white transition">Cancel</button>
+          <button type="submit" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold transition shadow-lg shadow-amber-500/20">💾 Save Changes</button>
         </div>
       </form>
     </div>

@@ -501,7 +501,7 @@ assert(mConvs.some(c => c.partnerName === 'Mr. P. K. Singh'), 'Alumnus receives 
 // ----------------------------------------------------
 console.log('\n--- TEST SUITE 12: 17 NOTABLE ALUMNI, ADMIN SAHAYATA QUEUE & LIGHT SKY CONTRAST ---');
 
-assert(Array.isArray(NOTABLE_ALUMNI_LIST) && NOTABLE_ALUMNI_LIST.length === 19, 'Full 19 Notable Alumni registered in Hall of Fame');
+assert(Array.isArray(NOTABLE_ALUMNI_LIST) && NOTABLE_ALUMNI_LIST.length === 20, 'Full 20 Notable Alumni registered in Hall of Fame');
 const jkm = NOTABLE_ALUMNI_LIST.find(a => a.name.includes('Jai Krishna Mishra'));
 assert(jkm && jkm.batch.includes('1993') && jkm.role.includes('DRDO'), 'Dr. Jai Krishna Mishra (1993, DRDO ASL) verified');
 const up = NOTABLE_ALUMNI_LIST.find(a => a.name.includes('Utkrisht Pandey'));
@@ -542,10 +542,24 @@ assert(stylesCss.includes('html[data-theme="sky"] [class*="border-slate-"]'), 'U
 // ----------------------------------------------------
 console.log('\n--- TEST SUITE 13: GURU VANDANA HIERARCHY, DONOR BOARD & PROFILE DELETION RBAC ---');
 
-// 1. Top 3 Notable Alumni Sequencing
+// 1. Top 4 Notable Alumni Sequencing (Vivek Tiwari -> Alok Dubey -> Ratnesh Tiwari -> Utkrisht Pandey)
 assert(NOTABLE_ALUMNI_LIST[0].name === 'Sh. Vivek Tiwari', 'Notable Alumni rank 1 is Sh. Vivek Tiwari');
-assert(NOTABLE_ALUMNI_LIST[1].name === 'Sh. Ratnesh Tiwari', 'Notable Alumni rank 2 is Sh. Ratnesh Tiwari');
-assert(NOTABLE_ALUMNI_LIST[2].name === 'Alok Dubey, IAS', 'Notable Alumni rank 3 is Alok Dubey, IAS');
+assert(NOTABLE_ALUMNI_LIST[1].name === 'Alok Dubey, IAS', 'Notable Alumni rank 2 is Alok Dubey, IAS');
+assert(NOTABLE_ALUMNI_LIST[2].name.includes('Ratnesh Tiwari'), 'Notable Alumni rank 3 is Dr. Ratnesh Tiwari');
+assert(NOTABLE_ALUMNI_LIST[3].name.includes('Utkrisht Pandey'), 'Notable Alumni rank 4 is Sh. Utkrisht Pandey');
+
+// Batch and Profile Verifications
+assert(NOTABLE_ALUMNI_LIST.find(a => a.name === 'Virika Solanki').batch === '2009', 'Virika Solanki batch verified as 2009');
+assert(NOTABLE_ALUMNI_LIST.find(a => a.name.includes('Utkrisht Pandey')).batch === '2002', 'Utkrisht Pandey batch verified as 2002');
+assert(NOTABLE_ALUMNI_LIST.find(a => a.name === 'Alok Singh').batch === '1995', 'Alok Singh batch verified as 1995');
+assert(NOTABLE_ALUMNI_LIST.some(a => a.name === 'Yasir Abdul' && a.batch === '1995' && a.link.includes('yasir-abdul-66258828')), 'Yasir Abdul Batch of 1995 added to Notable Alumni');
+assert(NOTABLE_ALUMNI_LIST.find(a => a.name.includes('Ratnesh Tiwari')).link === 'https://koshishindia.in/founders-thought/', 'Ratnesh Tiwari profile link verified as koshishindia.in/founders-thought/');
+assert(NOTABLE_ALUMNI_LIST.find(a => a.name.includes('Ashwini Mishra')).intro.includes('**Be grounded..Be Honest..**'), 'Ashwini Mishra quote contains bold Be grounded..Be Honest..');
+
+// Logged-in User Profile Edit Feature
+assert(typeof openEditProfileModal === 'function' && typeof handleProfileUpdate === 'function', 'Self-service Profile Edit engine exported');
+assert(indexHtml.includes('editProfileModal') && indexHtml.includes('btnEditProfile'), 'index.html contains editProfileModal and btnEditProfile');
+assert(indexHtml.includes('Meet Memories & Gallery'), 'Meet Memories and Gallery unified into single tab');
 
 // 2. Added Notable Alumni Profiles
 const alokSingh = NOTABLE_ALUMNI_LIST.find(a => a.name === 'Alok Singh');

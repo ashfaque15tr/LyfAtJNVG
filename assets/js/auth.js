@@ -11,6 +11,24 @@ const OTP_STORAGE_KEY = 'JNVG_ACTIVE_OTP_SESSIONS';
 // Pre-seeded verified alumni user directory with distinct roles
 const DEFAULT_ACCOUNTS = [
   {
+    id: "usr-yasir-1",
+    email: "yasir.abdul@jnvalumni.org",
+    password: "password123",
+    name: "Yasir Abdul",
+    batch: 1995,
+    house: "Nilgiri",
+    role: "member",
+    roleTitle: "Enterprise Technology Leader",
+    status: "approved",
+    phone: "+91 9876543219",
+    city: "Global / India",
+    profession: "Enterprise Technology Leader",
+    domain: "Software & Technology",
+    avatar: "YA",
+    joinedDate: "Batch of 1995"
+  },
+
+  {
     id: "usr-ashfaque-admin",
     email: "ashfaque15tr@gmail.com",
     password: "AAaa11!!",

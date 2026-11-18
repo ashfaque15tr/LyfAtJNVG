@@ -1449,3 +1449,114 @@ body:not(.theme-dark) .auth-card-left .text-slate-400 {
 }
 
 
+
+
+/* ========================================================================== */
+/* LIGHT SKY THEME - COMPREHENSIVE IMAGE PREVIEW & CONTRAST SAFEGUARDS       */
+/* Guarantees that posters, campus photography, and banners are 100% visible  */
+/* and fixes any low contrast text across all tabs in Light Sky Blue Mode     */
+/* ========================================================================== */
+
+/* 1. All images in Light Sky mode are 100% visible, fully opaque, layered above surfaces */
+html[data-theme="sky"] img,
+body:not(.theme-dark) img,
+.theme-sky img {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+  position: relative !important;
+  z-index: 1 !important;
+  max-width: 100% !important;
+}
+
+/* 2. Image overlay shields: prevent solid white background overrides from covering images */
+html[data-theme="sky"] .absolute.inset-0,
+html[data-theme="sky"] [class*="inset-0"],
+html[data-theme="sky"] .image-overlay,
+html[data-theme="sky"] [class*="bg-slate-950/20"],
+html[data-theme="sky"] [class*="bg-slate-950/30"],
+html[data-theme="sky"] [class*="bg-slate-950/40"],
+html[data-theme="sky"] [class*="bg-slate-950/50"],
+html[data-theme="sky"] [class*="bg-slate-950/60"],
+html[data-theme="sky"] [class*="bg-slate-950/70"],
+html[data-theme="sky"] [class*="bg-slate-950/80"],
+html[data-theme="sky"] [class*="bg-slate-950/90"],
+body:not(.theme-dark) .absolute.inset-0,
+body:not(.theme-dark) [class*="inset-0"],
+body:not(.theme-dark) .image-overlay,
+body:not(.theme-dark) [class*="bg-slate-950/20"],
+body:not(.theme-dark) [class*="bg-slate-950/30"],
+body:not(.theme-dark) [class*="bg-slate-950/40"],
+body:not(.theme-dark) [class*="bg-slate-950/50"],
+body:not(.theme-dark) [class*="bg-slate-950/60"],
+body:not(.theme-dark) [class*="bg-slate-950/70"],
+body:not(.theme-dark) [class*="bg-slate-950/80"],
+body:not(.theme-dark) [class*="bg-slate-950/90"],
+.theme-sky .absolute.inset-0,
+.theme-sky [class*="inset-0"] {
+  background-color: transparent !important;
+  background-image: none !important;
+  pointer-events: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* 3. Floating interactive badges and buttons over posters/banners */
+html[data-theme="sky"] [class*="absolute bottom-"],
+body:not(.theme-dark) [class*="absolute bottom-"],
+.theme-sky [class*="absolute bottom-"] {
+  z-index: 10 !important;
+  pointer-events: auto !important;
+  background-color: rgba(12, 47, 84, 0.92) !important;
+  color: #fef08a !important;
+  -webkit-text-fill-color: #fef08a !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+html[data-theme="sky"] [class*="absolute top-"],
+body:not(.theme-dark) [class*="absolute top-"],
+.theme-sky [class*="absolute top-"] {
+  z-index: 10 !important;
+  pointer-events: auto !important;
+}
+
+/* 4. Complete WCAG AA High Contrast Typography in Light Sky Mode */
+html[data-theme="sky"] p,
+html[data-theme="sky"] span:not(.text-white):not([class*="bg-"]):not(button *):not(.nav-tab.active *):not(.badge-solid *),
+body:not(.theme-dark) p,
+body:not(.theme-dark) span:not(.text-white):not([class*="bg-"]):not(button *):not(.nav-tab.active *):not(.badge-solid *),
+.theme-sky p {
+  color: #1e3a5f;
+}
+
+/* Ensure secondary slate text is deep slate-800 for crystal-clear readability */
+html[data-theme="sky"] .text-slate-400,
+html[data-theme="sky"] .text-slate-300,
+html[data-theme="sky"] .text-slate-500,
+body:not(.theme-dark) .text-slate-400,
+body:not(.theme-dark) .text-slate-300,
+body:not(.theme-dark) .text-slate-500,
+.theme-sky .text-slate-400,
+.theme-sky .text-slate-300,
+.theme-sky .text-slate-500 {
+  color: #1e293b !important;
+  -webkit-text-fill-color: #1e293b !important;
+  font-weight: 500;
+}
+
+/* Key Guidance italic quotes in cards */
+html[data-theme="sky"] #notableQuotesContainer p,
+body:not(.theme-dark) #notableQuotesContainer p,
+.theme-sky #notableQuotesContainer p {
+  color: #0c2f54 !important;
+  -webkit-text-fill-color: #0c2f54 !important;
+  font-weight: 500 !important;
+}
+
+/* Donors board plaque preview box */
+html[data-theme="sky"] #tab-notable [class*="border-amber-500"],
+body:not(.theme-dark) #tab-notable [class*="border-amber-500"],
+.theme-sky #tab-notable [class*="border-amber-500"] {
+  border-color: #b45309 !important;
+}

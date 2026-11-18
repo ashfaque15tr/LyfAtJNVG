@@ -66,13 +66,13 @@ const defaultData = {
 
   notableMessages: [
     { id: 1, author: "Sh. Vivek Tiwari", batch: "1987-1994", role: "MD & CEO, Satya MicroCapital Ltd. & Donor", house: "Arawali", quote: "Navodaya gave us the courage to dream and build without fear. Every milestone in corporate or public leadership is rooted in the resilience learned in those Gauriganj classrooms. Support your junior peers relentlessly." },
-    { id: 3, author: "Sh. Ratnesh Tiwari", batch: "1996-2003", role: "CEO, Koshish India & Co-Founder Satyapath Foundation", house: "Nilgiri", quote: "True Navodayan spirit is giving back tenfold to the rural soil that nurtured us. Empower the next generation through education, infrastructure, and sustainable community support." },
     { id: 2, author: "Alok Dubey, IAS", batch: "2007", role: "Indian Administrative Service", house: "Nilgiri", quote: "Public service is the natural continuum of Navodaya's core pledge 'Pragyanam Brahma'. To all young scholars: stay disciplined, read widely, and let integrity be your defining hallmark." },
-    { id: 101, author: "Dr. Jai Krishna Mishra", batch: "1993 (First Batch)", role: "Project Director, ASL, DRDO Hyderabad", house: "Arawali", quote: "Discipline, relentless inquiry, and dedication to the motherland were ingrained in us at Gauriganj. Whether designing critical solid propulsion technologies or mentoring the next generation, strive for uncompromising national self-reliance." },
-    { id: 102, author: "Sh. Utkrisht Pandey", batch: "Alumnus", role: "Founder, Rishigram Organics • Retd. Assistant Commandant, SSB", house: "Shivalik", quote: "From the discipline of morning assembly and cross-country runs at JNVG to guarding borders with SSB and cultivating heritage Kalanamak rice, the greatest success is creating sustainable, ethical value rooted in our native soil." },
-    { id: 103, author: "Dr. Shailendra Mohan Tripathi", batch: "1997", role: "Addl. Professor, Geriatric Mental Health, KGMU & Univ. of Aberdeen", house: "Nilgiri", quote: "Navodaya taught us empathy for the vulnerable and elder care. As clinicians and researchers battling Dementia, standing by our aged Gurujan and parents with compassionate healthcare is our sacred duty." },
-    { id: 4, author: "Sh. Rama Sankar Yadav", batch: "1987-1994", role: "Head Master, Model School Pachehari & Donor", house: "Shivalik", quote: "Education is the greatest tool of nation-building. Every Navodayan who teaches and guides a child fulfills the core mission Rajiv Gandhi envisioned for our Vidyalayas." },
-    { id: 5, author: "Dr. Amitabh Singh", batch: "1998", role: "Senior Consultant Neurosurgeon", house: "Shivalik", quote: "Discipline forged on the sports field under Varshney Sir and analytical clarity from Chaudhary Sir became my greatest surgical instruments. Always stay humble and grounded in our Navodaya values." }
+    { id: 3, author: "Sh. Ratnesh Tiwari", batch: "1996-2003", role: "CEO, Koshish India & Co-Founder Satyapath Foundation", house: "Nilgiri", quote: "True Navodayan spirit is giving back tenfold to the rural soil that nurtured us. Empower the next generation through education, infrastructure, and sustainable community support." },
+    { id: 4, author: "Sh. Utkrisht Pandey", batch: "2002", role: "Founder, Rishigram Organics • Retd. Assistant Commandant, SSB", house: "Shivalik", quote: "From the discipline of morning assembly and cross-country runs at JNVG to guarding borders with SSB and cultivating heritage Kalanamak rice, the greatest success is creating sustainable, ethical value rooted in our native soil." },
+    { id: 5, author: "Dr. Jai Krishna Mishra", batch: "1993 (First Batch)", role: "Project Director, ASL, DRDO Hyderabad", house: "Arawali", quote: "Discipline, relentless inquiry, and dedication to the motherland were ingrained in us at Gauriganj. Whether designing critical solid propulsion technologies or mentoring the next generation, strive for uncompromising national self-reliance." },
+    { id: 6, author: "Dr. Shailendra Mohan Tripathi", batch: "1997", role: "Addl. Professor, Geriatric Mental Health, KGMU & Univ. of Aberdeen", house: "Nilgiri", quote: "Navodaya taught us empathy for the vulnerable and elder care. As clinicians and researchers battling Dementia, standing by our aged Gurujan and parents with compassionate healthcare is our sacred duty." },
+    { id: 7, author: "Ashwini Mishra", batch: "1993 (First Batch)", role: "Senior Journalist, Executive Producer & News Anchor, DD News", house: "Shivalik", quote: "Ethical public-interest broadcast journalism and truthful communication are the bedrock of an enlightened democracy. Whatever heights you scale, preserve the values instilled in our morning assembly. **Be grounded..Be Honest..**" },
+    { id: 8, author: "Alok Singh", batch: "1995", role: "Senior Analytics & AI Leader • Enterprise Data Strategist", house: "Arawali", quote: "In the era of Artificial Intelligence and rapid technological transition, our most enduring algorithm is the curiosity, character, and lifelong fraternity forged on the campus of JNV Gauriganj." }
   ],
 
   helpRequests: [
@@ -357,11 +357,10 @@ const defaultDirectoryAlumni = [
     domain: "Software",
     email: "ashfaque15tr@gmail.com",
     badge: "Nilgiri",
-    tag: "Super Admin • Batch of 2005",
-    systemRole: "admin",
+    tag: "Super Admin",
     isSuperAdmin: true,
-    verified: true,
-    joinedDate: "Platform Super Admin"
+    isPermanentAdmin: true,
+    bio: "Permanent Platform Super Admin & Cloud Solutions Architect. Batch of 2005 (Nilgiri House)."
   }
 ];
 
@@ -463,6 +462,7 @@ function loadAppData() {
       if (!parsed.meetSchedule || !Array.isArray(parsed.meetSchedule) || parsed.meetSchedule.length === 0) {
         parsed.meetSchedule = defaultData.meetSchedule;
       }
+      parsed.notableMessages = defaultData.notableMessages;
       if (!parsed.culturalActs || !Array.isArray(parsed.culturalActs)) {
         parsed.culturalActs = defaultData.culturalActs;
       }
@@ -502,7 +502,7 @@ function saveAppData() {
 
 // 1. Navigation & Tab Switching
 function switchTab(tabId) {
-  if (tabId === 'memories') tabId = 'gallery';
+  if (tabId === 'memories' || tabId === 'feed') tabId = 'gallery';
   AppState.activeTab = tabId;
   
   document.querySelectorAll('.tab-content').forEach(el => {
@@ -1843,7 +1843,7 @@ function renderNotableMessages() {
         </div>
         <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/15 text-amber-400 border border-amber-500/30">★ Key Guidance</span>
       </div>
-      <p class="text-xs text-slate-200 italic leading-relaxed">"${msg.quote}"</p>
+      <p class="text-xs text-slate-200 italic leading-relaxed">"${(msg.quote || '').replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold not-italic text-amber-300">$1</strong>')}"</p>
     `;
     container.appendChild(card);
   });
@@ -1883,20 +1883,6 @@ const NOTABLE_ALUMNI_LIST = [
     link: null
   },
   {
-    id: "notable-rt-1",
-    name: "Sh. Ratnesh Tiwari",
-    initials: "RT",
-    batch: "1996–2003",
-    category: "enterprise",
-    categoryLabel: "Social Innovation & Education",
-    house: "Nilgiri",
-    role: "CEO, Koshish India • Co-Founder Satyapath Foundation",
-    academics: "Social Sector Leadership",
-    intro: "Transforming primary education, child health clinics, and rural livelihood opportunities across UP; co-donor of the permanent 125 KVA Vidyalaya Genset installation.",
-    badgeColor: "purple",
-    link: null
-  },
-  {
     id: "notable-ad-1",
     name: "Alok Dubey, IAS",
     initials: "AD",
@@ -1911,6 +1897,34 @@ const NOTABLE_ALUMNI_LIST = [
     link: null
   },
   {
+    id: "notable-rt-1",
+    name: "Dr. Ratnesh Tiwari",
+    initials: "RT",
+    batch: "1996–2003",
+    category: "enterprise",
+    categoryLabel: "Clean-Tech, Renewable Energy & Social Impact",
+    house: "Nilgiri",
+    role: "CEO, Koshish India • Co-Founder Satyapath Foundation",
+    academics: "Ph.D. Renewable Energy (IIT Delhi)",
+    intro: "Clean-tech pioneer and IIT Delhi doctoral alumnus leading Koshish Sustainable Solutions and Satyapath Foundation. Driving waste-to-energy, bio-CNG, and rural sustainability across India. Generous Vidyalaya benefactor co-donating the permanent 125 KVA silent Genset.",
+    badgeColor: "purple",
+    link: "https://koshishindia.in/founders-thought/"
+  },
+  {
+    id: "notable-up-1",
+    name: "Sh. Utkrisht Pandey",
+    initials: "UP",
+    batch: "2002",
+    category: "enterprise",
+    categoryLabel: "Agri-Enterprise & Security",
+    house: "Shivalik",
+    role: "Founder, Rishigram Organics • Retd. Assistant Commandant, SSB",
+    academics: "Former Officer, Sashastra Seema Bal (SSB)",
+    intro: "Decorated former Assistant Commandant (SSB) turned agrarian pioneer. Founder of Rishigram Organics, pioneering sustainable high-value sandalwood agroforestry and reviving the heritage GI-tagged Kalanamak 'Buddha Rice'.",
+    badgeColor: "emerald",
+    link: "https://rishigramorganics.com/pages/about-us"
+  },
+  {
     id: "notable-jm-1",
     name: "Dr. Jai Krishna Mishra",
     initials: "JM",
@@ -1923,20 +1937,6 @@ const NOTABLE_ALUMNI_LIST = [
     intro: "Project Director at Advanced Systems Laboratory (ASL), DRDO Hyderabad. Pioneering scientist in solid rocket propulsion, aerospace structures, and national IRBM missile systems. Honored with DRDO Performance Excellence Award and Agni Award for Self Reliance; Fellow of AeSI and ISAMPE.",
     badgeColor: "amber",
     link: null
-  },
-  {
-    id: "notable-up-1",
-    name: "Sh. Utkrisht Pandey",
-    initials: "UP",
-    batch: "Alumnus",
-    category: "enterprise",
-    categoryLabel: "Agri-Enterprise & Security",
-    house: "Shivalik",
-    role: "Founder, Rishigram Organics • Retd. Assistant Commandant, SSB",
-    academics: "Former Officer, Sashastra Seema Bal (SSB)",
-    intro: "Decorated former Assistant Commandant (SSB) turned agrarian pioneer. Founder of Rishigram Organics, pioneering sustainable high-value sandalwood agroforestry and reviving the heritage GI-tagged Kalanamak 'Buddha Rice'.",
-    badgeColor: "emerald",
-    link: "https://rishigramorganics.com/pages/about-us"
   },
   {
     id: "notable-st-1",
@@ -1970,29 +1970,29 @@ const NOTABLE_ALUMNI_LIST = [
     id: "notable-vs-1",
     name: "Virika Solanki",
     initials: "VS",
-    batch: "Alumna",
+    batch: "2009",
     category: "media",
     categoryLabel: "Arts & Digital Media",
     house: "Arawali",
     role: "Creative Artist, Actor & Digital Content Creator",
     academics: "Media Arts & Creative Production",
-    intro: "Celebrated creative artist, actor, and digital storyteller with an inspiring social media following. Inspiring young Navodayans to pursue cultural arts, acting, and digital media production with distinction.",
+    intro: "Celebrated creative artist, actor, and digital storyteller with an inspiring social media following. Inspiring young Navodayans to pursue cultural arts, acting, and digital media excellence.",
     badgeColor: "rose",
-    link: "https://www.instagram.com/virika.solanki"
+    link: "https://www.instagram.com/virika_solanki"
   },
   {
     id: "notable-sk-1",
     name: "Safeer Khan",
     initials: "SK",
-    batch: "1995",
-    category: "media",
-    categoryLabel: "Visual Arts & Cinematography",
+    batch: "2010",
+    category: "tech",
+    categoryLabel: "Fintech & Data Engineering",
     house: "Shivalik",
-    role: "Visual Storyteller, Documentary Filmmaker & Media Creator",
-    academics: "Cinematography & Documentary Arts",
-    intro: "Acclaimed media creator and cinematographer directing evocative social documentaries, human-interest narratives, and cinematic visual stories across India; bringing cinematic distinction to the 1995 batch.",
-    badgeColor: "purple",
-    link: "https://www.instagram.com/ishafeer_khan"
+    role: "Vice President, Citi (formerly Citibank)",
+    academics: "Finance & Large-Scale Data Systems",
+    intro: "Vice President at Citi, heading institutional financial data systems, automated risk management architectures, and cross-border digital financial services.",
+    badgeColor: "cyan",
+    link: "https://www.linkedin.com/in/safeer-khan"
   },
   {
     id: "notable-ss-1",
@@ -2000,13 +2000,13 @@ const NOTABLE_ALUMNI_LIST = [
     initials: "SS",
     batch: "1998",
     category: "tech",
-    categoryLabel: "Cybersecurity & Threat Intel",
+    categoryLabel: "Cybersecurity & National Threat Intel",
     house: "Arawali",
-    role: "Principal Cybersecurity Architect & Threat Researcher",
-    academics: "Enterprise Threat Intelligence & Cyber Defense",
-    intro: "Globally recognized cybersecurity researcher and defense architect (@cybr0x). Specializing in threat intelligence, cloud vulnerability research, and sovereign cyber resilience architectures.",
-    badgeColor: "cyan",
-    link: "https://www.linkedin.com/in/cybr0x"
+    role: "Principal Cyber Security Architect & Threat Researcher",
+    academics: "Computer Science & Cryptographic Systems",
+    intro: "Nationally renowned cyber threat intelligence researcher and security architect (@cybr0x). Protecting critical national infrastructure against advanced persistent cyber warfare threats.",
+    badgeColor: "purple",
+    link: "https://x.com/cybr0x"
   },
   {
     id: "notable-ck-1",
@@ -2014,9 +2014,9 @@ const NOTABLE_ALUMNI_LIST = [
     initials: "CK",
     batch: "2004",
     category: "defense",
-    categoryLabel: "Gallantry & Armed Forces",
+    categoryLabel: "Gallantry & National Defense",
     house: "Nilgiri",
-    role: "Shaurya Chakra Awardee • Indian Armed Forces",
+    role: "Shaurya Chakra Awardee • Armed Forces Gallantry",
     academics: "National Defense & Frontline Tactical Command",
     intro: "Conferred the Shaurya Chakra by the President of India—the nation's 3rd highest peacetime gallantry award—for conspicuous courage, heroic valor, and exceptional tactical command in frontline combat operations.",
     badgeColor: "amber",
@@ -2024,15 +2024,15 @@ const NOTABLE_ALUMNI_LIST = [
   },
   {
     id: "notable-ak-1",
-    name: "Ashwini Kumar",
-    initials: "AK",
+    name: "Ashwini Mishra",
+    initials: "AM",
     batch: "1993 (First Batch)",
     category: "media",
     categoryLabel: "Broadcast Journalism",
     house: "Shivalik",
     role: "Senior Journalist, Executive Producer & News Anchor, DD News",
     academics: "Journalism & Broadcast Media",
-    intro: "Senior broadcast journalist, news anchor, and executive producer at DD News (Doordarshan National). Delivering ethical public-interest television journalism and national policy coverage for decades.",
+    intro: "Senior broadcast journalist, news anchor, and executive producer at DD News (Doordarshan National). Delivering ethical public-interest television journalism and national policy coverage for decades. **Be grounded..Be Honest..**",
     badgeColor: "blue",
     link: null
   },
@@ -2096,7 +2096,7 @@ const NOTABLE_ALUMNI_LIST = [
     id: "notable-als-1",
     name: "Alok Singh",
     initials: "AS",
-    batch: "Alumnus",
+    batch: "1995",
     category: "tech",
     categoryLabel: "Data Science, Analytics & AI Leadership",
     house: "Arawali",
@@ -2119,6 +2119,20 @@ const NOTABLE_ALUMNI_LIST = [
     intro: "Distinguished technology leader and enterprise software engineering strategist with deep expertise in cloud architectures, distributed systems, and large-scale digital platforms.",
     badgeColor: "blue",
     link: "https://www.linkedin.com/in/manish-tiwari-37845514"
+  },
+  {
+    id: "notable-ya-1",
+    name: "Yasir Abdul",
+    initials: "YA",
+    batch: "1995",
+    category: "tech",
+    categoryLabel: "Enterprise Technology & Leadership",
+    house: "Nilgiri",
+    role: "Enterprise Technology Strategist & Engineering Leader",
+    academics: "Enterprise Systems & Digital Engineering",
+    intro: "Distinguished technology and enterprise leader (Batch of 1995). Driving digital solutions, technology architecture, and impactful cross-functional execution across multinational domains.",
+    badgeColor: "cyan",
+    link: "https://www.linkedin.com/in/yasir-abdul-66258828"
   },
   {
     id: "notable-ry-1",
@@ -4492,4 +4506,150 @@ function handleSuggestionSubmit(e) {
   if (typeof closeModal === 'function') closeModal('suggestionIssueModal');
   alert(`✓ Thank you ${name}! Your ${cat.toLowerCase()} has been recorded directly into the Administration Dashboard Queue. Our executive committee and Super Admin will review it.`);
   e.target.reset();
+}
+
+// =============================================================================
+// LOGGED-IN ALUMNUS SELF-SERVICE PROFILE EDIT ENGINE
+// =============================================================================
+function openEditProfileModal() {
+  const user = (typeof getCurrentUser === 'function') ? getCurrentUser() : null;
+  if (!user) {
+    alert("Please log in to edit your profile.");
+    return;
+  }
+  const nameEl = document.getElementById('editProfileName');
+  const phoneEl = document.getElementById('editProfilePhone');
+  const cityEl = document.getElementById('editProfileCity');
+  const profEl = document.getElementById('editProfileProfession');
+  const domEl = document.getElementById('editProfileDomain');
+  const houseEl = document.getElementById('editProfileHouse');
+  const bioEl = document.getElementById('editProfileBio');
+  const batchEl = document.getElementById('editProfileBatch');
+
+  if (nameEl) nameEl.value = user.name || '';
+  if (phoneEl) phoneEl.value = user.phone || '';
+  if (cityEl) cityEl.value = user.city || user.location || '';
+  if (profEl) profEl.value = user.profession || user.roleTitle || user.role || '';
+  if (domEl) domEl.value = user.domain || 'Software';
+  if (houseEl) houseEl.value = user.house || 'Nilgiri';
+  if (bioEl) bioEl.value = user.bio || user.tagline || '';
+  if (batchEl) batchEl.value = user.batch || '';
+
+  if (typeof openModal === 'function') openModal('editProfileModal');
+}
+
+function handleProfileUpdate(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  const curUser = (typeof getCurrentUser === 'function') ? getCurrentUser() : null;
+  if (!curUser) {
+    alert("Please log in to modify your profile.");
+    return;
+  }
+
+  const newName = (document.getElementById('editProfileName')?.value || '').trim();
+  const newPhone = (document.getElementById('editProfilePhone')?.value || '').trim();
+  const newCity = (document.getElementById('editProfileCity')?.value || '').trim();
+  const newProfession = (document.getElementById('editProfileProfession')?.value || '').trim();
+  const newDomain = (document.getElementById('editProfileDomain')?.value || '').trim();
+  const newHouse = (document.getElementById('editProfileHouse')?.value || '').trim();
+  const newBio = (document.getElementById('editProfileBio')?.value || '').trim();
+
+  if (!newName) {
+    alert("Profile name cannot be blank.");
+    return;
+  }
+
+  // Update object properties
+  curUser.name = newName;
+  if (newPhone) curUser.phone = newPhone;
+  if (newCity) {
+    curUser.city = newCity;
+    curUser.location = newCity;
+  }
+  if (newProfession) {
+    curUser.profession = newProfession;
+    curUser.roleTitle = newProfession;
+  }
+  if (newDomain) curUser.domain = newDomain;
+  if (newHouse) curUser.house = newHouse;
+  if (newBio) {
+    curUser.bio = newBio;
+    curUser.tagline = newBio;
+  }
+
+  // Persist session
+  try {
+    const raw = JSON.stringify(curUser);
+    if (typeof sessionStorage !== 'undefined') sessionStorage.setItem('JNVG_CURRENT_USER_SESSION', raw);
+    if (typeof localStorage !== 'undefined') localStorage.setItem('JNVG_CURRENT_USER_SESSION', raw);
+  } catch(err) {
+    console.warn("Session write error:", err);
+  }
+
+  // Persist to registered users DB
+  if (typeof getAllUsers === 'function' && typeof saveAllUsers === 'function') {
+    try {
+      const all = getAllUsers();
+      const idx = all.findIndex(u => (u.id && u.id === curUser.id) || (u.email && u.email.toLowerCase() === (curUser.email || '').toLowerCase()));
+      if (idx !== -1) {
+        all[idx] = { ...all[idx], ...curUser };
+        saveAllUsers(all);
+      }
+    } catch(err) {
+      console.warn("User DB save error:", err);
+    }
+  }
+
+  // Sync to AppState.directory
+  if (AppState && AppState.directory && Array.isArray(AppState.directory)) {
+    const dIdx = AppState.directory.findIndex(d => 
+      (d.email && curUser.email && d.email.toLowerCase() === curUser.email.toLowerCase()) ||
+      (d.name && d.name.toLowerCase() === curUser.name.toLowerCase()) ||
+      (d.id && d.id === curUser.id)
+    );
+    if (dIdx !== -1) {
+      AppState.directory[dIdx].name = newName;
+      if (newProfession) AppState.directory[dIdx].role = newProfession;
+      if (newCity) {
+        AppState.directory[dIdx].location = newCity;
+        AppState.directory[dIdx].city = newCity;
+      }
+      if (newDomain) AppState.directory[dIdx].domain = newDomain;
+      if (newHouse) {
+        AppState.directory[dIdx].house = newHouse;
+        AppState.directory[dIdx].badge = newHouse;
+      }
+      if (newPhone) AppState.directory[dIdx].phone = newPhone;
+    } else {
+      AppState.directory.unshift({
+        id: "dir-" + Date.now(),
+        name: newName,
+        role: newProfession || "Verified Alumnus",
+        location: newCity || "India",
+        city: newCity || "India",
+        domain: newDomain || "General",
+        house: newHouse || "Nilgiri",
+        badge: newHouse || "Nilgiri",
+        phone: newPhone || "",
+        batch: curUser.batch || 2005,
+        tag: "Verified Alumnus",
+        email: curUser.email || ""
+      });
+    }
+
+    if (window.AlumniStorageEngine && typeof window.AlumniStorageEngine.buildCacheIndexes === 'function') {
+      window.AlumniStorageEngine.buildCacheIndexes(AppState.directory);
+    }
+  }
+
+  if (typeof saveAppData === 'function') {
+    saveAppData();
+  }
+
+  // Refresh live UI
+  if (typeof applyUserSession === 'function') applyUserSession(curUser);
+  if (typeof renderDirectory === 'function') renderDirectory();
+
+  if (typeof closeModal === 'function') closeModal('editProfileModal');
+  alert("✓ Your alumnus profile has been successfully updated!");
 }
