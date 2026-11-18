@@ -684,6 +684,36 @@ handleProfileUpdate(mockEvt);
 const userAfterRemoval = getCurrentUser();
 assert(!userAfterRemoval.photo, 'removeProfilePhoto successfully reset photo to null on profile update');
 
+// ----------------------------------------------------
+// TEST SUITE 15: MOBILE APP FULL-FEATURED FIDELITY & ZERO OBSOLETE RECORDS
+// ----------------------------------------------------
+console.log('\n--- TEST SUITE 15: MOBILE APP FULL-FEATURED FIDELITY & ZERO OBSOLETE RECORDS ---');
+
+// 1. Elimination of outdated records
+assert(!mIndexHtml.includes('Welcome, Dr. Amitabh Singh'), 'Eliminated hardcoded Dr. Amitabh Singh greeting from mobile app');
+assert(!mIndexHtml.includes('Batch 1998</span>\n        </div>\n        <h2'), 'Eliminated hardcoded Batch 1998 banner from mobile app');
+assert(!mIndexHtml.includes('../assets'), 'Eliminated broken ../assets relative paths from mobile app');
+
+// 2. Full-featured parity & new sections
+assert(mIndexHtml.includes('id="mTab-notable"'), 'mobile_app/index.html includes complete Notable Alumni Hall of Fame tab');
+assert(mIndexHtml.includes('data-tab="notable"'), 'mobile_app/index.html includes Notable Alumni button in native bottom navigation bar');
+assert(mIndexHtml.includes('id="mThemeToggleBtn"'), 'mobile_app/index.html includes Dual-Theme switcher (Sky Mode vs Dark Navy)');
+assert(mIndexHtml.includes('assets/images/donors-board.jpg'), 'mobile_app/index.html includes Vidyalaya Donor Board plaque');
+assert(mIndexHtml.includes('assets/images/alumni-meet-2026.png'), 'mobile_app/index.html includes 4th Annual Meet invitation poster');
+
+// 3. Revered Gurujan & Floral Homage
+assert(mIndexHtml.includes('Late Dr. S. P. Singh') && mIndexHtml.includes('Late Dr. Preetam Singh'), 'mobile_app/index.html contains Late Dr. S.P. Singh and Late Dr. Preetam Singh');
+assert(mIndexHtml.includes('mTeacherTributeModal'), 'mobile_app/index.html contains floral homage tribute modal (पुष्पांजलि)');
+
+// 4. Key Guidance Sequence & Quotes
+assert(mIndexHtml.includes('NOTABLE_GUIDANCE_LIST'), 'mobile_app/index.html defines NOTABLE_GUIDANCE_LIST with 8 leaders');
+assert(mIndexHtml.includes('**Be grounded..Be Honest..**'), 'mobile_app/index.html includes Ashwini Mishra bold phrase');
+
+// 5. Packaged Assets Directory
+assert(fs.existsSync(path.join(rootDir, 'mobile_app', 'assets', 'images', 'donors-board.jpg')), 'mobile_app/assets contains donors-board.jpg');
+assert(fs.existsSync(path.join(rootDir, 'mobile_app', 'assets', 'images', 'alumni-meet-2026.png')), 'mobile_app/assets contains alumni-meet-2026.png');
+
+
 
 // ----------------------------------------------------
 // TEST SUMMARY

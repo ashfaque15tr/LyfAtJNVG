@@ -1,0 +1,1563 @@
+/* Custom Styles & Overrides for JNV Gauriganj Alumni Platform */
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: #090e1a;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+/* Device Mockup Frame Mode (Simulates Mobile App on Desktop) */
+.mobile-frame-view {
+  max-width: 420px !important;
+  height: 880px !important;
+  border: 12px solid #1e293b !important;
+  border-radius: 44px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  margin: 20px auto !important;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.1) !important;
+  position: relative;
+  background-color: #020617;
+}
+
+.mobile-notch {
+  display: none;
+}
+.mobile-frame-view .mobile-notch {
+  display: block;
+  position: sticky;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150px;
+  height: 22px;
+  background: #1e293b;
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
+  z-index: 9999;
+}
+
+/* Print Specifics for Official Alumni Contribution Receipt */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #printableReceipt, #printableReceipt * {
+    visibility: visible;
+  }
+  #printableReceipt {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 30px;
+    background: #ffffff !important;
+    color: #0f172a !important;
+    box-shadow: none !important;
+    border: 2px solid #0f172a !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* Glassmorphism Accents */
+.glass-panel {
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.gold-glow {
+  box-shadow: 0 0 25px rgba(245, 158, 11, 0.18);
+}
+
+/* Pulse animation for badge */
+@keyframes softPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.02); }
+}
+
+.animate-soft-pulse {
+  animation: softPulse 2.5s infinite ease-in-out;
+}
+
+/* TV News Ticker / Headline Marquee Animation */
+@keyframes tickerScroll {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+.news-ticker-container {
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  width: 100%;
+}
+
+.news-ticker-track {
+  display: inline-block;
+  white-space: nowrap;
+  animation: tickerScroll 24s linear infinite;
+}
+
+.news-ticker-track:hover {
+  animation-play-state: paused;
+}
+
+/* ========================================================================== */
+/* DUAL THEME ENGINE - JNVGFamily (jnvgfamily.in)                             */
+/* 1. Light Sky Blue Theme (data-theme="sky")                                 */
+/* 2. Classic Dark Navy Blue Theme (data-theme="dark")                       */
+/* ========================================================================== */
+
+/* --- 1. LIGHT SKY BLUE THEME (Default & 'sky') --- */
+:root,
+html[data-theme="sky"] {
+  --sky-bg-canvas: #f0f7ff;
+  --sky-bg-surface: #ffffff;
+  --sky-bg-subtle: #e0f2fe;
+  --sky-border-light: #bae6fd;
+  --sky-border-active: #0284c7;
+  --navy-heading: #0c2f54;
+  --navy-subheading: #1e3a8a;
+  --navy-body: #1e3a5f;
+  --navy-muted: #475569;
+  --gold-accent: #b45309;
+}
+
+html[data-theme="sky"] body,
+body:not(.theme-dark) {
+  background-color: var(--sky-bg-canvas) !important;
+  color: var(--navy-body) !important;
+}
+
+html[data-theme="sky"] #appViewportContainer,
+html[data-theme="sky"] main,
+body:not(.theme-dark) #appViewportContainer,
+body:not(.theme-dark) main {
+  background-color: var(--sky-bg-canvas) !important;
+}
+
+/* Headings in Light Sky Blue Theme */
+html[data-theme="sky"] h1, 
+html[data-theme="sky"] h2, 
+html[data-theme="sky"] h3, 
+html[data-theme="sky"] h4, 
+html[data-theme="sky"] h5, 
+html[data-theme="sky"] h6,
+html[data-theme="sky"] .font-cinzel,
+body:not(.theme-dark) h1,
+body:not(.theme-dark) h2,
+body:not(.theme-dark) h3,
+body:not(.theme-dark) h4,
+body:not(.theme-dark) h5,
+body:not(.theme-dark) h6,
+body:not(.theme-dark) .font-cinzel {
+  color: var(--navy-heading) !important;
+}
+
+/* Header & Navigation Bar in Sky Theme */
+html[data-theme="sky"] header,
+body:not(.theme-dark) header {
+  background: rgba(255, 255, 255, 0.96) !important;
+  border-bottom: 1px solid var(--sky-border-light) !important;
+  color: var(--navy-heading) !important;
+  box-shadow: 0 1px 4px 0 rgba(12, 74, 110, 0.05) !important;
+}
+
+html[data-theme="sky"] #rbacBanner,
+body:not(.theme-dark) #rbacBanner {
+  background-color: #e0f2fe !important;
+  border-bottom: 1px solid var(--sky-border-light) !important;
+  color: var(--navy-heading) !important;
+}
+
+html[data-theme="sky"] #rbacBanner #roleBadge,
+body:not(.theme-dark) #rbacBanner #roleBadge {
+  background-color: #ffffff !important;
+  border: 1px solid var(--sky-border-light) !important;
+  color: var(--navy-heading) !important;
+}
+
+/* Top Hero Section in Light Sky Blue Theme */
+html[data-theme="sky"] #appViewportContainer > section:first-of-type,
+body:not(.theme-dark) #appViewportContainer > section:first-of-type {
+  background: linear-gradient(135deg, #e0f2fe 0%, #f0f7ff 50%, #ffffff 100%) !important;
+  border-bottom: 1px solid var(--sky-border-light) !important;
+}
+
+html[data-theme="sky"] #appViewportContainer > section:first-of-type h1,
+html[data-theme="sky"] #appViewportContainer > section:first-of-type p,
+body:not(.theme-dark) #appViewportContainer > section:first-of-type h1,
+body:not(.theme-dark) #appViewportContainer > section:first-of-type p {
+  color: var(--navy-heading) !important;
+}
+
+/* Navigation Tabs Container */
+html[data-theme="sky"] nav,
+body:not(.theme-dark) nav {
+  background: rgba(255, 255, 255, 0.96) !important;
+  border-top: 1px solid var(--sky-border-light) !important;
+  border-bottom: 1px solid var(--sky-border-light) !important;
+}
+
+html[data-theme="sky"] .nav-tab,
+body:not(.theme-dark) .nav-tab {
+  color: var(--navy-body) !important;
+}
+
+html[data-theme="sky"] .nav-tab:hover,
+body:not(.theme-dark) .nav-tab:hover {
+  background-color: #e0f2fe !important;
+  color: #0369a1 !important;
+}
+
+html[data-theme="sky"] .nav-tab.active,
+body:not(.theme-dark) .nav-tab.active {
+  background-color: #0284c7 !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px -1px rgba(2, 132, 199, 0.4) !important;
+}
+
+html[data-theme="sky"] .nav-tab.active svg,
+body:not(.theme-dark) .nav-tab.active svg {
+  color: #ffffff !important;
+}
+
+/* ========================================================================== */
+/* LIGHT SKY THEME - COMPLETE UNIVERSAL SURFACE REVAMP                      */
+/* Removes ALL dark gradients and dark backgrounds across EVERY single tab    */
+/* ========================================================================== */
+
+/* JNVGFamily Brand Title Highlight in Light Sky Mode (No Dull Black!) */
+html[data-theme="sky"] .brand-jnvg-title,
+html[data-theme="sky"] h1 .font-sans.font-extrabold.text-amber-400,
+html[data-theme="sky"] footer .font-sans.font-extrabold.text-amber-400,
+body:not(.theme-dark) .brand-jnvg-title,
+body:not(.theme-dark) h1 .font-sans.font-extrabold.text-amber-400,
+body:not(.theme-dark) footer .font-sans.font-extrabold.text-amber-400 {
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: #0284c7 !important;
+  font-weight: 900 !important;
+}
+
+html[data-theme="sky"] .brand-association-title,
+body:not(.theme-dark) .brand-association-title {
+  color: #0c2f54 !important;
+  -webkit-text-fill-color: #0c2f54 !important;
+  font-weight: 700 !important;
+}
+
+/* 1. All Card Surfaces, Panels, and Containers across all tabs */
+html[data-theme="sky"] .tab-content > div,
+html[data-theme="sky"] .dir-card,
+html[data-theme="sky"] .tch-card,
+html[data-theme="sky"] .feed-card,
+html[data-theme="sky"] [class*="bg-slate-950"],
+html[data-theme="sky"] [class*="bg-slate-900"],
+html[data-theme="sky"] [class*="bg-slate-800"]:not(button):not(a),
+html[data-theme="sky"] [class*="bg-brand-950"],
+html[data-theme="sky"] [class*="bg-brand-900"],
+html[data-theme="sky"] [class*="bg-amber-950"],
+html[data-theme="sky"] [class*="bg-cyan-950"],
+html[data-theme="sky"] [class*="bg-purple-950"],
+html[data-theme="sky"] [class*="bg-emerald-950"],
+html[data-theme="sky"] [class*="from-slate-"],
+html[data-theme="sky"] [class*="to-slate-"],
+html[data-theme="sky"] [class*="via-slate-"],
+html[data-theme="sky"] [class*="from-brand-"],
+html[data-theme="sky"] [class*="to-brand-"],
+html[data-theme="sky"] [class*="from-amber-950"],
+html[data-theme="sky"] [class*="from-cyan-950"],
+html[data-theme="sky"] [class*="from-purple-950"],
+body:not(.theme-dark) .tab-content > div,
+body:not(.theme-dark) .dir-card,
+body:not(.theme-dark) .tch-card,
+body:not(.theme-dark) .feed-card,
+body:not(.theme-dark) [class*="bg-slate-950"],
+body:not(.theme-dark) [class*="bg-slate-900"],
+body:not(.theme-dark) [class*="bg-slate-800"]:not(button):not(a),
+body:not(.theme-dark) [class*="bg-brand-950"],
+body:not(.theme-dark) [class*="bg-brand-900"],
+body:not(.theme-dark) [class*="bg-amber-950"],
+body:not(.theme-dark) [class*="bg-cyan-950"],
+body:not(.theme-dark) [class*="bg-purple-950"],
+body:not(.theme-dark) [class*="bg-emerald-950"],
+body:not(.theme-dark) [class*="from-slate-"],
+body:not(.theme-dark) [class*="to-slate-"],
+body:not(.theme-dark) [class*="via-slate-"],
+body:not(.theme-dark) [class*="from-brand-"],
+body:not(.theme-dark) [class*="to-brand-"],
+body:not(.theme-dark) [class*="from-amber-950"],
+body:not(.theme-dark) [class*="from-cyan-950"],
+body:not(.theme-dark) [class*="from-purple-950"] {
+  background-image: none !important;
+  background-color: #ffffff !important;
+  border-color: #bae6fd !important;
+  color: #1e3a5f !important;
+  box-shadow: 0 4px 16px -2px rgba(12, 74, 110, 0.08) !important;
+}
+
+/* Hover elevation */
+html[data-theme="sky"] .dir-card:hover,
+html[data-theme="sky"] .tch-card:hover,
+html[data-theme="sky"] .feed-card:hover,
+body:not(.theme-dark) .dir-card:hover,
+body:not(.theme-dark) .tch-card:hover,
+body:not(.theme-dark) .feed-card:hover {
+  border-color: #0284c7 !important;
+  box-shadow: 0 10px 25px -4px rgba(12, 74, 110, 0.15) !important;
+}
+
+/* 2. Hero and Spotlight Cards: Crisp Soft Sky Gradient */
+html[data-theme="sky"] #homeHeroCard,
+html[data-theme="sky"] #teachersSpotlight,
+html[data-theme="sky"] #tab-teachers > div:first-child,
+html[data-theme="sky"] #tab-meet > div:first-child,
+html[data-theme="sky"] #tab-helpdesk > div:nth-child(2),
+html[data-theme="sky"] #tab-notable > div:nth-child(3),
+body:not(.theme-dark) #homeHeroCard,
+body:not(.theme-dark) #teachersSpotlight,
+body:not(.theme-dark) #tab-teachers > div:first-child,
+body:not(.theme-dark) #tab-meet > div:first-child,
+body:not(.theme-dark) #tab-helpdesk > div:nth-child(2),
+body:not(.theme-dark) #tab-notable > div:nth-child(3) {
+  background-image: linear-gradient(135deg, #ffffff 0%, #f0f7ff 50%, #e0f2fe 100%) !important;
+  background-color: #ffffff !important;
+  border: 2px solid #bae6fd !important;
+  box-shadow: 0 10px 30px -5px rgba(12, 74, 110, 0.12) !important;
+}
+
+/* Spotlight inner cards */
+html[data-theme="sky"] #teachersSpotlight .grid > div,
+body:not(.theme-dark) #teachersSpotlight .grid > div {
+  background: #ffffff !important;
+  border: 1.5px solid #bae6fd !important;
+  box-shadow: 0 4px 16px -2px rgba(12, 74, 110, 0.08) !important;
+}
+
+/* 3. Sub-cards, Hindi Quotes, Tenure & Info Badges */
+html[data-theme="sky"] .tab-content [class*="bg-slate-950/"],
+html[data-theme="sky"] .tab-content [class*="bg-slate-900/"],
+html[data-theme="sky"] .tab-content [class*="bg-slate-800/"],
+html[data-theme="sky"] .tab-content .font-hindi,
+html[data-theme="sky"] .tab-content .p-3.rounded-xl.bg-slate-900,
+html[data-theme="sky"] .tab-content .p-4.rounded-2xl.bg-slate-950,
+html[data-theme="sky"] .tab-content .p-3.5.rounded-2xl.bg-slate-950,
+body:not(.theme-dark) .tab-content [class*="bg-slate-950/"],
+body:not(.theme-dark) .tab-content [class*="bg-slate-900/"],
+body:not(.theme-dark) .tab-content [class*="bg-slate-800/"],
+body:not(.theme-dark) .tab-content .font-hindi,
+body:not(.theme-dark) .tab-content .p-3.rounded-xl.bg-slate-900,
+body:not(.theme-dark) .tab-content .p-4.rounded-2xl.bg-slate-950,
+body:not(.theme-dark) .tab-content .p-3.5.rounded-2xl.bg-slate-950 {
+  background-image: none !important;
+  background-color: #f0f7ff !important;
+  border: 1px solid #bae6fd !important;
+  color: #0c2f54 !important;
+  -webkit-text-fill-color: #0c2f54 !important;
+}
+
+/* Guru Sandesh Quote Box */
+html[data-theme="sky"] [class*="bg-amber-500/5"],
+body:not(.theme-dark) [class*="bg-amber-500/5"] {
+  background-image: none !important;
+  background-color: #fefce8 !important;
+  border-left: 3px solid #f59e0b !important;
+}
+html[data-theme="sky"] [class*="bg-amber-500/5"] p,
+body:not(.theme-dark) [class*="bg-amber-500/5"] p {
+  color: #78350f !important;
+  -webkit-text-fill-color: #78350f !important;
+}
+
+/* 4. Circular & Rounded Avatar Initials */
+html[data-theme="sky"] .rounded-full[class*="bg-amber-"],
+html[data-theme="sky"] .rounded-2xl[class*="bg-amber-"],
+html[data-theme="sky"] [class*="rounded-"][class*="bg-amber-500/1"],
+html[data-theme="sky"] [class*="rounded-"][class*="bg-amber-500/2"],
+html[data-theme="sky"] .w-14.h-14[class*="bg-amber-"],
+body:not(.theme-dark) .rounded-full[class*="bg-amber-"],
+body:not(.theme-dark) .rounded-2xl[class*="bg-amber-"],
+body:not(.theme-dark) [class*="rounded-"][class*="bg-amber-500/1"],
+body:not(.theme-dark) [class*="rounded-"][class*="bg-amber-500/2"],
+body:not(.theme-dark) .w-14.h-14[class*="bg-amber-"] {
+  background-image: none !important;
+  background-color: #fef3c7 !important;
+  border: 1.5px solid #fde68a !important;
+  color: #b45309 !important;
+  -webkit-text-fill-color: #b45309 !important;
+  font-weight: 800 !important;
+}
+
+html[data-theme="sky"] .rounded-full[class*="bg-brand-"],
+html[data-theme="sky"] .rounded-full[class*="bg-blue-"],
+html[data-theme="sky"] .rounded-2xl[class*="bg-blue-"],
+html[data-theme="sky"] .w-14.h-14[class*="bg-blue-"],
+body:not(.theme-dark) .rounded-full[class*="bg-brand-"],
+body:not(.theme-dark) .rounded-full[class*="bg-blue-"],
+body:not(.theme-dark) .rounded-2xl[class*="bg-blue-"],
+body:not(.theme-dark) .w-14.h-14[class*="bg-blue-"] {
+  background-image: none !important;
+  background-color: #dbeafe !important;
+  border: 1.5px solid #bfdbfe !important;
+  color: #1d4ed8 !important;
+  -webkit-text-fill-color: #1d4ed8 !important;
+  font-weight: 800 !important;
+}
+
+html[data-theme="sky"] .rounded-full[class*="bg-emerald-"],
+html[data-theme="sky"] .rounded-2xl[class*="bg-emerald-"],
+html[data-theme="sky"] .w-14.h-14[class*="bg-emerald-"],
+body:not(.theme-dark) .rounded-full[class*="bg-emerald-"],
+body:not(.theme-dark) .rounded-2xl[class*="bg-emerald-"],
+body:not(.theme-dark) .w-14.h-14[class*="bg-emerald-"] {
+  background-image: none !important;
+  background-color: #d1fae5 !important;
+  border: 1.5px solid #a7f3d0 !important;
+  color: #047857 !important;
+  -webkit-text-fill-color: #047857 !important;
+  font-weight: 800 !important;
+}
+
+html[data-theme="sky"] .rounded-full[class*="bg-purple-"],
+html[data-theme="sky"] .rounded-2xl[class*="bg-purple-"],
+html[data-theme="sky"] .w-14.h-14[class*="bg-purple-"],
+body:not(.theme-dark) .rounded-full[class*="bg-purple-"],
+body:not(.theme-dark) .rounded-2xl[class*="bg-purple-"],
+body:not(.theme-dark) .w-14.h-14[class*="bg-purple-"] {
+  background-image: none !important;
+  background-color: #f3e8ff !important;
+  border: 1.5px solid #e9d5ff !important;
+  color: #7e22ce !important;
+  -webkit-text-fill-color: #7e22ce !important;
+  font-weight: 800 !important;
+}
+
+html[data-theme="sky"] .rounded-full[class*="bg-red-"],
+html[data-theme="sky"] .rounded-full[class*="bg-rose-"],
+body:not(.theme-dark) .rounded-full[class*="bg-red-"],
+body:not(.theme-dark) .rounded-full[class*="bg-rose-"] {
+  background-image: none !important;
+  background-color: #fee2e2 !important;
+  border: 1.5px solid #fecaca !important;
+  color: #b91c1c !important;
+  -webkit-text-fill-color: #b91c1c !important;
+  font-weight: 800 !important;
+}
+
+/* 5. News Ticker Strip in Light Sky Mode */
+html[data-theme="sky"] .news-ticker-container,
+html[data-theme="sky"] .news-ticker-container > div,
+body:not(.theme-dark) .news-ticker-container,
+body:not(.theme-dark) .news-ticker-container > div {
+  background: linear-gradient(135deg, #e0f2fe 0%, #f0f7ff 50%, #ffffff 100%) !important;
+  border: 1.5px solid #bae6fd !important;
+  box-shadow: 0 4px 14px -2px rgba(12, 74, 110, 0.08) !important;
+}
+html[data-theme="sky"] .news-ticker-track,
+html[data-theme="sky"] .news-ticker-track span,
+html[data-theme="sky"] .news-ticker-container *,
+body:not(.theme-dark) .news-ticker-track,
+body:not(.theme-dark) .news-ticker-track span,
+body:not(.theme-dark) .news-ticker-container * {
+  color: #0c2f54 !important;
+  -webkit-text-fill-color: #0c2f54 !important;
+  font-weight: 800 !important;
+}
+
+/* Hero Section Gradient Text in Light Sky Mode */
+html[data-theme="sky"] #homeHeroCard h2 span,
+body:not(.theme-dark) #homeHeroCard h2 span {
+  background: linear-gradient(135deg, #b45309 0%, #0369a1 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: #b45309 !important;
+  font-weight: 900 !important;
+}
+
+/* 6. Comprehensive Light Sky Typography Overrides - Document-Wide High Contrast */
+html[data-theme="sky"] h1,
+html[data-theme="sky"] h2,
+html[data-theme="sky"] h3,
+html[data-theme="sky"] h4,
+html[data-theme="sky"] h5,
+html[data-theme="sky"] h6,
+html[data-theme="sky"] .font-cinzel,
+body:not(.theme-dark) h1,
+body:not(.theme-dark) h2,
+body:not(.theme-dark) h3,
+body:not(.theme-dark) h4,
+body:not(.theme-dark) h5,
+body:not(.theme-dark) h6,
+body:not(.theme-dark) .font-cinzel {
+  color: #0c2f54 !important;
+  -webkit-text-fill-color: #0c2f54 !important;
+  font-weight: 800 !important;
+}
+
+html[data-theme="sky"] p,
+html[data-theme="sky"] li,
+body:not(.theme-dark) p,
+body:not(.theme-dark) li {
+  color: #1e3a5f !important;
+  -webkit-text-fill-color: #1e3a5f !important;
+}
+
+/* Text-White Overrides in Light Sky Mode: Convert to Deep Navy EXCEPT on Primary Action Buttons */
+html[data-theme="sky"] .text-white:not(button.bg-blue-600 *):not(button.bg-emerald-600 *):not(button.bg-purple-600 *):not(button.bg-rose-600 *):not(button.bg-red-600 *):not(a.bg-blue-600 *):not(a.bg-emerald-600 *):not(a.bg-purple-600 *):not(.nav-tab.active *):not(.btn-primary *):not(.badge-solid *):not(.auth-card-left *),
+html[data-theme="sky"] .text-slate-50:not(.auth-card-left *),
+html[data-theme="sky"] .text-slate-100:not(.auth-card-left *),
+html[data-theme="sky"] .text-slate-200:not(.auth-card-left *),
+body:not(.theme-dark) .text-white:not(button.bg-blue-600 *):not(button.bg-emerald-600 *):not(button.bg-purple-600 *):not(button.bg-rose-600 *):not(button.bg-red-600 *):not(a.bg-blue-600 *):not(a.bg-emerald-600 *):not(a.bg-purple-600 *):not(.nav-tab.active *):not(.btn-primary *):not(.badge-solid *):not(.auth-card-left *),
+body:not(.theme-dark) .text-slate-50:not(.auth-card-left *),
+body:not(.theme-dark) .text-slate-100:not(.auth-card-left *),
+body:not(.theme-dark) .text-slate-200:not(.auth-card-left *) {
+  color: #0c2f54 !important;
+  -webkit-text-fill-color: #0c2f54 !important;
+  font-weight: 700 !important;
+}
+
+html[data-theme="sky"] .text-slate-300:not(.auth-card-left *),
+html[data-theme="sky"] .text-slate-400:not(.auth-card-left *),
+html[data-theme="sky"] .text-slate-500,
+body:not(.theme-dark) .text-slate-300:not(.auth-card-left *),
+body:not(.theme-dark) .text-slate-400:not(.auth-card-left *),
+body:not(.theme-dark) .text-slate-500 {
+  color: #334155 !important;
+  -webkit-text-fill-color: #334155 !important;
+}
+
+html[data-theme="sky"] .text-slate-600,
+html[data-theme="sky"] .text-slate-700,
+body:not(.theme-dark) .text-slate-600,
+body:not(.theme-dark) .text-slate-700 {
+  color: #1e3a5f !important;
+  -webkit-text-fill-color: #1e3a5f !important;
+}
+
+/* Amber, Yellow & Gold Text in Light Sky Mode - Deep Rich Ochre/Gold for High Contrast */
+html[data-theme="sky"] .text-amber-50,
+html[data-theme="sky"] .text-amber-100,
+html[data-theme="sky"] .text-amber-200,
+html[data-theme="sky"] .text-amber-300,
+html[data-theme="sky"] .text-amber-400,
+html[data-theme="sky"] .text-gold-400,
+html[data-theme="sky"] .text-yellow-100,
+html[data-theme="sky"] .text-yellow-200,
+html[data-theme="sky"] .text-yellow-300,
+html[data-theme="sky"] .text-yellow-400,
+body:not(.theme-dark) .text-amber-50,
+body:not(.theme-dark) .text-amber-100,
+body:not(.theme-dark) .text-amber-200,
+body:not(.theme-dark) .text-amber-300,
+body:not(.theme-dark) .text-amber-400,
+body:not(.theme-dark) .text-gold-400,
+body:not(.theme-dark) .text-yellow-100,
+body:not(.theme-dark) .text-yellow-200,
+body:not(.theme-dark) .text-yellow-300,
+body:not(.theme-dark) .text-yellow-400 {
+  color: #92400e !important;
+  -webkit-text-fill-color: #92400e !important;
+  font-weight: 700 !important;
+}
+
+/* Emerald Text */
+html[data-theme="sky"] .text-emerald-50,
+html[data-theme="sky"] .text-emerald-100,
+html[data-theme="sky"] .text-emerald-200,
+html[data-theme="sky"] .text-emerald-300,
+html[data-theme="sky"] .text-emerald-400,
+body:not(.theme-dark) .text-emerald-50,
+body:not(.theme-dark) .text-emerald-100,
+body:not(.theme-dark) .text-emerald-200,
+body:not(.theme-dark) .text-emerald-300,
+body:not(.theme-dark) .text-emerald-400 {
+  color: #065f46 !important;
+  -webkit-text-fill-color: #065f46 !important;
+  font-weight: 700 !important;
+}
+
+/* Cyan & Blue Text */
+html[data-theme="sky"] .text-blue-50,
+html[data-theme="sky"] .text-blue-100,
+html[data-theme="sky"] .text-blue-200,
+html[data-theme="sky"] .text-cyan-100,
+html[data-theme="sky"] .text-cyan-200,
+html[data-theme="sky"] .text-cyan-300,
+html[data-theme="sky"] .text-cyan-400,
+html[data-theme="sky"] .text-blue-300,
+html[data-theme="sky"] .text-blue-400,
+body:not(.theme-dark) .text-blue-50,
+body:not(.theme-dark) .text-blue-100,
+body:not(.theme-dark) .text-blue-200,
+body:not(.theme-dark) .text-cyan-100,
+body:not(.theme-dark) .text-cyan-200,
+body:not(.theme-dark) .text-cyan-300,
+body:not(.theme-dark) .text-cyan-400,
+body:not(.theme-dark) .text-blue-300,
+body:not(.theme-dark) .text-blue-400 {
+  color: #1e40af !important;
+  -webkit-text-fill-color: #1e40af !important;
+  font-weight: 700 !important;
+}
+
+/* Purple Text */
+html[data-theme="sky"] .text-purple-100,
+html[data-theme="sky"] .text-purple-200,
+html[data-theme="sky"] .text-purple-300,
+html[data-theme="sky"] .text-purple-400,
+body:not(.theme-dark) .text-purple-100,
+body:not(.theme-dark) .text-purple-200,
+body:not(.theme-dark) .text-purple-300,
+body:not(.theme-dark) .text-purple-400 {
+  color: #6b21a8 !important;
+  -webkit-text-fill-color: #6b21a8 !important;
+  font-weight: 700 !important;
+}
+
+/* Red & Rose Text */
+html[data-theme="sky"] .text-red-100,
+html[data-theme="sky"] .text-red-200,
+html[data-theme="sky"] .text-red-300,
+html[data-theme="sky"] .text-red-400,
+html[data-theme="sky"] .text-rose-100,
+html[data-theme="sky"] .text-rose-200,
+html[data-theme="sky"] .text-rose-300,
+html[data-theme="sky"] .text-rose-400,
+body:not(.theme-dark) .text-red-100,
+body:not(.theme-dark) .text-red-200,
+body:not(.theme-dark) .text-red-300,
+body:not(.theme-dark) .text-red-400,
+body:not(.theme-dark) .text-rose-100,
+body:not(.theme-dark) .text-rose-200,
+body:not(.theme-dark) .text-rose-300,
+body:not(.theme-dark) .text-rose-400 {
+  color: #991b1b !important;
+  -webkit-text-fill-color: #991b1b !important;
+  font-weight: 700 !important;
+}
+
+/* 7. Action Buttons in Light Sky Mode */
+/* Secondary / Slate Buttons */
+html[data-theme="sky"] button[class*="bg-slate-800"],
+html[data-theme="sky"] button[class*="bg-slate-900"],
+html[data-theme="sky"] button[class*="bg-slate-950"],
+html[data-theme="sky"] a[class*="bg-slate-800"],
+html[data-theme="sky"] a[class*="bg-slate-900"],
+body:not(.theme-dark) button[class*="bg-slate-800"],
+body:not(.theme-dark) button[class*="bg-slate-900"],
+body:not(.theme-dark) button[class*="bg-slate-950"],
+body:not(.theme-dark) a[class*="bg-slate-800"],
+body:not(.theme-dark) a[class*="bg-slate-900"] {
+  background-image: none !important;
+  background-color: #f0f7ff !important;
+  border: 1.5px solid #bae6fd !important;
+  color: #0c2f54 !important;
+  -webkit-text-fill-color: #0c2f54 !important;
+  font-weight: 700 !important;
+}
+html[data-theme="sky"] button[class*="bg-slate-800"]:hover,
+html[data-theme="sky"] button[class*="bg-slate-900"]:hover,
+html[data-theme="sky"] button[class*="bg-slate-950"]:hover,
+body:not(.theme-dark) button[class*="bg-slate-800"]:hover,
+body:not(.theme-dark) button[class*="bg-slate-900"]:hover,
+body:not(.theme-dark) button[class*="bg-slate-950"]:hover {
+  background-color: #e0f2fe !important;
+  border-color: #0284c7 !important;
+  color: #0369a1 !important;
+}
+
+/* Primary Action Buttons: Pure Crisp White Text Guaranteed */
+html[data-theme="sky"] button.bg-emerald-600,
+html[data-theme="sky"] button.bg-emerald-700,
+html[data-theme="sky"] button.bg-blue-600,
+html[data-theme="sky"] button.bg-blue-700,
+html[data-theme="sky"] button.bg-purple-600,
+html[data-theme="sky"] button.bg-rose-600,
+html[data-theme="sky"] button.bg-red-600,
+html[data-theme="sky"] a.bg-emerald-600,
+html[data-theme="sky"] a.bg-blue-600,
+html[data-theme="sky"] a.bg-purple-600,
+html[data-theme="sky"] .nav-tab.active,
+html[data-theme="sky"] .btn-primary,
+body:not(.theme-dark) button.bg-emerald-600,
+body:not(.theme-dark) button.bg-emerald-700,
+body:not(.theme-dark) button.bg-blue-600,
+body:not(.theme-dark) button.bg-blue-700,
+body:not(.theme-dark) button.bg-purple-600,
+body:not(.theme-dark) button.bg-rose-600,
+body:not(.theme-dark) button.bg-red-600,
+body:not(.theme-dark) a.bg-emerald-600,
+body:not(.theme-dark) a.bg-blue-600,
+body:not(.theme-dark) a.bg-purple-600,
+body:not(.theme-dark) .nav-tab.active,
+body:not(.theme-dark) .btn-primary {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+html[data-theme="sky"] button.bg-blue-600 *,
+html[data-theme="sky"] button.bg-blue-700 *,
+html[data-theme="sky"] button.bg-emerald-600 *,
+html[data-theme="sky"] button.bg-emerald-700 *,
+html[data-theme="sky"] button.bg-purple-600 *,
+html[data-theme="sky"] button.bg-rose-600 *,
+html[data-theme="sky"] button.bg-red-600 *,
+html[data-theme="sky"] a.bg-blue-600 *,
+html[data-theme="sky"] a.bg-emerald-600 *,
+html[data-theme="sky"] .btn-primary *,
+html[data-theme="sky"] .nav-tab.active *,
+body:not(.theme-dark) button.bg-blue-600 *,
+body:not(.theme-dark) button.bg-blue-700 *,
+body:not(.theme-dark) button.bg-emerald-600 *,
+body:not(.theme-dark) button.bg-emerald-700 *,
+body:not(.theme-dark) button.bg-purple-600 *,
+body:not(.theme-dark) button.bg-rose-600 *,
+body:not(.theme-dark) button.bg-red-600 *,
+body:not(.theme-dark) a.bg-blue-600 *,
+body:not(.theme-dark) a.bg-emerald-600 *,
+body:not(.theme-dark) .btn-primary *,
+body:not(.theme-dark) .nav-tab.active * {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Gold / Amber Action Buttons retain dark text */
+html[data-theme="sky"] button.bg-amber-500,
+html[data-theme="sky"] button.bg-gold-500,
+html[data-theme="sky"] a.bg-gold-500,
+html[data-theme="sky"] a.bg-amber-500,
+html[data-theme="sky"] [class*="from-amber-500"],
+body:not(.theme-dark) button.bg-amber-500,
+body:not(.theme-dark) button.bg-gold-500,
+body:not(.theme-dark) a.bg-gold-500,
+body:not(.theme-dark) a.bg-amber-500,
+body:not(.theme-dark) [class*="from-amber-500"] {
+  color: #020617 !important;
+  -webkit-text-fill-color: #020617 !important;
+  font-weight: 800 !important;
+}
+
+/* 8. Form Inputs in Light Sky */
+html[data-theme="sky"] input,
+html[data-theme="sky"] select,
+html[data-theme="sky"] textarea,
+body:not(.theme-dark) input,
+body:not(.theme-dark) select,
+body:not(.theme-dark) textarea {
+  background-color: #ffffff !important;
+  border: 1.5px solid #bae6fd !important;
+  color: #0c2f54 !important;
+  -webkit-text-fill-color: #0c2f54 !important;
+}
+html[data-theme="sky"] input::placeholder,
+html[data-theme="sky"] textarea::placeholder,
+body:not(.theme-dark) input::placeholder,
+body:not(.theme-dark) textarea::placeholder {
+  color: #64748b !important;
+  -webkit-text-fill-color: #64748b !important;
+}
+
+/* 9. Modals in Light Sky Theme */
+html[data-theme="sky"] .modal-content,
+html[data-theme="sky"] div[id$="Modal"] > div:last-child,
+body:not(.theme-dark) .modal-content,
+body:not(.theme-dark) div[id$="Modal"] > div:last-child {
+  background-color: #ffffff !important;
+  border: 2px solid #bae6fd !important;
+  color: #1e3a5f !important;
+  box-shadow: 0 20px 45px -10px rgba(12, 74, 110, 0.25) !important;
+}
+html[data-theme="sky"] div[id$="Modal"] h1,
+html[data-theme="sky"] div[id$="Modal"] h2,
+html[data-theme="sky"] div[id$="Modal"] h3,
+html[data-theme="sky"] div[id$="Modal"] h4,
+html[data-theme="sky"] div[id$="Modal"] label,
+body:not(.theme-dark) div[id$="Modal"] h1,
+body:not(.theme-dark) div[id$="Modal"] h2,
+body:not(.theme-dark) div[id$="Modal"] h3,
+body:not(.theme-dark) div[id$="Modal"] h4,
+body:not(.theme-dark) div[id$="Modal"] label {
+  color: #0c2f54 !important;
+  -webkit-text-fill-color: #0c2f54 !important;
+  font-weight: 700 !important;
+}
+
+/* 9B. Alumni Chat Modal in Light Sky Mode */
+html[data-theme="sky"] #alumniChatModal > div,
+body:not(.theme-dark) #alumniChatModal > div {
+  background-color: #ffffff !important;
+  border: 2px solid #bae6fd !important;
+}
+
+html[data-theme="sky"] #alumniChatModal .bg-slate-950\/90,
+html[data-theme="sky"] #alumniChatModal .bg-slate-950\/60,
+html[data-theme="sky"] #alumniChatModal .bg-slate-950\/40,
+html[data-theme="sky"] #alumniChatModal .bg-slate-950\/50,
+html[data-theme="sky"] #alumniChatModal .bg-slate-950,
+body:not(.theme-dark) #alumniChatModal .bg-slate-950\/90,
+body:not(.theme-dark) #alumniChatModal .bg-slate-950\/60,
+body:not(.theme-dark) #alumniChatModal .bg-slate-950\/40,
+body:not(.theme-dark) #alumniChatModal .bg-slate-950\/50,
+body:not(.theme-dark) #alumniChatModal .bg-slate-950 {
+  background-color: #f0f7ff !important;
+  border-color: #bae6fd !important;
+}
+
+html[data-theme="sky"] #alumniChatModal .bg-slate-900\/60,
+html[data-theme="sky"] #alumniChatModal .bg-slate-900,
+body:not(.theme-dark) #alumniChatModal .bg-slate-900\/60,
+body:not(.theme-dark) #alumniChatModal .bg-slate-900 {
+  background-color: #ffffff !important;
+  border-color: #bae6fd !important;
+}
+
+html[data-theme="sky"] #chatConversationsList > div,
+body:not(.theme-dark) #chatConversationsList > div {
+  background-color: #ffffff !important;
+  border: 1px solid #bae6fd !important;
+}
+
+html[data-theme="sky"] #chatConversationsList > div:hover,
+body:not(.theme-dark) #chatConversationsList > div:hover {
+  background-color: #e0f2fe !important;
+  border-color: #0284c7 !important;
+}
+
+html[data-theme="sky"] #chatMessagesContainer,
+body:not(.theme-dark) #chatMessagesContainer {
+  background-color: #f0f7ff !important;
+}
+
+html[data-theme="sky"] #chatMessageInput,
+body:not(.theme-dark) #chatMessageInput {
+  background-color: #ffffff !important;
+  border: 1.5px solid #bae6fd !important;
+  color: #0c2f54 !important;
+}
+
+/* 9C. New Chat Selector Modal in Light Sky Mode */
+html[data-theme="sky"] #newChatSelectorModal > div,
+body:not(.theme-dark) #newChatSelectorModal > div {
+  background-color: #ffffff !important;
+  border: 2px solid #bae6fd !important;
+}
+
+html[data-theme="sky"] #newChatDirectoryList button,
+body:not(.theme-dark) #newChatDirectoryList button {
+  background-color: #f0f7ff !important;
+  border: 1px solid #bae6fd !important;
+  color: #0c2f54 !important;
+}
+
+html[data-theme="sky"] #newChatDirectoryList button:hover,
+body:not(.theme-dark) #newChatDirectoryList button:hover {
+  background-color: #e0f2fe !important;
+  border-color: #0284c7 !important;
+}
+
+/* 9D. Header Profile Capsule & Top Buttons in Light Sky Mode */
+html[data-theme="sky"] #userProfileTopBar > div,
+html[data-theme="sky"] #topInboxBtn,
+body:not(.theme-dark) #userProfileTopBar > div,
+body:not(.theme-dark) #topInboxBtn {
+  background-color: #ffffff !important;
+  border: 1.5px solid #bae6fd !important;
+  color: #0c2f54 !important;
+  box-shadow: 0 1px 4px 0 rgba(12, 74, 110, 0.08) !important;
+}
+
+html[data-theme="sky"] #topInboxBtn svg,
+body:not(.theme-dark) #topInboxBtn svg {
+  color: #b45309 !important;
+}
+
+html[data-theme="sky"] #guestTopBar button,
+body:not(.theme-dark) #guestTopBar button {
+  background-color: #ffffff !important;
+  border: 1.5px solid #bae6fd !important;
+  color: #0c2f54 !important;
+}
+
+/* 4 Houses Bar in Header */
+html[data-theme="sky"] #appViewportContainer > section:first-of-type .bg-slate-900\/90,
+body:not(.theme-dark) #appViewportContainer > section:first-of-type .bg-slate-900\/90 {
+  background-color: #ffffff !important;
+  border: 1.5px solid #bae6fd !important;
+}
+
+html[data-theme="sky"] .bg-red-950\/80,
+body:not(.theme-dark) .bg-red-950\/80 {
+  background-color: #fef2f2 !important;
+  border: 1.5px solid #fca5a5 !important;
+}
+html[data-theme="sky"] .bg-red-950\/80 span,
+body:not(.theme-dark) .bg-red-950\/80 span {
+  color: #991b1b !important;
+  -webkit-text-fill-color: #991b1b !important;
+  font-weight: 800 !important;
+}
+
+html[data-theme="sky"] .bg-blue-950\/80,
+body:not(.theme-dark) .bg-blue-950\/80 {
+  background-color: #eff6ff !important;
+  border: 1.5px solid #93c5fd !important;
+}
+html[data-theme="sky"] .bg-blue-950\/80 span,
+body:not(.theme-dark) .bg-blue-950\/80 span {
+  color: #1e40af !important;
+  -webkit-text-fill-color: #1e40af !important;
+  font-weight: 800 !important;
+}
+
+html[data-theme="sky"] .bg-yellow-950\/80,
+body:not(.theme-dark) .bg-yellow-950\/80 {
+  background-color: #fefce8 !important;
+  border: 1.5px solid #fde047 !important;
+}
+html[data-theme="sky"] .bg-yellow-950\/80 span,
+body:not(.theme-dark) .bg-yellow-950\/80 span {
+  color: #854d0e !important;
+  -webkit-text-fill-color: #854d0e !important;
+  font-weight: 800 !important;
+}
+
+html[data-theme="sky"] .bg-emerald-950\/80,
+body:not(.theme-dark) .bg-emerald-950\/80 {
+  background-color: #f0fdf4 !important;
+  border: 1.5px solid #86efac !important;
+}
+html[data-theme="sky"] .bg-emerald-950\/80 span,
+body:not(.theme-dark) .bg-emerald-950\/80 span {
+  color: #166534 !important;
+  -webkit-text-fill-color: #166534 !important;
+  font-weight: 800 !important;
+}
+
+/* Universal Badge, Chip & Pill Styling for Crisp Light Sky Contrast */
+html[data-theme="sky"] [class*="bg-amber-500/"],
+html[data-theme="sky"] [class*="bg-amber-400/"],
+body:not(.theme-dark) [class*="bg-amber-500/"],
+body:not(.theme-dark) [class*="bg-amber-400/"] {
+  background-color: #fef3c7 !important;
+  border-color: #fde68a !important;
+  color: #92400e !important;
+  -webkit-text-fill-color: #92400e !important;
+}
+
+html[data-theme="sky"] [class*="bg-emerald-500/"],
+html[data-theme="sky"] [class*="bg-emerald-400/"],
+body:not(.theme-dark) [class*="bg-emerald-500/"],
+body:not(.theme-dark) [class*="bg-emerald-400/"] {
+  background-color: #d1fae5 !important;
+  border-color: #a7f3d0 !important;
+  color: #065f46 !important;
+  -webkit-text-fill-color: #065f46 !important;
+}
+
+html[data-theme="sky"] [class*="bg-blue-500/"],
+html[data-theme="sky"] [class*="bg-blue-400/"],
+html[data-theme="sky"] [class*="bg-cyan-500/"],
+html[data-theme="sky"] [class*="bg-cyan-400/"],
+body:not(.theme-dark) [class*="bg-blue-500/"],
+body:not(.theme-dark) [class*="bg-blue-400/"],
+body:not(.theme-dark) [class*="bg-cyan-500/"],
+body:not(.theme-dark) [class*="bg-cyan-400/"] {
+  background-color: #e0f2fe !important;
+  border-color: #bae6fd !important;
+  color: #0369a1 !important;
+  -webkit-text-fill-color: #0369a1 !important;
+}
+
+html[data-theme="sky"] [class*="bg-purple-500/"],
+html[data-theme="sky"] [class*="bg-purple-400/"],
+body:not(.theme-dark) [class*="bg-purple-500/"],
+body:not(.theme-dark) [class*="bg-purple-400/"] {
+  background-color: #f3e8ff !important;
+  border-color: #e9d5ff !important;
+  color: #6b21a8 !important;
+  -webkit-text-fill-color: #6b21a8 !important;
+}
+
+html[data-theme="sky"] [class*="bg-rose-500/"],
+html[data-theme="sky"] [class*="bg-rose-400/"],
+html[data-theme="sky"] [class*="bg-red-500/"],
+html[data-theme="sky"] [class*="bg-red-400/"],
+body:not(.theme-dark) [class*="bg-rose-500/"],
+body:not(.theme-dark) [class*="bg-rose-400/"],
+body:not(.theme-dark) [class*="bg-red-500/"],
+body:not(.theme-dark) [class*="bg-red-400/"] {
+  background-color: #fee2e2 !important;
+  border-color: #fecaca !important;
+  color: #991b1b !important;
+  -webkit-text-fill-color: #991b1b !important;
+}
+
+/* Tinted Containers Overrides in Light Sky Mode */
+html[data-theme="sky"] [class*="bg-amber-950"],
+body:not(.theme-dark) [class*="bg-amber-950"] {
+  background-color: #fefce8 !important;
+  border: 1.5px solid #fde68a !important;
+  color: #78350f !important;
+}
+
+html[data-theme="sky"] [class*="bg-cyan-950"],
+html[data-theme="sky"] [class*="bg-blue-950"],
+body:not(.theme-dark) [class*="bg-cyan-950"],
+body:not(.theme-dark) [class*="bg-blue-950"] {
+  background-color: #f0f9ff !important;
+  border: 1.5px solid #bae6fd !important;
+  color: #0c4a6e !important;
+}
+
+html[data-theme="sky"] [class*="bg-purple-950"],
+body:not(.theme-dark) [class*="bg-purple-950"] {
+  background-color: #faf5ff !important;
+  border: 1.5px solid #e9d5ff !important;
+  color: #581c87 !important;
+}
+
+html[data-theme="sky"] [class*="bg-emerald-950"],
+body:not(.theme-dark) [class*="bg-emerald-950"] {
+  background-color: #f0fdf4 !important;
+  border: 1.5px solid #bbf7d0 !important;
+  color: #14532d !important;
+}
+
+html[data-theme="sky"] [class*="bg-red-950"],
+body:not(.theme-dark) [class*="bg-red-950"] {
+  background-color: #fef2f2 !important;
+  border: 1.5px solid #fecaca !important;
+  color: #7f1d1d !important;
+}
+
+/* Universal Slate Border Overrides */
+html[data-theme="sky"] [class*="border-slate-"],
+body:not(.theme-dark) [class*="border-slate-"] {
+  border-color: #bae6fd !important;
+}
+
+/* 9E. Tables in Light Sky Mode (RSVP, Contributions & Governance) */
+html[data-theme="sky"] table,
+body:not(.theme-dark) table {
+  background-color: #ffffff !important;
+  color: #1e3a5f !important;
+}
+
+html[data-theme="sky"] thead,
+html[data-theme="sky"] thead tr,
+body:not(.theme-dark) thead,
+body:not(.theme-dark) thead tr {
+  background-color: #f0f7ff !important;
+  border-bottom: 2px solid #bae6fd !important;
+}
+
+html[data-theme="sky"] thead th,
+body:not(.theme-dark) thead th {
+  color: #0c2f54 !important;
+  font-weight: 800 !important;
+}
+
+html[data-theme="sky"] tbody tr,
+body:not(.theme-dark) tbody tr {
+  border-bottom: 1px solid #e0f2fe !important;
+  background-color: #ffffff !important;
+}
+
+html[data-theme="sky"] tbody tr:hover,
+body:not(.theme-dark) tbody tr:hover {
+  background-color: #f8fafc !important;
+}
+
+html[data-theme="sky"] tbody td,
+body:not(.theme-dark) tbody td {
+  color: #1e3a5f !important;
+}
+
+html[data-theme="sky"] td .text-white,
+body:not(.theme-dark) td .text-white {
+  color: #0c2f54 !important;
+  font-weight: 700 !important;
+}
+
+/* 10. Fix Academic Block Image Banner in Tab Helpdesk */
+html[data-theme="sky"] #tab-helpdesk > div:first-child .absolute.bottom-5,
+body:not(.theme-dark) #tab-helpdesk > div:first-child .absolute.bottom-5 {
+  background: rgba(255, 255, 255, 0.94) !important;
+  border: 1.5px solid #bae6fd !important;
+  border-radius: 1.25rem !important;
+  padding: 1rem 1.25rem !important;
+  box-shadow: 0 10px 25px -4px rgba(12, 74, 110, 0.15) !important;
+}
+html[data-theme="sky"] #tab-helpdesk > div:first-child .absolute.bottom-5 h3,
+body:not(.theme-dark) #tab-helpdesk > div:first-child .absolute.bottom-5 h3 {
+  color: #0c2f54 !important;
+  -webkit-text-fill-color: #0c2f54 !important;
+}
+html[data-theme="sky"] #tab-helpdesk > div:first-child .absolute.bottom-5 p,
+body:not(.theme-dark) #tab-helpdesk > div:first-child .absolute.bottom-5 p {
+  color: #1e3a5f !important;
+  -webkit-text-fill-color: #1e3a5f !important;
+}
+
+/* 11. Scrollbar on light sky mode */
+html[data-theme="sky"] ::-webkit-scrollbar-track,
+body:not(.theme-dark) ::-webkit-scrollbar-track {
+  background: #f0f7ff;
+}
+html[data-theme="sky"] ::-webkit-scrollbar-thumb,
+body:not(.theme-dark) ::-webkit-scrollbar-thumb {
+  background: #bae6fd;
+  border-radius: 4px;
+}
+html[data-theme="sky"] ::-webkit-scrollbar-thumb:hover,
+body:not(.theme-dark) ::-webkit-scrollbar-thumb:hover {
+  background: #7dd3fc;
+}
+
+/* 12. Footer in Light Sky Mode */
+html[data-theme="sky"] footer,
+body:not(.theme-dark) footer {
+  background: #ffffff !important;
+  border-top: 2px solid #bae6fd !important;
+  color: #1e3a5f !important;
+}
+
+html[data-theme="sky"] footer .footer-association-text,
+body:not(.theme-dark) footer .footer-association-text {
+  color: #0c2f54 !important;
+  -webkit-text-fill-color: #0c2f54 !important;
+  font-weight: 800 !important;
+  font-size: 13px !important;
+}
+
+html[data-theme="sky"] footer .footer-meta-text,
+body:not(.theme-dark) footer .footer-meta-text {
+  color: #1e3a5f !important;
+  -webkit-text-fill-color: #1e3a5f !important;
+  font-weight: 600 !important;
+}
+
+html[data-theme="sky"] .border-slate-800,
+html[data-theme="sky"] .border-slate-700,
+body:not(.theme-dark) .border-slate-800,
+body:not(.theme-dark) .border-slate-700 {
+  border-color: #bae6fd !important;
+}
+
+/* ========================================================================== */
+/* --- 2. CLASSIC DARK NAVY BLUE THEME (data-theme="dark")                   */
+/* ========================================================================== */
+
+html[data-theme="dark"] {
+  --dark-bg-canvas: #030816;
+  --dark-bg-surface: #071330;
+  --dark-border-subtle: #1e293b;
+  --dark-text-heading: #f8fafc;
+  --dark-text-body: #cbd5e1;
+  --dark-text-muted: #94a3b8;
+  --dark-accent-gold: #f59e0b;
+}
+
+html[data-theme="dark"] body,
+body.theme-dark {
+  background-color: #030816 !important;
+  color: #cbd5e1 !important;
+}
+
+html[data-theme="dark"] #appViewportContainer,
+html[data-theme="dark"] main,
+body.theme-dark #appViewportContainer,
+body.theme-dark main {
+  background-color: #030816 !important;
+}
+
+/* Headings in Dark Navy Blue Theme */
+html[data-theme="dark"] h1, 
+html[data-theme="dark"] h2, 
+html[data-theme="dark"] h3, 
+html[data-theme="dark"] h4, 
+html[data-theme="dark"] h5, 
+html[data-theme="dark"] h6,
+html[data-theme="dark"] .font-cinzel,
+body.theme-dark h1,
+body.theme-dark h2,
+body.theme-dark h3,
+body.theme-dark h4,
+body.theme-dark h5,
+body.theme-dark h6,
+body.theme-dark .font-cinzel {
+  color: #f8fafc !important;
+}
+
+/* Header & Nav in Dark Navy Blue Theme */
+html[data-theme="dark"] header,
+body.theme-dark header {
+  background: rgba(7, 19, 48, 0.96) !important;
+  border-bottom: 1px solid #1e293b !important;
+  color: #f8fafc !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5) !important;
+}
+
+html[data-theme="dark"] #rbacBanner,
+body.theme-dark #rbacBanner {
+  background-color: rgba(14, 37, 90, 0.6) !important;
+  border-bottom: 1px solid rgba(30, 58, 138, 0.4) !important;
+  color: #93c5fd !important;
+}
+
+html[data-theme="dark"] #rbacBanner #roleBadge,
+body.theme-dark #rbacBanner #roleBadge {
+  background-color: rgba(16, 185, 129, 0.2) !important;
+  border: 1px solid rgba(52, 211, 153, 0.3) !important;
+  color: #6ee7b7 !important;
+}
+
+html[data-theme="dark"] #appViewportContainer > section:first-of-type,
+body.theme-dark #appViewportContainer > section:first-of-type {
+  background: linear-gradient(to bottom, #030816 0%, #071330 50%, #030816 100%) !important;
+  border-bottom: 1px solid #1e293b !important;
+}
+
+html[data-theme="dark"] #appViewportContainer > section:first-of-type h1,
+body.theme-dark #appViewportContainer > section:first-of-type h1 {
+  color: #ffffff !important;
+}
+
+html[data-theme="dark"] #appViewportContainer > section:first-of-type p,
+body.theme-dark #appViewportContainer > section:first-of-type p {
+  color: #94a3b8 !important;
+}
+
+/* Navigation Tabs in Dark Navy */
+html[data-theme="dark"] nav,
+body.theme-dark nav {
+  background: rgba(7, 19, 48, 0.96) !important;
+  border-top: 1px solid #1e293b !important;
+  border-bottom: 1px solid #1e293b !important;
+}
+
+html[data-theme="dark"] .nav-tab,
+body.theme-dark .nav-tab {
+  color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .nav-tab:hover,
+body.theme-dark .nav-tab:hover {
+  background-color: #1e293b !important;
+  color: #ffffff !important;
+}
+
+html[data-theme="dark"] .nav-tab.active,
+body.theme-dark .nav-tab.active {
+  background-color: #153a8a !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px -1px rgba(21, 58, 138, 0.6) !important;
+}
+
+/* Cards in Dark Navy Blue */
+html[data-theme="dark"] .dir-card,
+html[data-theme="dark"] .tch-card,
+html[data-theme="dark"] .feed-card,
+html[data-theme="dark"] .bg-slate-900,
+html[data-theme="dark"] .bg-slate-950,
+html[data-theme="dark"] .bg-brand-950,
+body.theme-dark .dir-card,
+body.theme-dark .tch-card,
+body.theme-dark .feed-card,
+body.theme-dark .bg-slate-900,
+body.theme-dark .bg-slate-950,
+body.theme-dark .bg-brand-950 {
+  background-color: #071330 !important;
+  border-color: #1e293b !important;
+  color: #cbd5e1 !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.6) !important;
+}
+
+html[data-theme="dark"] .dir-card:hover,
+html[data-theme="dark"] .tch-card:hover,
+html[data-theme="dark"] .feed-card:hover,
+body.theme-dark .dir-card:hover,
+body.theme-dark .tch-card:hover,
+body.theme-dark .feed-card:hover {
+  border-color: #f59e0b !important;
+  box-shadow: 0 10px 30px -4px rgba(245, 158, 11, 0.15) !important;
+}
+
+html[data-theme="dark"] .dir-card h4, 
+html[data-theme="dark"] .tch-card h3,
+html[data-theme="dark"] .feed-card h4,
+html[data-theme="dark"] .bg-slate-900 h2,
+html[data-theme="dark"] .bg-slate-900 h3,
+html[data-theme="dark"] .bg-slate-900 h4,
+body.theme-dark .dir-card h4, 
+body.theme-dark .tch-card h3,
+body.theme-dark .feed-card h4,
+body.theme-dark .bg-slate-900 h2,
+body.theme-dark .bg-slate-900 h3,
+body.theme-dark .bg-slate-900 h4 {
+  color: #f8fafc !important;
+}
+
+html[data-theme="dark"] .dir-card p,
+html[data-theme="dark"] .tch-card p,
+html[data-theme="dark"] .feed-card p,
+body.theme-dark .dir-card p,
+body.theme-dark .tch-card p,
+body.theme-dark .feed-card p {
+  color: #cbd5e1 !important;
+}
+
+/* Inputs in Dark Navy */
+html[data-theme="dark"] input,
+html[data-theme="dark"] select,
+html[data-theme="dark"] textarea,
+body.theme-dark input,
+body.theme-dark select,
+body.theme-dark textarea {
+  background-color: #030816 !important;
+  border-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+html[data-theme="dark"] input:focus,
+html[data-theme="dark"] select:focus,
+html[data-theme="dark"] textarea:focus,
+body.theme-dark input:focus,
+body.theme-dark select:focus,
+body.theme-dark textarea:focus {
+  border-color: #f59e0b !important;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2) !important;
+}
+
+/* Modals in Dark Navy */
+html[data-theme="dark"] .modal-content,
+html[data-theme="dark"] div[id$="Modal"] > div:last-child,
+body.theme-dark .modal-content,
+body.theme-dark div[id$="Modal"] > div:last-child {
+  background-color: #071330 !important;
+  border: 1px solid #1e293b !important;
+  color: #cbd5e1 !important;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* Scrollbars in Dark Navy */
+html[data-theme="dark"] ::-webkit-scrollbar-track,
+body.theme-dark ::-webkit-scrollbar-track {
+  background: #090e1a;
+}
+html[data-theme="dark"] ::-webkit-scrollbar-thumb,
+body.theme-dark ::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+}
+html[data-theme="dark"] ::-webkit-scrollbar-thumb:hover,
+body.theme-dark ::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+/* Badges & Universal Elements */
+.badge-gold {
+  background-color: #fef3c7 !important;
+  color: #92400e !important;
+  border: 1px solid #fde68a !important;
+}
+
+.badge-blue {
+  background-color: #e0f2fe !important;
+  color: #0369a1 !important;
+  border: 1px solid #bae6fd !important;
+}
+
+.badge-emerald {
+  background-color: #d1fae5 !important;
+  color: #065f46 !important;
+  border: 1px solid #a7f3d0 !important;
+}
+
+/* TV News Ticker / Headline Marquee Animation */
+@keyframes tickerScroll {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* Authentication & Login Form Cards Theming */
+html[data-theme="dark"] .auth-card-right,
+body.theme-dark .auth-card-right {
+  background-color: #071330 !important;
+  border-color: #1e293b !important;
+  color: #cbd5e1 !important;
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.7) !important;
+}
+
+html[data-theme="dark"] .auth-card-right label,
+body.theme-dark .auth-card-right label {
+  color: #e2e8f0 !important;
+}
+
+html[data-theme="dark"] .auth-card-right input,
+html[data-theme="dark"] .auth-card-right select,
+body.theme-dark .auth-card-right input,
+body.theme-dark .auth-card-right select {
+  background-color: #030816 !important;
+  border-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+html[data-theme="sky"] .auth-card-left,
+body:not(.theme-dark) .auth-card-left {
+  background: linear-gradient(135deg, #071330 0%, #0c2f54 50%, #0e255a 100%) !important;
+  border-color: #bae6fd !important;
+  color: #ffffff !important;
+}
+
+html[data-theme="sky"] .auth-card-left h2,
+html[data-theme="sky"] .auth-card-left strong,
+html[data-theme="sky"] .auth-card-left .text-white,
+body:not(.theme-dark) .auth-card-left h2,
+body:not(.theme-dark) .auth-card-left strong,
+body:not(.theme-dark) .auth-card-left .text-white {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+html[data-theme="sky"] .auth-card-left p,
+html[data-theme="sky"] .auth-card-left .text-slate-300,
+html[data-theme="sky"] .auth-card-left .text-slate-400,
+body:not(.theme-dark) .auth-card-left p,
+body:not(.theme-dark) .auth-card-left .text-slate-300,
+body:not(.theme-dark) .auth-card-left .text-slate-400 {
+  color: #cbd5e1 !important;
+  -webkit-text-fill-color: #cbd5e1 !important;
+}
+
+
+
+
+/* ========================================================================== */
+/* LIGHT SKY THEME - COMPREHENSIVE IMAGE PREVIEW & CONTRAST SAFEGUARDS       */
+/* Guarantees that posters, campus photography, and banners are 100% visible  */
+/* and fixes any low contrast text across all tabs in Light Sky Blue Mode     */
+/* ========================================================================== */
+
+/* 1. All images in Light Sky mode are 100% visible, fully opaque, layered above surfaces */
+html[data-theme="sky"] img,
+body:not(.theme-dark) img,
+.theme-sky img {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+  position: relative !important;
+  z-index: 1 !important;
+  max-width: 100% !important;
+}
+
+/* 2. Image overlay shields: ONLY for image containers, NEVER for fixed modal dialogs */
+html[data-theme="sky"] .relative > .absolute.inset-0:not([id*="Modal"]):not([class*="fixed"]),
+html[data-theme="sky"] .group > .absolute.inset-0:not([id*="Modal"]):not([class*="fixed"]),
+html[data-theme="sky"] .image-overlay,
+body:not(.theme-dark) .relative > .absolute.inset-0:not([id*="Modal"]):not([class*="fixed"]),
+body:not(.theme-dark) .group > .absolute.inset-0:not([id*="Modal"]):not([class*="fixed"]),
+body:not(.theme-dark) .image-overlay,
+.theme-sky .relative > .absolute.inset-0:not([id*="Modal"]):not([class*="fixed"]),
+.theme-sky .group > .absolute.inset-0:not([id*="Modal"]):not([class*="fixed"]) {
+  background-color: transparent !important;
+  background-image: none !important;
+  pointer-events: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* ALL MODALS: ALWAYS interactive, highest z-index, and clickable in all themes */
+[id*="Modal"],
+.fixed.inset-0,
+[id*="Modal"] *,
+.fixed.inset-0 * {
+  pointer-events: auto !important;
+}
+
+/* Modal dark overlay backdrop in all themes */
+[id*="Modal"].fixed.inset-0 {
+  background-color: rgba(3, 8, 22, 0.85) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  z-index: 100 !important;
+  pointer-events: auto !important;
+}
+
+/* 3. Floating interactive badges and buttons over posters/banners */
+html[data-theme="sky"] [class*="absolute bottom-"],
+body:not(.theme-dark) [class*="absolute bottom-"],
+.theme-sky [class*="absolute bottom-"] {
+  z-index: 10 !important;
+  pointer-events: auto !important;
+  background-color: rgba(12, 47, 84, 0.92) !important;
+  color: #fef08a !important;
+  -webkit-text-fill-color: #fef08a !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+html[data-theme="sky"] [class*="absolute top-"],
+body:not(.theme-dark) [class*="absolute top-"],
+.theme-sky [class*="absolute top-"] {
+  z-index: 10 !important;
+  pointer-events: auto !important;
+}
+
+/* 4. Complete WCAG AA High Contrast Typography in Light Sky Mode */
+html[data-theme="sky"] p,
+html[data-theme="sky"] span:not(.text-white):not([class*="bg-"]):not(button *):not(.nav-tab.active *):not(.badge-solid *),
+body:not(.theme-dark) p,
+body:not(.theme-dark) span:not(.text-white):not([class*="bg-"]):not(button *):not(.nav-tab.active *):not(.badge-solid *),
+.theme-sky p {
+  color: #1e3a5f;
+}
+
+/* Ensure secondary slate text is deep slate-800 for crystal-clear readability */
+html[data-theme="sky"] .text-slate-400,
+html[data-theme="sky"] .text-slate-300,
+html[data-theme="sky"] .text-slate-500,
+body:not(.theme-dark) .text-slate-400,
+body:not(.theme-dark) .text-slate-300,
+body:not(.theme-dark) .text-slate-500,
+.theme-sky .text-slate-400,
+.theme-sky .text-slate-300,
+.theme-sky .text-slate-500 {
+  color: #1e293b !important;
+  -webkit-text-fill-color: #1e293b !important;
+  font-weight: 500;
+}
+
+/* Key Guidance italic quotes in cards */
+html[data-theme="sky"] #notableQuotesContainer p,
+body:not(.theme-dark) #notableQuotesContainer p,
+.theme-sky #notableQuotesContainer p {
+  color: #0c2f54 !important;
+  -webkit-text-fill-color: #0c2f54 !important;
+  font-weight: 500 !important;
+}
+
+/* Donors board plaque preview box */
+html[data-theme="sky"] #tab-notable [class*="border-amber-500"],
+body:not(.theme-dark) #tab-notable [class*="border-amber-500"],
+.theme-sky #tab-notable [class*="border-amber-500"] {
+  border-color: #b45309 !important;
+}
