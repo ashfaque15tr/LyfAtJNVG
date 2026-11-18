@@ -588,12 +588,12 @@
         <div class="flex items-center gap-2">
           <div id="mActivePartnerAvatar" class="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-300 font-bold flex items-center justify-center text-xs">AA</div>
           <div>
-            <span id="mActivePartnerName" class="text-xs font-bold text-white block leading-none">Ashfaq Ahmed</span>
-            <span id="mActivePartnerMeta" class="text-[9px] text-amber-400">Batch of 2005 • Super Admin</span>
+            <span id="mActivePartnerName" class="text-xs font-bold text-white block leading-none">Ashfaque Ahmad</span>
+            <span id="mActivePartnerMeta" class="text-[9px] text-amber-400">Batch of 2005 • Super Admin • Software Architect</span>
           </div>
         </div>
         <select id="mChatPartnerSelect" onchange="switchMobileChatPartner(this.value)" class="bg-slate-900 border border-slate-700 text-xs text-white rounded-lg px-2 py-1">
-          <option value="Ashfaq Ahmed">Ashfaq Ahmed (Super Admin)</option>
+          <option value="Ashfaque Ahmad">Ashfaque Ahmad (Super Admin)</option>
           <option value="Mr. P. K. Singh">Mr. P. K. Singh (Principal)</option>
           <option value="Mr. N. N. Tripathi">Mr. N. N. Tripathi (VP)</option>
           <option value="Dr. Jai Krishna Mishra">Dr. Jai Krishna Mishra (DRDO)</option>
@@ -704,7 +704,7 @@
         <button onclick="switchMobileUser('admin')" class="w-full text-left p-2.5 rounded-xl bg-purple-950/40 border border-purple-500/30 flex items-center justify-between">
           <div>
             <span class="text-xs font-bold text-white block">👑 Super Admin</span>
-            <span class="text-[10px] text-slate-400">Ashfaq Ahmed ('05)</span>
+            <span class="text-[10px] text-slate-400">Ashfaque Ahmad ('05, Nilgiri, Bangalore)</span>
           </div>
           <span class="text-xs text-purple-400">Select →</span>
         </button>
@@ -997,7 +997,7 @@
 
 
     // ================= MOBILE CHAT & HELPDESK HANDLERS =================
-    let mActiveChatPartner = "Ashfaq Ahmed";
+    let mActiveChatPartner = "Ashfaque Ahmad";
 
     function toggleMobileChatSheet() {
       const sheet = document.getElementById('mChatSheet');
@@ -1608,15 +1608,15 @@
         existingData.feedPosts = [];
         existingData.directory = [
           {
-            id: "dir-ashfaq-ahmed",
-            name: "Ashfaq Ahmed",
-            batch: 2008,
-            house: "Arawali",
-            role: "Lead Enterprise & Systems Solutions Architect",
-            location: "Lucknow / New Delhi",
+            id: "dir-ashfaque-ahmad",
+            name: "Ashfaque Ahmad",
+            batch: 2005,
+            house: "Nilgiri",
+            role: "Software Architect",
+            location: "Bangalore",
             domain: "Software",
             email: "ashfaque15tr@gmail.com",
-            tag: "Super Admin • Batch of 2008",
+            tag: "Super Admin • Batch of 2005",
             isSuperAdmin: true,
             verified: true
           }

@@ -65,12 +65,12 @@ const defaultData = {
   ],
 
   notableMessages: [
+    { id: 1, author: "Sh. Vivek Tiwari", batch: "1987-1994", role: "MD & CEO, Satya MicroCapital Ltd. & Donor", house: "Arawali", quote: "Navodaya gave us the courage to dream and build without fear. Every milestone in corporate or public leadership is rooted in the resilience learned in those Gauriganj classrooms. Support your junior peers relentlessly." },
+    { id: 3, author: "Sh. Ratnesh Tiwari", batch: "1996-2003", role: "CEO, Koshish India & Co-Founder Satyapath Foundation", house: "Nilgiri", quote: "True Navodayan spirit is giving back tenfold to the rural soil that nurtured us. Empower the next generation through education, infrastructure, and sustainable community support." },
+    { id: 2, author: "Alok Dubey, IAS", batch: "2007", role: "Indian Administrative Service", house: "Nilgiri", quote: "Public service is the natural continuum of Navodaya's core pledge 'Pragyanam Brahma'. To all young scholars: stay disciplined, read widely, and let integrity be your defining hallmark." },
     { id: 101, author: "Dr. Jai Krishna Mishra", batch: "1993 (First Batch)", role: "Project Director, ASL, DRDO Hyderabad", house: "Arawali", quote: "Discipline, relentless inquiry, and dedication to the motherland were ingrained in us at Gauriganj. Whether designing critical solid propulsion technologies or mentoring the next generation, strive for uncompromising national self-reliance." },
     { id: 102, author: "Sh. Utkrisht Pandey", batch: "Alumnus", role: "Founder, Rishigram Organics • Retd. Assistant Commandant, SSB", house: "Shivalik", quote: "From the discipline of morning assembly and cross-country runs at JNVG to guarding borders with SSB and cultivating heritage Kalanamak rice, the greatest success is creating sustainable, ethical value rooted in our native soil." },
     { id: 103, author: "Dr. Shailendra Mohan Tripathi", batch: "1997", role: "Addl. Professor, Geriatric Mental Health, KGMU & Univ. of Aberdeen", house: "Nilgiri", quote: "Navodaya taught us empathy for the vulnerable and elder care. As clinicians and researchers battling Dementia, standing by our aged Gurujan and parents with compassionate healthcare is our sacred duty." },
-    { id: 1, author: "Sh. Vivek Tiwari", batch: "1987-1994", role: "MD & CEO, Satya MicroCapital Ltd. & Donor", house: "Arawali", quote: "Navodaya gave us the courage to dream and build without fear. Every milestone in corporate or public leadership is rooted in the resilience learned in those Gauriganj classrooms. Support your junior peers relentlessly." },
-    { id: 2, author: "Alok Dubey, IAS", batch: "2007", role: "Indian Administrative Service", house: "Nilgiri", quote: "Public service is the natural continuum of Navodaya's core pledge 'Pragyanam Brahma'. To all young scholars: stay disciplined, read widely, and let integrity be your defining hallmark." },
-    { id: 3, author: "Ratnesh Tiwari", batch: "1996-2003", role: "CEO, Koshish India & Co-Founder Satyapath Foundation", house: "Nilgiri", quote: "True Navodayan spirit is giving back tenfold to the rural soil that nurtured us. Empower the next generation through education, infrastructure, and sustainable community support." },
     { id: 4, author: "Sh. Rama Sankar Yadav", batch: "1987-1994", role: "Head Master, Model School Pachehari & Donor", house: "Shivalik", quote: "Education is the greatest tool of nation-building. Every Navodayan who teaches and guides a child fulfills the core mission Rajiv Gandhi envisioned for our Vidyalayas." },
     { id: 5, author: "Dr. Amitabh Singh", batch: "1998", role: "Senior Consultant Neurosurgeon", house: "Shivalik", quote: "Discipline forged on the sports field under Varshney Sir and analytical clarity from Chaudhary Sir became my greatest surgical instruments. Always stay humble and grounded in our Navodaya values." }
   ],
@@ -144,6 +144,46 @@ const defaultData = {
     }
   ],
   teachers: [
+    {
+      id: "tch-sps",
+      name: "Late Dr. S. P. Singh",
+      title: "Former Principal • Amar Smriti (अमर स्मृति)",
+      category: "in_memoriam",
+      statusLabel: "Amar Smriti • Former Principal",
+      post: "Founder Principal (In Memoriam)",
+      subject: "Foundational Leadership & Institutional Vision",
+      tenure: "1989 – 1998 (Founder Principal)",
+      house: "Administration",
+      houseDetail: "Vidyalaya Founder & Principal",
+      location: "Amar Smriti • In Eternal Memory",
+      initials: "SPS",
+      photo: null,
+      isDeceased: true,
+      tributeCount: 156,
+      respectCount: 156,
+      message: "स्वर्गीय डॉ. एस. पी. सिंह जी ने जेएनवी गौरीगंज के स्थापना काल में अपने अप्रतिम नेतृत्व, अनुशासन और दूरदर्शिता से इस पावन संस्थान की सुदृढ़ नींव रखी। उनका स्नेह और आदर्श सदैव जीवित रहेगा।",
+      specialNote: "Revered Founder Principal who established the high academic and moral standards of JNV Gauriganj."
+    },
+    {
+      id: "tch-ps",
+      name: "Late Dr. Preetam Singh",
+      title: "Former PGT Hindi • Amar Smriti (अमर स्मृति)",
+      category: "in_memoriam",
+      statusLabel: "Amar Smriti • Former PGT Hindi",
+      post: "Former PGT Hindi (In Memoriam)",
+      subject: "Hindi Literature & Sahitya",
+      tenure: "1990 – 2005 (15 Years)",
+      house: "Arawali",
+      houseDetail: "House Master - Arawali & Hindi Sahitya Parishad",
+      location: "Amar Smriti • In Eternal Memory",
+      initials: "PS",
+      photo: null,
+      isDeceased: true,
+      tributeCount: 142,
+      respectCount: 142,
+      message: "स्वर्गीय डॉ. प्रीतम सिंह जी ने नवोदय के विद्यार्थियों के भीतर हिंदी साहित्य के प्रति अगाध प्रेम और मानवीय संवेदनाओं का बीजारोपण किया। उनकी ओजस्वी वाणी और संस्कार आज भी गूंजते हैं।",
+      specialNote: "Beloved Hindi scholar and mentor who inspired generations of students in literary and ethical excellence."
+    },
     {
       id: "tch-1",
       name: "Dr. S. K. Chaudhary",
@@ -302,21 +342,21 @@ const defaultData = {
 
 const SOFT_LAUNCH_STORAGE_FLAG = 'JNVG_SOFT_LAUNCH_2026_CLEARED_V8';
 
-// As of today, Ashfaq Ahmed is the ONLY verified alumni present in the directory as Super Admin (Batch of 2005)
+// As of today, Ashfaque Ahmad is the ONLY verified alumni present in the directory as Super Admin (Batch of 2005)
 const defaultDirectoryAlumni = [
   {
-    id: "dir-ashfaq-ahmed",
-    name: "Ashfaq Ahmed",
+    id: "dir-ashfaque-ahmad",
+    name: "Ashfaque Ahmad",
     initials: "AA",
     photo: "assets/images/ashfaq-ahmed.png",
     avatarImage: "assets/images/ashfaq-ahmed.png",
     batch: 2005,
-    house: "Arawali",
-    role: "Lead Enterprise & Systems Solutions Architect",
-    location: "Lucknow / New Delhi",
+    house: "Nilgiri",
+    role: "Software Architect",
+    location: "Bangalore",
     domain: "Software",
     email: "ashfaque15tr@gmail.com",
-    badge: "Arawali",
+    badge: "Nilgiri",
     tag: "Super Admin • Batch of 2005",
     systemRole: "admin",
     isSuperAdmin: true,
@@ -401,13 +441,20 @@ function loadAppData() {
       if (parsed.teachers) {
         parsed.teachers.sort((a, b) => {
           const getLeadershipRank = (t) => {
+            const name = (t.name || '').toLowerCase();
             const p = (t.post || '').toLowerCase();
-            const s = (t.statusLabel || '').toLowerCase();
-            const isCur = t.category === 'current' || s.includes('current');
-            if (isCur && p.includes('principal') && !p.includes('vice')) return 1;
-            if (isCur && p.includes('vice principal')) return 2;
-            if (isCur && (p.includes('alumni') || (t.title || '').toLowerCase().includes('alumni') || p.includes('coordinator'))) return 3;
-            if (isCur) return 4;
+            const isCur = t.category === 'current' || (t.statusLabel || '').toLowerCase().includes('current');
+            // 1. Late Dr. S. P. Singh (Former Principal)
+            if (name.includes('s.p. singh') || name.includes('s. p. singh') || (t.isDeceased && p.includes('principal'))) return 1;
+            // 2. Late Dr. Preetam Singh (Former PGT Hindi)
+            if (name.includes('preetam') || name.includes('pritam') || (t.isDeceased && p.includes('hindi'))) return 2;
+            // 3. Current Principal
+            if (isCur && p.includes('principal') && !p.includes('vice')) return 3;
+            // 4. Current Vice Principal
+            if (isCur && p.includes('vice principal')) return 4;
+            // 5. Current Faculty Alumni Coordinator
+            if (isCur && (p.includes('alumni') || (t.title || '').toLowerCase().includes('alumni') || p.includes('coordinator'))) return 5;
+            if (isCur) return 6;
             return 10;
           };
           return getLeadershipRank(a) - getLeadershipRank(b);
@@ -419,7 +466,7 @@ function loadAppData() {
       if (!parsed.culturalActs || !Array.isArray(parsed.culturalActs)) {
         parsed.culturalActs = defaultData.culturalActs;
       }
-      // Ensure only Ashfaq Ahmed is present in directory as sole Super Admin today
+      // Ensure only Ashfaque Ahmad is present in directory as sole Super Admin today
       parsed.directory = defaultDirectoryAlumni.slice();
       return { ...defaultData, ...parsed };
     }
@@ -1605,35 +1652,57 @@ function renderDirectory(append = false) {
     const targetSystemRole = item.systemRole || getUserSystemRole(item.name) || 'member';
 
     let roleControlHtml = '';
+    const canDelete = (isCurAdmin || (isCurHost && targetSystemRole !== 'admin' && targetSystemRole !== 'host' && targetSystemRole !== 'batch_admin')) && item.name.toLowerCase() !== 'ashfaque ahmad' && item.name.toLowerCase() !== 'ashfaq ahmed';
+    const deleteBtn = canDelete ? `
+      <button onclick="deleteAlumniProfile('${item.name.replace(/'/g, "\\'")}')" class="px-2 py-0.5 rounded bg-rose-950/80 hover:bg-rose-900 text-rose-300 border border-rose-600/40 text-[10px] font-bold flex items-center gap-1 transition" title="Permanently delete alumni profile">
+        <span>🗑️</span> <span>Delete</span>
+      </button>
+    ` : '';
+
     if (isCurAdmin) {
       roleControlHtml = `
-        <div class="mt-2 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px]">
-          <span class="text-[10px] text-amber-400 font-bold uppercase tracking-wider">Role Admin:</span>
-          <select onchange="changeUserRole('${item.name}', this.value)" class="bg-slate-950 border border-slate-700 rounded-lg px-2 py-0.5 text-[10px] text-amber-300 font-bold focus:outline-none focus:border-amber-500">
-            <option value="member" ${targetSystemRole === 'member' ? 'selected' : ''}>Member</option>
-            <option value="moderator" ${targetSystemRole === 'moderator' ? 'selected' : ''}>Moderator</option>
-            <option value="host" ${targetSystemRole === 'host' || targetSystemRole === 'batch_admin' ? 'selected' : ''}>Host</option>
-            <option value="teacher" ${targetSystemRole === 'teacher' ? 'selected' : ''}>Teacher / Gurujan</option>
-          </select>
+        <div class="mt-2 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] gap-2 flex-wrap">
+          <div class="flex items-center gap-1.5">
+            <span class="text-[10px] text-amber-400 font-bold uppercase tracking-wider">Role Admin:</span>
+            <select onchange="changeUserRole('${item.name.replace(/'/g, "\\'")}', this.value)" class="bg-slate-950 border border-slate-700 rounded-lg px-2 py-0.5 text-[10px] text-amber-300 font-bold focus:outline-none focus:border-amber-500">
+              <option value="member" ${targetSystemRole === 'member' ? 'selected' : ''}>Member</option>
+              <option value="moderator" ${targetSystemRole === 'moderator' ? 'selected' : ''}>Moderator</option>
+              <option value="host" ${targetSystemRole === 'host' || targetSystemRole === 'batch_admin' ? 'selected' : ''}>Host</option>
+              <option value="teacher" ${targetSystemRole === 'teacher' ? 'selected' : ''}>Teacher / Gurujan</option>
+            </select>
+          </div>
+          ${deleteBtn}
         </div>
       `;
     } else if (isCurHost) {
       if (targetSystemRole === 'member') {
         roleControlHtml = `
-          <div class="mt-2 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px]">
-            <span class="text-[10px] text-slate-400 font-semibold">Host Delegation:</span>
-            <button onclick="changeUserRole('${item.name}', 'moderator')" class="px-2 py-0.5 rounded bg-blue-900/50 hover:bg-blue-900/80 text-blue-200 border border-blue-500/30 text-[10px] font-bold transition">
-              + Make Moderator
-            </button>
+          <div class="mt-2 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] gap-2 flex-wrap">
+            <div class="flex items-center gap-1.5">
+              <span class="text-[10px] text-slate-400 font-semibold">Host Delegation:</span>
+              <button onclick="changeUserRole('${item.name.replace(/'/g, "\\'")}', 'moderator')" class="px-2 py-0.5 rounded bg-blue-900/50 hover:bg-blue-900/80 text-blue-200 border border-blue-500/30 text-[10px] font-bold transition">
+                + Make Moderator
+              </button>
+            </div>
+            ${deleteBtn}
           </div>
         `;
       } else if (targetSystemRole === 'moderator') {
         roleControlHtml = `
-          <div class="mt-2 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px]">
-            <span class="text-[10px] text-blue-400 font-semibold">Moderator</span>
-            <button onclick="changeUserRole('${item.name}', 'member')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-[10px] font-semibold transition">
-              Demote to Member
-            </button>
+          <div class="mt-2 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] gap-2 flex-wrap">
+            <div class="flex items-center gap-1.5">
+              <span class="text-[10px] text-blue-400 font-semibold">Moderator</span>
+              <button onclick="changeUserRole('${item.name.replace(/'/g, "\\'")}', 'member')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-[10px] font-semibold transition">
+                Demote to Member
+              </button>
+            </div>
+            ${deleteBtn}
+          </div>
+        `;
+      } else if (canDelete) {
+        roleControlHtml = `
+          <div class="mt-2 pt-2 border-t border-slate-800/80 flex items-center justify-end text-[11px]">
+            ${deleteBtn}
           </div>
         `;
       }
@@ -1705,6 +1774,59 @@ function resetDirectoryFilters() {
   renderDirectory(false);
 }
 
+// Power of Super Admin and Host to permanently delete directory profiles
+function deleteAlumniProfile(targetName) {
+  const curUser = (typeof getCurrentUser === 'function' ? getCurrentUser() : null);
+  const isCurAdmin = curUser && curUser.role === 'admin';
+  const isCurHost = curUser && (curUser.role === 'host' || curUser.role === 'batch_admin');
+  if (!isCurAdmin && !isCurHost) {
+    alert("Permission Denied: Only Super Admin and Host Batch Organizers can delete alumni directory profiles.");
+    return;
+  }
+  
+  const lowerName = (targetName || '').toLowerCase().trim();
+  if (lowerName === 'ashfaque ahmad' || lowerName === 'ashfaq ahmed') {
+    alert("Protected Account: The permanent Super Admin profile (Ashfaque Ahmad) cannot be deleted.");
+    return;
+  }
+
+  const users = (typeof getAllUsers === 'function') ? getAllUsers() : [];
+  const targetUser = users.find(u => (u.name || '').toLowerCase() === lowerName);
+  if (isCurHost && targetUser && (targetUser.role === 'admin' || targetUser.role === 'host' || targetUser.role === 'batch_admin')) {
+    alert("Permission Denied: Host Batch Organizers cannot delete Admin or Host profiles.");
+    return;
+  }
+
+  if (!confirm(`Are you sure you want to permanently delete the profile of "${targetName}" from the Alumni Directory and registered database? This action is irreversible.`)) {
+    return;
+  }
+
+  // 1. Remove from AppState.directory
+  if (AppState.directory && Array.isArray(AppState.directory)) {
+    AppState.directory = AppState.directory.filter(item => (item.name || '').toLowerCase() !== lowerName);
+  }
+
+  // 2. Remove from USERS_STORAGE_KEY (registered database)
+  if (typeof saveAllUsers === 'function') {
+    const updatedUsers = users.filter(u => (u.name || '').toLowerCase() !== lowerName);
+    saveAllUsers(updatedUsers);
+  }
+
+  // 3. Save AppData
+  saveAppData();
+
+  // 4. Rebuild search indexes if available
+  if (window.AlumniStorageEngine && typeof window.AlumniStorageEngine.buildCacheIndexes === 'function') {
+    window.AlumniStorageEngine.buildCacheIndexes(AppState.directory);
+  }
+
+  // 5. Re-render directory & role governance
+  renderDirectory();
+  if (typeof renderRoleGovernanceList === 'function') renderRoleGovernanceList();
+
+  showToast(`✓ Profile of ${targetName} permanently deleted from directory.`, 'success');
+}
+
 // 14. Notable Messages
 function renderNotableMessages() {
   const container = document.getElementById('notableQuotesContainer');
@@ -1746,6 +1868,48 @@ function handleNotableMessageSubmit(e) {
 // NOTABLE ALUMNI HALL OF FAME DIRECTORY & CATEGORIES
 // ========================================================
 const NOTABLE_ALUMNI_LIST = [
+  {
+    id: "notable-vt-1",
+    name: "Sh. Vivek Tiwari",
+    initials: "VT",
+    batch: "1987–1994",
+    category: "enterprise",
+    categoryLabel: "Financial Inclusion & Philanthropy",
+    house: "Arawali",
+    role: "MD & CEO, Satya MicroCapital Ltd.",
+    academics: "Finance & Institutional Economics",
+    intro: "Microfinance visionary empowering over 2.5 million rural women entrepreneurs across India. Major Vidyalaya benefactor donating the 125 KVA silent genset, National cricket trophy, and campus ground filling.",
+    badgeColor: "amber",
+    link: null
+  },
+  {
+    id: "notable-rt-1",
+    name: "Sh. Ratnesh Tiwari",
+    initials: "RT",
+    batch: "1996–2003",
+    category: "enterprise",
+    categoryLabel: "Social Innovation & Education",
+    house: "Nilgiri",
+    role: "CEO, Koshish India • Co-Founder Satyapath Foundation",
+    academics: "Social Sector Leadership",
+    intro: "Transforming primary education, child health clinics, and rural livelihood opportunities across UP; co-donor of the permanent 125 KVA Vidyalaya Genset installation.",
+    badgeColor: "purple",
+    link: null
+  },
+  {
+    id: "notable-ad-1",
+    name: "Alok Dubey, IAS",
+    initials: "AD",
+    batch: "2007",
+    category: "civil",
+    categoryLabel: "Civil Services & Public Policy",
+    house: "Nilgiri",
+    role: "Indian Administrative Service (IAS) Officer",
+    academics: "Public Administration & Governance",
+    intro: "District and state administrative leader executing rural education transformations, public welfare delivery, and governance transparency, embodying Navodaya's pledge 'Pragyanam Brahma'.",
+    badgeColor: "emerald",
+    link: null
+  },
   {
     id: "notable-jm-1",
     name: "Dr. Jai Krishna Mishra",
@@ -1929,46 +2093,32 @@ const NOTABLE_ALUMNI_LIST = [
     link: "https://au.linkedin.com/in/shailesh-s-4327595"
   },
   {
-    id: "notable-vt-1",
-    name: "Sh. Vivek Tiwari",
-    initials: "VT",
-    batch: "1987–1994",
-    category: "enterprise",
-    categoryLabel: "Financial Inclusion & Philanthropy",
+    id: "notable-als-1",
+    name: "Alok Singh",
+    initials: "AS",
+    batch: "Alumnus",
+    category: "tech",
+    categoryLabel: "Data Science, Analytics & AI Leadership",
     house: "Arawali",
-    role: "MD & CEO, Satya MicroCapital Ltd.",
-    academics: "Finance & Institutional Economics",
-    intro: "Microfinance visionary empowering over 2.5 million rural women entrepreneurs across India. Major Vidyalaya benefactor donating the 125 KVA silent genset, National cricket trophy, and campus ground filling.",
-    badgeColor: "amber",
-    link: null
+    role: "Senior Analytics & AI Leader • Enterprise Data Strategist",
+    academics: "Advanced Analytics & AI Strategy",
+    intro: "Senior Analytics, Business Intelligence and AI transformation leader driving high-impact data-driven decisions and enterprise architecture across global platforms.",
+    badgeColor: "cyan",
+    link: "https://www.linkedin.com/in/aloksinghanalytics"
   },
   {
-    id: "notable-ad-1",
-    name: "Alok Dubey, IAS",
-    initials: "AD",
-    batch: "2007",
-    category: "civil",
-    categoryLabel: "Civil Services & Public Policy",
+    id: "notable-mt-1",
+    name: "Manish Tiwari",
+    initials: "MT",
+    batch: "2004",
+    category: "tech",
+    categoryLabel: "Enterprise Software & Cloud Engineering",
     house: "Nilgiri",
-    role: "Indian Administrative Service (IAS) Officer",
-    academics: "Public Administration & Governance",
-    intro: "District and state administrative leader executing rural education transformations, public welfare delivery, and governance transparency, embodying Navodaya's pledge 'Pragyanam Brahma'.",
-    badgeColor: "emerald",
-    link: null
-  },
-  {
-    id: "notable-rt-1",
-    name: "Sh. Ratnesh Tiwari",
-    initials: "RT",
-    batch: "1996–2003",
-    category: "enterprise",
-    categoryLabel: "Social Innovation & Education",
-    house: "Nilgiri",
-    role: "CEO, Koshish India • Co-Founder Satyapath Foundation",
-    academics: "Social Sector Leadership",
-    intro: "Transforming primary education, child health clinics, and rural livelihood opportunities across UP; co-donor of the permanent 125 KVA Vidyalaya Genset installation.",
-    badgeColor: "purple",
-    link: null
+    role: "Technology Strategist & Engineering Leader",
+    academics: "Computer Engineering & Enterprise Architecture",
+    intro: "Distinguished technology leader and enterprise software engineering strategist with deep expertise in cloud architectures, distributed systems, and large-scale digital platforms.",
+    badgeColor: "blue",
+    link: "https://www.linkedin.com/in/manish-tiwari-37845514"
   },
   {
     id: "notable-ry-1",
@@ -2510,16 +2660,19 @@ function renderTeachers(filter = 'all', searchQuery = '') {
     return true;
   });
 
-  // Strict Hierarchy Sorting: Current Principal (1), Current Vice Principal (2), Current Faculty Alumni Coordinator (3) MUST be on TOP!
+  // Strict Hierarchy Sorting: 1. Late Dr. S.P. Singh (Principal), 2. Late Dr. Preetam Singh (PGT Hindi), 3. Current Principal, 4. Current Vice Principal, 5. Current Faculty Alumni Coordinator
   filtered.sort((a, b) => {
     const getLeadershipRank = (t) => {
+      const name = (t.name || '').toLowerCase();
       const p = (t.post || '').toLowerCase();
       const s = (t.statusLabel || '').toLowerCase();
       const isCur = t.category === 'current' || s.includes('current');
-      if (isCur && p.includes('principal') && !p.includes('vice')) return 1; // Current Principal
-      if (isCur && p.includes('vice principal')) return 2; // Current Vice Principal
-      if (isCur && (p.includes('alumni') || (t.title || '').toLowerCase().includes('alumni') || p.includes('coordinator'))) return 3; // Current Faculty Alumni Coordinator
-      if (isCur) return 4;
+      if (name.includes('s.p. singh') || name.includes('s. p. singh') || (t.isDeceased && p.includes('principal'))) return 1;
+      if (name.includes('preetam') || name.includes('pritam') || (t.isDeceased && p.includes('hindi'))) return 2;
+      if (isCur && p.includes('principal') && !p.includes('vice')) return 3;
+      if (isCur && p.includes('vice principal')) return 4;
+      if (isCur && (p.includes('alumni') || (t.title || '').toLowerCase().includes('alumni') || p.includes('coordinator'))) return 5;
+      if (isCur) return 6;
       return 10;
     };
     return getLeadershipRank(a) - getLeadershipRank(b);
@@ -2553,10 +2706,38 @@ function renderTeachers(filter = 'all', searchQuery = '') {
     const card = document.createElement('div');
     card.className = "tch-card bg-gradient-to-br from-slate-900 via-slate-900/90 to-slate-950 border border-slate-800 hover:border-amber-500/40 rounded-3xl p-6 transition duration-300 flex flex-col justify-between space-y-4 shadow-xl";
 
+    const isDeceased = Boolean(t.isDeceased || (t.name && t.name.toLowerCase().includes('late')));
     const hClass = houseBadgeStyles[t.house] || 'bg-slate-800 text-slate-300 border border-slate-700';
-    const statusBg = (t.statusLabel && t.statusLabel.toLowerCase().includes('principal'))
+    const statusBg = isDeceased 
       ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
-      : (t.category === 'current' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-slate-800 text-slate-300 border border-slate-700');
+      : ((t.statusLabel && t.statusLabel.toLowerCase().includes('principal'))
+        ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+        : (t.category === 'current' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-slate-800 text-slate-300 border border-slate-700'));
+
+    const actionFooterHtml = isDeceased ? `
+      <div class="pt-3 border-t border-slate-800 flex items-center justify-between gap-2 text-xs flex-wrap">
+        <span class="text-[10px] text-amber-400 font-bold flex items-center gap-1">
+          <span>🪔</span> <span>${t.tributeCount || 156} भावभीनी श्रद्धांजलि</span>
+        </span>
+        <button onclick="openTeacherTributeModal('${t.id}')" class="px-3.5 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow-sm transition touch-ripple">
+          <span>🪔</span> <span>भावभीनी श्रद्धांजलि अर्पित करें</span>
+        </button>
+      </div>
+    ` : `
+      <div class="pt-3 border-t border-slate-800 flex items-center justify-between gap-2 text-xs flex-wrap">
+        <span class="text-[10px] text-amber-400 font-bold flex items-center gap-1">
+          <span>🙏</span> <span>${t.respectCount || 0} Respects</span>
+        </span>
+        <div class="flex items-center gap-1.5">
+          <button onclick="openChatWithTeacher('${t.id}')" class="px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition touch-ripple">
+            <span>💬</span> <span>Send Message</span>
+          </button>
+          <button onclick="openPranamModal('${t.id}')" class="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow-sm transition touch-ripple">
+            <span>🙏</span> <span>चरण स्पर्श / Send Respect</span>
+          </button>
+        </div>
+      </div>
+    `;
 
     card.innerHTML = `
       <div class="space-y-4">
@@ -2572,7 +2753,7 @@ function renderTeachers(filter = 'all', searchQuery = '') {
             </div>
           </div>
           <span class="px-2.5 py-1 rounded-full text-[10px] font-bold ${statusBg} flex-shrink-0 whitespace-nowrap">
-            ${t.statusLabel || (t.category === 'current' ? 'Current Faculty' : 'Former Faculty')}
+            ${isDeceased ? '🪔 अमर स्मृति • In Memoriam' : (t.statusLabel || (t.category === 'current' ? 'Current Faculty' : 'Former Faculty'))}
           </span>
         </div>
 
@@ -2592,7 +2773,7 @@ function renderTeachers(filter = 'all', searchQuery = '') {
         ${t.message ? `
         <div class="bg-amber-500/5 border-l-2 border-amber-500/50 p-3.5 rounded-r-2xl space-y-1">
           <div class="text-[10px] font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
-            <span>🪔</span> <span>गुरु सन्देश एवं शुभाशीष</span>
+            <span>🪔</span> <span>${isDeceased ? 'अमर स्मृति एवं पावन संस्मरण' : 'गुरु सन्देश एवं शुभाशीष'}</span>
           </div>
           <p class="text-xs text-slate-200 italic leading-relaxed">"${t.message}"</p>
         </div>` : ''}
@@ -2601,19 +2782,7 @@ function renderTeachers(filter = 'all', searchQuery = '') {
         <p class="text-[11px] text-slate-400 leading-relaxed"><strong class="text-slate-300 font-semibold">Distinction Note:</strong> ${t.specialNote}</p>` : ''}
       </div>
 
-      <div class="pt-3 border-t border-slate-800 flex items-center justify-between gap-2 text-xs flex-wrap">
-        <span class="text-[10px] text-amber-400 font-bold flex items-center gap-1">
-          <span>🙏</span> <span>${t.respectCount || 0} Respects</span>
-        </span>
-        <div class="flex items-center gap-1.5">
-          <button onclick="openChatWithTeacher('${t.id}')" class="px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition touch-ripple">
-            <span>💬</span> <span>Send Message</span>
-          </button>
-          <button onclick="openPranamModal('${t.id}')" class="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow-sm transition touch-ripple">
-            <span>🙏</span> <span>चरण स्पर्श / Send Respect</span>
-          </button>
-        </div>
-      </div>
+      ${actionFooterHtml}
     `;
     grid.appendChild(card);
   });
@@ -2625,6 +2794,56 @@ function filterTeachers(filter) {
 
 function searchTeachers(query) {
   renderTeachers(currentTeacherFilter, query);
+}
+
+// In Memoriam / Floral Tribute Homage for Deceased Gurujan
+function openTeacherTributeModal(teacherId) {
+  const teacher = (AppState.teachers || []).find(t => t.id === teacherId) || { id: teacherId, name: "आदरणीय दिवंगत गुरुजन", post: "अमर स्मृति (In Memoriam)" };
+  const modal = document.getElementById('teacherTributeModal');
+  if (!modal) return;
+  const idEl = document.getElementById('tributeTeacherId');
+  const nameEl = document.getElementById('tributeTeacherNameDisplay');
+  const postEl = document.getElementById('tributeTeacherPostDisplay');
+  if (idEl) idEl.value = teacher.id || teacherId;
+  if (nameEl) nameEl.textContent = teacher.name;
+  if (postEl) postEl.textContent = teacher.title || teacher.post || 'अमर स्मृति (In Memoriam)';
+  const curUser = (typeof getCurrentUser === 'function' ? getCurrentUser() : null);
+  if (curUser && document.getElementById('tributeAlumnusName')) {
+    document.getElementById('tributeAlumnusName').value = curUser.name || '';
+  }
+  modal.classList.remove('hidden');
+}
+
+function closeTeacherTributeModal() {
+  const modal = document.getElementById('teacherTributeModal');
+  if (modal) modal.classList.add('hidden');
+}
+
+function submitTeacherTribute(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  const teacherId = (document.getElementById('tributeTeacherId') ? document.getElementById('tributeTeacherId').value : '') || 'tch-sps';
+  const alumnusName = ((document.getElementById('tributeAlumnusName') ? document.getElementById('tributeAlumnusName').value : '') || '').trim() || 'श्रद्धेय नवोदयी';
+  const batch = ((document.getElementById('tributeBatch') ? document.getElementById('tributeBatch').value : '') || '').trim();
+  const tributeNote = ((document.getElementById('tributeNote') ? document.getElementById('tributeNote').value : '') || '').trim();
+
+  const teacher = (AppState.teachers || []).find(t => t.id === teacherId);
+  if (teacher) {
+    teacher.tributeCount = (teacher.tributeCount || 156) + 1;
+    teacher.respectCount = (teacher.respectCount || 156) + 1;
+    if (!teacher.tributes) teacher.tributes = [];
+    teacher.tributes.unshift({
+      id: Date.now(),
+      alumnusName,
+      batch,
+      note: tributeNote,
+      date: new Date().toLocaleDateString('en-GB')
+    });
+    saveAppData();
+    renderTeachers(currentTeacherFilter);
+  }
+  closeTeacherTributeModal();
+  showToast(`🪔 ${alumnusName} जी, ${teacher ? teacher.name : 'दिवंगत गुरुजन'} के प्रति आपकी भावभीनी श्रद्धांजलि एवं कृतज्ञता अमर स्मृति पट्ट पर अंकित कर दी गई है।`, 'success');
+  if (e && e.target && typeof e.target.reset === 'function') e.target.reset();
 }
 
 function openTeacherEnrollModal() {
@@ -4046,17 +4265,42 @@ function renderRoleGovernanceList(searchQuery = '') {
 
   const allUsers = typeof getAllUsers === 'function' ? getAllUsers() : [];
 
-  // Ashfaq Ahmed is the ONLY Super Admin
+  // Ashfaque Ahmad is the ONLY Super Admin
   const ashfaq = allUsers.find(u => (u.email || '').toLowerCase() === 'ashfaque15tr@gmail.com') || {
     id: "usr-ashfaque-admin",
-    name: "Ashfaq Ahmed",
-    batch: 2008,
-    house: "Arawali",
+    name: "Ashfaque Ahmad",
+    batch: 2005,
+    house: "Nilgiri",
     role: "admin",
-    roleTitle: "Super Admin",
+    roleTitle: "Super Admin • Software Architect",
     email: "ashfaque15tr@gmail.com",
-    profession: "Lead Enterprise & Systems Solutions Architect"
+    city: "Bangalore",
+    profession: "Software Architect"
   };
+
+  const otherUsers = allUsers.filter(u => (u.email || '').toLowerCase() !== 'ashfaque15tr@gmail.com');
+  const otherUsersHtml = otherUsers.length > 0 ? `
+    <div class="mt-4 space-y-2">
+      <h5 class="text-xs font-bold text-slate-300 uppercase tracking-wider">Registered Alumni Profiles & Governance</h5>
+      <div class="space-y-2 max-h-64 overflow-y-auto pr-1">
+        ${otherUsers.map(u => {
+          const canDel = isCurAdmin || (curUser && (curUser.role === 'host' || curUser.role === 'batch_admin') && u.role !== 'admin' && u.role !== 'host');
+          return `
+            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-950/70 border border-slate-800 text-xs">
+              <div>
+                <strong class="text-white">${u.name}</strong>
+                <span class="text-slate-400 ml-1.5">(Batch ${u.batch || 'N/A'}, ${u.house || 'Campus'})</span>
+                <span class="ml-2 px-2 py-0.5 rounded text-[10px] font-bold ${u.role === 'host' ? 'bg-amber-500/20 text-amber-300' : (u.role === 'moderator' ? 'bg-blue-500/20 text-blue-300' : 'bg-slate-800 text-slate-300')}">${u.roleTitle || u.role}</span>
+              </div>
+              <div class="flex items-center gap-2">
+                ${canDel ? `<button onclick="deleteAlumniProfile('${(u.name || '').replace(/'/g, "\\'")}')" class="px-2 py-1 rounded bg-rose-950 hover:bg-rose-900 text-rose-300 border border-rose-700/50 text-[10px] font-bold transition">🗑️ Delete</button>` : ''}
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+  ` : '';
 
   container.innerHTML = `
     <!-- Sole Active Super Admin Record -->
@@ -4071,8 +4315,8 @@ function renderRoleGovernanceList(searchQuery = '') {
             <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-purple-500/20 text-purple-300 border border-purple-400/50">Sole Super Admin</span>
             <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">Permanent Authority</span>
           </div>
-          <p class="text-xs text-slate-300 mt-0.5">Batch of ${ashfaq.batch} • ${ashfaq.house} House • ${ashfaq.profession || 'Lead Enterprise & Systems Solutions Architect'}</p>
-          <p class="text-[11px] text-amber-400/90 font-mono mt-0.5">${ashfaq.email}</p>
+          <p class="text-xs text-slate-300 mt-0.5">Batch of ${ashfaq.batch} • ${ashfaq.house} House • ${ashfaq.profession || 'Software Architect'}</p>
+          <p class="text-[11px] text-amber-400/90 font-mono mt-0.5">${ashfaq.email} • Bangalore</p>
         </div>
       </div>
       <div class="w-full sm:w-auto flex items-center justify-end">
@@ -4082,27 +4326,26 @@ function renderRoleGovernanceList(searchQuery = '') {
       </div>
     </div>
 
+    ${otherUsersHtml}
+
     <!-- Governance Status & Role Hierarchy Summary -->
     <div class="p-4 rounded-2xl bg-slate-950/60 border border-slate-800 text-xs text-slate-400 space-y-2 mt-3">
       <div class="flex items-center gap-2 text-amber-400 font-bold">
         <span>🛡️</span> <span>RBAC Governance Cleared (Single Super Admin Mode)</span>
       </div>
       <p class="text-[11px] leading-relaxed text-slate-300">
-        All previous legacy admin entries have been cleared. <strong>Ashfaq Ahmed</strong> is the sole administrator holding the Super Admin role.
+        All previous legacy admin entries have been cleared. <strong>Ashfaque Ahmad</strong> (Batch of 2005, Nilgiri, Bangalore) is the sole permanent administrator holding the Super Admin role. Super Admin and Host Batch Organizers possess authority to delete alumni directory profiles.
       </p>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2 text-[11px]">
         <div class="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-200">
           <strong class="text-amber-300 block mb-0.5">🏛️ Host Role:</strong>
-          Full access to contribution of the fund, financial ledger, and 4th Mega Meet event coordination.
+          Full access to contribution of the fund, financial ledger, 4th Mega Meet event coordination, and alumni directory profile deletion.
         </div>
         <div class="p-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-200">
           <strong class="text-blue-300 block mb-0.5">🛡️ Moderator Role:</strong>
           Authorized to review, approve, and reject new alumni member registration requests.
         </div>
       </div>
-      <p class="text-[10px] text-slate-400 italic pt-1">
-        Additional Host (one member per team) and Moderator assignments will be populated as committee nominations are finalized.
-      </p>
     </div>
   `;
 }

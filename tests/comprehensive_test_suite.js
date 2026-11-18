@@ -399,7 +399,10 @@ console.log('\n--- TEST SUITE 10: DUAL-THEME SWITCHER, PERMANENT ADMIN & SMS GAT
 const ashfaqLogin = loginUser('ashfaque15tr@gmail.com', 'AAaa11!!');
 assert(ashfaqLogin.success === true, 'Permanent Super Admin ashfaque15tr@gmail.com authenticated');
 assert(ashfaqLogin.user.role === 'admin', 'ashfaque15tr@gmail.com possesses admin role');
-assert(ashfaqLogin.user.roleTitle === 'Super Admin', 'ashfaque15tr@gmail.com holds Super Admin title');
+assert(ashfaqLogin.user.roleTitle.includes('Super Admin'), 'ashfaque15tr@gmail.com holds Super Admin title');
+assert(ashfaqLogin.user.house === 'Nilgiri', 'ashfaque15tr@gmail.com belongs to Nilgiri house');
+assert(ashfaqLogin.user.profession === 'Software Architect', 'ashfaque15tr@gmail.com has profession Software Architect');
+assert(ashfaqLogin.user.city === 'Bangalore', 'ashfaque15tr@gmail.com location is Bangalore');
 
 // 2. Shivalik Raman & Shivaji mapping in index.html & login.html
 const loginHtml = fs.readFileSync(path.join(rootDir, 'login.html'), 'utf8');
@@ -431,8 +434,8 @@ assert(loginHtml.includes('regLiveOtpPreview') && loginHtml.includes('autoFillRe
 // ----------------------------------------------------
 console.log('\n--- TEST SUITE 11: SOLE SUPER ADMIN, TEACHER MESSAGING & LIGHT CONTRAST ---');
 
-// 1. Directory Clean Slate: Ashfaq Ahmed is the sole Super Admin in directory
-assert(defaultDirectoryAlumni.length === 1 && defaultDirectoryAlumni[0].name === 'Ashfaq Ahmed' && defaultDirectoryAlumni[0].isSuperAdmin === true, 'Directory contains only Ashfaq Ahmed as sole Super Admin');
+// 1. Directory Clean Slate: Ashfaque Ahmad is the sole Super Admin in directory
+assert(defaultDirectoryAlumni.length === 1 && (defaultDirectoryAlumni[0].name === 'Ashfaque Ahmad' || defaultDirectoryAlumni[0].name === 'Ashfaq Ahmed') && defaultDirectoryAlumni[0].isSuperAdmin === true, 'Directory contains only Ashfaque Ahmad as sole Super Admin');
 
 // 2. High Contrast Light Mode CSS Overrides
 assert(stylesCss.includes('#homeHeroCard') && stylesCss.includes('footer-association-text'), 'styles.css contains high-contrast Light Sky overrides for hero card & footer');
@@ -498,7 +501,7 @@ assert(mConvs.some(c => c.partnerName === 'Mr. P. K. Singh'), 'Alumnus receives 
 // ----------------------------------------------------
 console.log('\n--- TEST SUITE 12: 17 NOTABLE ALUMNI, ADMIN SAHAYATA QUEUE & LIGHT SKY CONTRAST ---');
 
-assert(Array.isArray(NOTABLE_ALUMNI_LIST) && NOTABLE_ALUMNI_LIST.length === 17, 'Full 17 Notable Alumni registered in Hall of Fame');
+assert(Array.isArray(NOTABLE_ALUMNI_LIST) && NOTABLE_ALUMNI_LIST.length === 19, 'Full 19 Notable Alumni registered in Hall of Fame');
 const jkm = NOTABLE_ALUMNI_LIST.find(a => a.name.includes('Jai Krishna Mishra'));
 assert(jkm && jkm.batch.includes('1993') && jkm.role.includes('DRDO'), 'Dr. Jai Krishna Mishra (1993, DRDO ASL) verified');
 const up = NOTABLE_ALUMNI_LIST.find(a => a.name.includes('Utkrisht Pandey'));
@@ -510,10 +513,13 @@ assert(ck && ck.batch === '2004' && ck.role.includes('Shaurya Chakra'), 'Chandan
 const sss = NOTABLE_ALUMNI_LIST.find(a => a.name.includes('Satyendra Singh Satya'));
 assert(sss && sss.batch === '1998' && sss.link.includes('cybr0x'), 'Satyendra Singh Satya (cybr0x, 1998) verified');
 
-// Sole Super Admin Ashfaq Ahmed Batch & Photo
+// Sole Super Admin Ashfaque Ahmad Batch & Photo
 const ashfaqAdmin = getAllUsers().find(u => u.email === 'ashfaque15tr@gmail.com');
-assert(ashfaqAdmin && ashfaqAdmin.batch === 2005 && ashfaqAdmin.role === 'admin', 'Ashfaq Ahmed sole Super Admin verified as Batch of 2005');
-assert(ashfaqAdmin.photo === 'assets/images/ashfaq-ahmed.png', 'Ashfaq Ahmed photo correctly mapped to assets/images/ashfaq-ahmed.png');
+assert(ashfaqAdmin && ashfaqAdmin.batch === 2005 && ashfaqAdmin.role === 'admin', 'Ashfaque Ahmad sole Super Admin verified as Batch of 2005');
+assert(ashfaqAdmin.photo === 'assets/images/ashfaq-ahmed.png', 'Ashfaque Ahmad photo correctly mapped to assets/images/ashfaq-ahmed.png');
+assert(ashfaqAdmin.house === 'Nilgiri', 'Ashfaque Ahmad house verified as Nilgiri');
+assert(ashfaqAdmin.city === 'Bangalore', 'Ashfaque Ahmad city verified as Bangalore');
+assert(ashfaqAdmin.profession === 'Software Architect', 'Ashfaque Ahmad profession verified as Software Architect');
 
 // Admin Sahayata Queue & Functions
 const authJs = fs.readFileSync(path.join(rootDir, 'assets', 'js', 'auth.js'), 'utf8');
@@ -530,6 +536,77 @@ assert(!authJs.includes('"Smriti Singh"'), 'Smriti Singh completely eradicated f
 assert(!appJs.includes('"Smriti Singh"'), 'Smriti Singh completely eradicated from default chat messages');
 assert(stylesCss.includes('news-ticker-track') && stylesCss.includes('#0c2f54'), 'News ticker styled with dark navy high contrast in Light Sky mode');
 assert(stylesCss.includes('html[data-theme="sky"] [class*="border-slate-"]'), 'Universal slate borders overridden for clean light sky aesthetics');
+
+// ----------------------------------------------------
+// TEST SUITE 13: GURU VANDANA HIERARCHY, DONOR BOARD & PROFILE DELETION RBAC
+// ----------------------------------------------------
+console.log('\n--- TEST SUITE 13: GURU VANDANA HIERARCHY, DONOR BOARD & PROFILE DELETION RBAC ---');
+
+// 1. Top 3 Notable Alumni Sequencing
+assert(NOTABLE_ALUMNI_LIST[0].name === 'Sh. Vivek Tiwari', 'Notable Alumni rank 1 is Sh. Vivek Tiwari');
+assert(NOTABLE_ALUMNI_LIST[1].name === 'Sh. Ratnesh Tiwari', 'Notable Alumni rank 2 is Sh. Ratnesh Tiwari');
+assert(NOTABLE_ALUMNI_LIST[2].name === 'Alok Dubey, IAS', 'Notable Alumni rank 3 is Alok Dubey, IAS');
+
+// 2. Added Notable Alumni Profiles
+const alokSingh = NOTABLE_ALUMNI_LIST.find(a => a.name === 'Alok Singh');
+assert(alokSingh && alokSingh.link && alokSingh.link.includes('aloksinghanalytics'), 'Alok Singh profile added to Notable Alumni');
+const manishTiwari = NOTABLE_ALUMNI_LIST.find(a => a.name === 'Manish Tiwari');
+assert(manishTiwari && manishTiwari.batch === '2004' && manishTiwari.link.includes('manish-tiwari-37845514'), 'Manish Tiwari (Batch 2004) added to Notable Alumni');
+
+// 3. Guru Vandana: Late Dr. S. P. Singh & Late Dr. Preetam Singh
+const lateSPS = AppState.teachers.find(t => t.name.includes('S. P. Singh') || t.name.includes('S.P. Singh'));
+assert(lateSPS && lateSPS.isDeceased === true, 'Late Dr. S. P. Singh exists with isDeceased true');
+const latePS = AppState.teachers.find(t => t.name.includes('Preetam Singh') || t.name.includes('Pritam Singh'));
+assert(latePS && latePS.isDeceased === true, 'Late Dr. Preetam Singh exists with isDeceased true');
+assert(typeof openTeacherTributeModal === 'function', 'openTeacherTributeModal function exists');
+assert(typeof submitTeacherTribute === 'function', 'submitTeacherTribute function exists');
+assert(indexHtml.includes('teacherTributeModal'), 'index.html contains teacherTributeModal for floral homage');
+
+// 4. Guru Vandana Hierarchy on Home Page in index.html
+const spsIdx = indexHtml.indexOf('Late Dr. S. P. Singh');
+const psIdx = indexHtml.indexOf('Late Dr. Preetam Singh');
+const pksIdx = indexHtml.indexOf('Mr. P. K. Singh');
+const nntIdx = indexHtml.indexOf('Mr. N. N. Tripathi');
+assert(spsIdx !== -1 && psIdx !== -1 && pksIdx !== -1 && nntIdx !== -1, 'All 4 Guru Vandana apex Gurujan present in index.html');
+assert(spsIdx < psIdx && psIdx < pksIdx && pksIdx < nntIdx, 'Guru Vandana sequence strictly ordered: Late Dr. S.P. Singh -> Late Dr. Preetam Singh -> Mr. P.K. Singh -> Mr. N.N. Tripathi');
+
+// 5. Donor Board Direct Visibility Without Click
+assert(indexHtml.includes('Official Vidyalaya Plaque — Directly Readable'), 'Donor Board is directly readable in index.html without requiring click');
+assert(!indexHtml.includes('🔍 Click to View Authentic Plaque in High Resolution'), 'Obstructing click-to-view overlay removed from Donor Board');
+
+// 6. Super Admin & Host Power to Delete Profiles
+assert(typeof deleteAlumniProfile === 'function', 'deleteAlumniProfile function exists');
+
+let deleteAlertMsg = '';
+const origAlert = global.alert;
+global.alert = (msg) => { deleteAlertMsg = msg; };
+
+// Case A: Regular member is denied delete permission
+const memberUser = getAllUsers().find(u => u.role === 'member');
+setCurrentUser(memberUser, true);
+deleteAlumniProfile('Deepak Tiwari');
+assert(deleteAlertMsg.includes('Permission Denied'), 'Security Guard: Regular member cannot delete directory profiles');
+
+// Case B: Super Admin logged in, attempting to delete permanent Super Admin profile
+setCurrentUser(ashfaqLogin.user, true);
+deleteAlertMsg = '';
+deleteAlumniProfile('Ashfaque Ahmad');
+assert(deleteAlertMsg.includes('Protected Account'), 'Security Guard: Permanent Super Admin Ashfaque Ahmad cannot be deleted');
+
+// Case C: Host logged in, attempting to delete Super Admin or another Host
+const hostUser = getAllUsers().find(u => u.role === 'host');
+setCurrentUser(hostUser, true);
+deleteAlertMsg = '';
+deleteAlumniProfile('Ashfaque Ahmad');
+assert(deleteAlertMsg.includes('Protected Account') || deleteAlertMsg.includes('Permission Denied'), 'Security Guard: Host cannot delete Super Admin profile');
+
+// Case D: Super Admin successfully deletes a test profile
+setCurrentUser(ashfaqLogin.user, true);
+AppState.directory.push({ name: 'DeleteMe Profile', batch: 2020, house: 'Nilgiri' });
+deleteAlumniProfile('DeleteMe Profile');
+assert(!AppState.directory.some(d => d.name === 'DeleteMe Profile'), 'Super Admin successfully deleted directory profile');
+
+global.alert = origAlert;
 
 // ----------------------------------------------------
 // TEST SUMMARY

@@ -14,15 +14,15 @@ const DEFAULT_ACCOUNTS = [
     id: "usr-ashfaque-admin",
     email: "ashfaque15tr@gmail.com",
     password: "AAaa11!!",
-    name: "Ashfaq Ahmed",
+    name: "Ashfaque Ahmad",
     batch: 2005,
-    house: "Arawali",
+    house: "Nilgiri",
     role: "admin", // Permanent Super Admin
-    roleTitle: "Super Admin",
+    roleTitle: "Super Admin • Software Architect",
     status: "approved",
     phone: "+91 9876501234",
-    city: "Lucknow / New Delhi",
-    profession: "Lead Enterprise & Systems Solutions Architect",
+    city: "Bangalore",
+    profession: "Software Architect",
     domain: "Software",
     avatar: "AA",
     photo: "assets/images/ashfaq-ahmed.png",
@@ -219,15 +219,15 @@ function initUsersDB() {
         id: "usr-ashfaque-admin",
         email: "ashfaque15tr@gmail.com",
         password: "AAaa11!!",
-        name: "Ashfaq Ahmed",
+        name: "Ashfaque Ahmad",
         batch: 2005,
-        house: "Arawali",
+        house: "Nilgiri",
         role: "admin",
-        roleTitle: "Super Admin",
+        roleTitle: "Super Admin • Software Architect",
         status: "approved",
         phone: "+91 9876501234",
-        city: "Lucknow / New Delhi",
-        profession: "Lead Enterprise & Systems Solutions Architect",
+        city: "Bangalore",
+        profession: "Software Architect",
         domain: "Software",
         avatar: "AA",
         photo: "assets/images/ashfaq-ahmed.png",
@@ -237,10 +237,15 @@ function initUsersDB() {
       existing.unshift(ashfaq);
       modified = true;
     } else {
-      if (ashfaq.batch !== 2005 || ashfaq.role !== 'admin' || ashfaq.password !== 'AAaa11!!' || ashfaq.status !== 'approved' || !ashfaq.photo) {
+      if (ashfaq.name !== 'Ashfaque Ahmad' || ashfaq.batch !== 2005 || ashfaq.house !== 'Nilgiri' || ashfaq.role !== 'admin' || ashfaq.city !== 'Bangalore' || ashfaq.profession !== 'Software Architect' || ashfaq.password !== 'AAaa11!!' || ashfaq.status !== 'approved' || !ashfaq.photo) {
+        ashfaq.name = 'Ashfaque Ahmad';
         ashfaq.batch = 2005;
+        ashfaq.house = 'Nilgiri';
         ashfaq.role = 'admin';
-        ashfaq.roleTitle = 'Super Admin';
+        ashfaq.roleTitle = 'Super Admin • Software Architect';
+        ashfaq.city = 'Bangalore';
+        ashfaq.profession = 'Software Architect';
+        ashfaq.domain = 'Software';
         ashfaq.password = 'AAaa11!!';
         ashfaq.status = 'approved';
         ashfaq.photo = 'assets/images/ashfaq-ahmed.png';
@@ -337,8 +342,14 @@ function getCurrentUser() {
     if (raw) {
       const u = JSON.parse(raw);
       if (u && (u.email || '').toLowerCase() === 'ashfaque15tr@gmail.com') {
+        u.name = 'Ashfaque Ahmad';
+        u.batch = 2005;
+        u.house = 'Nilgiri';
+        u.city = 'Bangalore';
+        u.profession = 'Software Architect';
+        u.domain = 'Software';
         u.role = 'admin';
-        u.roleTitle = 'Super Admin';
+        u.roleTitle = 'Super Admin • Software Architect';
       }
       return u;
     }
@@ -351,8 +362,14 @@ function getCurrentUser() {
 // Set Active Session
 function setCurrentUser(user, remember = true) {
   if (user && (user.email || '').toLowerCase() === 'ashfaque15tr@gmail.com') {
+    user.name = 'Ashfaque Ahmad';
+    user.batch = 2005;
+    user.house = 'Nilgiri';
+    user.city = 'Bangalore';
+    user.profession = 'Software Architect';
+    user.domain = 'Software';
     user.role = 'admin';
-    user.roleTitle = 'Super Admin';
+    user.roleTitle = 'Super Admin • Software Architect';
   }
   const str = JSON.stringify(user);
   if (remember) {
@@ -374,26 +391,36 @@ function loginUser(email, password, remember = true) {
         id: "usr-ashfaque-admin",
         email: "ashfaque15tr@gmail.com",
         password: "AAaa11!!",
-        name: "Ashfaq Ahmed",
+        name: "Ashfaque Ahmad",
         batch: 2005,
-        house: "Arawali",
+        house: "Nilgiri",
         role: "admin",
-        roleTitle: "Super Admin",
+        roleTitle: "Super Admin • Software Architect",
         status: "approved",
         phone: "+91 9876501234",
-        city: "Lucknow / New Delhi",
-        profession: "Lead Enterprise & Systems Solutions Architect",
+        city: "Bangalore",
+        profession: "Software Architect",
         domain: "Software",
         avatar: "AA",
+        photo: "assets/images/ashfaq-ahmed.png",
+        avatarImage: "assets/images/ashfaq-ahmed.png",
         joinedDate: "Permanent Platform Super Admin"
       };
       users.unshift(ashfaq);
       saveAllUsers(users);
     } else {
+      ashfaq.name = "Ashfaque Ahmad";
+      ashfaq.batch = 2005;
+      ashfaq.house = "Nilgiri";
+      ashfaq.city = "Bangalore";
+      ashfaq.profession = "Software Architect";
+      ashfaq.domain = "Software";
       ashfaq.role = "admin";
-      ashfaq.roleTitle = "Super Admin";
+      ashfaq.roleTitle = "Super Admin • Software Architect";
       ashfaq.status = "approved";
       ashfaq.password = "AAaa11!!";
+      ashfaq.photo = "assets/images/ashfaq-ahmed.png";
+      ashfaq.avatarImage = "assets/images/ashfaq-ahmed.png";
       saveAllUsers(users);
     }
     setCurrentUser(ashfaq, remember);
