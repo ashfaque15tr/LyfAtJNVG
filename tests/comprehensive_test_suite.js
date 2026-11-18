@@ -623,6 +623,69 @@ assert(!AppState.directory.some(d => d.name === 'DeleteMe Profile'), 'Super Admi
 global.alert = origAlert;
 
 // ----------------------------------------------------
+// TEST SUITE 14: PROFILE PICTURE EDITING, PREVIEW & PERSISTENCE
+// ----------------------------------------------------
+console.log('\n--- TEST SUITE 14: PROFILE PICTURE EDITING, PREVIEW & PERSISTENCE ---');
+const mIndexHtml = fs.readFileSync(path.join(__dirname, '../mobile_app/index.html'), 'utf8');
+
+// 1. Web Edit Profile Picture Controls
+assert(indexHtml.includes('id="editProfilePhotoFile"'), 'index.html contains file upload input for profile photo');
+assert(indexHtml.includes('id="editProfilePhotoUrl"'), 'index.html contains URL input for profile photo');
+assert(indexHtml.includes('id="editProfileAvatarPreview"'), 'index.html contains live avatar preview image');
+assert(indexHtml.includes('onclick="removeProfilePhoto()"'), 'index.html contains remove profile photo button');
+
+// 2. JavaScript Photo Handlers
+assert(typeof previewProfilePhotoUpload === 'function', 'previewProfilePhotoUpload handler function exported');
+assert(typeof previewProfilePhotoUrl === 'function', 'previewProfilePhotoUrl handler function exported');
+assert(typeof removeProfilePhoto === 'function', 'removeProfilePhoto handler function exported');
+assert(typeof setProfileAvatarPreview === 'function', 'setProfileAvatarPreview handler function exported');
+
+// 3. Mobile App Profile Picture Controls
+assert(mIndexHtml.includes('id="mEditPhotoFile"'), 'mobile_app/index.html contains file upload input');
+assert(mIndexHtml.includes('id="mEditPhotoUrl"'), 'mobile_app/index.html contains URL input');
+assert(mIndexHtml.includes('id="mEditAvatarPreview"'), 'mobile_app/index.html contains mobile avatar preview');
+assert(mIndexHtml.includes('function previewMobilePhotoUpload'), 'mobile_app/index.html defines previewMobilePhotoUpload');
+assert(mIndexHtml.includes('function removeMobileProfilePhoto'), 'mobile_app/index.html defines removeMobileProfilePhoto');
+
+// 4. Persistence verification: update photo via mock
+global.alert = () => {};
+setCurrentUser(ashfaqLogin.user, true);
+assert(typeof handleProfileUpdate === 'function', 'handleProfileUpdate function exists');
+
+// Set form input element values in mock DOM
+document.getElementById('editProfileName').value = 'Ashfaque Ahmad';
+document.getElementById('editProfilePhone').value = '+91 9876543210';
+document.getElementById('editProfileCity').value = 'Bangalore';
+document.getElementById('editProfileProfession').value = 'Principal Software Architect';
+document.getElementById('editProfileDomain').value = 'Technology';
+document.getElementById('editProfileHouse').value = 'Nilgiri';
+document.getElementById('editProfileBio').value = 'Passionate about distributed systems & AI.';
+
+// Simulate photo update
+const testPhotoData = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==';
+previewProfilePhotoUrl(testPhotoData);
+
+// Mock form submission event
+const mockEvt = {
+  preventDefault: () => {}
+};
+
+handleProfileUpdate(mockEvt);
+const updatedUser = getCurrentUser();
+assert(updatedUser.photo === testPhotoData, 'handleProfileUpdate saved photo data to current user session');
+assert(updatedUser.avatarImage === testPhotoData, 'handleProfileUpdate saved avatarImage to current user session');
+const updatedDirectoryEntry = AppState.directory.find(d => d.email === ashfaqLogin.user.email);
+assert(updatedDirectoryEntry && updatedDirectoryEntry.photo === testPhotoData, 'handleProfileUpdate saved photo to directory entry');
+
+// Verify remove photo
+removeProfilePhoto();
+document.getElementById('editProfileBio').value = 'Updated bio after photo reset';
+handleProfileUpdate(mockEvt);
+const userAfterRemoval = getCurrentUser();
+assert(!userAfterRemoval.photo, 'removeProfilePhoto successfully reset photo to null on profile update');
+
+
+// ----------------------------------------------------
 // TEST SUMMARY
 // ----------------------------------------------------
 console.log('\n====================================================');

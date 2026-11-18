@@ -2149,7 +2149,157 @@
       alert(`सादर नमन! Respected ${name} enrolled successfully. Guru Sandesh is now published.`);
     }
 
-        document.addEventListener('DOMContentLoaded', () => {
+    // ================= MOBILE PROFILE EDIT HANDLERS =================
+    let mTempProfilePhoto = null;
+
+    function setMobileAvatarPreview(src, fallback = 'NV') {
+      const imgEl = document.getElementById('mEditAvatarPreview');
+      const fbEl = document.getElementById('mEditAvatarFallback');
+      if (src) {
+        if (imgEl) { imgEl.src = src; imgEl.classList.remove('hidden'); }
+        if (fbEl) fbEl.classList.add('hidden');
+      } else {
+        if (imgEl) { imgEl.src = ''; imgEl.classList.add('hidden'); }
+        if (fbEl) { fbEl.textContent = fallback; fbEl.classList.remove('hidden'); }
+      }
+    }
+
+    function previewMobilePhotoUpload(e) {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      if (file.size > 5 * 1024 * 1024) {
+        alert("Image file size should be under 5MB.");
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        mTempProfilePhoto = evt.target.result;
+        setMobileAvatarPreview(mTempProfilePhoto);
+        const urlIn = document.getElementById('mEditPhotoUrl');
+        if (urlIn) urlIn.value = '';
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function previewMobilePhotoUrl(url) {
+      const trimmed = (url || '').trim();
+      if (trimmed.length > 0) {
+        mTempProfilePhoto = trimmed;
+        setMobileAvatarPreview(trimmed);
+      } else {
+        mTempProfilePhoto = null;
+        const cur = (typeof getCurrentUser === 'function') ? getCurrentUser() : null;
+        setMobileAvatarPreview(null, cur ? (cur.avatar || cur.name.substring(0, 2).toUpperCase()) : 'NV');
+      }
+    }
+
+    function removeMobileProfilePhoto() {
+      mTempProfilePhoto = '';
+      const fIn = document.getElementById('mEditPhotoFile');
+      const uIn = document.getElementById('mEditPhotoUrl');
+      if (fIn) fIn.value = '';
+      if (uIn) uIn.value = '';
+      const cur = (typeof getCurrentUser === 'function') ? getCurrentUser() : null;
+      setMobileAvatarPreview(null, cur ? (cur.avatar || cur.name.substring(0, 2).toUpperCase()) : 'NV');
+    }
+
+    function openMobileEditProfileModal() {
+      const cur = (typeof getCurrentUser === 'function') ? getCurrentUser() : null;
+      if (!cur) {
+        alert("Please log in to edit your profile.");
+        return;
+      }
+      const modal = document.getElementById('mEditProfileModal');
+      if (!modal) return;
+
+      mTempProfilePhoto = cur.photo || cur.avatarImage || null;
+      setMobileAvatarPreview(mTempProfilePhoto, cur.avatar || (cur.name ? cur.name.substring(0, 2).toUpperCase() : 'NV'));
+      const mUrlIn = document.getElementById('mEditPhotoUrl');
+      if (mUrlIn) mUrlIn.value = (typeof mTempProfilePhoto === 'string' && !mTempProfilePhoto.startsWith('data:')) ? mTempProfilePhoto : '';
+      const mFileIn = document.getElementById('mEditPhotoFile');
+      if (mFileIn) mFileIn.value = '';
+
+      if (document.getElementById('mEditName')) document.getElementById('mEditName').value = cur.name || '';
+      if (document.getElementById('mEditPhone')) document.getElementById('mEditPhone').value = cur.phone || '';
+      if (document.getElementById('mEditCity')) document.getElementById('mEditCity').value = cur.city || cur.location || '';
+      if (document.getElementById('mEditProfession')) document.getElementById('mEditProfession').value = cur.profession || cur.roleTitle || '';
+      if (document.getElementById('mEditDomain')) document.getElementById('mEditDomain').value = cur.domain || 'Software';
+      if (document.getElementById('mEditHouse')) document.getElementById('mEditHouse').value = cur.house || 'Nilgiri';
+      if (document.getElementById('mEditBio')) document.getElementById('mEditBio').value = cur.bio || cur.tagline || '';
+
+      modal.classList.remove('hidden');
+      modal.style.display = 'flex';
+    }
+
+    function closeMobileEditProfileModal() {
+      const modal = document.getElementById('mEditProfileModal');
+      if (!modal) return;
+      modal.classList.add('hidden');
+      modal.style.display = 'none';
+    }
+
+    function handleMobileProfileUpdate(e) {
+      if (e) e.preventDefault();
+      const cur = (typeof getCurrentUser === 'function') ? getCurrentUser() : null;
+      if (!cur) {
+        alert("Please log in to update your profile.");
+        return;
+      }
+      const newName = (document.getElementById('mEditName')?.value || '').trim();
+      if (!newName) {
+        alert("Profile name cannot be blank.");
+        return;
+      }
+      cur.name = newName;
+      const phone = (document.getElementById('mEditPhone')?.value || '').trim();
+      if (phone) cur.phone = phone;
+      const city = (document.getElementById('mEditCity')?.value || '').trim();
+      if (city) { cur.city = city; cur.location = city; }
+      const prof = (document.getElementById('mEditProfession')?.value || '').trim();
+      if (prof) { cur.profession = prof; cur.roleTitle = prof; }
+      const dom = (document.getElementById('mEditDomain')?.value || '').trim();
+      if (dom) cur.domain = dom;
+      const house = (document.getElementById('mEditHouse')?.value || '').trim();
+      if (house) cur.house = house;
+      const bio = (document.getElementById('mEditBio')?.value || '').trim();
+      if (bio) { cur.bio = bio; cur.tagline = bio; }
+
+      if (mTempProfilePhoto !== null) {
+        cur.photo = mTempProfilePhoto || null;
+        cur.avatarImage = mTempProfilePhoto || null;
+      }
+
+      try {
+        if (typeof saveCurrentUserSession === 'function') {
+          saveCurrentUserSession(cur);
+        } else {
+          localStorage.setItem('JNVG_CURRENT_USER_SESSION', JSON.stringify(cur));
+        }
+        const users = (typeof getAllUsers === 'function') ? getAllUsers() : JSON.parse(localStorage.getItem('JNVG_REGISTERED_USERS_V2') || '[]');
+        const uIdx = users.findIndex(u => (u.email && cur.email && u.email.toLowerCase() === cur.email.toLowerCase()) || u.name === cur.name);
+        if (uIdx !== -1) {
+          users[uIdx] = { ...users[uIdx], ...cur };
+          localStorage.setItem('JNVG_REGISTERED_USERS_V2', JSON.stringify(users));
+        }
+        const appData = JSON.parse(localStorage.getItem('JNVG_ALUMNI_APP_DATA_V2')) || {};
+        if (appData.directory) {
+          const dIdx = appData.directory.findIndex(d => (d.email && cur.email && d.email.toLowerCase() === cur.email.toLowerCase()) || d.name === cur.name);
+          if (dIdx !== -1) {
+            appData.directory[dIdx] = { ...appData.directory[dIdx], ...cur };
+            localStorage.setItem('JNVG_ALUMNI_APP_DATA_V2', JSON.stringify(appData));
+          }
+        }
+      } catch(err) {
+        console.warn("Mobile profile save error:", err);
+      }
+
+      closeMobileEditProfileModal();
+      if (typeof updateMobileUI === 'function') updateMobileUI();
+      if (typeof loadMobileContent === 'function') loadMobileContent();
+      alert("Profile updated successfully!");
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
       updateMobileUI();
       loadMobileContent();
       loadMobileTeachers();
@@ -2170,6 +2320,36 @@
       </div>
 
       <form id="mEditProfileForm" onsubmit="handleMobileProfileUpdate(event)" class="space-y-3 text-xs">
+        <!-- Mobile Profile Picture Editor -->
+        <div class="p-3 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-2">
+          <label class="block text-slate-300 font-semibold text-[11px] flex items-center justify-between">
+            <span>Profile Picture</span>
+            <span class="text-[9px] text-amber-400">Photo / URL</span>
+          </label>
+          <div class="flex items-center gap-3">
+            <div class="relative group flex-shrink-0">
+              <div id="mEditAvatarContainer" class="w-14 h-14 rounded-2xl overflow-hidden border-2 border-amber-500/50 bg-slate-900 flex items-center justify-center text-base font-bold text-amber-300 shadow">
+                <img id="mEditAvatarPreview" src="" alt="Preview" class="w-full h-full object-cover hidden">
+                <span id="mEditAvatarFallback">NV</span>
+              </div>
+              <label for="mEditPhotoFile" class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center cursor-pointer shadow">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/></svg>
+              </label>
+            </div>
+            <div class="flex-1 space-y-1.5 min-w-0">
+              <input type="file" id="mEditPhotoFile" accept="image/*" class="hidden" onchange="previewMobilePhotoUpload(event)">
+              <div class="flex items-center gap-1.5">
+                <button type="button" onclick="document.getElementById('mEditPhotoFile').click()" class="px-2.5 py-1 rounded-lg bg-slate-800 text-amber-300 border border-amber-500/30 text-[10px] font-bold">
+                  📷 Upload
+                </button>
+                <button type="button" onclick="removeMobileProfilePhoto()" class="px-2 py-1 rounded-lg bg-slate-900 text-rose-300 border border-rose-500/30 text-[10px]">
+                  ✕ Clear
+                </button>
+              </div>
+              <input type="url" id="mEditPhotoUrl" placeholder="Image URL (https://...)" oninput="previewMobilePhotoUrl(this.value)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-2 py-1 text-[10px] text-white focus:outline-none">
+            </div>
+          </div>
+        </div>
         <div>
           <label class="block text-slate-300 font-semibold mb-1 text-[11px]">Full Name *</label>
           <input type="text" id="mEditName" required class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white text-xs focus:border-amber-400 focus:outline-none">

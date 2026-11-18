@@ -4533,6 +4533,69 @@ function handleSuggestionSubmit(e) {
 // =============================================================================
 // LOGGED-IN ALUMNUS SELF-SERVICE PROFILE EDIT ENGINE
 // =============================================================================
+
+let tempProfilePhotoData = null;
+
+function setProfileAvatarPreview(photoSrc, fallbackText = 'NV') {
+  const imgEl = document.getElementById('editProfileAvatarPreview');
+  const fallbackEl = document.getElementById('editProfileAvatarFallback');
+  if (photoSrc) {
+    if (imgEl) {
+      imgEl.src = photoSrc;
+      imgEl.classList.remove('hidden');
+    }
+    if (fallbackEl) fallbackEl.classList.add('hidden');
+  } else {
+    if (imgEl) {
+      imgEl.src = '';
+      imgEl.classList.add('hidden');
+    }
+    if (fallbackEl) {
+      fallbackEl.textContent = fallbackText || 'NV';
+      fallbackEl.classList.remove('hidden');
+    }
+  }
+}
+
+function previewProfilePhotoUpload(event) {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) {
+    alert("Image file size should be under 5MB.");
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    tempProfilePhotoData = e.target.result;
+    setProfileAvatarPreview(tempProfilePhotoData);
+    const urlInput = document.getElementById('editProfilePhotoUrl');
+    if (urlInput) urlInput.value = '';
+  };
+  reader.readAsDataURL(file);
+}
+
+function previewProfilePhotoUrl(url) {
+  const trimmed = (url || '').trim();
+  if (trimmed.length > 0) {
+    tempProfilePhotoData = trimmed;
+    setProfileAvatarPreview(trimmed);
+  } else {
+    tempProfilePhotoData = null;
+    const cur = (typeof getCurrentUser === 'function') ? getCurrentUser() : null;
+    setProfileAvatarPreview(null, cur ? (cur.avatar || cur.name.substring(0, 2).toUpperCase()) : 'NV');
+  }
+}
+
+function removeProfilePhoto() {
+  tempProfilePhotoData = '';
+  const fileInput = document.getElementById('editProfilePhotoFile');
+  const urlInput = document.getElementById('editProfilePhotoUrl');
+  if (fileInput) fileInput.value = '';
+  if (urlInput) urlInput.value = '';
+  const cur = (typeof getCurrentUser === 'function') ? getCurrentUser() : null;
+  setProfileAvatarPreview(null, cur ? (cur.avatar || cur.name.substring(0, 2).toUpperCase()) : 'NV');
+}
+
 function openEditProfileModal(targetIdentifier) {
   let user = (typeof getCurrentUser === 'function') ? getCurrentUser() : null;
   
@@ -4578,6 +4641,17 @@ function openEditProfileModal(targetIdentifier) {
   if (bioEl) bioEl.value = user.bio || user.tagline || '';
   if (batchEl) batchEl.value = user.batch || '';
 
+  // Initialize photo preview
+  tempProfilePhotoData = user.photo || user.avatarImage || null;
+  const initials = user.avatar || (user.name ? user.name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase() : 'NV');
+  setProfileAvatarPreview(tempProfilePhotoData, initials);
+  const urlInput = document.getElementById('editProfilePhotoUrl');
+  if (urlInput) {
+    urlInput.value = (typeof tempProfilePhotoData === 'string' && !tempProfilePhotoData.startsWith('data:')) ? tempProfilePhotoData : '';
+  }
+  const fileInput = document.getElementById('editProfilePhotoFile');
+  if (fileInput) fileInput.value = '';
+
   openModal('editProfileModal');
 }
 
@@ -4618,6 +4692,10 @@ function handleProfileUpdate(e) {
   if (newBio) {
     curUser.bio = newBio;
     curUser.tagline = newBio;
+  }
+  if (tempProfilePhotoData !== null) {
+    curUser.photo = tempProfilePhotoData || null;
+    curUser.avatarImage = tempProfilePhotoData || null;
   }
 
   // Persist session
@@ -4663,6 +4741,10 @@ function handleProfileUpdate(e) {
         AppState.directory[dIdx].badge = newHouse;
       }
       if (newPhone) AppState.directory[dIdx].phone = newPhone;
+      if (tempProfilePhotoData !== null) {
+        AppState.directory[dIdx].photo = tempProfilePhotoData || null;
+        AppState.directory[dIdx].avatarImage = tempProfilePhotoData || null;
+      }
     } else {
       AppState.directory.unshift({
         id: "dir-" + Date.now(),
@@ -4699,3 +4781,8 @@ function handleProfileUpdate(e) {
 
 window.openEditProfileModal = openEditProfileModal;
 window.handleProfileUpdate = handleProfileUpdate;
+
+window.previewProfilePhotoUpload = previewProfilePhotoUpload;
+window.previewProfilePhotoUrl = previewProfilePhotoUrl;
+window.removeProfilePhoto = removeProfilePhoto;
+window.setProfileAvatarPreview = setProfileAvatarPreview;
