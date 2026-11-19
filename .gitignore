@@ -29,3 +29,6 @@ scratch/
 .system_generated/
 tmp/
 *.tmp
+
+# Microsoft Office lock files
+~$*
