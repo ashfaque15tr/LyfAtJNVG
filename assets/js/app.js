@@ -8345,7 +8345,26 @@ function loadAppData() {
         parsed.culturalActs = defaultData.culturalActs;
       }
       // Ensure only Ashfaque Ahmad is present in directory as sole Super Admin today
-      parsed.directory = defaultDirectoryAlumni.slice();
+      // Preserve modified directory records across reloads while ensuring official registry defaults
+      if (parsed.directory && Array.isArray(parsed.directory) && parsed.directory.length > 0) {
+        const savedMap = new Map();
+        parsed.directory.forEach(d => {
+          if (d.email) savedMap.set(d.email.toLowerCase(), d);
+          else if (d.name) savedMap.set((d.name + '_' + (d.batch || '')).toLowerCase(), d);
+        });
+        parsed.directory = defaultDirectoryAlumni.map(def => {
+          const saved = (def.email && savedMap.get(def.email.toLowerCase())) || savedMap.get((def.name + '_' + (def.batch || '')).toLowerCase());
+          return saved ? { ...def, ...saved } : def;
+        });
+        parsed.directory.forEach(d => {
+          const exists = defaultDirectoryAlumni.some(def => (def.email && d.email && def.email.toLowerCase() === d.email.toLowerCase()) || (def.name.toLowerCase() === d.name.toLowerCase() && def.batch === d.batch));
+          if (!exists && !parsed.directory.some(x => x.id === d.id)) {
+            parsed.directory.push(d);
+          }
+        });
+      } else {
+        parsed.directory = defaultDirectoryAlumni.slice();
+      }
       return { ...defaultData, ...parsed };
     }
   } catch (e) {
@@ -8967,7 +8986,18 @@ function handleStorySubmit(e) {
   const curUser = (typeof getCurrentUser === 'function' ? getCurrentUser() : null) || { name: "Alumni Member", batch: 2008, house: "Aravali" };
   const initials = curUser.name.split(' ').filter(n => n.length > 0).map(n => n[0]).join('').substring(0, 2).toUpperCase() || 'NV';
   const isTeacher = curUser.role === 'teacher';
-  const postTag = isTeacher ? '🪔 गुरु शुभाशीष / Faculty Blessing' : (cat.charAt(0).toUpperCase() + cat.slice(1));
+  const categoryTagMap = {
+    'memory': '🏛️ Old Memories (पुरानी यादें)',
+    'gratitude': '🙏 Gratitude & Thanking (आभार)',
+    'future': '💡 Future Thoughts & Vision (भविष्य के विचार)',
+    'general': '📢 Open Broadcast (खुला विचार)',
+    'assembly': '🌅 Morning Assembly (सुबह की प्रार्थना)',
+    'hostel': '🍛 Hostel & Mess Life (छात्रावास)',
+    'migration': '🚂 Migration Days (प्रवास संस्मरण)',
+    'sports': '🏆 Sports & Cultural (खेल एवं कला)',
+    'achievement': '⭐ Alumni Achievement (उपलब्धि)'
+  };
+  const postTag = isTeacher ? '🪔 गुरु शुभाशीष / Faculty Blessing' : (categoryTagMap[cat] || (cat.charAt(0).toUpperCase() + cat.slice(1)));
 
   const newPost = {
     id: "pst-" + Date.now() + "-" + Math.floor(Math.random() * 1000000),
@@ -9043,8 +9073,8 @@ function renderFeed(append = false) {
     const article = document.createElement('article');
     article.id = 'feed-card-' + post.id;
     article.className = isTeacherPost 
-      ? "bg-gradient-to-br from-amber-950/30 via-slate-900 to-slate-900 border border-amber-500/40 rounded-2xl p-5 hover:border-amber-400/60 transition space-y-3 shadow-lg shadow-amber-500/5 ring-1 ring-amber-500/20"
-      : "bg-slate-900 border border-slate-800 rounded-2xl p-5 hover:border-slate-700 transition space-y-3";
+      ? "feed-card bg-gradient-to-br from-amber-950/30 via-slate-900 to-slate-900 border border-amber-500/40 rounded-2xl p-5 hover:border-amber-400/60 transition space-y-3 shadow-lg shadow-amber-500/5 ring-1 ring-amber-500/20"
+      : "feed-card bg-slate-900 border border-slate-800 rounded-2xl p-5 hover:border-slate-700 transition space-y-3";
     article.setAttribute('data-category', post.category);
 
     const canDeleteThis = canDeleteAll || (curUser.name && curUser.name.toLowerCase() === (post.author || '').toLowerCase());
@@ -12507,18 +12537,31 @@ function setProfileAvatarPreview(photoSrc, fallbackText = 'NV') {
 function previewProfilePhotoUpload(event) {
   const file = event.target.files && event.target.files[0];
   if (!file) return;
-  if (file.size > 5 * 1024 * 1024) {
-    alert("Image file size should be under 5MB.");
+  if (file.size > 10 * 1024 * 1024) {
+    alert("Image file size should be under 10MB.");
     return;
   }
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    tempProfilePhotoData = e.target.result;
-    setProfileAvatarPreview(tempProfilePhotoData);
-    const urlInput = document.getElementById('editProfilePhotoUrl');
-    if (urlInput) urlInput.value = '';
-  };
-  reader.readAsDataURL(file);
+
+  // Compress photo using HTML5 Canvas to guaranteed lightweight web avatar (< 25KB)
+  if (typeof compressProfileImage === 'function') {
+    compressProfileImage(file, (dataUrl) => {
+      if (dataUrl) {
+        tempProfilePhotoData = dataUrl;
+        setProfileAvatarPreview(tempProfilePhotoData);
+        const urlInput = document.getElementById('editProfilePhotoUrl');
+        if (urlInput) urlInput.value = '';
+      }
+    }, 240, 240, 0.85);
+  } else {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      tempProfilePhotoData = e.target.result;
+      setProfileAvatarPreview(tempProfilePhotoData);
+      const urlInput = document.getElementById('editProfilePhotoUrl');
+      if (urlInput) urlInput.value = '';
+    };
+    reader.readAsDataURL(file);
+  }
 }
 
 function previewProfilePhotoUrl(url) {

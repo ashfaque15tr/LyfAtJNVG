@@ -626,11 +626,13 @@
 
         <!-- Filter Tags -->
         <div class="flex flex-wrap gap-2 justify-center">
-          <button onclick="filterFeed('all')" class="feed-filter-btn active px-3.5 py-1.5 rounded-xl bg-brand-700 text-white font-medium text-xs">All Memories</button>
-          <button onclick="filterFeed('assembly')" class="feed-filter-btn px-3.5 py-1.5 rounded-xl bg-slate-800 text-slate-300 font-medium text-xs">Morning Assembly</button>
-          <button onclick="filterFeed('migration')" class="feed-filter-btn px-3.5 py-1.5 rounded-xl bg-slate-800 text-slate-300 font-medium text-xs">Migration Days</button>
-          <button onclick="filterFeed('mess')" class="feed-filter-btn px-3.5 py-1.5 rounded-xl bg-slate-800 text-slate-300 font-medium text-xs">Mess & Hostels</button>
-          <button onclick="filterFeed('sports')" class="feed-filter-btn px-3.5 py-1.5 rounded-xl bg-slate-800 text-slate-300 font-medium text-xs">Sports & PT</button>
+          <button onclick="filterFeed('all')" class="feed-filter-btn active px-3.5 py-1.5 rounded-xl text-xs font-semibold">🌟 All Broadcasts</button>
+          <button onclick="filterFeed('memory')" class="feed-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold">🏛️ Old Memories</button>
+          <button onclick="filterFeed('gratitude')" class="feed-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold">🙏 Gratitude & Thanks</button>
+          <button onclick="filterFeed('future')" class="feed-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold">💡 Future Thoughts</button>
+          <button onclick="filterFeed('assembly')" class="feed-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold">🌅 Morning Assembly</button>
+          <button onclick="filterFeed('hostel')" class="feed-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold">🍛 Hostel & Mess</button>
+          <button onclick="filterFeed('general')" class="feed-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold">📢 Open Broadcast</button>
         </div>
 
         <!-- Feed Posts Stream -->
@@ -2037,10 +2039,12 @@
         <div>
           <label class="block text-slate-300 mb-1">Memory Category *</label>
           <select id="storyCategory" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">
-            <option value="assembly">Morning Assembly & PT</option>
-            <option value="migration">Migration Days (Kerala/Other States)</option>
-            <option value="mess">Sunday Mess & Special Treats</option>
-            <option value="sports">Inter-House Sports & Drama</option>
+            <option value="memory">🏛️ Old Campus Memories & Nostalgia (पुरानी यादें)</option>
+            <option value="gratitude">🙏 Gratitude, Thanking & Blessings (कृतज्ञता एवं आभार)</option>
+            <option value="future">💡 Future Thoughts, Vision & Ideas (भविष्य के विचार एवं सुझाव)</option>
+            <option value="general">📢 Community Announcement & Open Broadcast (खुला विचार मंच)</option>
+            <option value="assembly">🌅 Morning Assembly & PT Days (सुबह की प्रार्थना एवं पीटी)</option>
+            <option value="hostel">🍛 Hostel Life, Mess & Migration (छात्रावास, मेस एवं प्रवास)</option>
           </select>
         </div>
         <div>
