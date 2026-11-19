@@ -86,13 +86,13 @@ jobs:
 
       - name: Prepare Web Assets & Sync Capacitor
         run: |
+          chmod +x android/gradlew
           node scripts/prepare-www.js
           npx --yes @capacitor/cli sync android
 
       - name: Compile Native Android APK with Gradle
         run: |
           cd android
-          chmod +x gradlew
           ./gradlew assembleDebug --no-daemon
 
       - name: Upload Native Android APK Artifact
