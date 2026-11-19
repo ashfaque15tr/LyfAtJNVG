@@ -558,7 +558,7 @@ const SMS_GATEWAY_STORAGE_KEY = 'JNVG_SMS_GATEWAY_CONFIG';
 
 const DEFAULT_SMS_GATEWAY = {
   provider: 'fast2sms', // 'fast2sms' | 'twofactor' | 'msg91' | 'textlocal' | 'custom'
-  apiKey: '',
+  apiKey: 'oT5Y9CQwW4nA8GLNP8kXM1W3k7tg7OG2Y7cwqskcLwshE9EJIosCp4lWfQjU277FAgIvEyjA2G4pF8tc',
   senderId: 'JNVGFM',
   customWebhookUrl: '',
   autoTriggerApp: false
@@ -568,7 +568,14 @@ function getSmsGatewayConfig() {
   try {
     if (typeof localStorage !== 'undefined') {
       const raw = localStorage.getItem(SMS_GATEWAY_STORAGE_KEY);
-      if (raw) return { ...DEFAULT_SMS_GATEWAY, ...JSON.parse(raw) };
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        return {
+          ...DEFAULT_SMS_GATEWAY,
+          ...parsed,
+          apiKey: parsed.apiKey || DEFAULT_SMS_GATEWAY.apiKey
+        };
+      }
     }
   } catch (e) {
     console.error("SMS Gateway config read error:", e);
