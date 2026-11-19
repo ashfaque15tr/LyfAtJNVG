@@ -913,26 +913,7 @@
       }
     }
 
-    function autoFillRegOtp() {
-      if (pendingRegOtp) {
-        document.getElementById('regOtpInput').value = pendingRegOtp;
-      }
-    }
 
-    function copyRegOtp() {
-      if (pendingRegOtp) {
-        if (navigator.clipboard) {
-          navigator.clipboard.writeText(pendingRegOtp);
-        }
-        alert(`✓ Copied OTP ${pendingRegOtp} to clipboard.`);
-      }
-    }
-
-    function autoFillForgotOtp() {
-      if (pendingForgotOtp) {
-        document.getElementById('forgotOtpInput').value = pendingForgotOtp;
-      }
-    }
 
     function copyForgotOtp() {
       if (pendingForgotOtp) {

@@ -26,11 +26,12 @@
       }
     }
   </script>
-  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/styles.css?v=0.0.2">
   <!-- Theme Engine: Dual-Theme Switching between Light Sky Blue & Dark Navy Blue -->
   <script src="assets/js/theme.js"></script>
   <!-- Enterprise High-Capacity IndexedDB & Virtualization Engine (100k+ Alumni Scale) -->
   <script src="assets/js/storage-engine.js"></script>
+  <script src="assets/js/cloud-sync.js"></script>
   <script src="assets/js/auth.js"></script>
   <script>
     // Verify session without forcing admin
@@ -398,7 +399,7 @@
           <div>
             <h3 class="text-lg font-bold text-white font-cinzel mb-3">Our Roots in Gauriganj (Est. 1986)</h3>
             <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              Established in the heart of Gauriganj (formerly Sultanpur, now District Amethi), Jawahar Navodaya Vidyalaya stands as a premier residential institution under the Ministry of Education, Government of India. Over three decades, the campus has nurtured hundreds of talents who now lead in Civil Services, Medicine, Corporate Leadership, Defense, and Global Technology.
+              Established in the heart of Gauriganj (formerly Sultanpur, now District Amethi), Jawahar Navodaya Vidyalaya stands as a premier residential institution under the Ministry of Education, Government of India. Over three decades, the campus has nurtured hundreds of talents who now lead in Civil Services, Medicine, Corporate Leadership, Defense, Academics & Education, and Global Technologies.
             </p>
             <div class="mt-4 p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-400">
               <strong class="text-amber-400">Non-Profit Voluntary Network:</strong> Registered for education & solidarity. Dedicated to uniting alumni across batches, mentoring students, and supporting the Alma Mater.
@@ -1219,8 +1220,10 @@
             </select>
             <select id="dirHouseFilter" onchange="filterDirectory()" class="bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200">
               <option value="all">All Houses</option>
-              <option value="Aravali">Aravali</option><option value="Shivalik">Shivalik</option>
-              <option value="Udaygiri">Udaygiri</option><option value="Neelgiri">Neelgiri</option>
+              <option value="Arawali">Arawali</option>
+              <option value="Nilgiri">Nilgiri</option>
+              <option value="Shivalik">Shivalik</option>
+              <option value="Udaigiri">Udaigiri</option>
             </select>
             <select id="dirDomainFilter" onchange="filterDirectory()" class="bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200">
               <option value="all">All Domains</option>
@@ -1303,7 +1306,7 @@
                     <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-300 text-xs font-bold flex items-center justify-center">1</span>
                     <strong class="text-white text-sm">Shri Vivek Tiwari</strong>
                   </div>
-                  <p class="text-xs text-amber-300 font-medium ml-8">Alumnus 1987-1994 Batch • Aravali House</p>
+                  <p class="text-xs text-amber-300 font-medium ml-8">Alumnus 1987-1994 Batch • Arawali House</p>
                 </div>
                 <div class="text-right flex-shrink-0">
                   <span class="text-xs font-bold text-emerald-400 block">Trophy Worth ₹54,000/-</span>
@@ -1317,7 +1320,7 @@
                     <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-300 text-xs font-bold flex items-center justify-center">2</span>
                     <strong class="text-white text-sm">Shri Vivek Tiwari</strong>
                   </div>
-                  <p class="text-xs text-amber-300 font-medium ml-8">Alumnus 1987-1994 Batch • Aravali House</p>
+                  <p class="text-xs text-amber-300 font-medium ml-8">Alumnus 1987-1994 Batch • Arawali House</p>
                 </div>
                 <div class="text-right flex-shrink-0">
                   <span class="text-xs font-bold text-emerald-400 block">Earth Filling Worth ₹96,000/-</span>
@@ -1452,7 +1455,7 @@
               <img src="assets/images/campus-main-building.png" alt="Campus Building" class="w-full h-48 object-cover group-hover:scale-105 transition duration-500">
               <div class="p-4 bg-slate-900">
                 <h4 class="font-bold text-white text-sm">Main Academic Building</h4>
-                <p class="text-[11px] text-slate-400 mt-1">Aravali, Neelgiri, Shivalik, Udaygiri House Flags fluttering high</p>
+                <p class="text-[11px] text-slate-400 mt-1">Arawali, Nilgiri, Shivalik, Udaigiri House Flags fluttering high</p>
               </div>
             </div>
             <div class="group rounded-2xl overflow-hidden border border-slate-700 cursor-pointer" onclick="openImageModal('assets/images/campus-admin-block.png', 'Administrative Block & Garden Statue, JNV Gauriganj')">
@@ -1574,6 +1577,8 @@
           <p class="text-[11px] text-slate-400 mt-1 footer-meta-text">Gauriganj, Sultanpur / Amethi (U.P.) - 227409 | "हमी नवोदय हों" | Official Portal: <span class="text-amber-400 font-mono font-semibold">jnvgfamily.in</span></p>
         </div>
         <div class="flex items-center gap-4 text-xs">
+          <a href="privacy.html" class="text-slate-400 hover:text-amber-300 font-semibold hover:underline transition">Privacy Policy</a>
+          <span>•</span>
           <button type="button" onclick="openModal('suggestionIssueModal')" class="text-amber-400 hover:text-amber-300 font-semibold hover:underline flex items-center gap-1.5 transition">
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/></svg>
             <span>Suggestion / Issue Report</span>
@@ -1741,7 +1746,7 @@
               <option value="Nilgiri">Nilgiri</option>
               <option value="Arawali">Arawali</option>
               <option value="Shivalik">Shivalik</option>
-              <option value="Udaygiri">Udaygiri</option>
+              <option value="Udaigiri">Udaigiri</option>
             </select>
           </div>
           <div>
@@ -1913,22 +1918,15 @@
           </button>
         </div>
 
-        <!-- Live Handset SMS Preview & 1-Click Auto Fill -->
-        <div class="p-2.5 rounded-xl bg-white border border-sky-200 text-xs space-y-1.5 shadow-inner">
-          <div class="flex items-center justify-between text-[10px] text-slate-500">
-            <span class="font-semibold text-slate-600">📶 Handset SMS Delivery Preview</span>
-            <span class="text-emerald-700 font-medium">Ready</span>
-          </div>
-          <div class="p-2 rounded-lg bg-sky-50/70 border border-sky-100 font-mono text-[11px] text-slate-800 flex items-center justify-between">
-            <span id="indexLiveOtpPreview" class="font-bold text-sky-950">OTP: ******</span>
-            <div class="flex items-center gap-1.5">
-              <button type="button" onclick="autoFillIndexOtp()" class="px-2.5 py-1 rounded bg-amber-500 hover:bg-amber-400 text-slate-950 text-[10px] font-bold shadow-sm">
-                ⚡ Auto-Fill
-              </button>
-              <button type="button" onclick="copyIndexOtp()" class="px-2.5 py-1 rounded bg-slate-200 hover:bg-slate-300 text-slate-800 text-[10px] font-semibold">
-                📋 Copy
-              </button>
+        <!-- Confidential 2FA Verification Notice -->
+          <div class="p-2.5 rounded-xl bg-white border border-sky-200 text-xs space-y-1.5 shadow-inner">
+            <div class="flex items-center justify-between text-[10px] text-slate-500">
+              <span class="font-semibold text-slate-700">🔒 Confidential Handset 2FA</span>
+              <span class="text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">Dispatched</span>
             </div>
+            <p class="text-[11px] text-slate-600 leading-relaxed">
+              Your 6-digit verification code has been dispatched directly to your WhatsApp and Phone SMS. Please enter the code from your handset below.
+            </p>
           </div>
         </div>
       </div>
@@ -1938,7 +1936,7 @@
         <div>
           <label class="block text-xs font-semibold text-slate-700 mb-1.5 text-center">Enter 6-Digit SMS Verification Code *</label>
           <input type="text" id="indexOtpInput" maxlength="6" inputmode="numeric" pattern="[0-9]{6}" required placeholder="------" class="w-full text-center text-2xl font-mono tracking-[0.5em] bg-slate-50 border border-slate-300 rounded-xl py-3 text-sky-900 focus:outline-none focus:border-sky-500 focus:bg-white transition shadow-inner">
-          <span class="block text-[10px] text-slate-500 text-center mt-1">Check incoming text on your mobile phone or click Auto-Fill above</span>
+          <span class="block text-[10px] text-slate-500 text-center mt-1">Check incoming verification text on your mobile WhatsApp or SMS</span>
         </div>
 
         <div id="indexOtpError" class="hidden p-2 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs text-center font-medium"></div>
@@ -2257,10 +2255,10 @@
             <label class="block text-slate-300 mb-1 font-semibold">Campus Staff Role / House Affiliation</label>
             <select id="tchHouse" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">
               <option value="Faculty Campus Staff">Faculty Campus Staff (General Academic)</option>
-              <option value="House Master - Aravali">House Master - Aravali House</option>
+              <option value="House Master - Arawali">House Master - Arawali House</option>
               <option value="House Master - Shivalik">House Master - Shivalik House</option>
-              <option value="House Master - Udaygiri">House Master - Udaygiri House</option>
-              <option value="House Master - Neelgiri">House Master - Neelgiri House</option>
+              <option value="House Master - Udaigiri">House Master - Udaigiri House</option>
+              <option value="House Master - Nilgiri">House Master - Nilgiri House</option>
               <option value="House Mistress - Priyadarshni / Sarojini">House Mistress - Priyadarshni / Sarojini</option>
               <option value="Administration">Institutional Leadership / Principal Office</option>
               <option value="Campus Support Staff">Campus Support Staff (Non-Teaching / Mess / Hostel)</option>
@@ -2474,9 +2472,24 @@
         <button onclick="closeNewChatSelector()" class="text-slate-400 hover:text-white text-base font-bold">&times;</button>
       </div>
       <p class="text-xs text-slate-300">Choose any verified alumnus or Gurujan from the directory to start a private conversation:</p>
+      <!-- Instant Real-Time Contact Search -->
+      <div class="relative">
+        <input type="text" id="newChatSearchInput" placeholder="🔍 Search alumni by name, batch, house, profession..." 
+               class="w-full text-xs px-3.5 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400"
+               oninput="filterNewChatDirectory(this.value)">
+        <button type="button" onclick="clearNewChatSearch()" class="absolute right-2.5 top-2.5 text-xs text-slate-500 hover:text-slate-300">✕</button>
+      </div>
+
+      <!-- Quick Filter Chips -->
+      <div class="flex items-center gap-1.5 overflow-x-auto pb-1 text-[11px]">
+        <button type="button" onclick="filterNewChatCategory('all')" id="newChatChip-all" class="new-chat-chip px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/40 font-semibold whitespace-nowrap">All Contacts</button>
+        <button type="button" onclick="filterNewChatCategory('teachers')" id="newChatChip-teachers" class="new-chat-chip px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 font-semibold whitespace-nowrap">Gurujan / Faculty</button>
+        <button type="button" onclick="filterNewChatCategory('alumni')" id="newChatChip-alumni" class="new-chat-chip px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 font-semibold whitespace-nowrap">Alumni</button>
+      </div>
+
       <div class="max-h-60 overflow-y-auto space-y-1.5" id="newChatDirectoryList">
         <button onclick="startChatWithSelectedAlumnus('Ashfaq Ahmed')" class="w-full text-left p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-amber-500/40 text-xs flex items-center justify-between">
-          <span class="text-white font-bold">Ashfaq Ahmed (2005 • Aravali)</span>
+          <span class="text-white font-bold">Ashfaq Ahmed (2005 • Nilgiri)</span>
           <span class="text-amber-400 font-bold">Super Admin</span>
         </button>
         <button onclick="startChatWithSelectedAlumnus('Mr. P. K. Singh')" class="w-full text-left p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 text-xs flex items-center justify-between">
@@ -2492,11 +2505,11 @@
           <span class="text-amber-400 font-medium">Project Director ASL DRDO</span>
         </button>
         <button onclick="startChatWithSelectedAlumnus('Vivek Tiwari')" class="w-full text-left p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 text-xs flex items-center justify-between">
-          <span class="text-white font-bold">Vivek Tiwari (1994 • Aravali)</span>
+          <span class="text-white font-bold">Vivek Tiwari (1994 • Arawali)</span>
           <span class="text-slate-400">MD & CEO Satya MicroCapital</span>
         </button>
         <button onclick="startChatWithSelectedAlumnus('Alok Dubey, IAS')" class="w-full text-left p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 text-xs flex items-center justify-between">
-          <span class="text-white font-bold">Alok Dubey, IAS (2007 • Neelgiri)</span>
+          <span class="text-white font-bold">Alok Dubey, IAS (2007 • Nilgiri)</span>
           <span class="text-slate-400">Civil Services</span>
         </button>
       </div>
@@ -2688,7 +2701,10 @@
       <span class="text-[10px] mt-1">Home</span>
     </button>
     <button onclick="switchTab('meet')" class="mobile-nav-tab flex flex-col items-center justify-center p-1 text-slate-400 hover:text-white transition text-center min-w-[56px]" data-tab="meet" data-mobile-tab="meet">
-      <span class="text-base leading-none">📅</span>
+      <span class="inline-flex flex-col items-center justify-center w-5 h-5 rounded-[4px] border border-rose-500/80 bg-white shadow-sm overflow-hidden leading-none flex-shrink-0">
+        <span class="w-full bg-rose-600 text-[6px] font-black text-white text-center tracking-tighter py-[1px] leading-none block">DEC</span>
+        <span class="text-[9px] font-black text-slate-950 leading-none pt-0.5 block">13</span>
+      </span>
       <span class="text-[10px] mt-1">Meet '26</span>
     </button>
     <button onclick="switchTab('feed')" class="mobile-nav-tab flex flex-col items-center justify-center p-1 text-slate-400 hover:text-white transition text-center min-w-[56px]" data-tab="feed" data-mobile-tab="feed">

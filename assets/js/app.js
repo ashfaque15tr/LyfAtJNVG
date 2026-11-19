@@ -9,6 +9,75 @@ const APP_STORAGE_KEY = 'JNVG_ALUMNI_APP_DATA_V2';
 
 let attachedStoryPhoto = null;
 
+const defaultCommunityBroadcasts = [
+  {
+    id: "feed-official-welcome",
+    author: "Ashfaque Ahmad",
+    authorRole: "admin",
+    roleBadge: "Super Admin",
+    batch: 2005,
+    house: "Nilgiri",
+    timestamp: "19 Nov 2026, 11:30 AM",
+    timeAgo: "Official Announcement",
+    category: "gratitude",
+    text: "Welcome to JNVGFamily The official digital home of JNV Gauriganj Alumni. Connect with batchmates across the globe, mentor young minds, and stay updated on campus reunions and milestones",
+    likes: 42,
+    liked: false,
+    comments: [
+      { author: "Vivek Tiwari", text: "Proud moment for all Navodayans! Looking forward to 13th Dec 2026." },
+      { author: "Dr. Jai Krishna Mishra", text: "Heartiest congratulations and best wishes to the entire JNV Gauriganj family." }
+    ]
+  },
+  {
+    id: "feed-gurujan-lsy",
+    author: "Sh. L. S. Yadav",
+    authorRole: "teacher",
+    isTeacher: true,
+    roleBadge: "Current Faculty (TGT English)",
+    batch: null,
+    house: "Campus",
+    timestamp: "19 Nov 2026, 11:32 AM",
+    timeAgo: "Gurujan Sandesh",
+    category: "gratitude",
+    text: "Navodaya is the confluence of multi-dimensional talents. Let's come together to succeed with flying colours.",
+    likes: 38,
+    liked: false,
+    comments: []
+  },
+  {
+    id: "feed-gurujan-ay",
+    author: "Smt. Arpana Yadav",
+    authorRole: "teacher",
+    isTeacher: true,
+    roleBadge: "Former Faculty (TGT English)",
+    batch: null,
+    house: "Priyadarshni / Sarojini",
+    timestamp: "19 Nov 2026, 11:33 AM",
+    timeAgo: "Gurujan Sandesh",
+    category: "memories",
+    text: "कहाँ हो भाई सब? बहुत अच्छे लग रहे हैं आप सब! Love you all! Education is not the filling of a pail, but the lighting of a fire. हॉस्टल में आपका माँ सा ध्यान रखना और अंग्रेजी भाषा व नैतिक मूल्यों को जीवन में उतारना ही मेरा संकल्प रहा। सदा विजयी भव!",
+    likes: 45,
+    liked: false,
+    comments: []
+  },
+  {
+    id: "feed-gurujan-rautela",
+    author: "Sh. B. S. Singh Rautela",
+    authorRole: "teacher",
+    isTeacher: true,
+    roleBadge: "Former Principal",
+    batch: null,
+    house: "Administration",
+    timestamp: "19 Nov 2026, 11:34 AM",
+    timeAgo: "Principal Blessings",
+    category: "gratitude",
+    text: "नवोदय का प्रांगण केवल ज्ञानार्जन का केंद्र नहीं, बल्कि चरित्र, बंधुत्व और राष्ट्र-निर्माण की पावन तपोभूमि है। जेएनवी गौरीगंज के विद्यार्थियों ने हर क्षेत्र में जो कीर्तिमान स्थापित किए हैं, उन पर मुझे गर्व है। हमी नवोदय हों!",
+    likes: 51,
+    liked: false,
+    comments: []
+  }
+];
+
 const defaultData = {
   role: 'member',
   currentLang: 'en',
@@ -21,11 +90,15 @@ const defaultData = {
   contributions: [],
 
   feedPosts: (function() {
-          try {
-            const f = localStorage.getItem(PERSISTENT_FEED_STORAGE_KEY);
-            return (f ? JSON.parse(f) : []);
-          } catch(e) { return []; }
-        })(),
+    try {
+      const f = localStorage.getItem(PERSISTENT_FEED_STORAGE_KEY);
+      if (f) {
+        const parsed = JSON.parse(f);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch(e) {}
+    return defaultCommunityBroadcasts.slice();
+  })(),
 
   queueItems: [],
 
@@ -346,6 +419,42 @@ const defaultData = {
       photo: null,
       message: "पूर्व छात्र प्रकोष्ठ (Alumni Cell) के माध्यम से हम विद्यालय के पूर्व और वर्तमान छात्रों के बीच सतत संवाद स्थापित कर रहे हैं। 13 दिसंबर 2026 को आयोजित चतुर्थ वार्षिक सम्मेलन में आप सभी पूर्व विद्यार्थियों का सस्नेह स्वागत है।",
       specialNote: "Direct campus liaison officer for 4th Annual Mega Meet arrangements."
+    },
+    {
+      id: "tch-lsy",
+      name: "Sh. L. S. Yadav",
+      title: "T.G.T.-English, Jawahar Navodaya Vidyalaya, Gauriganj",
+      category: "current",
+      statusLabel: "Current Faculty (TGT English)",
+      post: "T.G.T.-English",
+      subject: "English Language & Literature",
+      tenure: "2021 – Present",
+      house: "Campus",
+      houseDetail: "Faculty of English & Literary Society",
+      location: "Campus Staff Quarters, JNV Gauriganj",
+      initials: "LSY",
+      photo: "assets/images/ls-yadav.jpg",
+      respectCount: 168,
+      message: "Navodaya is the confluence of multi-dimensional talents. Let's come together to succeed with flying colours.",
+      specialNote: "Dedicated English educator nurturing communicative excellence and literary expression at JNV Gauriganj since 2021."
+    },
+    {
+      id: "tch-ay",
+      name: "Smt. Arpana Yadav",
+      title: "Senior Faculty (T.G.T.-English) & House Mother",
+      category: "former",
+      statusLabel: "Former Faculty (TGT English) & House Mother",
+      post: "T.G.T.-English & House Mother",
+      subject: "English Language, Literature & Values",
+      tenure: "1994 – 2012 (18 Years)",
+      house: "Priyadarshni / Sarojini",
+      houseDetail: "Senior House Mother & Literary Society In-charge",
+      location: "Lucknow / Sultanpur, UP",
+      initials: "AY",
+      photo: null,
+      respectCount: 198,
+      message: "कहाँ हो भाई सब? बहुत अच्छे लग रहे हैं आप सब! Love you all! Education is not the filling of a pail, but the lighting of a fire. हॉस्टल में आपका माँ सा ध्यान रखना और अंग्रेजी भाषा व नैतिक मूल्यों को जीवन में उतारना ही मेरा संकल्प रहा। सदा विजयी भव!",
+      specialNote: "Affectionate English mentor and pastoral guide remembered warmly by generations of Navodayans for her maternal care and inspiring literary guidance."
     },
     {
       id: "tch-9",
@@ -8332,10 +8441,20 @@ function loadAppData() {
     if (saved) {
       const parsed = JSON.parse(saved);
       if (parsed.teachers && defaultData.teachers) {
-        const existingTeacherNames = new Set(parsed.teachers.map(t => t.name.toLowerCase()));
-        defaultData.teachers.forEach(item => {
-          if (!existingTeacherNames.has(item.name.toLowerCase())) {
-            parsed.teachers.push(item);
+        defaultData.teachers.forEach(def => {
+          const idx = parsed.teachers.findIndex(t => t.id === def.id || (t.name && t.name.toLowerCase() === def.name.toLowerCase()));
+          if (idx === -1) {
+            parsed.teachers.push(def);
+          } else {
+            parsed.teachers[idx] = {
+              ...parsed.teachers[idx],
+              photo: def.photo || parsed.teachers[idx].photo,
+              message: def.message || parsed.teachers[idx].message,
+              post: def.post || parsed.teachers[idx].post,
+              tenure: def.tenure || parsed.teachers[idx].tenure,
+              subject: def.subject || parsed.teachers[idx].subject,
+              statusLabel: def.statusLabel || parsed.teachers[idx].statusLabel
+            };
           }
         });
       }
@@ -8379,7 +8498,12 @@ function loadAppData() {
         });
         parsed.directory = defaultDirectoryAlumni.map(def => {
           const saved = (def.email && savedMap.get(def.email.toLowerCase())) || savedMap.get((def.name + '_' + (def.batch || '')).toLowerCase());
-          return saved ? { ...def, ...saved } : def;
+          const merged = saved ? { ...def, ...saved } : def;
+          if (merged.email === 'ashfaque15tr@gmail.com' || merged.name === 'Ashfaque Ahmad') {
+            merged.photo = 'assets/images/ashfaq-ahmed.png';
+            merged.avatarImage = 'assets/images/ashfaq-ahmed.png';
+          }
+          return merged;
         });
         parsed.directory.forEach(d => {
           const exists = defaultDirectoryAlumni.some(def => (def.email && d.email && def.email.toLowerCase() === d.email.toLowerCase()) || (def.name.toLowerCase() === d.name.toLowerCase() && def.batch === d.batch));
@@ -8393,13 +8517,24 @@ function loadAppData() {
       // Rehydrate persistent community feed posts
       try {
         const pFeed = localStorage.getItem(PERSISTENT_FEED_STORAGE_KEY);
+        let list = [];
         if (pFeed) {
-          const list = JSON.parse(pFeed);
-          if (Array.isArray(list) && list.length > 0) {
-            parsed.feedPosts = list;
-          }
+          try { list = JSON.parse(pFeed) || []; } catch(e) {}
         }
-      } catch(e) {}
+        if (!Array.isArray(list) || list.length === 0) {
+          list = defaultCommunityBroadcasts.slice();
+        } else {
+          const existingIds = new Set(list.map(p => p.id));
+          defaultCommunityBroadcasts.forEach(defPost => {
+            if (!existingIds.has(defPost.id)) {
+              list.push(defPost);
+            }
+          });
+        }
+        parsed.feedPosts = list;
+      } catch(e) {
+        parsed.feedPosts = defaultCommunityBroadcasts.slice();
+      }
       return { ...defaultData, ...parsed };
     }
   } catch (e) {
@@ -10706,14 +10841,19 @@ function renderTeachers(filter = 'all', searchQuery = '') {
 
   const filtered = (AppState.teachers || []).filter(t => {
     let matchCat = true;
-    if (filter === 'leadership') {
-      matchCat = (t.category === 'current' || t.category === 'leadership' || (t.post && t.post.toLowerCase().includes('principal')) || (t.post && t.post.toLowerCase().includes('coordinator')));
+    const isDeceased = Boolean(t.isDeceased || (t.name && t.name.toLowerCase().includes('late')) || t.category === 'in_memoriam');
+    const statusText = ((t.statusLabel || '') + ' ' + (t.post || '') + ' ' + (t.tenure || '')).toLowerCase();
+    const isCurrentFaculty = !isDeceased && (t.category === 'current' || statusText.includes('present') || statusText.includes('current faculty') || statusText.includes('current leadership')) && !(statusText.includes('former') || statusText.includes('retired') || statusText.includes('superannuated') || statusText.includes('in memoriam') || statusText.includes('amar smriti'));
+    const isFormerFaculty = isDeceased || t.category === 'former' || t.category === 'in_memoriam' || statusText.includes('former') || statusText.includes('retired') || statusText.includes('superannuated') || statusText.includes('transferred') || statusText.includes('amar smriti');
+
+    if (filter === 'leadership' || filter === 'present') {
+      matchCat = isCurrentFaculty;
     } else if (filter === 'former') {
-      matchCat = (t.category === 'former' || (t.statusLabel && (t.statusLabel.toLowerCase().includes('retired') || t.statusLabel.toLowerCase().includes('superannuated') || t.statusLabel.toLowerCase().includes('transferred'))));
+      matchCat = isFormerFaculty;
     } else if (filter === 'teaching' || filter === 'academic') {
-      matchCat = (t.post && (t.post.includes('PGT') || t.post.includes('TGT') || t.post.toLowerCase().includes('teacher') || t.post.toLowerCase().includes('faculty') || t.post.toLowerCase().includes('teaching staff') || t.subject)) && !(t.post && (t.post.toLowerCase().includes('custodian') || t.post.toLowerCase().includes('caretaker') || t.post.toLowerCase().includes('mess')));
+      matchCat = (t.post && (t.post.includes('PGT') || t.post.includes('TGT') || t.post.toLowerCase().includes('teacher') || t.post.toLowerCase().includes('faculty') || t.subject)) && !(t.category === 'pastoral' || t.category === 'nonteaching' || (t.post && (t.post.toLowerCase().includes('custodian') || t.post.toLowerCase().includes('caretaker') || t.post.toLowerCase().includes('mess'))));
     } else if (filter === 'nonteaching' || filter === 'pastoral') {
-      matchCat = (t.post && (t.post.includes('PET') || t.post.toLowerCase().includes('warden') || t.post.toLowerCase().includes('custodian') || t.post.toLowerCase().includes('caretaker') || t.post.toLowerCase().includes('mess') || t.post.toLowerCase().includes('non-teaching') || t.post.toLowerCase().includes('non teaching') || t.post.toLowerCase().includes('pastoral') || t.post.toLowerCase().includes('matron'))) || (t.category === 'pastoral') || (t.category === 'nonteaching');
+      matchCat = (t.category === 'pastoral' || t.category === 'nonteaching' || (t.post && (t.post.includes('PET') || t.post.toLowerCase().includes('warden') || t.post.toLowerCase().includes('custodian') || t.post.toLowerCase().includes('caretaker') || t.post.toLowerCase().includes('mess') || t.post.toLowerCase().includes('matron') || t.post.toLowerCase().includes('non-teaching'))));
     }
 
     if (!matchCat) return false;
@@ -10850,9 +10990,15 @@ function renderTeachers(filter = 'all', searchQuery = '') {
 
         <!-- Teacher Profile: Avatar + Full Uncut Name (No Ellipsis or Horizontal Badges Constricting) -->
         <div class="flex items-start space-x-3.5 pt-1">
-          <div class="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center font-cinzel font-bold text-amber-400 text-lg flex-shrink-0 shadow-inner">
-            ${t.initials || t.name.split(' ').map(w => w[0]).filter(Boolean).slice(-2).join('')}
-          </div>
+          ${t.photo ? `
+            <div class="w-14 h-14 rounded-2xl overflow-hidden border border-amber-500/40 flex-shrink-0 shadow-md">
+              <img src="${t.photo}" alt="${t.name}" class="w-full h-full object-cover">
+            </div>
+          ` : `
+            <div class="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center font-cinzel font-bold text-amber-400 text-lg flex-shrink-0 shadow-inner">
+              ${t.initials || t.name.split(' ').map(w => w[0]).filter(Boolean).slice(-2).join('')}
+            </div>
+          `}
           <div class="flex-1 min-w-0">
             <h3 class="text-base sm:text-lg font-bold font-sans text-white leading-tight break-words">${t.name}</h3>
             <p class="text-xs text-amber-300 font-medium mt-1 leading-snug break-words">${t.post}</p>

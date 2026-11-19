@@ -1,3 +1,4 @@
+const PERSISTENT_FEED_STORAGE_KEY = 'JNVG_MEMORY_WALL_FEED_V1';
 ﻿/**
  * JNV Gauriganj (Amethi / Sultanpur) Alumni Platform
  * Core Application Engine & State Manager
@@ -7,6 +8,75 @@
 const APP_STORAGE_KEY = 'JNVG_ALUMNI_APP_DATA_V2';
 
 let attachedStoryPhoto = null;
+
+const defaultCommunityBroadcasts = [
+  {
+    id: "feed-official-welcome",
+    author: "Ashfaque Ahmad",
+    authorRole: "admin",
+    roleBadge: "Super Admin",
+    batch: 2005,
+    house: "Nilgiri",
+    timestamp: "19 Nov 2026, 11:30 AM",
+    timeAgo: "Official Announcement",
+    category: "gratitude",
+    text: "Welcome to JNVGFamily The official digital home of JNV Gauriganj Alumni. Connect with batchmates across the globe, mentor young minds, and stay updated on campus reunions and milestones",
+    likes: 42,
+    liked: false,
+    comments: [
+      { author: "Vivek Tiwari", text: "Proud moment for all Navodayans! Looking forward to 13th Dec 2026." },
+      { author: "Dr. Jai Krishna Mishra", text: "Heartiest congratulations and best wishes to the entire JNV Gauriganj family." }
+    ]
+  },
+  {
+    id: "feed-gurujan-lsy",
+    author: "Sh. L. S. Yadav",
+    authorRole: "teacher",
+    isTeacher: true,
+    roleBadge: "Current Faculty (TGT English)",
+    batch: null,
+    house: "Campus",
+    timestamp: "19 Nov 2026, 11:32 AM",
+    timeAgo: "Gurujan Sandesh",
+    category: "gratitude",
+    text: "Navodaya is the confluence of multi-dimensional talents. Let's come together to succeed with flying colours.",
+    likes: 38,
+    liked: false,
+    comments: []
+  },
+  {
+    id: "feed-gurujan-ay",
+    author: "Smt. Arpana Yadav",
+    authorRole: "teacher",
+    isTeacher: true,
+    roleBadge: "Former Faculty (TGT English)",
+    batch: null,
+    house: "Priyadarshni / Sarojini",
+    timestamp: "19 Nov 2026, 11:33 AM",
+    timeAgo: "Gurujan Sandesh",
+    category: "memories",
+    text: "कहाँ हो भाई सब? बहुत अच्छे लग रहे हैं आप सब! Love you all! Education is not the filling of a pail, but the lighting of a fire. हॉस्टल में आपका माँ सा ध्यान रखना और अंग्रेजी भाषा व नैतिक मूल्यों को जीवन में उतारना ही मेरा संकल्प रहा। सदा विजयी भव!",
+    likes: 45,
+    liked: false,
+    comments: []
+  },
+  {
+    id: "feed-gurujan-rautela",
+    author: "Sh. B. S. Singh Rautela",
+    authorRole: "teacher",
+    isTeacher: true,
+    roleBadge: "Former Principal",
+    batch: null,
+    house: "Administration",
+    timestamp: "19 Nov 2026, 11:34 AM",
+    timeAgo: "Principal Blessings",
+    category: "gratitude",
+    text: "नवोदय का प्रांगण केवल ज्ञानार्जन का केंद्र नहीं, बल्कि चरित्र, बंधुत्व और राष्ट्र-निर्माण की पावन तपोभूमि है। जेएनवी गौरीगंज के विद्यार्थियों ने हर क्षेत्र में जो कीर्तिमान स्थापित किए हैं, उन पर मुझे गर्व है। हमी नवोदय हों!",
+    likes: 51,
+    liked: false,
+    comments: []
+  }
+];
 
 const defaultData = {
   role: 'member',
@@ -19,7 +89,16 @@ const defaultData = {
 
   contributions: [],
 
-  feedPosts: [],
+  feedPosts: (function() {
+    try {
+      const f = localStorage.getItem(PERSISTENT_FEED_STORAGE_KEY);
+      if (f) {
+        const parsed = JSON.parse(f);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch(e) {}
+    return defaultCommunityBroadcasts.slice();
+  })(),
 
   queueItems: [],
 
@@ -340,6 +419,42 @@ const defaultData = {
       photo: null,
       message: "पूर्व छात्र प्रकोष्ठ (Alumni Cell) के माध्यम से हम विद्यालय के पूर्व और वर्तमान छात्रों के बीच सतत संवाद स्थापित कर रहे हैं। 13 दिसंबर 2026 को आयोजित चतुर्थ वार्षिक सम्मेलन में आप सभी पूर्व विद्यार्थियों का सस्नेह स्वागत है।",
       specialNote: "Direct campus liaison officer for 4th Annual Mega Meet arrangements."
+    },
+    {
+      id: "tch-lsy",
+      name: "Sh. L. S. Yadav",
+      title: "T.G.T.-English, Jawahar Navodaya Vidyalaya, Gauriganj",
+      category: "current",
+      statusLabel: "Current Faculty (TGT English)",
+      post: "T.G.T.-English",
+      subject: "English Language & Literature",
+      tenure: "2021 – Present",
+      house: "Campus",
+      houseDetail: "Faculty of English & Literary Society",
+      location: "Campus Staff Quarters, JNV Gauriganj",
+      initials: "LSY",
+      photo: "assets/images/ls-yadav.jpg",
+      respectCount: 168,
+      message: "Navodaya is the confluence of multi-dimensional talents. Let's come together to succeed with flying colours.",
+      specialNote: "Dedicated English educator nurturing communicative excellence and literary expression at JNV Gauriganj since 2021."
+    },
+    {
+      id: "tch-ay",
+      name: "Smt. Arpana Yadav",
+      title: "Senior Faculty (T.G.T.-English) & House Mother",
+      category: "former",
+      statusLabel: "Former Faculty (TGT English) & House Mother",
+      post: "T.G.T.-English & House Mother",
+      subject: "English Language, Literature & Values",
+      tenure: "1994 – 2012 (18 Years)",
+      house: "Priyadarshni / Sarojini",
+      houseDetail: "Senior House Mother & Literary Society In-charge",
+      location: "Lucknow / Sultanpur, UP",
+      initials: "AY",
+      photo: null,
+      respectCount: 198,
+      message: "कहाँ हो भाई सब? बहुत अच्छे लग रहे हैं आप सब! Love you all! Education is not the filling of a pail, but the lighting of a fire. हॉस्टल में आपका माँ सा ध्यान रखना और अंग्रेजी भाषा व नैतिक मूल्यों को जीवन में उतारना ही मेरा संकल्प रहा। सदा विजयी भव!",
+      specialNote: "Affectionate English mentor and pastoral guide remembered warmly by generations of Navodayans for her maternal care and inspiring literary guidance."
     },
     {
       id: "tch-9",
@@ -8326,10 +8441,20 @@ function loadAppData() {
     if (saved) {
       const parsed = JSON.parse(saved);
       if (parsed.teachers && defaultData.teachers) {
-        const existingTeacherNames = new Set(parsed.teachers.map(t => t.name.toLowerCase()));
-        defaultData.teachers.forEach(item => {
-          if (!existingTeacherNames.has(item.name.toLowerCase())) {
-            parsed.teachers.push(item);
+        defaultData.teachers.forEach(def => {
+          const idx = parsed.teachers.findIndex(t => t.id === def.id || (t.name && t.name.toLowerCase() === def.name.toLowerCase()));
+          if (idx === -1) {
+            parsed.teachers.push(def);
+          } else {
+            parsed.teachers[idx] = {
+              ...parsed.teachers[idx],
+              photo: def.photo || parsed.teachers[idx].photo,
+              message: def.message || parsed.teachers[idx].message,
+              post: def.post || parsed.teachers[idx].post,
+              tenure: def.tenure || parsed.teachers[idx].tenure,
+              subject: def.subject || parsed.teachers[idx].subject,
+              statusLabel: def.statusLabel || parsed.teachers[idx].statusLabel
+            };
           }
         });
       }
@@ -8373,7 +8498,12 @@ function loadAppData() {
         });
         parsed.directory = defaultDirectoryAlumni.map(def => {
           const saved = (def.email && savedMap.get(def.email.toLowerCase())) || savedMap.get((def.name + '_' + (def.batch || '')).toLowerCase());
-          return saved ? { ...def, ...saved } : def;
+          const merged = saved ? { ...def, ...saved } : def;
+          if (merged.email === 'ashfaque15tr@gmail.com' || merged.name === 'Ashfaque Ahmad') {
+            merged.photo = 'assets/images/ashfaq-ahmed.png';
+            merged.avatarImage = 'assets/images/ashfaq-ahmed.png';
+          }
+          return merged;
         });
         parsed.directory.forEach(d => {
           const exists = defaultDirectoryAlumni.some(def => (def.email && d.email && def.email.toLowerCase() === d.email.toLowerCase()) || (def.name.toLowerCase() === d.name.toLowerCase() && def.batch === d.batch));
@@ -8383,6 +8513,27 @@ function loadAppData() {
         });
       } else {
         parsed.directory = defaultDirectoryAlumni.slice();
+      }
+      // Rehydrate persistent community feed posts
+      try {
+        const pFeed = localStorage.getItem(PERSISTENT_FEED_STORAGE_KEY);
+        let list = [];
+        if (pFeed) {
+          try { list = JSON.parse(pFeed) || []; } catch(e) {}
+        }
+        if (!Array.isArray(list) || list.length === 0) {
+          list = defaultCommunityBroadcasts.slice();
+        } else {
+          const existingIds = new Set(list.map(p => p.id));
+          defaultCommunityBroadcasts.forEach(defPost => {
+            if (!existingIds.has(defPost.id)) {
+              list.push(defPost);
+            }
+          });
+        }
+        parsed.feedPosts = list;
+      } catch(e) {
+        parsed.feedPosts = defaultCommunityBroadcasts.slice();
       }
       return { ...defaultData, ...parsed };
     }
@@ -8396,6 +8547,9 @@ const AppState = loadAppData();
 
 function saveAppData() {
   try {
+    if (typeof localStorage !== 'undefined' && Array.isArray(AppState.feedPosts)) {
+      try { localStorage.setItem(PERSISTENT_FEED_STORAGE_KEY, JSON.stringify(AppState.feedPosts)); } catch(fe) {}
+    }
     localStorage.setItem(APP_STORAGE_KEY, JSON.stringify({
       rsvps: AppState.rsvps,
       contributions: AppState.contributions,
@@ -8964,17 +9118,47 @@ function filterRsvpTable() {
 }
 
 // 11. Community Feed
+function compressFeedImage(file, callback) {
+  if (!file || !file.type.startsWith('image/')) {
+    if (callback) callback(null);
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const img = new Image();
+    img.onload = function() {
+      const canvas = document.createElement('canvas');
+      let width = img.width;
+      let height = img.height;
+      const MAX_SIZE = 800;
+      if (width > height && width > MAX_SIZE) {
+        height = Math.round((height * MAX_SIZE) / width);
+        width = MAX_SIZE;
+      } else if (height > MAX_SIZE) {
+        width = Math.round((width * MAX_SIZE) / height);
+        height = MAX_SIZE;
+      }
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, width, height);
+      const compressed = canvas.toDataURL('image/jpeg', 0.72);
+      if (callback) callback(compressed);
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
 function previewStoryImage(event) {
   const file = event.target.files[0];
   if (file) {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      attachedStoryPhoto = e.target.result;
+    compressFeedImage(file, function(compressedDataUrl) {
+      attachedStoryPhoto = compressedDataUrl;
       const preview = document.getElementById('storyImagePreview');
       const container = document.getElementById('storyImagePreviewContainer');
-      if (preview && container) { preview.src = e.target.result; container.classList.remove('hidden'); }
-    };
-    reader.readAsDataURL(file);
+      if (preview && container) { preview.src = compressedDataUrl; container.classList.remove('hidden'); }
+    });
   }
 }
 
@@ -9041,6 +9225,10 @@ function handleStorySubmit(e) {
   if (!AppState.feedPosts) AppState.feedPosts = [];
   AppState.feedPosts.unshift(newPost);
   saveAppData();
+
+  if (window.AlumniCloudSync && typeof window.AlumniCloudSync.broadcastFeedPost === 'function') {
+    window.AlumniCloudSync.broadcastFeedPost(newPost);
+  }
 
   if (window.AlumniStorageEngine) {
     window.AlumniStorageEngine.putItem('posts', newPost);
@@ -9564,10 +9752,19 @@ function renderDirectory(append = false) {
       pageSize: DIR_PAGE_SIZE
     });
   } else {
+    const normH = (h) => {
+      if (!h) return '';
+      const s = h.toString().trim().toLowerCase();
+      if (s.startsWith('arav') || s.startsWith('araw')) return 'arawali';
+      if (s.startsWith('nilg') || s.startsWith('neel')) return 'nilgiri';
+      if (s.startsWith('udai') || s.startsWith('uday')) return 'udaigiri';
+      if (s.startsWith('shiv') || s.startsWith('shiw')) return 'shivalik';
+      return s;
+    };
     const filtered = (AppState.directory || []).filter(item => {
       const matchQ = !q || (item.name || '').toLowerCase().includes(q.toLowerCase()) || (item.role || '').toLowerCase().includes(q.toLowerCase());
       const matchBatch = (batch === 'all' || item.batch.toString() === batch);
-      const matchHouse = (house === 'all' || item.house === house);
+      const matchHouse = (house === 'all' || normH(item.house) === normH(house));
       const matchDomain = (domain === 'all' || (item.domain || '').includes(domain));
       return matchQ && matchBatch && matchHouse && matchDomain;
     });
@@ -10644,14 +10841,19 @@ function renderTeachers(filter = 'all', searchQuery = '') {
 
   const filtered = (AppState.teachers || []).filter(t => {
     let matchCat = true;
-    if (filter === 'leadership') {
-      matchCat = (t.category === 'current' || t.category === 'leadership' || (t.post && t.post.toLowerCase().includes('principal')) || (t.post && t.post.toLowerCase().includes('coordinator')));
+    const isDeceased = Boolean(t.isDeceased || (t.name && t.name.toLowerCase().includes('late')) || t.category === 'in_memoriam');
+    const statusText = ((t.statusLabel || '') + ' ' + (t.post || '') + ' ' + (t.tenure || '')).toLowerCase();
+    const isCurrentFaculty = !isDeceased && (t.category === 'current' || statusText.includes('present') || statusText.includes('current faculty') || statusText.includes('current leadership')) && !(statusText.includes('former') || statusText.includes('retired') || statusText.includes('superannuated') || statusText.includes('in memoriam') || statusText.includes('amar smriti'));
+    const isFormerFaculty = isDeceased || t.category === 'former' || t.category === 'in_memoriam' || statusText.includes('former') || statusText.includes('retired') || statusText.includes('superannuated') || statusText.includes('transferred') || statusText.includes('amar smriti');
+
+    if (filter === 'leadership' || filter === 'present') {
+      matchCat = isCurrentFaculty;
     } else if (filter === 'former') {
-      matchCat = (t.category === 'former' || (t.statusLabel && (t.statusLabel.toLowerCase().includes('retired') || t.statusLabel.toLowerCase().includes('superannuated') || t.statusLabel.toLowerCase().includes('transferred'))));
+      matchCat = isFormerFaculty;
     } else if (filter === 'teaching' || filter === 'academic') {
-      matchCat = (t.post && (t.post.includes('PGT') || t.post.includes('TGT') || t.post.toLowerCase().includes('teacher') || t.post.toLowerCase().includes('faculty') || t.post.toLowerCase().includes('teaching staff') || t.subject)) && !(t.post && (t.post.toLowerCase().includes('custodian') || t.post.toLowerCase().includes('caretaker') || t.post.toLowerCase().includes('mess')));
+      matchCat = (t.post && (t.post.includes('PGT') || t.post.includes('TGT') || t.post.toLowerCase().includes('teacher') || t.post.toLowerCase().includes('faculty') || t.subject)) && !(t.category === 'pastoral' || t.category === 'nonteaching' || (t.post && (t.post.toLowerCase().includes('custodian') || t.post.toLowerCase().includes('caretaker') || t.post.toLowerCase().includes('mess'))));
     } else if (filter === 'nonteaching' || filter === 'pastoral') {
-      matchCat = (t.post && (t.post.includes('PET') || t.post.toLowerCase().includes('warden') || t.post.toLowerCase().includes('custodian') || t.post.toLowerCase().includes('caretaker') || t.post.toLowerCase().includes('mess') || t.post.toLowerCase().includes('non-teaching') || t.post.toLowerCase().includes('non teaching') || t.post.toLowerCase().includes('pastoral') || t.post.toLowerCase().includes('matron'))) || (t.category === 'pastoral') || (t.category === 'nonteaching');
+      matchCat = (t.category === 'pastoral' || t.category === 'nonteaching' || (t.post && (t.post.includes('PET') || t.post.toLowerCase().includes('warden') || t.post.toLowerCase().includes('custodian') || t.post.toLowerCase().includes('caretaker') || t.post.toLowerCase().includes('mess') || t.post.toLowerCase().includes('matron') || t.post.toLowerCase().includes('non-teaching'))));
     }
 
     if (!matchCat) return false;
@@ -10735,6 +10937,29 @@ function renderTeachers(filter = 'all', searchQuery = '') {
           <span>🪔</span> <span>भावभीनी श्रद्धांजलि अर्पित करें</span>
         </button>
       </div>
+      ${(t.tributes && t.tributes.length > 0) ? `
+      <div class="mt-3 pt-3 border-t border-amber-500/30">
+        <div class="flex items-center justify-between text-[11px] mb-2">
+          <span class="font-bold text-amber-300 flex items-center gap-1.5">
+            <span>📜</span> <span>अमर स्मृति पट्टिका / Alumni Tributes (${t.tributes.length})</span>
+          </span>
+          <button type="button" onclick="toggleTeacherTributes('${t.id}')" id="btnToggleTrib-${t.id}" class="text-[10px] text-amber-400 hover:underline font-bold">
+            View Tributes ▾
+          </button>
+        </div>
+        <div id="tributeListContainer-${t.id}" class="hidden space-y-2 max-h-48 overflow-y-auto pr-1">
+          ${t.tributes.map(tr => `
+            <div class="p-2.5 rounded-xl bg-amber-950/40 border border-amber-500/20 text-xs space-y-1">
+              <div class="flex items-center justify-between text-[10px] text-amber-200">
+                <strong class="text-white">${tr.alumnusName} ${tr.batch ? `(Batch of ${tr.batch})` : ''}</strong>
+                <span class="font-mono text-slate-400">${tr.date || ''}</span>
+              </div>
+              <p class="text-slate-300 italic text-[11px] leading-relaxed">"${tr.note}"</p>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+      ` : ''}
     ` : `
       <div class="pt-3 border-t border-slate-800 flex items-center justify-between gap-2 text-xs flex-wrap">
         <span class="text-[10px] text-amber-400 font-bold flex items-center gap-1">
@@ -10765,9 +10990,15 @@ function renderTeachers(filter = 'all', searchQuery = '') {
 
         <!-- Teacher Profile: Avatar + Full Uncut Name (No Ellipsis or Horizontal Badges Constricting) -->
         <div class="flex items-start space-x-3.5 pt-1">
-          <div class="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center font-cinzel font-bold text-amber-400 text-lg flex-shrink-0 shadow-inner">
-            ${t.initials || t.name.split(' ').map(w => w[0]).filter(Boolean).slice(-2).join('')}
-          </div>
+          ${t.photo ? `
+            <div class="w-14 h-14 rounded-2xl overflow-hidden border border-amber-500/40 flex-shrink-0 shadow-md">
+              <img src="${t.photo}" alt="${t.name}" class="w-full h-full object-cover">
+            </div>
+          ` : `
+            <div class="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center font-cinzel font-bold text-amber-400 text-lg flex-shrink-0 shadow-inner">
+              ${t.initials || t.name.split(' ').map(w => w[0]).filter(Boolean).slice(-2).join('')}
+            </div>
+          `}
           <div class="flex-1 min-w-0">
             <h3 class="text-base sm:text-lg font-bold font-sans text-white leading-tight break-words">${t.name}</h3>
             <p class="text-xs text-amber-300 font-medium mt-1 leading-snug break-words">${t.post}</p>
@@ -10849,15 +11080,46 @@ function submitTeacherTribute(e) {
     teacher.tributeCount = (teacher.tributeCount || 156) + 1;
     teacher.respectCount = (teacher.respectCount || 156) + 1;
     if (!teacher.tributes) teacher.tributes = [];
-    teacher.tributes.unshift({
+    const tributeObj = {
       id: Date.now(),
       alumnusName,
       batch,
       note: tributeNote,
       date: new Date().toLocaleDateString('en-GB')
-    });
+    };
+    teacher.tributes.unshift(tributeObj);
+
+    // Also publish directly to Community Memory Wall
+    const tributeFeedPost = {
+      id: `trib-${Date.now()}-${Math.floor(Math.random() * 100000)}`,
+      author: alumnusName,
+      batch: batch || 'Alumnus',
+      house: 'Campus',
+      initials: alumnusName.split(' ').map(w => w[0]).filter(Boolean).slice(0, 2).join('').toUpperCase(),
+      authorPhoto: null,
+      authorRole: 'member',
+      isTeacher: false,
+      roleTitle: `भावभीनी श्रद्धांजलि • ${teacher.name}`,
+      time: "Just now",
+      content: `🪔 भावभीनी श्रद्धांजलि संस्मरण:\n\n"${tributeNote}"\n\n— सादर पुष्पांजलि: ${alumnusName} (उत्तीर्ण बैच ${batch || 'पूर्व छात्र'}) पूज्य ${teacher.name} के चरणों में।`,
+      category: 'teacher_blessing',
+      tag: `🪔 अमर स्मृति: ${teacher.name}`,
+      likes: 1,
+      image: null,
+      comments: []
+    };
+
+    if (!AppState.feedPosts) AppState.feedPosts = [];
+    AppState.feedPosts.unshift(tributeFeedPost);
+
     saveAppData();
     renderTeachers(currentTeacherFilter);
+    renderFeed();
+
+    // Broadcast across all devices
+    if (window.AlumniCloudSync && typeof window.AlumniCloudSync.broadcastFeedPost === 'function') {
+      window.AlumniCloudSync.broadcastFeedPost(tributeFeedPost);
+    }
   }
   closeTeacherTributeModal();
   showToast(`🪔 ${alumnusName} जी, ${teacher ? teacher.name : 'दिवंगत गुरुजन'} के प्रति आपकी भावभीनी श्रद्धांजलि एवं कृतज्ञता अमर स्मृति पट्ट पर अंकित कर दी गई है।`, 'success');
@@ -11044,6 +11306,9 @@ function submitTeacherPranam(e) {
     };
     msgs.push(newMsg);
     saveAllChatMessages(msgs);
+    if (window.AlumniCloudSync && typeof window.AlumniCloudSync.sendChatMessage === 'function') {
+      window.AlumniCloudSync.sendChatMessage(newMsg);
+    }
 
     teacher.respectCount = (teacher.respectCount || 0) + 1;
     saveAppData();
@@ -11179,8 +11444,11 @@ function initChatDB() {
 
 function getAllChatMessages() {
   initChatDB();
+  const currentUser = (typeof getCurrentUser === 'function') ? getCurrentUser() : null;
+  const isAshfaq = currentUser && (currentUser.name || '').toLowerCase().includes('ashfaq');
   try {
-    const msgs = JSON.parse(localStorage.getItem(CHAT_STORAGE_KEY)) || DEFAULT_CHAT_MESSAGES;
+    const raw = localStorage.getItem(CHAT_STORAGE_KEY);
+    const msgs = raw ? JSON.parse(raw) : (isAshfaq ? DEFAULT_CHAT_MESSAGES : []);
     return msgs.filter(m => {
       const s = (m.senderName || '').toLowerCase();
       const r = (m.recipientName || '').toLowerCase();
@@ -11234,7 +11502,10 @@ function refreshInboxBadge() {
 }
 
 function getChatConversations() {
-  const currentUser = getCurrentUser() || { id: 'usr-guest', name: 'Alumnus Visitor', role: 'guest' };
+  const currentUser = getCurrentUser();
+  if (!currentUser || currentUser.role === 'guest' || currentUser.id === 'usr-guest') {
+    return []; // Guests must see 0 private conversations
+  }
   const msgs = getAllChatMessages();
   const convMap = new Map();
 
@@ -11255,9 +11526,8 @@ function getChatConversations() {
       partnerName = m.senderName;
       partnerBatch = m.senderBatch;
     } else {
-      partnerId = m.recipientId;
-      partnerName = m.recipientName;
-      partnerBatch = m.recipientBatch;
+      // STRICT CONFIDENTIALITY: Never show conversations belonging to third parties!
+      return;
     }
 
     if (partnerName && !partnerName.toLowerCase().includes('smriti')) {
@@ -11535,6 +11805,10 @@ function sendChatMessage(e) {
   msgs.push(newMsg);
   saveAllChatMessages(msgs);
 
+  if (window.AlumniCloudSync && typeof window.AlumniCloudSync.sendChatMessage === 'function') {
+    window.AlumniCloudSync.sendChatMessage(newMsg);
+  }
+
   input.value = '';
   renderActiveChatMessages();
   renderChatConversations();
@@ -11554,52 +11828,121 @@ function openChatWithAlumnus(alumnusName) {
   openChatModal(alumnusName);
 }
 
-function showNewChatSelector() {
-  const container = document.getElementById('newChatSelectorModal');
+let currentNewChatCategory = 'all';
+let currentNewChatSearchQuery = '';
+
+function filterNewChatDirectory(searchTerm) {
+  currentNewChatSearchQuery = (searchTerm || '').trim().toLowerCase();
+  renderNewChatContacts();
+}
+
+function filterNewChatCategory(category) {
+  currentNewChatCategory = category || 'all';
+  document.querySelectorAll('.new-chat-chip').forEach(btn => {
+    btn.className = "new-chat-chip px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 font-semibold whitespace-nowrap";
+  });
+  const activeBtn = document.getElementById('newChatChip-' + category);
+  if (activeBtn) {
+    activeBtn.className = "new-chat-chip px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/40 font-semibold whitespace-nowrap";
+  }
+  renderNewChatContacts();
+}
+
+function clearNewChatSearch() {
+  currentNewChatSearchQuery = '';
+  const inp = document.getElementById('newChatSearchInput');
+  if (inp) inp.value = '';
+  renderNewChatContacts();
+}
+
+function renderNewChatContacts() {
   const list = document.getElementById('newChatDirectoryList');
-  if (list) {
-    list.innerHTML = '';
-    
-    // 1. Leadership & Teachers
-    if (AppState.teachers && AppState.teachers.length > 0) {
+  if (!list) return;
+  list.innerHTML = '';
+
+  const q = currentNewChatSearchQuery;
+  const cat = currentNewChatCategory;
+  let matchesFound = 0;
+
+  // 1. Gurujan / Faculty
+  if (cat === 'all' || cat === 'teachers') {
+    const teachers = (AppState.teachers || []).filter(t => !t.isDeceased);
+    const filteredTeachers = q ? teachers.filter(t => {
+      const matchName = (t.name || '').toLowerCase().includes(q);
+      const matchPost = (t.post || '').toLowerCase().includes(q);
+      const matchSub = (t.subject || '').toLowerCase().includes(q);
+      return matchName || matchPost || matchSub;
+    }) : teachers;
+
+    if (filteredTeachers.length > 0) {
       const teacherHeader = document.createElement('div');
       teacherHeader.className = "text-[10px] font-bold uppercase tracking-wider text-amber-400 pt-1 pb-1";
       teacherHeader.textContent = "Revered Faculty & Gurujan";
       list.appendChild(teacherHeader);
 
-      AppState.teachers.filter(t => !t.isDeceased).slice(0, 6).forEach(t => {
+      filteredTeachers.forEach(t => {
+        matchesFound++;
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = "w-full text-left p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 text-xs flex items-center justify-between";
+        btn.className = "w-full text-left p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 text-xs flex items-center justify-between transition";
         btn.onclick = () => startChatWithSelectedAlumnus(t.name);
         btn.innerHTML = `
-          <span class="text-white font-bold">${t.name} (${t.post})</span>
-          <span class="text-amber-400 font-medium">Faculty</span>
+          <div>
+            <span class="text-white font-bold block">${t.name}</span>
+            <span class="text-[10px] text-slate-400">${t.post || 'Faculty'} • ${t.subject || ''}</span>
+          </div>
+          <span class="text-amber-400 font-medium text-[10px] bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/30">Faculty</span>
         `;
         list.appendChild(btn);
       });
     }
-
-    // 2. Verified Alumni Directory
-    const alumniHeader = document.createElement('div');
-    alumniHeader.className = "text-[10px] font-bold uppercase tracking-wider text-amber-400 pt-2 pb-1";
-    alumniHeader.textContent = "Verified Alumni Directory";
-    list.appendChild(alumniHeader);
-
-    const alumniList = AppState.directory || defaultDirectoryAlumni;
-    alumniList.forEach(a => {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = "w-full text-left p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 text-xs flex items-center justify-between";
-      btn.onclick = () => startChatWithSelectedAlumnus(a.name);
-      btn.innerHTML = `
-        <span class="text-white font-bold">${a.name} (${a.batch} • ${a.house})</span>
-        <span class="text-amber-400 font-medium">${a.tag || 'Alumnus'}</span>
-      `;
-      list.appendChild(btn);
-    });
   }
 
+  // 2. Verified Alumni Directory
+  if (cat === 'all' || cat === 'alumni') {
+    const alumniList = AppState.directory || defaultDirectoryAlumni;
+    const filteredAlumni = q ? alumniList.filter(a => {
+      const matchName = (a.name || '').toLowerCase().includes(q);
+      const matchBatch = String(a.batch || '').includes(q);
+      const matchHouse = (a.house || '').toLowerCase().includes(q);
+      const matchRole = (a.role || '').toLowerCase().includes(q);
+      const matchLoc = (a.location || '').toLowerCase().includes(q);
+      return matchName || matchBatch || matchHouse || matchRole || matchLoc;
+    }) : alumniList;
+
+    if (filteredAlumni.length > 0) {
+      const alumniHeader = document.createElement('div');
+      alumniHeader.className = "text-[10px] font-bold uppercase tracking-wider text-amber-400 pt-2 pb-1";
+      alumniHeader.textContent = "Verified Alumni Directory";
+      list.appendChild(alumniHeader);
+
+      filteredAlumni.forEach(a => {
+        matchesFound++;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = "w-full text-left p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 text-xs flex items-center justify-between transition";
+        btn.onclick = () => startChatWithSelectedAlumnus(a.name);
+        btn.innerHTML = `
+          <div>
+            <span class="text-white font-bold block">${a.name} (${a.batch} • ${a.house})</span>
+            <span class="text-[10px] text-slate-400">${a.role || 'Alumnus'} ${a.location ? '• ' + a.location : ''}</span>
+          </div>
+          <span class="text-amber-400 font-medium text-[10px] bg-blue-500/10 text-blue-300 px-2 py-0.5 rounded border border-blue-500/30">${a.tag || 'Alumnus'}</span>
+        `;
+        list.appendChild(btn);
+      });
+    }
+  }
+
+  if (matchesFound === 0) {
+    list.innerHTML = `<div class="p-4 text-center text-xs text-slate-400 bg-slate-950 rounded-xl border border-slate-800">No contacts found matching "${q}". Try another search term.</div>`;
+  }
+}
+
+function showNewChatSelector() {
+  const container = document.getElementById('newChatSelectorModal');
+  currentNewChatCategory = 'all';
+  clearNewChatSearch();
   if (container) container.classList.remove('hidden');
 }
 
@@ -12890,3 +13233,23 @@ function upsertAlumniRecord(record) {
   }
 }
 window.upsertAlumniRecord = upsertAlumniRecord;
+
+
+function toggleTeacherTributes(teacherId) {
+  const container = document.getElementById('tributeListContainer-' + teacherId);
+  const btn = document.getElementById('btnToggleTrib-' + teacherId);
+  if (!container) return;
+  if (container.classList.contains('hidden')) {
+    container.classList.remove('hidden');
+    if (btn) btn.textContent = 'Hide Tributes ▴';
+  } else {
+    container.classList.add('hidden');
+    if (btn) btn.textContent = 'View Tributes ▾';
+  }
+}
+
+
+// Initialize Global Alumni Cloud Synchronization Engine on Startup
+if (typeof window !== 'undefined' && window.AlumniCloudSync && typeof window.AlumniCloudSync.init === 'function') {
+  window.AlumniCloudSync.init();
+}

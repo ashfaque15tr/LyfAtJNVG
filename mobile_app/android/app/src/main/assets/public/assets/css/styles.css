@@ -929,14 +929,23 @@ body:not(.theme-dark) .bg-blue-950\/80 span {
 
 html[data-theme="sky"] .bg-yellow-950\/80,
 body:not(.theme-dark) .bg-yellow-950\/80 {
-  background-color: #fefce8 !important;
-  border: 1.5px solid #fde047 !important;
+  background-color: #fffdf0 !important;
+  border: 1.5px solid #fde68a !important;
+  box-shadow: 0 1px 3px rgba(245, 158, 11, 0.08) !important;
 }
 html[data-theme="sky"] .bg-yellow-950\/80 span,
 body:not(.theme-dark) .bg-yellow-950\/80 span {
-  color: #854d0e !important;
-  -webkit-text-fill-color: #854d0e !important;
+  color: #78350f !important;
+  -webkit-text-fill-color: #78350f !important;
   font-weight: 800 !important;
+}
+html[data-theme="sky"] .bg-yellow-950\/80 span.text-yellow-300,
+html[data-theme="sky"] .bg-yellow-950\/80 span:last-child,
+body:not(.theme-dark) .bg-yellow-950\/80 span.text-yellow-300,
+body:not(.theme-dark) .bg-yellow-950\/80 span:last-child {
+  color: #92400e !important;
+  -webkit-text-fill-color: #92400e !important;
+  font-weight: 700 !important;
 }
 
 html[data-theme="sky"] .bg-emerald-950\/80,
@@ -1010,12 +1019,65 @@ body:not(.theme-dark) [class*="bg-red-400/"] {
   -webkit-text-fill-color: #991b1b !important;
 }
 
-/* Tinted Containers Overrides in Light Sky Mode */
+/* Tinted Containers Overrides in Light Sky Mode - ALL House Variants */
 html[data-theme="sky"] [class*="bg-amber-950"],
-body:not(.theme-dark) [class*="bg-amber-950"] {
+html[data-theme="sky"] [class*="bg-yellow-950"],
+html[data-theme="sky"] [class*="bg-yellow-900"],
+html[data-theme="sky"] .bg-yellow-950\/60,
+html[data-theme="sky"] .bg-yellow-950\/70,
+html[data-theme="sky"] .bg-yellow-950\/80,
+body:not(.theme-dark) [class*="bg-amber-950"],
+body:not(.theme-dark) [class*="bg-yellow-950"],
+body:not(.theme-dark) [class*="bg-yellow-900"],
+body:not(.theme-dark) .bg-yellow-950\/60,
+body:not(.theme-dark) .bg-yellow-950\/70,
+body:not(.theme-dark) .bg-yellow-950\/80 {
   background-color: #fefce8 !important;
-  border: 1.5px solid #fde68a !important;
+  border: 1.5px solid #fde047 !important;
   color: #78350f !important;
+}
+
+html[data-theme="sky"] [class*="bg-amber-950"] span,
+html[data-theme="sky"] [class*="bg-yellow-950"] span,
+html[data-theme="sky"] [class*="bg-yellow-900"] span,
+html[data-theme="sky"] .bg-yellow-950\/60 span,
+html[data-theme="sky"] .bg-yellow-950\/80 span,
+body:not(.theme-dark) [class*="bg-amber-950"] span,
+body:not(.theme-dark) [class*="bg-yellow-950"] span,
+body:not(.theme-dark) [class*="bg-yellow-900"] span,
+body:not(.theme-dark) .bg-yellow-950\/60 span,
+body:not(.theme-dark) .bg-yellow-950\/80 span {
+  color: #78350f !important;
+  -webkit-text-fill-color: #78350f !important;
+}
+
+html[data-theme="sky"] [class*="bg-yellow-950"] span:first-child,
+html[data-theme="sky"] .bg-yellow-950\/60 span:first-child,
+html[data-theme="sky"] .bg-yellow-950\/80 span:first-child,
+body:not(.theme-dark) [class*="bg-yellow-950"] span:first-child,
+body:not(.theme-dark) .bg-yellow-950\/60 span:first-child,
+body:not(.theme-dark) .bg-yellow-950\/80 span:first-child {
+  color: #78350f !important;
+  -webkit-text-fill-color: #78350f !important;
+  font-weight: 800 !important;
+}
+
+html[data-theme="sky"] [class*="bg-yellow-950"] span:last-child,
+html[data-theme="sky"] .bg-yellow-950\/60 span:last-child,
+html[data-theme="sky"] .bg-yellow-950\/80 span:last-child,
+body:not(.theme-dark) [class*="bg-yellow-950"] span:last-child,
+body:not(.theme-dark) .bg-yellow-950\/60 span:last-child,
+body:not(.theme-dark) .bg-yellow-950\/80 span:last-child {
+  color: #92400e !important;
+  -webkit-text-fill-color: #92400e !important;
+  font-weight: 600 !important;
+}
+
+html[data-theme="sky"] [class*="border-yellow-500"],
+html[data-theme="sky"] [class*="border-yellow-800"],
+body:not(.theme-dark) [class*="border-yellow-500"],
+body:not(.theme-dark) [class*="border-yellow-800"] {
+  border-color: #fde047 !important;
 }
 
 html[data-theme="sky"] [class*="bg-cyan-950"],

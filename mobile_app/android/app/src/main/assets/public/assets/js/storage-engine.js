@@ -177,6 +177,16 @@ const AlumniStorageEngine = (() => {
     };
   }
 
+  function normalizeHouse(val) {
+    if (!val) return '';
+    const s = val.toString().trim().toLowerCase();
+    if (s.startsWith('arav') || s.startsWith('araw')) return 'arawali';
+    if (s.startsWith('nilg') || s.startsWith('neel')) return 'nilgiri';
+    if (s.startsWith('udai') || s.startsWith('uday')) return 'udaigiri';
+    if (s.startsWith('shiv') || s.startsWith('shiw')) return 'shivalik';
+    return s;
+  }
+
   // Virtualized / Paginated Query for Directory (Handles 100k records at 60 FPS)
   function queryDirectory({ query = '', batch = 'all', house = 'all', domain = 'all', page = 1, pageSize = 24 }) {
     let dataset = cache.directory;
@@ -190,14 +200,15 @@ const AlumniStorageEngine = (() => {
     const q = (query || '').trim().toLowerCase();
     const hasQuery = q.length > 0;
     const hasHouse = house !== 'all';
+    const targetHouse = hasHouse ? normalizeHouse(house) : '';
     const hasDomain = domain !== 'all';
 
     // Fast filter pass
     let filtered = dataset;
     if (hasQuery || hasHouse || hasDomain) {
       filtered = dataset.filter(item => {
-        if (hasHouse && item.house !== house) return false;
-        if (hasDomain && !item.domain.toLowerCase().includes(domain.toLowerCase())) return false;
+        if (hasHouse && normalizeHouse(item.house) !== targetHouse) return false;
+        if (hasDomain && !(item.domain || '').toLowerCase().includes(domain.toLowerCase())) return false;
         if (hasQuery) {
           const matchName = (item.name || '').toLowerCase().includes(q);
           const matchRole = (item.role || '').toLowerCase().includes(q);

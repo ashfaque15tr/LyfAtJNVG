@@ -255,7 +255,7 @@ function initUsersDB() {
       existing.unshift(ashfaq);
       modified = true;
     } else {
-      if (ashfaq.name !== 'Ashfaque Ahmad' || ashfaq.batch !== 2005 || ashfaq.house !== 'Nilgiri' || ashfaq.role !== 'admin' || ashfaq.city !== 'Bangalore' || ashfaq.profession !== 'Software Architect' || ashfaq.password !== 'AAaa11!!' || ashfaq.status !== 'approved' || !ashfaq.photo) {
+      if (ashfaq.name !== 'Ashfaque Ahmad' || ashfaq.batch !== 2005 || ashfaq.house !== 'Nilgiri' || ashfaq.role !== 'admin' || ashfaq.city !== 'Bangalore' || ashfaq.profession !== 'Software Architect' || ashfaq.password !== 'AAaa11!!' || ashfaq.status !== 'approved' || ashfaq.photo !== 'assets/images/ashfaq-ahmed.png' || (ashfaq.photo && ashfaq.photo.startsWith('data:image'))) {
         ashfaq.name = 'Ashfaque Ahmad';
         ashfaq.batch = 2005;
         ashfaq.house = 'Nilgiri';
@@ -368,6 +368,10 @@ function getCurrentUser() {
         u.domain = 'Software';
         u.role = 'admin';
         u.roleTitle = 'Super Admin • Software Architect';
+        if (u.photo === undefined || (typeof u.photo === 'string' && u.photo.includes('screenshot'))) {
+          u.photo = 'assets/images/ashfaq-ahmed.png';
+          u.avatarImage = 'assets/images/ashfaq-ahmed.png';
+        }
       }
       return u;
     }
@@ -388,6 +392,10 @@ function setCurrentUser(user, remember = true) {
     user.domain = 'Software';
     user.role = 'admin';
     user.roleTitle = 'Super Admin • Software Architect';
+    if (user.photo === undefined) {
+      user.photo = 'assets/images/ashfaq-ahmed.png';
+      user.avatarImage = 'assets/images/ashfaq-ahmed.png';
+    }
   }
   const str = JSON.stringify(user);
   if (remember) {

@@ -46,6 +46,12 @@ try {
   const androidPublicDir = path.join(rootDir, 'android', 'app', 'src', 'main', 'assets', 'public');
   syncWebAssetsTo(androidPublicDir);
 
+  // 2b. Prepare mobile_app/android/app/src/main/assets/public/
+  const mobAndroidPublicDir = path.join(rootDir, 'mobile_app', 'android', 'app', 'src', 'main', 'assets', 'public');
+  if (fs.existsSync(path.join(rootDir, 'mobile_app', 'android', 'app', 'src', 'main', 'assets'))) {
+    syncWebAssetsTo(mobAndroidPublicDir);
+  }
+
   // 3. Prepare mobile_app assets (do not overwrite mobile_app/index.html which has native Capacitor bridge)
   const mobileAppDir = path.join(rootDir, 'mobile_app');
   if (fs.existsSync(mobileAppDir)) {
