@@ -92,14 +92,17 @@ jobs:
       - name: Compile Native Android APK with Gradle
         run: |
           cd android
-          ./gradlew assembleDebug --no-daemon --stacktrace > ../gradle_build.log 2>&1 || {
-            BUILD_STATUS=$?
-            echo "### ❌ Gradle Build Error" >> $GITHUB_STEP_SUMMARY
-            echo '```' >> $GITHUB_STEP_SUMMARY
-            tail -n 120 ../gradle_build.log >> $GITHUB_STEP_SUMMARY
-            echo '```' >> $GITHUB_STEP_SUMMARY
-            exit $BUILD_STATUS
-          }
+          ./gradlew assembleDebug --no-daemon --stacktrace > ../gradle_build.log 2>&1
+
+      - name: Capture Gradle Build Error if Failed
+        if: failure()
+        run: |
+          tail -n 80 gradle_build.log > gradle_last_error.txt
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add gradle_last_error.txt
+          git commit -m "build-debug: report gradle build failure details" || true
+          git push || true
 
       - name: Upload Gradle Build Log
         if: always()
