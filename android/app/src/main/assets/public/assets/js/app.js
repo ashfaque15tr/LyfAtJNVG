@@ -1,3 +1,4 @@
+const PERSISTENT_FEED_STORAGE_KEY = 'JNVG_MEMORY_WALL_FEED_V1';
 ﻿/**
  * JNV Gauriganj (Amethi / Sultanpur) Alumni Platform
  * Core Application Engine & State Manager
@@ -19,7 +20,12 @@ const defaultData = {
 
   contributions: [],
 
-  feedPosts: [],
+  feedPosts: (function() {
+          try {
+            const f = localStorage.getItem(PERSISTENT_FEED_STORAGE_KEY);
+            return (f ? JSON.parse(f) : []);
+          } catch(e) { return []; }
+        })(),
 
   queueItems: [],
 
@@ -8365,6 +8371,16 @@ function loadAppData() {
       } else {
         parsed.directory = defaultDirectoryAlumni.slice();
       }
+      // Rehydrate persistent community feed posts
+      try {
+        const pFeed = localStorage.getItem(PERSISTENT_FEED_STORAGE_KEY);
+        if (pFeed) {
+          const list = JSON.parse(pFeed);
+          if (Array.isArray(list) && list.length > 0) {
+            parsed.feedPosts = list;
+          }
+        }
+      } catch(e) {}
       return { ...defaultData, ...parsed };
     }
   } catch (e) {
@@ -8377,6 +8393,9 @@ const AppState = loadAppData();
 
 function saveAppData() {
   try {
+    if (typeof localStorage !== 'undefined' && Array.isArray(AppState.feedPosts)) {
+      try { localStorage.setItem(PERSISTENT_FEED_STORAGE_KEY, JSON.stringify(AppState.feedPosts)); } catch(fe) {}
+    }
     localStorage.setItem(APP_STORAGE_KEY, JSON.stringify({
       rsvps: AppState.rsvps,
       contributions: AppState.contributions,
@@ -8945,17 +8964,47 @@ function filterRsvpTable() {
 }
 
 // 11. Community Feed
+function compressFeedImage(file, callback) {
+  if (!file || !file.type.startsWith('image/')) {
+    if (callback) callback(null);
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const img = new Image();
+    img.onload = function() {
+      const canvas = document.createElement('canvas');
+      let width = img.width;
+      let height = img.height;
+      const MAX_SIZE = 800;
+      if (width > height && width > MAX_SIZE) {
+        height = Math.round((height * MAX_SIZE) / width);
+        width = MAX_SIZE;
+      } else if (height > MAX_SIZE) {
+        width = Math.round((width * MAX_SIZE) / height);
+        height = MAX_SIZE;
+      }
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, width, height);
+      const compressed = canvas.toDataURL('image/jpeg', 0.72);
+      if (callback) callback(compressed);
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
 function previewStoryImage(event) {
   const file = event.target.files[0];
   if (file) {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      attachedStoryPhoto = e.target.result;
+    compressFeedImage(file, function(compressedDataUrl) {
+      attachedStoryPhoto = compressedDataUrl;
       const preview = document.getElementById('storyImagePreview');
       const container = document.getElementById('storyImagePreviewContainer');
-      if (preview && container) { preview.src = e.target.result; container.classList.remove('hidden'); }
-    };
-    reader.readAsDataURL(file);
+      if (preview && container) { preview.src = compressedDataUrl; container.classList.remove('hidden'); }
+    });
   }
 }
 

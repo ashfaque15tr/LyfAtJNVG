@@ -731,9 +731,9 @@
         showAlert("✓ Alumni Login successful! Redirecting to your dashboard...", true);
         setTimeout(() => {
           if (res.user && res.user.role === 'teacher') {
-            window.location.href = isMobile ? 'mobile_app/index.html#teachers' : 'index.html#teachers';
+            window.location.href = 'index.html#teachers';
           } else {
-            window.location.href = isMobile ? 'mobile_app/index.html' : 'index.html';
+            window.location.href = 'index.html';
           }
         }, 500);
       } else {
@@ -751,7 +751,7 @@
         const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || window.innerWidth < 768;
         showAlert(`✓ सादर प्रणाम! Welcome, Revered <strong>${res.user.name}</strong> (${res.user.roleTitle || 'Faculty'}). Redirecting to Teachers page...`, true);
         setTimeout(() => {
-          window.location.href = isMobile ? 'mobile_app/index.html#teachers' : 'index.html#teachers';
+          window.location.href = 'index.html#teachers';
         }, 500);
       } else {
         showAlert(res.message, false);
@@ -1148,7 +1148,7 @@
         pendingRegOtp = null;
         setTimeout(() => {
           const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || window.innerWidth < 768;
-          window.location.href = isMobile ? 'mobile_app/index.html' : 'index.html';
+          window.location.href = 'index.html';
         }, 1200);
       } else {
         errBox.className = "p-2 rounded-xl bg-red-950/80 border border-red-500/40 text-red-300 text-xs text-center font-medium";
