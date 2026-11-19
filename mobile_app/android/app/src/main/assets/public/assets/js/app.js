@@ -29,7 +29,7 @@ const defaultData = {
 
   meetSchedule: [
     { id: "sch-1", time: "09:00 AM", color: "blue", title: "Tilak Welcome, Registration & Kit Distribution", desc: "Campus entry, welcome tilak, breakfast tea, ID tag & souvenir bag collection." },
-    { id: "sch-2", time: "10:00 AM", color: "amber", title: "Morning Assembly & Prayer (\"हम नवोदय हो\")", desc: "Guru Vandana, lighting of the lamp by Principal Mr. P. K. Singh, collective Navodaya prayer." },
+    { id: "sch-2", time: "10:00 AM", color: "amber", title: "Morning Assembly & Prayer (\"हम नवोदय हों\")", desc: "Guru Vandana, lighting of the lamp by Principal Mr. P. K. Singh, collective Navodaya prayer." },
     { id: "sch-3", time: "11:30 AM", color: "amber", title: "Keynote Address & Teacher Felicitations (गुरु दक्षिणा सम्मान)", desc: "Honoring former gurus & faculty legends, speech by Principal & Alumni President, unveiling Association projects." },
     { id: "sch-4", time: "01:00 PM", color: "emerald", title: "Nostalgic Navodaya Mess Feast (विशेष मेस भोज)", desc: "Traditional hostel feast (puri-chole, kheer, special menu) together in the central dining hall." },
     { id: "sch-5", time: "02:30 PM", color: "purple", title: "Cultural Fiesta & Open Mic (सांस्कृतिक संगम)", desc: "Music, nostalgic hostel skits, poetry, comedy, and batch memories on the open amphitheater stage." },
@@ -44,7 +44,7 @@ const defaultData = {
       batch: 2016,
       type: "Solo Song",
       duration: "5 mins",
-      title: "हम नवोदय हो (Acoustic Semi-Classical Fusion)",
+      title: "हम नवोदय हों (Acoustic Semi-Classical Fusion)",
       requirements: "2 Cordless Mics, Acoustic Guitar Jack",
       description: "Soulful acoustic rendition of the Navodaya prayer mixed with regional classical tunes.",
       status: "Slot Approved",
@@ -68,7 +68,7 @@ const defaultData = {
     { id: 1, author: "Sh. Vivek Tiwari", batch: "1987-1994", role: "MD & CEO, Satya MicroCapital Ltd. & Donor", house: "Arawali", quote: "Navodaya gave us the courage to dream and build without fear. Every milestone in corporate or public leadership is rooted in the resilience learned in those Gauriganj classrooms. Support your junior peers relentlessly." },
     { id: 2, author: "Alok Dubey, IAS", batch: "2007", role: "Indian Administrative Service", house: "Nilgiri", quote: "Public service is the natural continuum of Navodaya's core pledge 'Pragyanam Brahma'. To all young scholars: stay disciplined, read widely, and let integrity be your defining hallmark." },
     { id: 3, author: "Dr. Ratnesh Tiwari", batch: "1996-2003", role: "CEO, Koshish India & Co-Founder Satyapath Foundation", house: "Nilgiri", quote: "True Navodayan spirit is giving back tenfold to the rural soil that nurtured us. Empower the next generation through education, infrastructure, and sustainable community support." },
-    { id: 4, author: "Sh. Utkrisht Pandey", batch: "2002", role: "Founder, Rishigram Organics • Retd. Assistant Commandant, SSB", house: "Shivalik", quote: "From the discipline of morning assembly and cross-country runs at JNVG to guarding borders with SSB and cultivating heritage Kalanamak rice, the greatest success is creating sustainable, ethical value rooted in our native soil." },
+    { id: 4, author: "Sh. Utkrisht Pandey", batch: "2002", role: "Founder, Rishigram Organics • Retd. Assistant Commandant, SSB", house: "Nilgiri", quote: "From the discipline of morning assembly and cross-country runs at JNVG to guarding borders with SSB and cultivating heritage Kalanamak rice, the greatest success is creating sustainable, ethical value rooted in our native soil." },
     { id: 5, author: "Dr. Jai Krishna Mishra", batch: "1993 (First Batch)", role: "Project Director, ASL, DRDO Hyderabad", house: "Arawali", quote: "Discipline, relentless inquiry, and dedication to the motherland were ingrained in us at Gauriganj. Whether designing critical solid propulsion technologies or mentoring the next generation, strive for uncompromising national self-reliance." },
     { id: 6, author: "Dr. Shailendra Mohan Tripathi", batch: "1997", role: "Addl. Professor, Geriatric Mental Health, KGMU & Univ. of Aberdeen", house: "Nilgiri", quote: "Navodaya taught us empathy for the vulnerable and elder care. As clinicians and researchers battling Dementia, standing by our aged Gurujan and parents with compassionate healthcare is our sacred duty." },
     { id: 7, author: "Ashwini Mishra", batch: "1993 (First Batch)", role: "Senior Journalist, Executive Producer & News Anchor, DD News", house: "Shivalik", quote: "We are the beneficiaries of a remarkable visionary rural education system, and paying that debt back to society is our highest calling. Measure your success not just by the lives you uplift and the communities you transform **Be grounded..Be Honest..**" },
@@ -144,6 +144,24 @@ const defaultData = {
     }
   ],
   teachers: [
+    {
+      id: "tch-bsr",
+      name: "Sh. B. S. Singh Rautela",
+      title: "Former Principal • Jawahar Navodaya Vidyalaya, Gauriganj",
+      category: "former",
+      statusLabel: "Former Leadership (Principal)",
+      post: "Former Principal",
+      subject: "Institutional Leadership & Educational Administration",
+      tenure: "Former Principal",
+      house: "Administration",
+      houseDetail: "Vidyalaya Leadership & Mentorship",
+      location: "Uttarakhand / Uttar Pradesh",
+      initials: "BSR",
+      photo: null,
+      respectCount: 220,
+      message: "नवोदय का प्रांगण केवल ज्ञानार्जन का केंद्र नहीं, बल्कि चरित्र, बंधुत्व और राष्ट्र-निर्माण की पावन तपोभूमि है। जेएनवी गौरीगंज के विद्यार्थियों ने हर क्षेत्र में जो कीर्तिमान स्थापित किए हैं, उन पर मुझे गर्व है। अपनी जड़ों, गुरुजनों और नवोदय के संस्कारों को सदैव हृदय में संजोकर रखें। चतुर्थ महासम्मेलन के सफल आयोजन हेतु सभी प्रिय पूर्व छात्रों को मेरा असीम शुभाशीष। हमी नवोदय हों!",
+      specialNote: "Revered former Principal whose exemplary leadership, discipline, and educational vision shaped JNV Gauriganj during crucial formative years."
+    },
     {
       id: "tch-sps",
       name: "Late Dr. S. P. Singh",
@@ -1630,15 +1648,15 @@ const defaultDirectoryAlumni = [
     "name": "Utkrisht Pandey",
     "initials": "UP",
     "batch": 2002,
-    "house": "Shivalik",
+    "house": "Nilgiri",
     "role": "Ex Assistant Commandant,Now in Farming at Native palce",
     "location": "Pratapgarh",
     "domain": "Corporate",
     "email": "utkrishtpandey@gmail.com",
     "phone": "9580250135",
-    "badge": "Shivalik",
+    "badge": "Nilgiri",
     "tag": "Alumnus",
-    "bio": "Ex Assistant Commandant,Now in Farming at Native palce at Marcelone Agrofarms Lvt. LTD. • Batch of 2002 (Shivalik House)."
+    "bio": "Founder, Rishigram Organics • Decorated former Assistant Commandant (SSB) • Batch of 2002 (Nilgiri House)."
   },
   {
     "id": "alumni-87",
@@ -8259,7 +8277,7 @@ function loadAppData() {
 
   meetSchedule: [
     { id: "sch-1", time: "09:00 AM", color: "blue", title: "Tilak Welcome, Registration & Kit Distribution", desc: "Campus entry, welcome tilak, breakfast tea, ID tag & souvenir bag collection." },
-    { id: "sch-2", time: "10:00 AM", color: "amber", title: "Morning Assembly & Prayer (\"हम नवोदय हो\")", desc: "Guru Vandana, lighting of the lamp by Principal Mr. P. K. Singh, collective Navodaya prayer." },
+    { id: "sch-2", time: "10:00 AM", color: "amber", title: "Morning Assembly & Prayer (\"हम नवोदय हों\")", desc: "Guru Vandana, lighting of the lamp by Principal Mr. P. K. Singh, collective Navodaya prayer." },
     { id: "sch-3", time: "11:30 AM", color: "amber", title: "Keynote Address & Teacher Felicitations (गुरु दक्षिणा सम्मान)", desc: "Honoring former gurus & faculty legends, speech by Principal & Alumni President, unveiling Association projects." },
     { id: "sch-4", time: "01:00 PM", color: "emerald", title: "Nostalgic Navodaya Mess Feast (विशेष मेस भोज)", desc: "Traditional hostel feast (puri-chole, kheer, special menu) together in the central dining hall." },
     { id: "sch-5", time: "02:30 PM", color: "purple", title: "Cultural Fiesta & Open Mic (सांस्कृतिक संगम)", desc: "Music, nostalgic hostel skits, poetry, comedy, and batch memories on the open amphitheater stage." },
@@ -8274,7 +8292,7 @@ function loadAppData() {
       batch: 2016,
       type: "Solo Song",
       duration: "5 mins",
-      title: "हम नवोदय हो (Acoustic Semi-Classical Fusion)",
+      title: "हम नवोदय हों (Acoustic Semi-Classical Fusion)",
       requirements: "2 Cordless Mics, Acoustic Guitar Jack",
       description: "Soulful acoustic rendition of the Navodaya prayer mixed with regional classical tunes.",
       status: "Slot Approved",
@@ -8331,6 +8349,7 @@ function loadAppData() {
             if (isCur && p.includes('vice principal')) return 4;
             // 5. Current Faculty Alumni Coordinator
             if (isCur && (p.includes('alumni') || (t.title || '').toLowerCase().includes('alumni') || p.includes('coordinator'))) return 5;
+      if (name.includes('rautela') || (!t.isDeceased && p.includes('principal') && !p.includes('vice'))) return 6;
             if (isCur) return 6;
             return 10;
           };
@@ -9891,10 +9910,10 @@ const NOTABLE_ALUMNI_LIST = [
     batch: "2002",
     category: "enterprise",
     categoryLabel: "Agri-Enterprise & Security",
-    house: "Shivalik",
+    house: "Nilgiri",
     role: "Founder, Rishigram Organics • Retd. Assistant Commandant, SSB",
     academics: "Former Officer, Sashastra Seema Bal (SSB)",
-    intro: "Decorated former Assistant Commandant (SSB) turned agrarian pioneer. Founder of Rishigram Organics, pioneering sustainable high-value sandalwood agroforestry and reviving the heritage GI-tagged Kalanamak 'Buddha Rice'.",
+    intro: "Decorated former Assistant Commandant (SSB), <strong>Utkrisht Pandey</strong> is an agrarian pioneer and Founder of Rishigram Organics, promoting sustainable agriculture, commercial sandalwood agroforestry. His contributions have earned him several recognitions. He was invited as a Special Guest to the <strong>Independence Day celebrations at the Red Fort (2025)</strong> and honoured with an <strong>invitation from the Governor of Uttar Pradesh (Raj Bhavan)</strong>.",
     badgeColor: "emerald",
     link: "https://rishigramorganics.com/pages/about-us"
   },

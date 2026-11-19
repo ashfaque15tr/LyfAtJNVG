@@ -122,7 +122,7 @@ const DEFAULT_ACCOUNTS = [
     password: "password123",
     name: "Utkrisht Pandey",
     batch: 2005,
-    house: "Udaigiri",
+    house: "Nilgiri",
     role: "moderator",
     roleTitle: "Batch 2005 Moderator",
     status: "approved",

@@ -65,7 +65,7 @@ public class PlayStoreAssetGenerator {
                 g.DrawString("JNV ALUMNI NETWORK", brandFont, amberBrush, 45f, 42f);
                 g.DrawString("JAWAHAR NAVODAYA VIDYALAYA", titleFont, whiteBrush, 47f, 90f);
                 g.DrawString("Gauriganj, Amethi / Sultanpur (U.P.) • Official App", subFont, mutedBrush, 47f, 116f);
-                g.DrawString("\"Never Ending Relations • हमी नवोदय हो\"", mottoFont, skyBrush, 47f, 150f);
+                g.DrawString("\"Never Ending Relations • हमी नवोदय हों\"", mottoFont, skyBrush, 47f, 150f);
 
                 // Divider line
                 using (Pen divPen = new Pen(ColorTranslator.FromHtml("#1e293b"), 1.5f)) {

@@ -506,6 +506,16 @@ const jkm = NOTABLE_ALUMNI_LIST.find(a => a.name.includes('Jai Krishna Mishra'))
 assert(jkm && jkm.batch.includes('1993') && jkm.role.includes('DRDO'), 'Dr. Jai Krishna Mishra (1993, DRDO ASL) verified');
 const up = NOTABLE_ALUMNI_LIST.find(a => a.name.includes('Utkrisht Pandey'));
 assert(up && up.intro.includes('Rishigram Organics') && up.role.includes('SSB'), 'Utkrisht Pandey (SSB & Rishigram Organics) verified');
+assert(up.house === 'Nilgiri', 'Utkrisht Pandey house verified as Nilgiri');
+assert(up.intro.includes('Independence Day celebrations at the Red Fort (2025)'), 'Utkrisht Pandey Red Fort 2025 honors verified in intro');
+assert(up.intro.includes('Governor of Uttar Pradesh (Raj Bhavan)'), 'Utkrisht Pandey Raj Bhavan invitation verified in intro');
+
+// Sh. B. S. Singh Rautela (Former Principal)
+const rautela = AppState.teachers.find(t => t.name.includes('Rautela'));
+assert(rautela && rautela.post === 'Former Principal', 'Sh. B. S. Singh Rautela verified as Former Principal in AppState.teachers');
+assert(rautela.message && rautela.message.includes('चतुर्थ महासम्मेलन'), 'Sh. B. S. Singh Rautela inspirational key message verified');
+assert(indexHtml.includes('Sh. B. S. Singh Rautela'), 'index.html displays Sh. B. S. Singh Rautela in Leadership & Guru Vandana');
+assert(indexHtml.includes('हमी नवोदय हों'), 'index.html contains updated official motto हमी नवोदय हों');
 const smt = NOTABLE_ALUMNI_LIST.find(a => a.name.includes('Shailendra Mohan Tripathi'));
 assert(smt && smt.batch === '1997' && smt.role.includes('KGMU'), 'Dr. Shailendra Mohan Tripathi (1997, KGMU & Univ of Aberdeen) verified');
 const ck = NOTABLE_ALUMNI_LIST.find(a => a.name.includes('Chandan Kumar'));
