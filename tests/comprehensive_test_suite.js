@@ -381,7 +381,7 @@ assert(indexHtml.includes('JNVGFamily'), 'JNVGFamily branding in index.html head
 assert(indexHtml.includes('jnvgfamily.in'), 'jnvgfamily.in domain verified in index.html');
 assert(smsDispatch.waUrl.includes('JNVGFamily'), 'WhatsApp 2FA SMS payload contains JNVGFamily branding');
 assert(indexHtml.includes('donors-board.jpg') && indexHtml.includes('125 KVA Kirloskar'), 'Official Vidyalaya Donor\'s Board plaque & genset grant verified');
-assert(indexHtml.includes('Suggestion / Issue Report') && indexHtml.includes('Site Version: v4.2.0'), 'Footer Suggestion/Issue Report and Site Version verified');
+assert(indexHtml.includes('Suggestion / Issue Report') && indexHtml.includes('Site Version: v0.0.1'), 'Footer Suggestion/Issue Report and Site Version verified as strictly v0.0.1');
 assert(indexHtml.includes('Arawali') && indexHtml.includes('Udaigiri') && indexHtml.includes('Nilgiri'), 'Official NVS standard house spellings verified (Arawali, Udaigiri, Nilgiri)');
 
 // Verify Gallery Images exist
@@ -809,6 +809,35 @@ renderDirectory();
 assert(!getOrCreate('directoryGrid').innerHTML.includes('Alumni Directory is Protected'), 'Authenticated member can view Alumni Directory');
 
 // ----------------------------------------------------
+
+// ----------------------------------------------------
+// TEST SUITE 18: VERSION 0.0.1 & MEMORY WALL BANNER CONTRAST INTEGRITY
+// ----------------------------------------------------
+console.log('\n--- TEST SUITE 18: VERSION 0.0.1 & MEMORY WALL BANNER CONTRAST INTEGRITY ---');
+
+// 1. Initial Release Version v0.0.1 Verification
+const pkgJson = JSON.parse(fs.readFileSync(path.join(rootDir, 'package.json'), 'utf8'));
+assert(pkgJson.version === '0.0.1', 'package.json version is strictly 0.0.1');
+
+const mobileIndexHtml = fs.readFileSync(path.join(rootDir, 'mobile_app', 'index.html'), 'utf8');
+assert(mobileIndexHtml.includes('Site Version: v0.0.1'), 'mobile_app/index.html footer contains Site Version: v0.0.1');
+assert(mobileIndexHtml.includes('Current build: <span class="font-mono text-emerald-400 font-semibold">v0.0.1</span>'), 'mobile_app/index.html contains Current build: v0.0.1');
+
+const infoPlist = fs.readFileSync(path.join(rootDir, 'mobile_app', 'ios', 'Info.plist'), 'utf8');
+assert(infoPlist.includes('<string>0.0.1</string>'), 'mobile_app/ios/Info.plist CFBundleShortVersionString is strictly 0.0.1');
+
+// 2. Memory Wall & Community Broadcast Banner Legibility & Contrast
+assert(indexHtml.includes('memory-wall-banner-card'), 'index.html contains memory-wall-banner-card high-contrast container');
+assert(mobileIndexHtml.includes('memory-wall-banner-card'), 'mobile_app/index.html contains memory-wall-banner-card high-contrast container');
+assert(indexHtml.includes('-webkit-text-fill-color: #ffffff !important;'), 'index.html specifies explicit -webkit-text-fill-color: #ffffff !important on banner title');
+assert(mobileIndexHtml.includes('-webkit-text-fill-color: #ffffff !important;'), 'mobile_app/index.html specifies explicit -webkit-text-fill-color: #ffffff !important on banner title');
+
+const rootStylesCss = fs.readFileSync(path.join(rootDir, 'assets', 'css', 'styles.css'), 'utf8');
+const mobileStylesCss = fs.readFileSync(path.join(rootDir, 'mobile_app', 'assets', 'css', 'styles.css'), 'utf8');
+assert(rootStylesCss.includes('.memory-banner-text') && rootStylesCss.includes('-webkit-text-fill-color: #ffffff !important;'), 'assets/css/styles.css enforces white text-fill on memory banner text');
+assert(mobileStylesCss.includes('.memory-banner-text') && mobileStylesCss.includes('-webkit-text-fill-color: #ffffff !important;'), 'mobile_app/assets/css/styles.css enforces white text-fill on memory banner text');
+assert(rootStylesCss.includes('.memory-wall-banner-card'), 'assets/css/styles.css defines dedicated .memory-wall-banner-card styling');
+
 console.log('\n====================================================');
 console.log(`TEST RESULTS: ${passedTests} / ${totalTests} ASSERTIONS PASSED`);
 console.log('====================================================');

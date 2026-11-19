@@ -492,20 +492,20 @@ body:not(.theme-dark) #homeHeroCard h2 span {
 }
 
 /* 6. Comprehensive Light Sky Typography Overrides - Document-Wide High Contrast */
-html[data-theme="sky"] h1,
-html[data-theme="sky"] h2,
-html[data-theme="sky"] h3,
-html[data-theme="sky"] h4,
-html[data-theme="sky"] h5,
-html[data-theme="sky"] h6,
-html[data-theme="sky"] .font-cinzel,
-body:not(.theme-dark) h1,
-body:not(.theme-dark) h2,
-body:not(.theme-dark) h3,
-body:not(.theme-dark) h4,
-body:not(.theme-dark) h5,
-body:not(.theme-dark) h6,
-body:not(.theme-dark) .font-cinzel {
+html[data-theme="sky"] h1:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *),
+html[data-theme="sky"] h2:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *),
+html[data-theme="sky"] h3:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *),
+html[data-theme="sky"] h4:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *),
+html[data-theme="sky"] h5:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *),
+html[data-theme="sky"] h6:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *),
+html[data-theme="sky"] .font-cinzel:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *),
+body:not(.theme-dark) h1:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *),
+body:not(.theme-dark) h2:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *),
+body:not(.theme-dark) h3:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *),
+body:not(.theme-dark) h4:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *),
+body:not(.theme-dark) h5:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *),
+body:not(.theme-dark) h6:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *),
+body:not(.theme-dark) .font-cinzel:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *) {
   color: #0c2f54 !important;
   -webkit-text-fill-color: #0c2f54 !important;
   font-weight: 800 !important;
@@ -1688,4 +1688,79 @@ body:not(.theme-dark) .feed-filter-btn.active {
   border-color: #0284c7 !important;
   color: #ffffff !important;
   box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25) !important;
+}
+
+/* ========================================================================== */
+/* MEMORY WALL & HERO BANNER OVERLAY TEXT: 100% GUARANTEED MAXIMUM CONTRAST   */
+/* Overrides any Light Sky theme rules and -webkit-text-fill-color globally   */
+/* ========================================================================== */
+.memory-wall-banner-card,
+#tab-feed [class*="max-h-[440px]"] .memory-wall-banner-card,
+html[data-theme="sky"] #tab-feed .memory-wall-banner-card,
+body:not(.theme-dark) #tab-feed .memory-wall-banner-card {
+  background: rgba(8, 14, 28, 0.94) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1.5px solid rgba(245, 158, 11, 0.55) !important;
+  box-shadow: 0 12px 36px -4px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.08) !important;
+}
+
+.memory-banner-text,
+.hero-banner-text,
+#tab-feed [class*="max-h-[440px]"] h3,
+#tab-feed .memory-wall-banner-card h3,
+html[data-theme="sky"] #tab-feed [class*="max-h-[440px]"] h3,
+body:not(.theme-dark) #tab-feed [class*="max-h-[440px]"] h3,
+html[data-theme="sky"] #tab-feed .memory-wall-banner-card h3,
+body:not(.theme-dark) #tab-feed .memory-wall-banner-card h3 {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95), 0 1px 3px rgba(0, 0, 0, 0.9) !important;
+  font-weight: 800 !important;
+  opacity: 1 !important;
+}
+
+#tab-feed [class*="max-h-[440px]"] p,
+#tab-feed .memory-wall-banner-card p,
+html[data-theme="sky"] #tab-feed [class*="max-h-[440px]"] p,
+body:not(.theme-dark) #tab-feed [class*="max-h-[440px]"] p,
+html[data-theme="sky"] #tab-feed .memory-wall-banner-card p,
+body:not(.theme-dark) #tab-feed .memory-wall-banner-card p {
+  color: #f8fafc !important;
+  -webkit-text-fill-color: #f8fafc !important;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.95), 0 1px 2px rgba(0, 0, 0, 0.8) !important;
+  font-weight: 500 !important;
+  opacity: 1 !important;
+}
+
+#tab-feed [class*="max-h-[440px]"] span.memory-banner-hindi,
+#tab-feed .memory-wall-banner-card span.memory-banner-hindi,
+html[data-theme="sky"] #tab-feed [class*="max-h-[440px]"] span.memory-banner-hindi,
+body:not(.theme-dark) #tab-feed [class*="max-h-[440px]"] span.memory-banner-hindi,
+html[data-theme="sky"] #tab-feed .memory-wall-banner-card span.memory-banner-hindi,
+body:not(.theme-dark) #tab-feed .memory-wall-banner-card span.memory-banner-hindi {
+  color: #fde047 !important;
+  -webkit-text-fill-color: #fde047 !important;
+  background-color: rgba(245, 158, 11, 0.22) !important;
+  border-color: rgba(245, 158, 11, 0.6) !important;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8) !important;
+  font-weight: 700 !important;
+}
+
+/* Sahayata Central Banner in Helpdesk Tab */
+#tab-helpdesk [class*="max-h-[440px]"] h3,
+html[data-theme="sky"] #tab-helpdesk [class*="max-h-[440px]"] h3,
+body:not(.theme-dark) #tab-helpdesk [class*="max-h-[440px]"] h3 {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95) !important;
+  font-weight: 800 !important;
+}
+
+#tab-helpdesk [class*="max-h-[440px]"] p,
+html[data-theme="sky"] #tab-helpdesk [class*="max-h-[440px]"] p,
+body:not(.theme-dark) #tab-helpdesk [class*="max-h-[440px]"] p {
+  color: #f8fafc !important;
+  -webkit-text-fill-color: #f8fafc !important;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.95) !important;
 }

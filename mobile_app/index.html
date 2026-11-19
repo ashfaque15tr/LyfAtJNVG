@@ -565,31 +565,35 @@
       <!-- ============================================== -->
       <section id="tab-feed" class="tab-content hidden space-y-6">
         <!-- Official Campus Office Gate & Administrative Block Banner -->
-        <div class="rounded-3xl overflow-hidden border border-amber-500/35 bg-slate-950 shadow-2xl relative group">
+        <div class="rounded-3xl overflow-hidden border border-amber-500/40 bg-slate-950 shadow-2xl relative group">
           <div class="relative w-full overflow-hidden max-h-[440px]">
             <img src="assets/images/office-gate.png" alt="JNV Gauriganj Office Gate & Administrative Block" class="w-full h-auto max-h-[440px] object-cover object-center group-hover:scale-[1.015] transition duration-700 block">
-            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/45 to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/45 to-transparent pointer-events-none"></div>
             
             <!-- Top Badges -->
             <div class="absolute top-4 left-4 z-10 flex flex-wrap items-center gap-2">
-              <span class="px-3 py-1 rounded-full bg-amber-950/90 border border-amber-500/50 text-amber-300 text-xs font-bold backdrop-blur flex items-center gap-1.5 shadow-lg">
+              <span class="px-3 py-1 rounded-full text-xs font-bold backdrop-blur flex items-center gap-1.5 shadow-lg border border-amber-500/50" style="background: rgba(69, 26, 3, 0.92) !important; color: #fef08a !important; -webkit-text-fill-color: #fef08a !important; text-shadow: 0 1px 4px rgba(0,0,0,0.8);">
                 <span>🏛️</span> <span>Administrative Block & Office Gate (प्रशासनिक द्वार)</span>
               </span>
-              <span class="px-2.5 py-1 rounded-full bg-slate-900/90 border border-slate-700 text-slate-300 text-[11px] backdrop-blur font-mono">
+              <span class="px-2.5 py-1 rounded-full text-[11px] backdrop-blur font-mono border border-slate-700" style="background: rgba(15, 23, 42, 0.92) !important; color: #e2e8f0 !important; -webkit-text-fill-color: #e2e8f0 !important; text-shadow: 0 1px 4px rgba(0,0,0,0.8);">
                 Campus Gateway & Open Alumni Community Wall
               </span>
             </div>
 
-            <!-- Bottom Floating Description & Action Button -->
-            <div class="absolute bottom-5 left-5 right-5 z-10 flex flex-col md:flex-row items-start md:items-end justify-between gap-4">
-              <div class="space-y-1 max-w-2xl">
-                <span class="text-[10px] uppercase font-bold text-amber-400 tracking-widest block font-hindi">।। यादों का झरोखा • खुला विचार मंच ।।</span>
-                <h3 class="text-lg sm:text-2xl font-bold font-cinzel text-white leading-tight">Memory Wall & Community Broadcast</h3>
-                <p class="text-xs text-slate-300 leading-relaxed">
+            <!-- Bottom Floating Description & Action Button: High-Contrast Frosted Card -->
+            <div class="memory-wall-banner-card absolute bottom-3 sm:bottom-4 left-3 sm:left-4 right-3 sm:right-4 z-20 p-4 sm:p-5 rounded-2xl shadow-2xl flex flex-col md:flex-row items-start md:items-end justify-between gap-4" style="background: rgba(8, 14, 28, 0.94) !important; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1.5px solid rgba(245, 158, 11, 0.55) !important; box-shadow: 0 12px 36px rgba(0, 0, 0, 0.85) !important;">
+              <div class="space-y-1.5 max-w-2xl">
+                <span class="memory-banner-hindi inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold tracking-wider uppercase font-hindi shadow-sm" style="background: rgba(245, 158, 11, 0.22) !important; border: 1px solid rgba(245, 158, 11, 0.6) !important; color: #fde047 !important; -webkit-text-fill-color: #fde047 !important; text-shadow: 0 1px 4px rgba(0,0,0,0.9);">
+                  <span>🏛️</span> <span>।। यादों का झरोखा • खुला विचार मंच ।।</span>
+                </span>
+                <h3 class="memory-banner-text text-xl sm:text-2xl lg:text-3xl font-extrabold font-cinzel leading-tight" style="color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95), 0 1px 3px rgba(0, 0, 0, 0.9) !important; font-weight: 800 !important;">
+                  Memory Wall & Community Broadcast
+                </h3>
+                <p class="memory-banner-text text-xs sm:text-sm font-medium leading-relaxed" style="color: #f8fafc !important; -webkit-text-fill-color: #f8fafc !important; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.95), 0 1px 2px rgba(0, 0, 0, 0.8) !important; font-weight: 500 !important;">
                   A live, open social community board — like WhatsApp and Facebook — for alumni to post personal stories, assembly memories, hostel nostalgia, messages, and photos broadcasted live to everyone.
                 </p>
               </div>
-              <button onclick="openModal('storyModal')" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold text-xs flex items-center gap-2 shadow-lg shadow-amber-500/30 whitespace-nowrap touch-ripple">
+              <button onclick="openModal('storyModal')" class="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 font-bold text-xs sm:text-sm flex items-center gap-2 shadow-xl shadow-amber-500/30 whitespace-nowrap touch-ripple transition duration-200" style="color: #020617 !important; -webkit-text-fill-color: #020617 !important; font-weight: 800 !important;">
                 <span>✍️</span> <span>Post a Message / Photo</span>
               </button>
             </div>
@@ -1068,11 +1072,11 @@
             </div>
 
             <!-- Bottom Floating Description -->
-            <div class="absolute bottom-5 left-5 right-5 z-10 flex flex-col md:flex-row items-start md:items-end justify-between gap-4">
-              <div class="space-y-1 max-w-2xl">
-                <span class="text-[10px] uppercase font-bold text-cyan-400 tracking-widest block font-hindi">।। विद्या ददाति विनयं ।। • परस्पर देवो भव</span>
-                <h3 class="text-xl sm:text-3xl font-bold font-cinzel text-white drop-shadow-lg">Sahayata Central • Fraternity Care & Relief</h3>
-                <p class="text-xs sm:text-sm text-slate-200 drop-shadow">Rooted in our alma mater: From the historic corridors of the Academic Block to nationwide alumni solidarity.</p>
+            <div class="hero-banner-card absolute bottom-3 sm:bottom-4 left-3 sm:left-4 right-3 sm:right-4 z-20 p-4 sm:p-5 rounded-2xl shadow-2xl flex flex-col md:flex-row items-start md:items-end justify-between gap-4" style="background: rgba(8, 14, 28, 0.94) !important; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1.5px solid rgba(6, 182, 212, 0.55) !important; box-shadow: 0 12px 36px rgba(0, 0, 0, 0.85) !important;">
+              <div class="space-y-1.5 max-w-2xl">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold tracking-wider uppercase font-hindi shadow-sm" style="background: rgba(6, 182, 212, 0.2) !important; border: 1px solid rgba(6, 182, 212, 0.6) !important; color: #67e8f9 !important; -webkit-text-fill-color: #67e8f9 !important; text-shadow: 0 1px 4px rgba(0,0,0,0.9);">।। विद्या ददाति विनयं ।। • परस्पर देवो भव</span>
+                <h3 class="hero-banner-text text-xl sm:text-2xl lg:text-3xl font-extrabold font-cinzel leading-tight" style="color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95), 0 1px 3px rgba(0, 0, 0, 0.9) !important; font-weight: 800 !important;">Sahayata Central • Fraternity Care & Relief</h3>
+                <p class="hero-banner-text text-xs sm:text-sm font-medium leading-relaxed" style="color: #f8fafc !important; -webkit-text-fill-color: #f8fafc !important; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.95) !important; font-weight: 500 !important;">Rooted in our alma mater: From the historic corridors of the Academic Block to nationwide alumni solidarity.</p>
               </div>
               <div class="flex items-center gap-2.5 flex-shrink-0">
                 <button onclick="openHelpRequestModal()" class="px-5 py-3 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-slate-950 font-bold text-xs sm:text-sm flex items-center gap-2 shadow-xl shadow-cyan-500/25 transition touch-ripple">
@@ -1552,7 +1556,7 @@
           <span>•</span>
           <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-900 text-slate-300 font-mono text-[11px] border border-slate-800">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-            Site Version: v4.2.0
+            Site Version: v0.0.1
           </span>
         </div>
       </div>
@@ -1580,7 +1584,7 @@
       </div>
 
       <p class="text-xs text-slate-300 leading-relaxed">
-        Your suggestions and bug reports directly help our voluntary technical team improve <strong class="text-amber-400">JNVGFamily (jnvgfamily.in)</strong>. Current build: <span class="font-mono text-emerald-400 font-semibold">v4.2.0</span>.
+        Your suggestions and bug reports directly help our voluntary technical team improve <strong class="text-amber-400">JNVGFamily (jnvgfamily.in)</strong>. Current build: <span class="font-mono text-emerald-400 font-semibold">v0.0.1</span>.
       </p>
 
       <form onsubmit="handleSuggestionSubmit(event)" class="space-y-3 text-xs">
