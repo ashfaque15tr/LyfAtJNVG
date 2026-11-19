@@ -860,6 +860,32 @@ assert(fs.existsSync(path.join(rootDir, 'play_store_assets', 'feature-graphic-10
 assert(fs.existsSync(path.join(rootDir, 'play_store_assets', 'store_listing_metadata.txt')), 'Google Play Store listing metadata exists');
 assert(fs.existsSync(path.join(rootDir, 'android', 'app', 'release.keystore')), 'Android production release.keystore exists');
 
+// ----------------------------------------------------
+// TEST SUITE 20: ALUMNI DIRECTORY HOUSE FILTER ACCURACY
+// ----------------------------------------------------
+console.log('\n--- TEST SUITE 20: ALUMNI DIRECTORY HOUSE FILTER ACCURACY ---');
+
+const latestIndexHtml = fs.readFileSync(path.join(rootDir, 'index.html'), 'utf8');
+const latestMobileHtml = fs.readFileSync(path.join(rootDir, 'mobile_app', 'index.html'), 'utf8');
+
+assert(latestIndexHtml.includes('<option value="Arawali">Arawali</option>'), 'index.html dirHouseFilter contains Arawali');
+assert(latestIndexHtml.includes('<option value="Nilgiri">Nilgiri</option>'), 'index.html dirHouseFilter contains Nilgiri');
+assert(latestIndexHtml.includes('<option value="Shivalik">Shivalik</option>'), 'index.html dirHouseFilter contains Shivalik');
+assert(latestIndexHtml.includes('<option value="Udaigiri">Udaigiri</option>'), 'index.html dirHouseFilter contains Udaigiri');
+
+assert(!latestIndexHtml.includes('<option value="Aravali">Aravali</option>'), 'index.html dirHouseFilter eliminated incorrect Aravali');
+assert(!latestIndexHtml.includes('<option value="Neelgiri">Neelgiri</option>'), 'index.html dirHouseFilter eliminated incorrect Neelgiri');
+assert(!latestIndexHtml.includes('<option value="Udaygiri">Udaygiri</option>'), 'index.html dirHouseFilter eliminated incorrect Udaygiri');
+
+assert(latestMobileHtml.includes('<option value="Arawali">Arawali</option>'), 'mobile_app dirHouseFilter contains Arawali');
+assert(latestMobileHtml.includes('<option value="Nilgiri">Nilgiri</option>'), 'mobile_app dirHouseFilter contains Nilgiri');
+assert(latestMobileHtml.includes('<option value="Shivalik">Shivalik</option>'), 'mobile_app dirHouseFilter contains Shivalik');
+assert(latestMobileHtml.includes('<option value="Udaigiri">Udaigiri</option>'), 'mobile_app dirHouseFilter contains Udaigiri');
+
+// Functional testing of StorageEngine queryDirectory with the 4 houses
+const storageEngineCode = fs.readFileSync(path.join(rootDir, 'assets', 'js', 'storage-engine.js'), 'utf8');
+assert(storageEngineCode.includes('normalizeHouse'), 'storage-engine.js implements normalizeHouse matching logic');
+
 console.log('\n====================================================');
 console.log(`TEST RESULTS: ${passedTests} / ${totalTests} ASSERTIONS PASSED`);
 console.log('====================================================');

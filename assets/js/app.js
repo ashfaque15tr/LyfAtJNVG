@@ -9545,10 +9545,19 @@ function renderDirectory(append = false) {
       pageSize: DIR_PAGE_SIZE
     });
   } else {
+    const normH = (h) => {
+      if (!h) return '';
+      const s = h.toString().trim().toLowerCase();
+      if (s.startsWith('arav') || s.startsWith('araw')) return 'arawali';
+      if (s.startsWith('nilg') || s.startsWith('neel')) return 'nilgiri';
+      if (s.startsWith('udai') || s.startsWith('uday')) return 'udaigiri';
+      if (s.startsWith('shiv') || s.startsWith('shiw')) return 'shivalik';
+      return s;
+    };
     const filtered = (AppState.directory || []).filter(item => {
       const matchQ = !q || (item.name || '').toLowerCase().includes(q.toLowerCase()) || (item.role || '').toLowerCase().includes(q.toLowerCase());
       const matchBatch = (batch === 'all' || item.batch.toString() === batch);
-      const matchHouse = (house === 'all' || item.house === house);
+      const matchHouse = (house === 'all' || normH(item.house) === normH(house));
       const matchDomain = (domain === 'all' || (item.domain || '').includes(domain));
       return matchQ && matchBatch && matchHouse && matchDomain;
     });
