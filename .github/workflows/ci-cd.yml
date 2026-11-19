@@ -80,15 +80,10 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install Dependencies
-        run: |
-          npm install
-
-      - name: Prepare Web Assets & Sync Capacitor
+      - name: Prepare Android Web Assets
         run: |
           chmod +x android/gradlew
           node scripts/prepare-www.js
-          npx --yes @capacitor/cli sync android
 
       - name: Compile Native Android APK with Gradle
         run: |
