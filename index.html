@@ -1360,32 +1360,16 @@
           </div>
         </div>
       
-        <!-- UNIFIED MEMORY WALL SECTION -->
-        <div id="tab-gallery-feed-section" class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6">
-          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-800 pb-5">
-            <div>
-              <div class="flex items-center gap-2">
-                <span class="px-2.5 py-0.5 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30 text-[10px] font-bold uppercase">Nostalgia Hub</span>
-                <h3 class="text-xl font-bold font-cinzel text-white">Memory Wall (यादों का झरोखा)</h3>
-              </div>
-              <p class="text-xs text-slate-400 mt-1">Cherished memories, hostel anecdotes, and assembly nostalgia shared by alumni</p>
-            </div>
-            <button onclick="openModal('storyModal')" class="px-4 py-2.5 rounded-xl bg-gold-500 hover:bg-gold-600 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow">
-              <span>📷 Share a Memory with Photo</span>
-            </button>
+        <!-- Community Memory Wall Banner (Directing to Dedicated Tab) -->
+        <div class="bg-gradient-to-r from-blue-950/60 via-slate-900 to-slate-900 border border-blue-500/30 rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl">
+          <div class="space-y-1 text-center sm:text-left">
+            <span class="px-2.5 py-0.5 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30 text-[10px] font-bold uppercase">Nostalgia Hub</span>
+            <h3 class="text-lg font-bold font-cinzel text-white">Looking for the Memory Wall (यादों का झरोखा)?</h3>
+            <p class="text-xs text-slate-300">Read personal hostel anecdotes, morning PT stories, and post your own memories on the dedicated community board.</p>
           </div>
-
-          <!-- Filter Tags -->
-          <div class="flex flex-wrap gap-2">
-            <button onclick="filterFeed('all')" class="feed-filter-btn active px-3 py-1.5 rounded-xl bg-brand-700 text-white font-medium text-xs">All Memories</button>
-            <button onclick="filterFeed('assembly')" class="feed-filter-btn px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 font-medium text-xs">Morning Assembly</button>
-            <button onclick="filterFeed('migration')" class="feed-filter-btn px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 font-medium text-xs">Migration Days</button>
-            <button onclick="filterFeed('mess')" class="feed-filter-btn px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 font-medium text-xs">Mess & Hostels</button>
-            <button onclick="filterFeed('sports')" class="feed-filter-btn px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 font-medium text-xs">Sports & PT</button>
-          </div>
-
-          <!-- Feed Posts Stream -->
-          <div id="feedPostsStream" class="space-y-4 max-w-3xl mx-auto pt-2"></div>
+          <button onclick="switchTab('feed')" class="px-5 py-2.5 rounded-xl bg-gold-500 hover:bg-gold-600 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow-lg whitespace-nowrap touch-ripple">
+            <span>✍️</span> <span>Visit Memory Wall →</span>
+          </button>
         </div>
 
       </section>
@@ -2214,7 +2198,7 @@
         <div class="flex items-center gap-2">
           <span class="text-xl">🙏</span>
           <div>
-            <h3 class="text-sm font-bold font-cinzel text-white">चरण स्पर्श व सादर नमन</h3>
+            <h3 class="text-sm font-bold font-cinzel text-white">सादर प्रणाम व सम्मान संदेश</h3>
             <span class="text-[10px] text-amber-400 block" id="pranamTeacherName">Guruji</span>
           </div>
         </div>
@@ -2233,7 +2217,7 @@
         </div>
         <div>
           <label class="block text-slate-300 mb-1">Personal Respect Note / यादें व प्रणाम *</label>
-          <textarea id="pranamNote" rows="3" required placeholder="गुरुजी, सादर चरण स्पर्श! आपके मार्गदर्शन और अनुशासन ने जीवन की हर राह में हमारा पथ प्रदर्शन किया..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white placeholder-slate-500"></textarea>
+          <textarea id="pranamNote" rows="3" required placeholder="गुरुजी, सादर प्रणाम! आपके मार्गदर्शन और अनुशासन ने जीवन की हर राह में हमारा पथ प्रदर्शन किया..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white placeholder-slate-500"></textarea>
         </div>
         <button type="submit" class="w-full py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs transition">
           प्रणाम प्रेषित करें / Convey Respect
@@ -2350,7 +2334,7 @@
 
           <!-- Quick Response Chips -->
           <div class="px-4 py-1.5 border-t border-slate-800/60 bg-slate-950/50 flex items-center gap-1.5 overflow-x-auto text-[10px] no-scrollbar">
-            <button onclick="sendQuickChatMessage('🙏 सादर प्रणाम! How is preparation going for 13th Dec meet?')" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 whitespace-nowrap">🙏 Charan Sparsh / Greetings</button>
+            <button onclick="sendQuickChatMessage('🙏 सादर प्रणाम! How is preparation going for 13th Dec meet?')" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 whitespace-nowrap">🙏 Saadar Pranaam / Greetings</button>
             <button onclick="sendQuickChatMessage('Connecting regarding batch coordination for the Gauriganj mega meet.')" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 whitespace-nowrap">Meet Delegation</button>
             <button onclick="sendQuickChatMessage('Happy to help and collaborate through the Alumni Support Matrix.')" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 whitespace-nowrap">🤝 Offer Support</button>
           </div>
@@ -2579,6 +2563,108 @@
           <button type="submit" class="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold transition shadow-lg shadow-amber-500/20">Save Schedule Event</button>
         </div>
       </form>
+    </div>
+  </div>
+
+  
+  <!-- ================= MOBILE APP BOTTOM NAVIGATION BAR (Phones & Handheld) ================= -->
+  <nav id="mobileBottomNav" class="sm:hidden fixed bottom-0 inset-x-0 z-40 bg-slate-900/95 border-t border-slate-800 backdrop-blur-md px-2 py-1.5 flex items-center justify-around shadow-2xl">
+    <button onclick="switchTab('home')" class="mobile-nav-tab flex flex-col items-center justify-center p-1 text-amber-400 font-bold transition text-center min-w-[56px]" data-tab="home" data-mobile-tab="home">
+      <span class="text-base leading-none">🏠</span>
+      <span class="text-[10px] mt-1">Home</span>
+    </button>
+    <button onclick="switchTab('meet')" class="mobile-nav-tab flex flex-col items-center justify-center p-1 text-slate-400 hover:text-white transition text-center min-w-[56px]" data-tab="meet" data-mobile-tab="meet">
+      <span class="text-base leading-none">📅</span>
+      <span class="text-[10px] mt-1">Meet '26</span>
+    </button>
+    <button onclick="switchTab('teachers')" class="mobile-nav-tab flex flex-col items-center justify-center p-1 text-slate-400 hover:text-white transition text-center min-w-[56px]" data-tab="teachers" data-mobile-tab="teachers">
+      <span class="text-base leading-none">🎓</span>
+      <span class="text-[10px] mt-1">Gurujan</span>
+    </button>
+    <button onclick="switchTab('directory')" class="mobile-nav-tab flex flex-col items-center justify-center p-1 text-slate-400 hover:text-white transition text-center min-w-[56px]" data-tab="directory" data-mobile-tab="directory">
+      <span class="text-base leading-none">👥</span>
+      <span class="text-[10px] mt-1">Directory</span>
+    </button>
+    <button onclick="openMobileMoreSheet()" class="mobile-nav-tab flex flex-col items-center justify-center p-1 text-slate-400 hover:text-white transition text-center min-w-[56px]" data-tab="more" data-mobile-tab="more">
+      <span class="text-base leading-none">⋯</span>
+      <span class="text-[10px] mt-1">More</span>
+    </button>
+  </nav>
+
+  <!-- ================= MOBILE APP MORE DRAWER SHEET ================= -->
+  <div id="mobileMoreSheet" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex flex-col justify-end" onclick="closeMobileMoreSheet()">
+    <div class="bg-slate-900 border-t border-amber-500/40 rounded-t-3xl p-5 space-y-4 max-h-[85vh] overflow-y-auto shadow-2xl" onclick="event.stopPropagation()">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-xl bg-white p-0.5 border border-amber-500/50 flex items-center justify-center">
+            <img src="assets/images/logo.jpeg" alt="Logo" class="w-full h-full object-contain">
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-white font-cinzel">JNVGFamily • More Portals</h3>
+            <span class="text-[10px] text-slate-400">Gauriganj Alumni Association</span>
+          </div>
+        </div>
+        <button onclick="closeMobileMoreSheet()" class="w-8 h-8 rounded-full bg-slate-800 text-slate-300 font-bold hover:bg-slate-700 flex items-center justify-center text-lg">&times;</button>
+      </div>
+
+      <div class="grid grid-cols-2 gap-2.5 text-xs">
+        <button onclick="switchTab('notable'); closeMobileMoreSheet();" class="p-3 rounded-2xl bg-slate-950 border border-slate-800 hover:border-amber-500/50 text-left flex items-center gap-2.5">
+          <span class="w-8 h-8 rounded-xl bg-purple-500/20 text-purple-300 flex items-center justify-center text-sm">🌟</span>
+          <div>
+            <span class="font-bold text-white block">Notable Alumni</span>
+            <span class="text-[9px] text-slate-400">Hall of Fame & Guidance</span>
+          </div>
+        </button>
+
+        <button onclick="switchTab('feed'); closeMobileMoreSheet();" class="p-3 rounded-2xl bg-slate-950 border border-slate-800 hover:border-amber-500/50 text-left flex items-center gap-2.5">
+          <span class="w-8 h-8 rounded-xl bg-blue-500/20 text-blue-300 flex items-center justify-center text-sm">💬</span>
+          <div>
+            <span class="font-bold text-white block">Memory Wall</span>
+            <span class="text-[9px] text-slate-400">Post & Share Stories</span>
+          </div>
+        </button>
+
+        <button onclick="switchTab('gallery'); closeMobileMoreSheet();" class="p-3 rounded-2xl bg-slate-950 border border-slate-800 hover:border-amber-500/50 text-left flex items-center gap-2.5">
+          <span class="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-300 flex items-center justify-center text-sm">📸</span>
+          <div>
+            <span class="font-bold text-white block">Meet Memories</span>
+            <span class="text-[9px] text-slate-400">2025 Reunion Photos</span>
+          </div>
+        </button>
+
+        <button onclick="switchTab('donate'); closeMobileMoreSheet();" class="p-3 rounded-2xl bg-slate-950 border border-slate-800 hover:border-emerald-500/50 text-left flex items-center gap-2.5">
+          <span class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm">₹</span>
+          <div>
+            <span class="font-bold text-white block">Alumni Fund</span>
+            <span class="text-[9px] text-slate-400">Audited Ledger & QR</span>
+          </div>
+        </button>
+
+        <button onclick="switchTab('helpdesk'); closeMobileMoreSheet();" class="p-3 rounded-2xl bg-slate-950 border border-slate-800 hover:border-cyan-500/50 text-left flex items-center gap-2.5">
+          <span class="w-8 h-8 rounded-xl bg-cyan-500/20 text-cyan-300 flex items-center justify-center text-sm">🛡️</span>
+          <div>
+            <span class="font-bold text-white block">Sahayata Matrix</span>
+            <span class="text-[9px] text-slate-400">Multi-Tier Helpdesk</span>
+          </div>
+        </button>
+
+        <button onclick="switchTab('admin'); closeMobileMoreSheet();" class="p-3 rounded-2xl bg-slate-950 border border-slate-800 hover:border-red-500/50 text-left flex items-center gap-2.5">
+          <span class="w-8 h-8 rounded-xl bg-red-500/20 text-red-300 flex items-center justify-center text-sm">⚙️</span>
+          <div>
+            <span class="font-bold text-white block">Admin Console</span>
+            <span class="text-[9px] text-slate-400">Super Admin & Host</span>
+          </div>
+        </button>
+      </div>
+
+      <div class="border-t border-slate-800 pt-3 flex items-center justify-between">
+        <button onclick="toggleTheme()" class="px-3.5 py-2 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 hover:text-white text-xs font-semibold flex items-center gap-1.5">
+          <span>🌓</span> <span>Toggle Light / Dark Theme</span>
+        </button>
+        <button onclick="openModal('editProfileModal'); closeMobileMoreSheet();" class="px-3.5 py-2 rounded-xl bg-amber-500 text-slate-950 text-xs font-bold hover:bg-amber-400 flex items-center gap-1.5">
+          <span>👤</span> <span>Edit Profile</span>
+        </button>
+      </div>
     </div>
   </div>
 

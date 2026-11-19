@@ -717,6 +717,51 @@ assert(fs.existsSync(path.join(rootDir, 'mobile_app', 'assets', 'images', 'alumn
 
 // ----------------------------------------------------
 // TEST SUMMARY
+
+// ----------------------------------------------------
+// TEST SUITE 16: FULL MOBILE & WEB APP SYNC, 10 TABS PARITY & DIGNITY
+// ----------------------------------------------------
+console.log('\n--- TEST SUITE 16: FULL MOBILE & WEB APP SYNC, 10 TABS PARITY & DIGNITY ---');
+
+const mHtml = fs.readFileSync(path.join(rootDir, 'mobile_app', 'index.html'), 'utf8');
+const wHtml = fs.readFileSync(path.join(rootDir, 'index.html'), 'utf8');
+const rootAppJs = fs.readFileSync(path.join(rootDir, 'assets', 'js', 'app.js'), 'utf8');
+const mobAppJs = fs.readFileSync(path.join(rootDir, 'mobile_app', 'assets', 'js', 'app.js'), 'utf8');
+
+// 1. Full 10 Tabs Parity across Web and Mobile App
+const expectedTabs = ['tab-home', 'tab-meet', 'tab-teachers', 'tab-donate', 'tab-helpdesk', 'tab-feed', 'tab-directory', 'tab-notable', 'tab-gallery', 'tab-admin'];
+expectedTabs.forEach(tId => {
+  assert(wHtml.includes(`id="${tId}"`), `index.html includes full-fledged section ${tId}`);
+  assert(mHtml.includes(`id="${tId}"`), `mobile_app/index.html includes full-fledged section ${tId}`);
+});
+
+// 2. Elimination of Old Records
+assert(!mHtml.includes('30th December') && !mHtml.includes('30 December'), 'mobile_app/index.html has no obsolete 30th December date');
+assert(!wHtml.includes('30th December') && !wHtml.includes('30 December'), 'index.html has no obsolete 30th December date');
+assert(!mHtml.includes('Tagore / Subhash') && !mHtml.includes('Ashoka / Patel'), 'mobile_app eliminated outdated corrupted house mappings');
+assert(mHtml.includes('Arawali') && mHtml.includes('Shivalik') && mHtml.includes('Udaigiri') && mHtml.includes('Nilgiri'), 'mobile_app contains verified 4 houses');
+
+// 3. Home Page Full-Fledged Content Parity
+assert(mHtml.includes('Google Form') || mHtml.includes('1FAIpQLScM31QFqQdBlDvFzlsLzJm7FHglEtb0qc4oyi8Hd7ftpwkACA'), 'mobile_app home contains 4th Meet Google Form registration link');
+assert(mHtml.includes('चतुर्थ वार्षिक सम्मेलन का आह्वान: 1996 बैच की ओर से सादर आमंत्रण'), 'mobile_app home contains 1996 Host Batch Appeal');
+assert(mHtml.includes('donors-board.jpg') && mHtml.includes('125 KVA'), 'mobile_app home contains authentic Vidyalaya Donors Board & generator grant');
+assert(mHtml.includes('campus-main-building.png'), 'mobile_app home contains campus building photography');
+
+// 4. Memory Wall vs Meet Memories & Gallery Separation
+assert(wHtml.includes('id="tab-feed"') && wHtml.includes('id="tab-gallery"'), 'Web app separates Memory Wall (tab-feed) from Gallery (tab-gallery)');
+assert(mHtml.includes('id="tab-feed"') && mHtml.includes('id="tab-gallery"'), 'Mobile app separates Memory Wall (tab-feed) from Gallery (tab-gallery)');
+assert(!rootAppJs.includes("tabId === 'feed') tabId = 'gallery'"), 'switchTab does not collapse feed into gallery');
+
+// 5. Dignity: Respect Phrasing & Zero Disrespect
+assert(!rootAppJs.includes('0 Respects') && !rootAppJs.includes('0 चरण स्पर्श'), 'app.js does not display disrespectful 0 respects count');
+assert(rootAppJs.includes('सादर प्रणाम') || rootAppJs.includes('सम्मान संदेश'), 'app.js uses dignified Saadar Pranaam respectful phrasing');
+
+// 6. Mobile Assets Direct Synchronization
+assert(rootAppJs === mobAppJs, 'mobile_app/assets/js/app.js is 100% synchronized with root assets/js/app.js');
+assert(mHtml.includes('id="mobileBottomNav"'), 'mobile_app includes sticky bottom navigation bar');
+assert(mHtml.includes('id="mobileMoreSheet"'), 'mobile_app includes native More Drawer Sheet for 1-touch navigation');
+assert(mHtml.includes('window.Capacitor'), 'mobile_app includes native Capacitor Android / iOS bridge integration');
+
 // ----------------------------------------------------
 console.log('\n====================================================');
 console.log(`TEST RESULTS: ${passedTests} / ${totalTests} ASSERTIONS PASSED`);

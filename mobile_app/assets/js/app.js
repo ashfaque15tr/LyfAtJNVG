@@ -198,6 +198,7 @@ const defaultData = {
       location: "Prayagraj / Lucknow, UP",
       initials: "SKC",
       photo: null,
+      respectCount: 210,
       message: "नवोदय सिर्फ एक विद्यालय नहीं, यह संस्कार और चरित्र निर्माण की पावन तपोभूमि है। हमारे विद्यार्थियों ने जब भी प्रयोगशाला के टेस्ट ट्यूब से निकलकर जीवन के कठिन मैदानों में कदम रखा, उन्होंने हमेशा सत्य और परिश्रम का परचम लहराया। 13 दिसंबर को चतुर्थ महासम्मेलन में अपने सभी प्रिय शिष्यों से मिलने की उत्कंठा है। सदा विजयी भव!",
       specialNote: "Revered Chemistry Guru who mentored over 30 batches toward national medical & engineering excellence."
     },
@@ -215,6 +216,7 @@ const defaultData = {
       location: "Aligarh / Gauriganj",
       initials: "VS",
       photo: null,
+      respectCount: 245,
       message: "सुबह 5:30 बजे की सीटी, खेल मैदान का चक्कर और अनुशासन—यही नवोदयी को दुनिया की किसी भी विपरीत परिस्थिति में अडिग खड़ा रखता है। मैदान में पसीना बहाने वाला कभी जिंदगी की दौड़ में पीछे नहीं रहता। अनुशासन ही नवोदय की सबसे बड़ी शक्ति है। खूब बढ़ो और संस्था का नाम रोशन करो!",
       specialNote: "Legendary sports mentor who led JNV Gauriganj to consecutive Regional & National Navodaya Sports Championships."
     },
@@ -232,6 +234,7 @@ const defaultData = {
       location: "Dehradun, Uttarakhand",
       initials: "MSR",
       photo: null,
+      respectCount: 180,
       message: "इतिहास गवाह है कि वही कौम और वही संस्थाएं अमर होती हैं जो अपनी जड़ों और संस्कारों से जुड़ी रहती हैं। हमारे पूर्व छात्र आज देश के हर कोने में समाज को नई दिशा दे रहे हैं। जब आप अपनी पुरानी कक्षाओं और हॉस्टलों की ओर मुड़कर देखते हैं, तो नवोदय की उस पवित्र मिट्टी का ऋण स्मरण रखें।",
       specialNote: "Eminent scholar of Indian history and ethics; guide for civil services aspirants."
     },
@@ -502,7 +505,7 @@ function saveAppData() {
 
 // 1. Navigation & Tab Switching
 function switchTab(tabId) {
-  if (tabId === 'memories' || tabId === 'feed') tabId = 'gallery';
+  if (tabId === 'memories') tabId = 'gallery';
   AppState.activeTab = tabId;
   
   document.querySelectorAll('.tab-content').forEach(el => {
@@ -526,7 +529,23 @@ function switchTab(tabId) {
     }
   });
 
-  if (tabId === 'notable') {
+  // Mobile bottom navigation tabs highlight
+  document.querySelectorAll('.mobile-nav-tab, [data-mobile-tab]').forEach(btn => {
+    const bTab = btn.getAttribute('data-tab') || btn.getAttribute('data-mobile-tab');
+    if (bTab === tabId) {
+      btn.classList.add('text-amber-400', 'font-bold');
+      btn.classList.remove('text-slate-400');
+    } else {
+      btn.classList.remove('text-amber-400', 'font-bold');
+      btn.classList.add('text-slate-400');
+    }
+  });
+
+  if (tabId === 'feed') {
+    renderFeed();
+  } else if (tabId === 'teachers') {
+    renderTeachers();
+  } else if (tabId === 'notable') {
     renderNotableMessages();
     renderNotableAlumni(currentNotableFilter);
   } else if (tabId === 'admin') {
@@ -2232,13 +2251,13 @@ function renderNotableAlumni(filter = 'all') {
             ${item.initials}
           </div>
           <div class="min-w-0 flex-1">
-            <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white font-cinzel leading-snug truncate">
+            <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white font-cinzel leading-tight break-words">
               ${item.name}
             </h3>
-            <p class="text-xs text-amber-700 dark:text-amber-400 font-semibold truncate">
+            <p class="text-xs text-amber-700 dark:text-amber-400 font-semibold mt-0.5 leading-snug break-words">
               ${item.role}
             </p>
-            <p class="text-[10px] text-slate-500 dark:text-slate-400 truncate">
+            <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 leading-snug break-words">
               ${item.house} House • ${item.academics}
             </p>
           </div>
@@ -2750,6 +2769,10 @@ function renderTeachers(filter = 'all', searchQuery = '') {
         ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
         : (t.category === 'current' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-slate-800 text-slate-300 border border-slate-700'));
 
+    const respectLabel = t.respectCount 
+      ? `${t.respectCount} सादर प्रणाम` 
+      : `सादर प्रणाम भेजें`;
+
     const actionFooterHtml = isDeceased ? `
       <div class="pt-3 border-t border-slate-800 flex items-center justify-between gap-2 text-xs flex-wrap">
         <span class="text-[10px] text-amber-400 font-bold flex items-center gap-1">
@@ -2762,35 +2785,41 @@ function renderTeachers(filter = 'all', searchQuery = '') {
     ` : `
       <div class="pt-3 border-t border-slate-800 flex items-center justify-between gap-2 text-xs flex-wrap">
         <span class="text-[10px] text-amber-400 font-bold flex items-center gap-1">
-          <span>🙏</span> <span>${t.respectCount || 0} Respects</span>
+          <span>🙏</span> <span>${respectLabel}</span>
         </span>
         <div class="flex items-center gap-1.5">
           <button onclick="openChatWithTeacher('${t.id}')" class="px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition touch-ripple">
             <span>💬</span> <span>Send Message</span>
           </button>
           <button onclick="openPranamModal('${t.id}')" class="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow-sm transition touch-ripple">
-            <span>🙏</span> <span>चरण स्पर्श / Send Respect</span>
+            <span>🙏</span> <span>सादर प्रणाम / Send Respect</span>
           </button>
         </div>
       </div>
     `;
 
     card.innerHTML = `
-      <div class="space-y-4">
-        <div class="flex items-start justify-between gap-3">
-          <div class="flex items-center space-x-3.5 min-w-0 flex-1">
-            <div class="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center font-cinzel font-bold text-amber-400 text-lg flex-shrink-0 shadow-inner">
-              ${t.initials || t.name.split(' ').map(w => w[0]).filter(Boolean).slice(-2).join('')}
-            </div>
-            <div class="min-w-0 flex-1">
-              <h3 class="text-base sm:text-lg font-bold font-sans text-white leading-snug whitespace-nowrap overflow-hidden text-ellipsis">${t.name}</h3>
-              <p class="text-xs text-amber-300 font-medium mt-0.5 truncate">${t.post}</p>
-              <p class="text-[11px] text-slate-400 truncate">${t.subject}</p>
-            </div>
-          </div>
-          <span class="px-2.5 py-1 rounded-full text-[10px] font-bold ${statusBg} flex-shrink-0 whitespace-nowrap">
-            ${isDeceased ? '🪔 अमर स्मृति • In Memoriam' : (t.statusLabel || (t.category === 'current' ? 'Current Faculty' : 'Former Faculty'))}
+      <div class="space-y-3.5">
+        <!-- Top Meta Row: Unobstructed Badge Placement -->
+        <div class="flex items-center justify-between gap-2 flex-wrap">
+          <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[11px] font-bold ${statusBg}">
+            ${isDeceased ? '🪔 अमर स्मृति (In Memoriam)' : (t.statusLabel || (t.category === 'current' ? 'Current Faculty' : 'Former Faculty'))}
           </span>
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-semibold ${hClass}">
+            ${t.house || 'Vidyalaya'} House
+          </span>
+        </div>
+
+        <!-- Teacher Profile: Avatar + Full Uncut Name (No Ellipsis or Horizontal Badges Constricting) -->
+        <div class="flex items-start space-x-3.5 pt-1">
+          <div class="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center font-cinzel font-bold text-amber-400 text-lg flex-shrink-0 shadow-inner">
+            ${t.initials || t.name.split(' ').map(w => w[0]).filter(Boolean).slice(-2).join('')}
+          </div>
+          <div class="flex-1 min-w-0">
+            <h3 class="text-base sm:text-lg font-bold font-sans text-white leading-tight break-words">${t.name}</h3>
+            <p class="text-xs text-amber-300 font-medium mt-1 leading-snug break-words">${t.post}</p>
+            <p class="text-[11px] text-slate-400 mt-0.5 leading-snug break-words">${t.subject}</p>
+          </div>
         </div>
 
         <div class="grid grid-cols-2 gap-2 text-[11px] pt-2 border-t border-slate-800/80">
@@ -3006,15 +3035,29 @@ function handleTeacherEnrollment(e) {
 
 let activePranamTeacher = null;
 function openPranamModal(teacherId) {
-  const t = (AppState.teachers || []).find(item => item.id === teacherId || item.name === teacherId);
+  const tList = (AppState.teachers && AppState.teachers.length > 0) ? AppState.teachers : defaultData.teachers;
+  const t = tList.find(item => item.id === teacherId || item.name === teacherId);
   if (!t) return;
   activePranamTeacher = t;
   const titleEl = document.getElementById('pranamTeacherName');
   const postEl = document.getElementById('pranamTeacherPost');
   if (titleEl) titleEl.textContent = t.name;
-  if (postEl) postEl.textContent = `${t.post} (${t.tenure})`;
+  if (postEl) postEl.textContent = `${t.post} (${t.tenure || 'JNV Gauriganj'})`;
+
+  // Pre-fill active authenticated user's name & batch (no old stale names)
+  const curUser = (typeof getCurrentUser === 'function') ? getCurrentUser() : null;
+  const nameIn = document.getElementById('pranamSenderName');
+  const batchIn = document.getElementById('pranamSenderBatch');
+  const noteIn = document.getElementById('pranamNote');
+  if (nameIn) nameIn.value = (curUser && curUser.name && curUser.name !== 'Alumnus Visitor') ? curUser.name : '';
+  if (batchIn) batchIn.value = (curUser && curUser.batch && curUser.batch !== 'Guest') ? curUser.batch : '';
+  if (noteIn) noteIn.value = '';
+
   const modal = document.getElementById('teacherPranamModal');
-  if (modal) modal.classList.remove('hidden');
+  if (modal) {
+    modal.classList.remove('hidden');
+    modal.style.display = 'flex';
+  }
 }
 
 function closePranamModal() {
@@ -3040,7 +3083,7 @@ function submitTeacherPranam(e) {
       recipientId: teacher.id,
       recipientName: teacher.name,
       recipientBatch: teacher.post || 'Faculty',
-      text: `🙏 [चरण स्पर्श एवं सादर प्रणाम / Respect]: ${msg || 'सादर प्रणाम गुरुजी! Batch of ' + (batch || 'Alumni') + ' sends their utmost reverence and respects.'}`,
+      text: `🙏 [सादर प्रणाम एवं सम्मान संदेश / Respect]: ${msg || 'सादर प्रणाम गुरुजी! Batch of ' + (batch || 'Alumni') + ' sends their utmost reverence and respects.'}`,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       createdAt: Date.now(),
       type: 'respect',
@@ -3486,8 +3529,8 @@ function renderActiveChatMessages() {
 
   thread.forEach(m => {
     const isMe = (m.senderName && m.senderName.toLowerCase() === currentUser.name.toLowerCase());
-    const isRespect = m.type === 'respect' || (m.text && m.text.includes('[चरण स्पर्श'));
-    const respectPill = isRespect ? `<div class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-bold mb-1.5"><span>🙏</span> <span>चरण स्पर्श एवं सादर प्रणाम / Reverence Note</span></div>` : '';
+    const isRespect = m.type === 'respect' || (m.text && (m.text.includes('[सादर प्रणाम') || m.text.includes('[चरण स्पर्श')));
+    const respectPill = isRespect ? `<div class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-bold mb-1.5"><span>🙏</span> <span>सादर प्रणाम एवं सम्मान संदेश / Reverence Note</span></div>` : '';
     const row = document.createElement('div');
     row.className = `flex ${isMe ? 'justify-end' : 'justify-start'}`;
 
@@ -3571,7 +3614,7 @@ function showNewChatSelector() {
       teacherHeader.textContent = "Revered Faculty & Gurujan";
       list.appendChild(teacherHeader);
 
-      AppState.teachers.slice(0, 5).forEach(t => {
+      AppState.teachers.filter(t => !t.isDeceased).slice(0, 6).forEach(t => {
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = "w-full text-left p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 text-xs flex items-center justify-between";
@@ -4786,3 +4829,29 @@ window.previewProfilePhotoUpload = previewProfilePhotoUpload;
 window.previewProfilePhotoUrl = previewProfilePhotoUrl;
 window.removeProfilePhoto = removeProfilePhoto;
 window.setProfileAvatarPreview = setProfileAvatarPreview;
+
+
+// Universal Compatibility Aliases for Web & Native Mobile App
+window.openPosterModal = function() {
+  openImageModal('assets/images/alumni-meet-2026.png', '4th Annual Alumni Meet 2026 Official Invitation');
+};
+window.openDonorsBoardModal = function() {
+  openImageModal('assets/images/donors-board.jpg', 'PM Shri JNV Amethi Vidyalaya Donor Board');
+};
+window.openTeacherPranamModal = function(teacherId) {
+  openPranamModal(teacherId);
+};
+window.closeTeacherPranamModal = function() {
+  closePranamModal();
+};
+window.closeEditProfileModal = function() {
+  closeModal('editProfileModal');
+};
+window.openMobileMoreSheet = function() {
+  const sheet = document.getElementById('mobileMoreSheet');
+  if (sheet) sheet.classList.remove('hidden');
+};
+window.closeMobileMoreSheet = function() {
+  const sheet = document.getElementById('mobileMoreSheet');
+  if (sheet) sheet.classList.add('hidden');
+};
