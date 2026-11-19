@@ -435,7 +435,7 @@ assert(loginHtml.includes('regLiveOtpPreview') && loginHtml.includes('autoFillRe
 console.log('\n--- TEST SUITE 11: SOLE SUPER ADMIN, TEACHER MESSAGING & LIGHT CONTRAST ---');
 
 // 1. Directory Clean Slate: Ashfaque Ahmad is the sole Super Admin in directory
-assert(defaultDirectoryAlumni.length === 1 && (defaultDirectoryAlumni[0].name === 'Ashfaque Ahmad' || defaultDirectoryAlumni[0].name === 'Ashfaq Ahmed') && defaultDirectoryAlumni[0].isSuperAdmin === true, 'Directory contains only Ashfaque Ahmad as sole Super Admin');
+assert(defaultDirectoryAlumni.some(a => (a.name === 'Ashfaque Ahmad' || a.name === 'Ashfaq Ahmed') && a.isSuperAdmin === true) && defaultDirectoryAlumni.length >= 500, 'Directory contains unified alumni registry from Excel with Ashfaque Ahmad as permanent administrator');
 
 // 2. High Contrast Light Mode CSS Overrides
 assert(stylesCss.includes('#homeHeroCard') && stylesCss.includes('footer-association-text'), 'styles.css contains high-contrast Light Sky overrides for hero card & footer');
@@ -761,6 +761,52 @@ assert(rootAppJs === mobAppJs, 'mobile_app/assets/js/app.js is 100% synchronized
 assert(mHtml.includes('id="mobileBottomNav"'), 'mobile_app includes sticky bottom navigation bar');
 assert(mHtml.includes('id="mobileMoreSheet"'), 'mobile_app includes native More Drawer Sheet for 1-touch navigation');
 assert(mHtml.includes('window.Capacitor'), 'mobile_app includes native Capacitor Android / iOS bridge integration');
+
+
+// ----------------------------------------------------
+// TEST SUITE 17: GUEST RBAC, EXCEL REGISTRY & MEMORY WALL BANNER
+// ----------------------------------------------------
+console.log('\n--- TEST SUITE 17: GUEST RBAC, EXCEL REGISTRY & MEMORY WALL BANNER ---');
+
+// 1. Concealment of Super Admin Identity
+const ashfaqDir = defaultDirectoryAlumni.find(a => a.name === 'Ashfaque Ahmad' || a.name === 'Ashfaq Ahmed');
+assert(ashfaqDir && ashfaqDir.tag !== 'Super Admin', 'Ashfaq public directory tag is not Super Admin (is Software Architect)');
+assert(!wHtml.includes('Super Admin • \'05'), 'index.html does not expose Super Admin in public batch pill');
+assert(!mHtml.includes('Super Admin • \'05'), 'mobile_app does not expose Super Admin in public batch pill');
+const ashfaqNotable = NOTABLE_ALUMNI_LIST.find(a => a.name.includes('Ashfaque'));
+assert(!ashfaqNotable, 'Notable alumni list conceals Super Admin title and identity');
+
+// 2. Memory Wall Office Gate Banner & Social Composer
+assert(wHtml.includes('assets/images/office-gate.png'), 'index.html Memory Wall contains official Office Gate banner');
+assert(mHtml.includes('assets/images/office-gate.png'), 'mobile_app Memory Wall contains official Office Gate banner');
+assert(wHtml.includes('Live Social Broadcast Composer'), 'index.html Memory Wall includes social composer box');
+assert(!wHtml.includes('<section id="tab-feed"[\s\S]*?meet2025-1\.jpg'), 'Memory Wall does not contain 2025 gallery grid');
+
+// 3. Unified Excel Directory & Two-Way Deduplication Engine
+assert(typeof upsertAlumniRecord === 'function', 'upsertAlumniRecord two-way deduplication engine is exported');
+const initialDirCount = AppState.directory.length;
+const testDup = upsertAlumniRecord({
+  name: 'Ashwini Mishra',
+  batch: 1993,
+  email: 'ashwinimishra99@gmail.com',
+  profession: 'Senior Journalist, Executive Producer DD News',
+  location: 'New Delhi'
+});
+assert(testDup.isNew === false, 'Two-Way Deduplication Engine correctly matched existing alumni and updated without duplication');
+assert(AppState.directory.length === initialDirCount, 'Directory total count preserved without duplicate inflation');
+
+// 4. Guest User RBAC Protection
+// Simulate unauthenticated guest access to Directory
+setCurrentUser(null, false);
+getOrCreate('directoryGrid').innerHTML = '';
+renderDirectory();
+assert(getOrCreate('directoryGrid').innerHTML.includes('Alumni Directory is Protected'), 'Guest user is blocked from viewing Alumni Directory');
+
+// Restore Super Admin session
+setCurrentUser(ashfaqLogin.user, true);
+getOrCreate('directoryGrid').innerHTML = '';
+renderDirectory();
+assert(!getOrCreate('directoryGrid').innerHTML.includes('Alumni Directory is Protected'), 'Authenticated member can view Alumni Directory');
 
 // ----------------------------------------------------
 console.log('\n====================================================');
