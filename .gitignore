@@ -32,3 +32,6 @@ tmp/
 
 # Microsoft Office lock files
 ~$*
+
+# Capacitor compiled web output
+www/

@@ -57,6 +57,48 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
+  build-android-apk:
+    name: Build Android Native APK
+    needs: verify-and-test
+    if: startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v4
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '21'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Sync Capacitor Web Assets
+        run: |
+          npm ci || npm install
+          node scripts/prepare-www.js
+          npx cap sync android
+
+      - name: Compile Native Android APK with Gradle
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug --stacktrace
+
+      - name: Upload Native Android APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: JNV_Alumni_Android_APK_v0.0.1
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+
   build-mobile-bundle:
     name: Package Mobile App Distribution
     needs: verify-and-test

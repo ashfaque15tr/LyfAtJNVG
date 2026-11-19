@@ -9,7 +9,9 @@
     "build": "echo 'Static production assets verified'",
     "version:patch": "npm version patch",
     "version:minor": "npm version minor",
-    "version:major": "npm version major"
+    "version:major": "npm version major",
+    "build:android": "node scripts/prepare-www.js && npx cap sync android",
+    "prepare:www": "node scripts/prepare-www.js"
   },
   "keywords": [
     "jnv",
@@ -21,5 +23,10 @@
     "navodaya"
   ],
   "author": "Ashfaq Ahmed & JNV Gauriganj Alumni Fraternity",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "@capacitor/android": "^8.6.2",
+    "@capacitor/cli": "^8.6.2",
+    "@capacitor/core": "^8.6.2"
+  }
 }
