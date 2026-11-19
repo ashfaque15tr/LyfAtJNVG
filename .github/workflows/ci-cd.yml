@@ -87,7 +87,7 @@ jobs:
       - name: Prepare Web Assets & Sync Capacitor
         run: |
           node scripts/prepare-www.js
-          npx @capacitor/cli sync android
+          npx --yes @capacitor/cli sync android
 
       - name: Compile Native Android APK with Gradle
         run: |

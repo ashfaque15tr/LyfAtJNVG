@@ -4,29 +4,40 @@ const path = require('path');
 const rootDir = path.resolve(__dirname, '..');
 const wwwDir = path.join(rootDir, 'www');
 
-if (!fs.existsSync(wwwDir)) {
-  fs.mkdirSync(wwwDir, { recursive: true });
-}
-
-// Copy primary files
-['index.html', 'login.html', 'manifest.json', 'CNAME', 'robots.txt'].forEach(file => {
-  const src = path.join(rootDir, file);
-  const dest = path.join(wwwDir, file);
-  if (fs.existsSync(src)) {
-    fs.copyFileSync(src, dest);
+try {
+  if (fs.existsSync(wwwDir)) {
+    fs.rmSync(wwwDir, { recursive: true, force: true });
   }
-});
+  fs.mkdirSync(wwwDir, { recursive: true });
 
-// Copy directories
-function copyDir(src, dest) {
-  if (!fs.existsSync(dest)) fs.mkdirSync(dest, { recursive: true });
-  fs.readdirSync(src, { withFileTypes: true }).forEach(ent => {
-    const s = path.join(src, ent.name);
-    const d = path.join(dest, ent.name);
-    if (ent.isDirectory()) copyDir(s, d);
-    else fs.copyFileSync(s, d);
+  ['index.html', 'login.html', 'manifest.json', 'CNAME', 'robots.txt'].forEach(file => {
+    const src = path.join(rootDir, file);
+    const dest = path.join(wwwDir, file);
+    if (fs.existsSync(src)) {
+      fs.copyFileSync(src, dest);
+    }
   });
-}
 
-copyDir(path.join(rootDir, 'assets'), path.join(wwwDir, 'assets'));
-console.log('✅ Web assets compiled into www/ for native mobile packaging.');
+  function copyDir(src, dest) {
+    if (!fs.existsSync(dest)) fs.mkdirSync(dest, { recursive: true });
+    const entries = fs.readdirSync(src, { withFileTypes: true });
+    for (const ent of entries) {
+      const s = path.join(src, ent.name);
+      const d = path.join(dest, ent.name);
+      if (ent.isDirectory()) {
+        copyDir(s, d);
+      } else {
+        fs.copyFileSync(s, d);
+      }
+    }
+  }
+
+  const assetsDir = path.join(rootDir, 'assets');
+  if (fs.existsSync(assetsDir)) {
+    copyDir(assetsDir, path.join(wwwDir, 'assets'));
+  }
+  console.log('✅ Web assets successfully compiled into www/');
+} catch (err) {
+  console.error('❌ Error compiling web assets to www:', err);
+  process.exit(1);
+}
