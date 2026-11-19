@@ -9,7 +9,7 @@ function syncWebAssetsTo(targetPublicDir) {
   }
   fs.mkdirSync(targetPublicDir, { recursive: true });
 
-  ['index.html', 'login.html', 'manifest.json', 'CNAME', 'robots.txt'].forEach(file => {
+  ['index.html', 'login.html', 'privacy.html', 'manifest.json', 'CNAME', 'robots.txt'].forEach(file => {
     const src = path.join(rootDir, file);
     const dest = path.join(targetPublicDir, file);
     if (fs.existsSync(src)) {

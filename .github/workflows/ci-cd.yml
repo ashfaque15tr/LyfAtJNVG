@@ -97,10 +97,10 @@ jobs:
           chmod +x android/gradlew
           node scripts/prepare-www.js
 
-      - name: Compile Native Android APK with Gradle
+      - name: Compile Android APK & Google Play Bundle (.aab) with Gradle
         run: |
           cd android
-          ./gradlew assembleDebug --no-daemon --stacktrace > ../gradle_build.log 2>&1
+          ./gradlew assembleDebug bundleRelease --no-daemon --stacktrace > ../gradle_build.log 2>&1
 
       - name: Capture Gradle Build Error if Failed
         if: failure()
@@ -126,18 +126,26 @@ jobs:
           path: android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
 
-      - name: Publish Android APK to GitHub Release
+      - name: Upload Google Play Store Bundle (.aab) Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: JNV_Alumni_Google_Play_Bundle_v0.0.1
+          path: android/app/build/outputs/bundle/release/app-release.aab
+          if-no-files-found: error
+
+      - name: Publish Android APK & Play Store Bundle to GitHub Release
         if: success() && github.ref == 'refs/heads/main'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cp android/app/build/outputs/apk/debug/app-debug.apk JNV_Alumni_v0.0.1.apk
+          cp android/app/build/outputs/bundle/release/app-release.aab JNV_Alumni_PlayStore_v0.0.1.aab
           gh release delete v0.0.1 --yes || true
           git tag -d v0.0.1 || true
           git push origin :refs/tags/v0.0.1 || true
-          gh release create v0.0.1 JNV_Alumni_v0.0.1.apk \
-            --title "JNV Alumni Platform v0.0.1 - Android App" \
-            --notes "Official installable Android APK (v0.0.1) for JNV Alumni Platform (Gauriganj, Amethi). Download and install directly on any Android phone."
+          gh release create v0.0.1 JNV_Alumni_v0.0.1.apk JNV_Alumni_PlayStore_v0.0.1.aab \
+            --title "JNV Alumni Platform v0.0.1 - Android App & Play Store Bundle" \
+            --notes "Official installable Android APK (v0.0.1) and Google Play Store App Bundle (.aab) for JNV Alumni Platform (Gauriganj, Amethi). Upload the .aab file directly to Google Play Console."
 
   build-mobile-bundle:
     name: Package Mobile App Distribution

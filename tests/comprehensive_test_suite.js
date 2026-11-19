@@ -838,6 +838,28 @@ assert(rootStylesCss.includes('.memory-banner-text') && rootStylesCss.includes('
 assert(mobileStylesCss.includes('.memory-banner-text') && mobileStylesCss.includes('-webkit-text-fill-color: #ffffff !important;'), 'mobile_app/assets/css/styles.css enforces white text-fill on memory banner text');
 assert(rootStylesCss.includes('.memory-wall-banner-card'), 'assets/css/styles.css defines dedicated .memory-wall-banner-card styling');
 
+// ----------------------------------------------------
+// TEST SUITE 19: GOOGLE PLAY STORE COMPLIANCE & PRIVACY POLICY
+// ----------------------------------------------------
+console.log('\n--- TEST SUITE 19: GOOGLE PLAY STORE COMPLIANCE & PRIVACY POLICY ---');
+
+assert(fs.existsSync(path.join(rootDir, 'privacy.html')), 'privacy.html exists in root directory');
+const privacyHtml = fs.readFileSync(path.join(rootDir, 'privacy.html'), 'utf8');
+assert(privacyHtml.includes('Privacy Policy') && privacyHtml.includes('jnvgfamily.in'), 'privacy.html contains valid policy content for jnvgfamily.in');
+assert(privacyHtml.includes('ashfaque15tr@gmail.com'), 'privacy.html includes mandatory grievance officer / deletion contact');
+assert(privacyHtml.includes('Data Deletion & Account Erasure Requests'), 'privacy.html complies with Google Play Account Deletion requirements');
+
+const refreshedIndexHtml = fs.readFileSync(path.join(rootDir, 'index.html'), 'utf8');
+assert(refreshedIndexHtml.includes('href="privacy.html"'), 'index.html footer links to privacy.html');
+
+const refreshedMobileIndexHtml = fs.readFileSync(path.join(rootDir, 'mobile_app', 'index.html'), 'utf8');
+assert(refreshedMobileIndexHtml.includes('href="privacy.html"'), 'mobile_app/index.html footer links to privacy.html');
+
+assert(fs.existsSync(path.join(rootDir, 'play_store_assets', 'icon-512x512.png')), 'Google Play Store 512x512 icon exists');
+assert(fs.existsSync(path.join(rootDir, 'play_store_assets', 'feature-graphic-1024x500.png')), 'Google Play Store 1024x500 feature graphic exists');
+assert(fs.existsSync(path.join(rootDir, 'play_store_assets', 'store_listing_metadata.txt')), 'Google Play Store listing metadata exists');
+assert(fs.existsSync(path.join(rootDir, 'android', 'app', 'release.keystore')), 'Android production release.keystore exists');
+
 console.log('\n====================================================');
 console.log(`TEST RESULTS: ${passedTests} / ${totalTests} ASSERTIONS PASSED`);
 console.log('====================================================');
