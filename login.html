@@ -416,28 +416,20 @@
           </button>
         </div>
 
-        <!-- Live Handset SMS Preview & 1-Click Auto Fill -->
-        <div class="p-2.5 rounded-xl bg-white border border-sky-200 text-xs space-y-1.5 shadow-inner">
+        <!-- Live Handset SMS Status (Code Kept Confidential) -->
+        <div class="p-3 rounded-xl bg-white border border-sky-200 text-xs space-y-2 shadow-inner">
           <div class="flex items-center justify-between text-[10px] text-slate-500">
-            <span class="font-semibold text-slate-600 flex items-center gap-1">
-              <span>📶 JNVGFamily SMS Gateway</span>
+            <span class="font-semibold text-slate-700 flex items-center gap-1.5">
+              <span>🔒 Two-Factor Security Active</span>
             </span>
-            <span id="regGatewayStatusNotice" class="text-emerald-700 font-medium">Ready</span>
+            <span id="regGatewayStatusNotice" class="text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">Dispatched to Handset</span>
           </div>
-          <div class="p-2 rounded-lg bg-sky-50/70 border border-sky-100 font-mono text-[11px] text-slate-800 flex items-center justify-between">
-            <span id="regLiveOtpPreview" class="font-bold text-sky-950">OTP: ******</span>
-            <div class="flex items-center gap-1.5">
-              <button type="button" onclick="autoFillRegOtp()" class="px-2.5 py-1 rounded bg-amber-500 hover:bg-amber-400 text-slate-950 text-[10px] font-bold shadow-sm">
-                ⚡ Auto-Fill
-              </button>
-              <button type="button" onclick="copyRegOtp()" class="px-2.5 py-1 rounded bg-slate-200 hover:bg-slate-300 text-slate-800 text-[10px] font-semibold">
-                📋 Copy
-              </button>
-            </div>
-          </div>
-          <div class="text-[10px] text-slate-500 flex items-center justify-between pt-0.5">
-            <span>Telecom delay? Configure Gateway API:</span>
-            <button type="button" onclick="openSmsGatewaySettings()" class="text-sky-700 hover:underline font-bold">⚙️ SMS Gateway Setup</button>
+          <p class="text-[11px] text-slate-600 leading-relaxed">
+            For account protection, your 6-digit OTP has been dispatched to your <strong>WhatsApp</strong> and <strong>Phone SMS</strong>. It is not shown on screen.
+          </p>
+          <div class="text-[10px] text-slate-500 flex items-center justify-between pt-0.5 border-t border-slate-100">
+            <span>Did not receive code?</span>
+            <button type="button" onclick="openWhatsAppSmsOtp()" class="text-emerald-700 hover:underline font-bold">📲 Resend on WhatsApp</button>
           </div>
         </div>
       </div>
@@ -447,7 +439,7 @@
         <div>
           <label class="block text-xs font-semibold text-slate-700 mb-1.5 text-center">Enter 6-Digit SMS Verification Code *</label>
           <input type="text" id="regOtpInput" maxlength="6" inputmode="numeric" pattern="[0-9]{6}" required placeholder="------" class="w-full text-center text-2xl font-mono tracking-[0.5em] bg-slate-50 border border-slate-300 rounded-xl py-3 text-sky-900 focus:outline-none focus:border-sky-500 focus:bg-white transition shadow-inner">
-          <span class="block text-[10px] text-slate-500 text-center mt-1">Check your phone SMS or WhatsApp, or click Auto-Fill above</span>
+          <span class="block text-[10px] text-slate-500 text-center mt-1">Check your phone SMS or WhatsApp for your 6-digit code</span>
         </div>
 
         <div id="regOtpError" class="hidden p-2 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs text-center font-medium"></div>
@@ -532,23 +524,15 @@
             </button>
           </div>
 
-          <!-- Live Handset SMS Preview & 1-Click Auto Fill -->
+          <!-- Handset SMS Status (Code Kept Confidential) -->
           <div class="p-2.5 rounded-xl bg-white border border-sky-200 text-xs space-y-1.5 shadow-inner">
             <div class="flex items-center justify-between text-[10px] text-slate-500">
-              <span class="font-semibold text-slate-600">📶 Handset SMS Delivery Preview</span>
-              <span id="forgotGatewayStatusNotice" class="text-emerald-700 font-medium">Ready</span>
+              <span class="font-semibold text-slate-700">🔒 Confidential Verification</span>
+              <span id="forgotGatewayStatusNotice" class="text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">Dispatched</span>
             </div>
-            <div class="p-2 rounded-lg bg-sky-50/70 border border-sky-100 font-mono text-[11px] text-slate-800 flex items-center justify-between">
-              <span id="forgotLiveOtpPreview" class="font-bold text-sky-950">OTP: ******</span>
-              <div class="flex items-center gap-1.5">
-                <button type="button" onclick="autoFillForgotOtp()" class="px-2.5 py-1 rounded bg-amber-500 hover:bg-amber-400 text-slate-950 text-[10px] font-bold shadow-sm">
-                  ⚡ Auto-Fill
-                </button>
-                <button type="button" onclick="copyForgotOtp()" class="px-2.5 py-1 rounded bg-slate-200 hover:bg-slate-300 text-slate-800 text-[10px] font-semibold">
-                  📋 Copy
-                </button>
-              </div>
-            </div>
+            <p class="text-[11px] text-slate-600">
+              Your 6-digit password reset OTP was dispatched directly to your WhatsApp and Phone SMS. Please check your phone.
+            </p>
           </div>
         </div>
 
@@ -663,6 +647,7 @@
 
   <!-- Scripts -->
   <script src="assets/js/storage-engine.js"></script>
+  <script src="assets/js/cloud-sync.js"></script>
   <script src="assets/js/auth.js"></script>
   <script>
     // Global state for in-flight 2FA operations
@@ -1078,8 +1063,10 @@
       const smsDispatch = sendMobileSmsOtp(userData.phone, res.otp, 'registration');
       window._lastSmsOtpDispatch = smsDispatch;
 
-      const previewEl = document.getElementById('regLiveOtpPreview');
-      if (previewEl) previewEl.textContent = `OTP: ${res.otp}`;
+      // Auto-trigger WhatsApp dispatch if available
+      if (smsDispatch && smsDispatch.waUrl) {
+        try { window.open(smsDispatch.waUrl, '_blank'); } catch(e) {}
+      }
 
       document.getElementById('regOtpTargetEmail').textContent = userData.email;
       document.getElementById('regOtpTargetPhone').textContent = `+91 ${cleanPhone}`;
@@ -1110,8 +1097,10 @@
       const smsDispatch = sendMobileSmsOtp(pendingRegData.phone, res.otp, 'registration');
       window._lastSmsOtpDispatch = smsDispatch;
 
-      const previewEl = document.getElementById('regLiveOtpPreview');
-      if (previewEl) previewEl.textContent = `OTP: ${res.otp}`;
+      // Auto-trigger WhatsApp dispatch if available
+      if (smsDispatch && smsDispatch.waUrl) {
+        try { window.open(smsDispatch.waUrl, '_blank'); } catch(e) {}
+      }
 
       if (regOtpCountdownInterval) clearInterval(regOtpCountdownInterval);
       regOtpCountdownInterval = startCountdownTimer('regOtpTimer', 600);
@@ -1135,6 +1124,9 @@
 
       const res = completeRegistrationWithOtp(pendingRegData, enteredCode);
       if (res.success) {
+        if (window.AlumniCloudSync && typeof window.AlumniCloudSync.broadcastRegistration === 'function') {
+          window.AlumniCloudSync.broadcastRegistration(res.user || pendingRegData);
+        }
         closeRegOtpModal();
         setCurrentUser(res.user, true);
         const welcomeText = pendingRegData.role === 'teacher'
@@ -1193,8 +1185,10 @@
       const smsDispatch = sendMobileSmsOtp(pendingForgotPhone, res.otp, 'password_reset');
       window._lastForgotSmsDispatch = smsDispatch;
 
-      const previewForgot = document.getElementById('forgotLiveOtpPreview');
-      if (previewForgot) previewForgot.textContent = `OTP: ${res.otp}`;
+      // Auto-trigger WhatsApp dispatch if available
+      if (smsDispatch && smsDispatch.waUrl) {
+        try { window.open(smsDispatch.waUrl, '_blank'); } catch(e) {}
+      }
 
       // Move to step 2
       document.getElementById('forgotStep1').classList.add('hidden');
@@ -1267,8 +1261,11 @@
       }
     }
 
-    // Auto-fill active session if already logged in
+    // Auto-fill active session if already logged in & init cloud sync
     document.addEventListener('DOMContentLoaded', () => {
+      if (window.AlumniCloudSync && typeof window.AlumniCloudSync.init === 'function') {
+        window.AlumniCloudSync.init();
+      }
       const current = getCurrentUser();
       if (current) {
         showAlert(`You are currently signed in as <strong>${current.name}</strong> (${current.roleTitle}). <a href="index.html" class="underline text-gold-400 font-bold ml-1">Go to Portal →</a>`, true);

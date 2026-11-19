@@ -427,7 +427,7 @@ assert(updatedCfg.apiKey === 'TEST_KEY_123' && updatedCfg.provider === 'twofacto
 
 // 5. Index & Login OTP Modal Live Preview & Auto-fill elements
 assert(indexHtml.includes('indexOtpModal') && indexHtml.includes('openIndexWhatsAppOtp'), 'index.html contains 2FA indexOtpModal with WhatsApp dispatch');
-assert(loginHtml.includes('regLiveOtpPreview') && loginHtml.includes('autoFillRegOtp'), 'login.html contains live OTP preview & 1-click auto-fill helper');
+assert(loginHtml.includes('openWhatsAppSmsOtp') && loginHtml.includes('openDeviceSmsOtp'), 'login.html enforces secure handset 2FA dispatch via WhatsApp & SMS');
 
 // ----------------------------------------------------
 // TEST SUITE 11: SOLE SUPER ADMIN, TEACHER MESSAGING & LIGHT CONTRAST

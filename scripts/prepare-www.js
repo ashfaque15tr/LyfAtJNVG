@@ -46,14 +46,40 @@ try {
   const androidPublicDir = path.join(rootDir, 'android', 'app', 'src', 'main', 'assets', 'public');
   syncWebAssetsTo(androidPublicDir);
 
-  // 3. Ensure capacitor.config.json is in android/app/src/main/assets/
+  // 3. Prepare mobile_app assets (do not overwrite mobile_app/index.html which has native Capacitor bridge)
+  const mobileAppDir = path.join(rootDir, 'mobile_app');
+  if (fs.existsSync(mobileAppDir)) {
+    ['login.html', 'privacy.html'].forEach(f => {
+      const src = path.join(rootDir, f);
+      const dest = path.join(mobileAppDir, f);
+      if (fs.existsSync(src)) fs.copyFileSync(src, dest);
+    });
+
+    const mobAssets = path.join(mobileAppDir, 'assets');
+    function copyDir(src, dest) {
+      if (!fs.existsSync(dest)) fs.mkdirSync(dest, { recursive: true });
+      const entries = fs.readdirSync(src, { withFileTypes: true });
+      for (const ent of entries) {
+        const s = path.join(src, ent.name);
+        const d = path.join(dest, ent.name);
+        if (ent.isDirectory()) {
+          copyDir(s, d);
+        } else {
+          fs.copyFileSync(s, d);
+        }
+      }
+    }
+    copyDir(path.join(rootDir, 'assets'), mobAssets);
+  }
+
+  // 4. Ensure capacitor.config.json is in android/app/src/main/assets/
   const capSrc = path.join(rootDir, 'capacitor.config.json');
   const capDest = path.join(rootDir, 'android', 'app', 'src', 'main', 'assets', 'capacitor.config.json');
   if (fs.existsSync(capSrc)) {
     fs.copyFileSync(capSrc, capDest);
   }
 
-  console.log('✅ Web assets successfully compiled into both www/ and android assets public directory.');
+  console.log('✅ Web assets successfully compiled and synchronized into www/, android assets public directory, and mobile_app/assets.');
 } catch (err) {
   console.error('❌ Error compiling web assets:', err);
   process.exit(1);

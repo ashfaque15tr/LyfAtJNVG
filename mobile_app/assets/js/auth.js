@@ -437,8 +437,8 @@ function loginUser(email, password, remember = true) {
       ashfaq.roleTitle = "Super Admin • Software Architect";
       ashfaq.status = "approved";
       ashfaq.password = "AAaa11!!";
-      ashfaq.photo = "assets/images/ashfaq-ahmed.png";
-      ashfaq.avatarImage = "assets/images/ashfaq-ahmed.png";
+      ashfaq.photo = ashfaq.photo || "assets/images/ashfaq-ahmed.png";
+      ashfaq.avatarImage = ashfaq.avatarImage || "assets/images/ashfaq-ahmed.png";
       saveAllUsers(users);
     }
     setCurrentUser(ashfaq, remember);

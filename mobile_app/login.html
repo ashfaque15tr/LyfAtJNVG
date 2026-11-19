@@ -1,0 +1,1276 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JNVGFamily • Alumni Portal Login | jnvgfamily.in</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Yatra+One&family=Rozha+One&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="assets/css/styles.css?v=0.0.2">
+  <!-- Theme Engine: Dual-Theme Switching between Light Sky Blue & Dark Navy Blue -->
+  <script src="assets/js/theme.js"></script>
+  
+  <script>
+    tailwind.config = {
+      darkMode: ['selector', '[data-theme="dark"]'],
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              950: '#030816',
+              900: '#071330',
+              800: '#0e255a',
+              700: '#153a8a',
+            },
+            gold: {
+              400: '#fbbf24',
+              500: '#f59e0b',
+              600: '#d97706',
+            }
+          },
+          fontFamily: {
+            cinzel: ['Cinzel', 'serif'],
+            sans: ['Inter', 'sans-serif'],
+            hindi: ['Yatra One', 'Rozha One', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-[#f0f7ff] text-[#0c2f54] font-sans min-h-screen flex flex-col justify-between selection:bg-amber-500 selection:text-white">
+
+  <!-- Subtle Ambient Pattern -->
+  <div class="ambient-pattern fixed inset-0 pointer-events-none opacity-50 bg-[radial-gradient(#bae6fd_1.5px,transparent_1.5px)] [background-size:24px_24px]"></div>
+
+  <!-- Header Bar -->
+  <header class="border-b border-slate-200 bg-white/95 backdrop-blur px-6 py-4 shadow-sm">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <img src="assets/images/logo.jpeg" alt="NVS Crest" class="w-10 h-10 object-contain">
+        <div>
+          <span class="font-bold text-slate-900 text-sm sm:text-base tracking-wide block"><span class="font-sans font-extrabold text-amber-600">JNVGFamily</span> <span class="font-cinzel text-slate-800">• JAWAHAR NAVODAYA VIDYALAYA</span></span>
+          <span class="text-xs text-slate-600">Gauriganj, Sultanpur / Amethi (U.P.) • Official Portal: <strong class="text-amber-600 font-mono">jnvgfamily.in</strong></span>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <!-- Theme Switcher: Light Sky Blue <-> Classic Dark Navy Blue -->
+        <button id="themeToggleBtn" onclick="toggleTheme()" class="px-2.5 py-1 rounded bg-sky-500/20 text-sky-700 border border-sky-400/40 font-bold flex items-center gap-1.5 hover:bg-sky-500/30 transition text-xs shadow-sm touch-ripple" title="Switch Theme (Light Sky Blue / Dark Navy Blue)">
+          <span id="themeToggleIcon" class="text-xs">☀️</span>
+          <span id="themeToggleLabel">Light Sky</span>
+        </button>
+        <div class="hidden sm:flex items-center gap-2 text-xs text-amber-700 font-hindi">
+          <span>।। प्रज्ञानं ब्रह्म ।।</span>
+          <span>•</span>
+          <span class="italic font-semibold">"हमी नवोदय हों"</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Login & Registration Card Container -->
+  <main class="flex-1 flex items-center justify-center p-4 sm:p-6 my-6 relative z-10">
+    <div class="max-w-5xl w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+
+      <!-- Left: Institutional Heritage & 1-Click Role Switcher -->
+      <div class="lg:col-span-5 auth-card-left bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 border border-slate-700 rounded-3xl p-6 sm:p-8 flex flex-col justify-between shadow-xl relative overflow-hidden text-white">
+        
+        <div>
+          <div class="flex items-center gap-2 mb-3">
+            <span class="px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] font-bold uppercase tracking-wider">Verified Alumni Access</span>
+            <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold">2FA SMS Protected</span>
+          </div>
+          
+          <h2 class="text-2xl sm:text-3xl font-cinzel font-bold text-white tracking-tight leading-tight">
+            Alumni Gateway & Role Access
+          </h2>
+          
+          <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+            Welcome to the official network of JNV Gauriganj (<strong class="text-amber-400">JNVGFamily</strong>). Reconnect with batchmates, participate in the 4th Mega Meet, view audited batch contributions, and cherish institutional memories.
+          </p>
+
+          <!-- 4 Houses Minimal Strip (NVS Official Mapping) -->
+          <div class="grid grid-cols-4 gap-2 mt-5 text-center text-[10px] font-bold">
+            <div class="p-1.5 rounded-lg bg-red-950/80 border border-red-500/50 text-red-300">
+              <span class="block">Arawali</span>
+              <span class="text-[8px] font-normal text-red-400">Ashok</span>
+            </div>
+            <div class="p-1.5 rounded-lg bg-blue-950/80 border border-blue-500/50 text-blue-300">
+              <span class="block">Shivalik</span>
+              <span class="text-[8px] font-normal text-blue-400">Raman & Shivaji</span>
+            </div>
+            <div class="p-1.5 rounded-lg bg-yellow-950/80 border border-yellow-500/50 text-yellow-300">
+              <span class="block">Udaigiri</span>
+              <span class="text-[8px] font-normal text-yellow-400">Subhash</span>
+            </div>
+            <div class="p-1.5 rounded-lg bg-emerald-950/80 border border-emerald-500/50 text-emerald-300">
+              <span class="block">Nilgiri</span>
+              <span class="text-[8px] font-normal text-emerald-400">Tagore</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Portal Security & Institutional Pillars (Clean Production) -->
+        <div class="mt-8 pt-6 border-t border-slate-800 space-y-3">
+          <span class="text-[11px] font-bold text-amber-400 uppercase tracking-wider block">🏛️ Portal Security & Network Pillars:</span>
+          
+          <div class="p-3.5 rounded-2xl bg-slate-950/70 border border-slate-800 space-y-2.5 text-xs">
+            <div class="flex items-center gap-2.5">
+              <span class="text-amber-400 text-sm">🎓</span>
+              <div>
+                <strong class="text-white block text-xs">Verified Alumni Fraternity</strong>
+                <span class="text-[10px] text-slate-400">Over 30 batches connecting across India & globally</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-2.5 pt-2 border-t border-slate-800/60">
+              <span class="text-amber-400 text-sm">🪔</span>
+              <div>
+                <strong class="text-amber-300 block text-xs">आदरणीय गुरुजन / Revered Faculty</strong>
+                <span class="text-[10px] text-slate-400">Dedicated faculty login, blessings & memory wall posts</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-2.5 pt-2 border-t border-slate-800/60">
+              <span class="text-emerald-400 text-sm">📱</span>
+              <div>
+                <strong class="text-white block text-xs">Mobile SMS 2FA Security</strong>
+                <span class="text-[10px] text-slate-400">Encrypted 6-digit verification code delivered directly to your phone</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-2.5 pt-2 border-t border-slate-800/60">
+              <span class="text-gold-400 text-sm">📅</span>
+              <div>
+                <strong class="text-white block text-xs">4th Annual Meet 2026</strong>
+                <span class="text-[10px] text-slate-400">Live full-day schedule & cultural stage act registrations</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right: Actual Login & Registration Forms -->
+      <div class="lg:col-span-7 auth-card-right bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xl flex flex-col justify-between">
+        
+        <div>
+          <!-- Tab Navigation Switcher (Alumni, Gurujan, Register) -->
+          <div class="flex items-center border-b border-slate-200 pb-4 mb-6 gap-3 sm:gap-6 overflow-x-auto">
+            <button type="button" id="tabBtnLogin" onclick="switchAuthTab('login')" class="text-sm font-bold text-amber-700 border-b-2 border-amber-600 pb-2 transition flex items-center gap-2 flex-shrink-0">
+              <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/></svg>
+              <span>🎓 Alumni Sign In</span>
+            </button>
+            <button type="button" id="tabBtnTeacher" onclick="switchAuthTab('teacher')" class="text-sm font-medium text-slate-500 hover:text-slate-800 pb-2 transition flex items-center gap-2 flex-shrink-0">
+              <span class="text-amber-600">🪔</span>
+              <span>गुरुजन / Faculty Login</span>
+            </button>
+            <button type="button" id="tabBtnRegister" onclick="switchAuthTab('register')" class="text-sm font-medium text-slate-500 hover:text-slate-800 pb-2 transition flex items-center gap-2 flex-shrink-0">
+              <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
+              <span>📝 Register (2FA SMS)</span>
+            </button>
+          </div>
+
+          <!-- Alert / Status Feedback Box -->
+          <div id="authAlert" class="hidden p-3.5 rounded-2xl mb-4 text-xs font-semibold"></div>
+
+          <!-- ================= 1. ALUMNI SIGN IN FORM ================= -->
+          <form id="loginForm" onsubmit="handleFormLogin(event)" class="space-y-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1.5">Registered Alumni Email *</label>
+              <input type="email" id="loginEmail" required placeholder="e.g. yourname@gmail.com or member@jnvgfamily.in" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white transition">
+            </div>
+
+            <div>
+              <div class="flex items-center justify-between mb-1.5">
+                <label class="block text-xs font-semibold text-slate-700">Password *</label>
+                <button type="button" onclick="openForgotPasswordModal()" class="text-[11px] text-amber-600 hover:text-amber-700 hover:underline flex items-center gap-1 font-medium">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
+                  Forgot password?
+                </button>
+              </div>
+              <input type="password" id="loginPassword" required placeholder="••••••••" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white transition">
+            </div>
+
+            <div class="flex items-center justify-between text-xs text-slate-500 pt-1">
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" id="loginRemember" checked class="rounded border-slate-300 text-amber-600 focus:ring-0">
+                <span>Remember me on this device</span>
+              </label>
+              <span class="text-[11px] text-emerald-600 font-semibold">🛡️ 2FA SMS Protected</span>
+            </div>
+
+            <div class="pt-2">
+              <button type="submit" class="w-full py-3.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-sm shadow-lg shadow-amber-500/20 transition flex items-center justify-center gap-2">
+                <span>Sign In to Alumni Portal</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+              </button>
+            </div>
+          </form>
+
+          <!-- ================= 1B. GURUJAN & FACULTY SIGN IN FORM ================= -->
+          <form id="teacherLoginForm" onsubmit="handleTeacherFormLogin(event)" class="hidden space-y-4">
+            <div class="p-3.5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs leading-relaxed flex items-start gap-3 shadow-sm">
+              <span class="text-2xl flex-shrink-0">🪔</span>
+              <div>
+                <strong class="text-amber-800 font-cinzel text-sm block">सादर प्रणाम आदरणीय गुरुजन • Revered Faculty Portal</strong>
+                <span class="text-[11px] text-amber-700 block italic">"विद्या ददाति विनयं विनयाद् याति पात्रताम्"</span>
+                <span class="text-[10px] text-amber-700/80 block mt-1">Dedicated sign-in for Principal, Vice-Principal, Teachers & Staff of JNV Gauriganj.</span>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1.5">Faculty Email / Staff ID *</label>
+              <input type="email" id="teacherLoginEmail" required placeholder="principal@jnvgfamily.in or your faculty email" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white transition">
+            </div>
+
+            <div>
+              <div class="flex items-center justify-between mb-1.5">
+                <label class="block text-xs font-semibold text-slate-700">Password *</label>
+                <button type="button" onclick="openForgotPasswordModal()" class="text-[11px] text-amber-600 hover:underline font-medium">Forgot password?</button>
+              </div>
+              <input type="password" id="teacherLoginPassword" required placeholder="••••••••" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white transition">
+            </div>
+
+            <div class="pt-2">
+              <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-bold text-sm shadow-lg shadow-amber-500/20 transition flex items-center justify-center gap-2">
+                <span>🪔 Sign In as Revered Faculty / Gurujan</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+              </button>
+            </div>
+            
+            <p class="text-center text-[11px] text-slate-500 pt-1">
+              New faculty member? <button type="button" onclick="switchAuthTab('register'); selectRegisterType('teacher')" class="text-amber-600 font-bold hover:underline">Register New Faculty Profile</button>
+            </p>
+          </form>
+
+          <!-- ================= 2. REGISTRATION FORM (With Password Reconfirmation & 2FA OTP) ================= -->
+          <form id="registrationForm" onsubmit="handleFormRegister(event)" class="hidden space-y-3.5 text-xs">
+            
+            <!-- Registration Type Switcher: Alumni vs Gurujan/Faculty -->
+            <div class="p-1 rounded-2xl bg-slate-100 border border-slate-200 flex items-center gap-1 mb-2">
+              <button type="button" id="regTypeAlumniBtn" onclick="selectRegisterType('alumni')" class="flex-1 py-2 rounded-xl bg-emerald-500/20 text-emerald-800 border border-emerald-500/40 text-xs font-bold transition flex items-center justify-center gap-1.5">
+                <span>🎓 Alumni Student</span>
+              </button>
+              <button type="button" id="regTypeTeacherBtn" onclick="selectRegisterType('teacher')" class="flex-1 py-2 rounded-xl bg-transparent text-slate-500 hover:text-amber-700 text-xs font-medium transition flex items-center justify-center gap-1.5">
+                <span>🪔 Gurujan / Faculty (शिक्षक)</span>
+              </button>
+            </div>
+
+            <div id="regNoticeBox" class="p-3 rounded-xl bg-blue-50 border border-blue-200 text-blue-900 text-[11px] leading-relaxed flex items-start gap-2">
+              <span class="text-base">🛡️</span>
+              <div>
+                <strong>Two-Factor Authentication (2FA SMS):</strong> Registration generates an encrypted 6-digit OTP dispatched directly to your mobile phone via SMS / WhatsApp network.
+              </div>
+            </div>
+
+            <!-- Profile Photo Upload -->
+            <div class="flex items-center gap-4 p-3 rounded-2xl bg-slate-50 border border-slate-200">
+              <div class="relative w-16 h-16 rounded-full overflow-hidden bg-white border-2 border-dashed border-amber-500/50 flex items-center justify-center flex-shrink-0 shadow-inner group">
+                <img id="regPhotoPreview" src="" alt="Profile Preview" class="w-full h-full object-cover hidden">
+                <span id="regPhotoPlaceholder" class="text-2xl text-slate-400">📷</span>
+              </div>
+              <div class="flex-1 space-y-1">
+                <label class="block text-slate-700 font-semibold text-xs">Profile Picture <span class="text-slate-400 font-normal">(Optional)</span></label>
+                <div class="flex items-center gap-2">
+                  <label for="regPhotoInput" class="cursor-pointer px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-800 border border-amber-500/40 text-[11px] font-bold transition">
+                    Choose Photo
+                  </label>
+                  <input type="file" id="regPhotoInput" accept="image/*" class="hidden" onchange="previewRegPhoto(event)">
+                  <button type="button" id="regPhotoRemoveBtn" onclick="removeRegPhoto()" class="hidden text-[11px] text-rose-600 hover:text-rose-700 underline">Remove</button>
+                </div>
+                <p class="text-[10px] text-slate-500">Displayed on your verified directory card & memory wall</p>
+              </div>
+            </div>
+
+            <div>
+              <label id="regNameLabel" class="block text-slate-700 font-semibold mb-1">Full Name *</label>
+              <input type="text" id="regName" required placeholder="e.g. Anand Kumar Maurya" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white">
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label id="regBatchLabel" class="block text-slate-700 font-semibold mb-1">Passout Batch Year *</label>
+                <input type="number" id="regBatch" required placeholder="e.g. 2011" min="1986" max="2026" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white font-mono">
+              </div>
+              <div id="regHouseSection">
+                <label class="block text-slate-700 font-semibold mb-1">House *</label>
+                <select id="regHouse" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white">
+                  <option value="Arawali">Arawali (Red - formerly Ashok)</option>
+                  <option value="Shivalik">Shivalik (Blue - formerly Raman & Shivaji)</option>
+                  <option value="Udaigiri">Udaigiri (Yellow - formerly Subhash)</option>
+                  <option value="Nilgiri">Nilgiri (Green - formerly Tagore)</option>
+                  <option value="Campus">Faculty / Campus Staff</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-slate-700 font-semibold mb-1">Mobile / WhatsApp Number (For 2FA SMS) *</label>
+                <input type="tel" id="regPhone" required placeholder="10-digit mobile number" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white font-mono">
+              </div>
+              <div>
+                <label class="block text-slate-700 font-semibold mb-1">Email Address *</label>
+                <input type="email" id="regEmail" required placeholder="name@domain.com" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label id="regProfessionLabel" class="block text-slate-700 font-semibold mb-1">Profession / Role *</label>
+                <input type="text" id="regProfession" required placeholder="e.g. Executive Civil Engineer" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white">
+              </div>
+              <div>
+                <label id="regDomainLabel" class="block text-slate-700 font-semibold mb-1">Domain / Field *</label>
+                <select id="regDomain" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white">
+                  <option value="Civil Services">Civil Services / Govt</option>
+                  <option value="Software">Software & Tech</option>
+                  <option value="Education">Education & Academia</option>
+                  <option value="Defense">Defense & Police</option>
+                  <option value="Medicine">Medicine & Healthcare</option>
+                  <option value="Entrepreneurship">Entrepreneurship / Business</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-slate-700 font-semibold mb-1">Current City / Location *</label>
+              <input type="text" id="regCity" required placeholder="e.g. Lucknow / Delhi / Gauriganj" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white">
+            </div>
+
+            <!-- Password & Reconfirmation -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+              <div>
+                <label class="block text-slate-700 font-semibold mb-1">Create Password *</label>
+                <input type="password" id="regPassword" required minlength="6" placeholder="Min 6 characters" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white">
+              </div>
+              <div>
+                <label class="block text-slate-700 font-semibold mb-1">Confirm Password *</label>
+                <input type="password" id="regConfirmPassword" required minlength="6" placeholder="Re-enter identical password" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white" oninput="checkPasswordMatch()">
+              </div>
+            </div>
+
+            <div id="regPassFeedback" class="hidden text-[11px] font-semibold py-1"></div>
+
+            <div class="pt-2">
+              <button type="submit" id="btnSubmitRegister" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-bold text-sm shadow-lg transition flex items-center justify-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                <span id="regSubmitBtnText">Proceed to 2FA SMS Verification</span>
+              </button>
+            </div>
+          </form>
+
+        </div>
+
+        <div class="pt-6 border-t border-slate-200 text-[11px] text-slate-500 text-center">
+          Official Institutional Network • Jawahar Navodaya Vidyalaya, Gauriganj (Amethi / Sultanpur)
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ================= 3. TWO-FACTOR AUTHENTICATION (2FA) OTP MODAL ================= -->
+  <div id="regOtpModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white border border-slate-200 rounded-3xl max-w-md w-full p-6 sm:p-7 space-y-4 shadow-2xl relative text-slate-800">
+      <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center justify-center">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          </div>
+          <div>
+            <span class="text-[10px] uppercase font-bold text-emerald-600 tracking-wider">Two-Factor Security (2FA)</span>
+            <h3 class="text-base font-bold text-slate-900 font-cinzel">Verify Your Identity</h3>
+          </div>
+        </div>
+        <button type="button" onclick="closeRegOtpModal()" class="text-slate-400 hover:text-slate-700 p-1 rounded-lg">✕</button>
+      </div>
+
+      <p class="text-xs text-slate-600 leading-relaxed">
+        We have generated a 6-digit authentication OTP to verify your alumni registration for <strong id="regOtpTargetEmail" class="text-amber-700 font-mono">user@example.com</strong> and WhatsApp <strong id="regOtpTargetPhone" class="text-amber-700 font-mono">+91 9876543210</strong>.
+      </p>
+
+      <!-- Real Mobile SMS & Cellular Dispatch Status -->
+      <div class="p-3.5 rounded-2xl bg-sky-50 border border-sky-300 space-y-3">
+        <div class="flex items-center justify-between text-[11px]">
+          <span class="font-bold text-sky-900 flex items-center gap-1.5" id="regSmsStatusBadge">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+            📲 Cellular SMS Dispatched to Handset
+          </span>
+          <span class="text-[10px] text-slate-500 font-mono" id="regOtpTimer">Valid for 10:00</span>
+        </div>
+        <p class="text-[11px] text-slate-700 leading-relaxed">
+          An authentication code was sent to <strong id="regOtpMaskedPhone" class="text-sky-900 font-mono">+91 **********</strong>. Choose your instant delivery channel:
+        </p>
+
+        <!-- Direct Instant Dispatch Channels -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+          <button type="button" onclick="openWhatsAppSmsOtp()" class="w-full py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-sm">
+            <span>💬 Send via WhatsApp</span>
+          </button>
+          <button type="button" onclick="openDeviceSmsOtp()" class="w-full py-2 px-3 rounded-xl bg-sky-700 hover:bg-sky-600 text-white text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-sm">
+            <span>📩 Open Phone SMS App</span>
+          </button>
+        </div>
+
+        <!-- Live Handset SMS Status (Code Kept Confidential) -->
+        <div class="p-3 rounded-xl bg-white border border-sky-200 text-xs space-y-2 shadow-inner">
+          <div class="flex items-center justify-between text-[10px] text-slate-500">
+            <span class="font-semibold text-slate-700 flex items-center gap-1.5">
+              <span>🔒 Two-Factor Security Active</span>
+            </span>
+            <span id="regGatewayStatusNotice" class="text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">Dispatched to Handset</span>
+          </div>
+          <p class="text-[11px] text-slate-600 leading-relaxed">
+            For account protection, your 6-digit OTP has been dispatched to your <strong>WhatsApp</strong> and <strong>Phone SMS</strong>. It is not shown on screen.
+          </p>
+          <div class="text-[10px] text-slate-500 flex items-center justify-between pt-0.5 border-t border-slate-100">
+            <span>Did not receive code?</span>
+            <button type="button" onclick="openWhatsAppSmsOtp()" class="text-emerald-700 hover:underline font-bold">📲 Resend on WhatsApp</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- OTP Input Form -->
+      <form onsubmit="handleVerifyRegOtp(event)" class="space-y-4 pt-1">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1.5 text-center">Enter 6-Digit SMS Verification Code *</label>
+          <input type="text" id="regOtpInput" maxlength="6" inputmode="numeric" pattern="[0-9]{6}" required placeholder="------" class="w-full text-center text-2xl font-mono tracking-[0.5em] bg-slate-50 border border-slate-300 rounded-xl py-3 text-sky-900 focus:outline-none focus:border-sky-500 focus:bg-white transition shadow-inner">
+          <span class="block text-[10px] text-slate-500 text-center mt-1">Check your phone SMS or WhatsApp for your 6-digit code</span>
+        </div>
+
+        <div id="regOtpError" class="hidden p-2 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs text-center font-medium"></div>
+
+        <div class="flex items-center justify-between text-xs pt-1">
+          <button type="button" id="regResendBtn" onclick="resendRegOtp()" class="text-slate-500 hover:text-amber-600 transition text-[11px] underline">
+            Didn't receive? Resend SMS OTP
+          </button>
+          <button type="button" onclick="closeRegOtpModal()" class="text-slate-500 hover:text-slate-800 transition text-[11px]">
+            Edit Mobile / Details
+          </button>
+        </div>
+
+        <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-sky-700 to-blue-700 hover:from-sky-600 hover:to-blue-600 text-white font-bold text-sm shadow-lg transition flex items-center justify-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+          <span>Verify SMS OTP & Complete Registration</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= 4. FORGOT PASSWORD MODAL (2FA OTP + Reconfirm Password) ================= -->
+  <div id="forgotPasswordModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white border border-slate-200 rounded-3xl max-w-md w-full p-6 sm:p-7 space-y-4 shadow-2xl relative text-slate-800">
+      
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-amber-50 text-amber-600 border border-amber-200 flex items-center justify-center">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+          </div>
+          <div>
+            <span class="text-[10px] uppercase font-bold text-amber-600 tracking-wider">Account Recovery</span>
+            <h3 class="text-base font-bold text-slate-900 font-cinzel">Reset Alumni Password</h3>
+          </div>
+        </div>
+        <button type="button" onclick="closeForgotPasswordModal()" class="text-slate-400 hover:text-slate-700 p-1 rounded-lg">✕</button>
+      </div>
+
+      <div id="forgotFeedback" class="hidden p-3 rounded-xl text-xs font-semibold"></div>
+
+      <!-- STEP 1: Enter Registered Email or Phone -->
+      <div id="forgotStep1" class="space-y-4">
+        <p class="text-xs text-slate-600 leading-relaxed">
+          Enter your registered alumni email address or phone number. We will send a 2FA SMS OTP code to your phone to securely authenticate your password reset.
+        </p>
+
+        <form onsubmit="handleForgotStep1(event)" class="space-y-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Registered Email or Mobile Number *</label>
+            <input type="text" id="forgotIdentifier" required placeholder="e.g. member@jnvgfamily.in or 9876543210" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white transition">
+          </div>
+
+          <button type="submit" class="w-full py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-sm shadow-lg shadow-amber-500/20 transition flex items-center justify-center gap-2">
+            <span>Send 2FA Reset SMS OTP</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          </button>
+        </form>
+      </div>
+
+      <!-- STEP 2: Verify OTP + Set New Password + Reconfirm Password -->
+      <div id="forgotStep2" class="hidden space-y-4">
+        <div class="p-3.5 rounded-2xl bg-sky-50 border border-sky-300 space-y-3">
+          <div class="flex items-center justify-between text-[11px]">
+            <span class="font-bold text-sky-900 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
+              📲 2FA SMS Dispatched to Handset
+            </span>
+            <span class="text-[10px] text-slate-500 font-mono" id="forgotTimer">Valid for 10:00</span>
+          </div>
+          <p class="text-[11px] text-slate-700">
+            A password reset OTP was dispatched to your mobile <strong id="forgotOtpTargetPhone" class="text-sky-900 font-mono">+91 **********</strong>.
+          </p>
+
+          <!-- Direct Instant Channels -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+            <button type="button" onclick="openWhatsAppForgotOtp()" class="w-full py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-sm">
+              <span>💬 Send via WhatsApp</span>
+            </button>
+            <button type="button" onclick="openDeviceForgotOtp()" class="w-full py-2 px-3 rounded-xl bg-sky-700 hover:bg-sky-600 text-white text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-sm">
+              <span>📩 Open Phone SMS App</span>
+            </button>
+          </div>
+
+          <!-- Handset SMS Status (Code Kept Confidential) -->
+          <div class="p-2.5 rounded-xl bg-white border border-sky-200 text-xs space-y-1.5 shadow-inner">
+            <div class="flex items-center justify-between text-[10px] text-slate-500">
+              <span class="font-semibold text-slate-700">🔒 Confidential Verification</span>
+              <span id="forgotGatewayStatusNotice" class="text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">Dispatched</span>
+            </div>
+            <p class="text-[11px] text-slate-600">
+              Your 6-digit password reset OTP was dispatched directly to your WhatsApp and Phone SMS. Please check your phone.
+            </p>
+          </div>
+        </div>
+
+        <form onsubmit="handleForgotStep2(event)" class="space-y-3 text-xs">
+          <div>
+            <label class="block text-slate-700 font-semibold mb-1">Enter 6-Digit OTP *</label>
+            <input type="text" id="forgotOtpInput" maxlength="6" pattern="[0-9]{6}" required placeholder="••••••" class="w-full text-center text-xl font-mono tracking-widest bg-slate-50 border border-slate-300 rounded-xl py-2.5 text-sky-900 focus:outline-none focus:border-sky-500 focus:bg-white">
+          </div>
+
+          <div>
+            <label class="block text-slate-700 font-semibold mb-1">New Password (Min 6 chars) *</label>
+            <input type="password" id="forgotNewPassword" required minlength="6" placeholder="Enter new password" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white">
+          </div>
+
+          <div>
+            <label class="block text-slate-700 font-semibold mb-1">Confirm New Password *</label>
+            <input type="password" id="forgotConfirmPassword" required minlength="6" placeholder="Re-enter new password" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white" oninput="checkForgotPassMatch()">
+          </div>
+
+          <div id="forgotPassMismatch" class="hidden text-[11px] text-red-600 font-semibold">⚠️ Passwords do not match. Please verify.</div>
+
+          <div class="flex items-center justify-between text-xs pt-1">
+            <button type="button" onclick="backToForgotStep1()" class="text-slate-500 hover:text-slate-800 underline text-[11px]">
+              ← Change Email/Phone
+            </button>
+            <button type="button" onclick="resendForgotOtp()" class="text-slate-500 hover:text-amber-600 text-[11px]">
+              Resend Code
+            </button>
+          </div>
+
+          <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-slate-950 font-bold text-sm shadow-lg transition flex items-center justify-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span>Reset Password & Save</span>
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= 5. SMS GATEWAY CONFIGURATION MODAL ================= -->
+  <div id="smsGatewayModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white border border-slate-200 rounded-3xl max-w-md w-full p-6 sm:p-7 space-y-4 shadow-2xl relative text-slate-800">
+      <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-sky-50 text-sky-700 border border-sky-200 flex items-center justify-center font-bold">
+            📡
+          </div>
+          <div>
+            <span class="text-[10px] uppercase font-bold text-sky-700 tracking-wider">Cellular Telecom Integration</span>
+            <h3 class="text-base font-bold text-slate-900 font-cinzel">SMS Gateway Configuration</h3>
+          </div>
+        </div>
+        <button type="button" onclick="closeSmsGatewaySettings()" class="text-slate-400 hover:text-slate-700 p-1 rounded-lg">✕</button>
+      </div>
+
+      <p class="text-xs text-slate-600 leading-relaxed">
+        Connect an Indian Telecom SMS Gateway so that 6-digit 2FA OTP codes are sent directly to users' mobile phones via cellular SMS.
+      </p>
+
+      <form onsubmit="handleSaveSmsGatewayConfig(event)" class="space-y-3 text-xs">
+        <div>
+          <label class="block text-slate-700 font-semibold mb-1">Gateway Provider *</label>
+          <select id="smsGatewayProvider" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 font-medium" onchange="toggleGatewayFields()">
+            <option value="fast2sms">Fast2SMS (Recommended for India - Quick OTP Route)</option>
+            <option value="twofactor">2Factor.in (Instant Indian OTP SMS Gateway)</option>
+            <option value="msg91">MSG91 Enterprise SMS</option>
+            <option value="custom">Custom Webhook / SMS Server URL</option>
+          </select>
+        </div>
+
+        <div id="smsApiKeyField">
+          <label class="block text-slate-700 font-semibold mb-1">Gateway API Key / Authorization Token *</label>
+          <input type="text" id="smsGatewayApiKey" placeholder="Enter your Fast2SMS or 2Factor API Key" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 font-mono">
+          <p class="text-[10px] text-slate-500 mt-1">Get a free key from <a href="https://www.fast2sms.com" target="_blank" class="text-sky-700 underline font-semibold">fast2sms.com</a> or <a href="https://2factor.in" target="_blank" class="text-sky-700 underline font-semibold">2factor.in</a>.</p>
+        </div>
+
+        <div id="smsCustomUrlField" class="hidden">
+          <label class="block text-slate-700 font-semibold mb-1">Custom Webhook Endpoint URL *</label>
+          <input type="url" id="smsGatewayCustomUrl" placeholder="https://your-domain.com/api/send-sms" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 font-mono">
+          <p class="text-[10px] text-slate-500 mt-1">Accepts POST request with { phone, otp, message } payload.</p>
+        </div>
+
+        <div class="p-2.5 rounded-xl bg-sky-50 border border-sky-200 space-y-1.5">
+          <span class="font-bold text-[11px] text-sky-900 block">🧪 Test Live Cellular Dispatch:</span>
+          <div class="flex gap-2">
+            <input type="tel" id="smsTestPhone" placeholder="10-digit mobile (e.g. 9876501234)" class="flex-1 bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-900 font-mono">
+            <button type="button" onclick="testSmsGatewayDispatch()" class="px-3 py-1.5 rounded-lg bg-sky-700 hover:bg-sky-600 text-white font-bold text-xs transition">
+              Send Test SMS
+            </button>
+          </div>
+          <div id="smsTestResult" class="hidden text-[10px] font-semibold pt-1"></div>
+        </div>
+
+        <div class="pt-2 flex items-center justify-between">
+          <button type="button" onclick="closeSmsGatewaySettings()" class="text-slate-500 hover:text-slate-800 text-xs">Cancel</button>
+          <button type="submit" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow transition">
+            Save Gateway Settings
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-200 bg-white py-4 px-6 text-center text-xs text-slate-500">
+    Jawahar Navodaya Vidyalaya Alumni Association • Non-profit voluntary alumni network registered for education & solidarity.
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/storage-engine.js"></script>
+  <script src="assets/js/cloud-sync.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script>
+    // Global state for in-flight 2FA operations
+    let currentRegisterType = 'alumni';
+    let pendingRegData = null;
+    let pendingRegOtp = null;
+    let pendingForgotIdentifier = null;
+    let pendingForgotOtp = null;
+    let pendingForgotPhone = null;
+    let regOtpCountdownInterval = null;
+    let forgotOtpCountdownInterval = null;
+
+    // --- Tab Switching: Alumni, Gurujan Faculty, Registration ---
+    function switchAuthTab(mode) {
+      const loginForm = document.getElementById('loginForm');
+      const teacherLoginForm = document.getElementById('teacherLoginForm');
+      const regForm = document.getElementById('registrationForm');
+      const btnL = document.getElementById('tabBtnLogin');
+      const btnT = document.getElementById('tabBtnTeacher');
+      const btnR = document.getElementById('tabBtnRegister');
+      const alertBox = document.getElementById('authAlert');
+      if (alertBox) alertBox.classList.add('hidden');
+
+      const inactiveClass = "text-sm font-medium text-slate-500 hover:text-slate-800 pb-2 transition flex items-center gap-2 flex-shrink-0";
+      if (mode === 'login') {
+        loginForm.classList.remove('hidden');
+        teacherLoginForm.classList.add('hidden');
+        regForm.classList.add('hidden');
+        btnL.className = "text-sm font-bold text-amber-700 border-b-2 border-amber-600 pb-2 transition flex items-center gap-2 flex-shrink-0";
+        btnT.className = inactiveClass;
+        btnR.className = inactiveClass;
+      } else if (mode === 'teacher') {
+        loginForm.classList.add('hidden');
+        teacherLoginForm.classList.remove('hidden');
+        regForm.classList.add('hidden');
+        btnT.className = "text-sm font-bold text-amber-700 border-b-2 border-amber-600 pb-2 transition flex items-center gap-2 flex-shrink-0";
+        btnL.className = inactiveClass;
+        btnR.className = inactiveClass;
+      } else {
+        loginForm.classList.add('hidden');
+        teacherLoginForm.classList.add('hidden');
+        regForm.classList.remove('hidden');
+        btnR.className = "text-sm font-bold text-emerald-700 border-b-2 border-emerald-600 pb-2 transition flex items-center gap-2 flex-shrink-0";
+        btnL.className = inactiveClass;
+        btnT.className = inactiveClass;
+      }
+    }
+
+    function showAlert(msg, isSuccess = false) {
+      const box = document.getElementById('authAlert');
+      box.className = `p-3.5 rounded-2xl mb-4 text-xs font-semibold ${isSuccess ? 'bg-emerald-50 border border-emerald-300 text-emerald-800' : 'bg-red-50 border border-red-300 text-red-800'}`;
+      box.innerHTML = msg;
+      box.classList.remove('hidden');
+    }
+
+    // --- Normal Alumni Login ---
+    function handleFormLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim();
+      const pass = document.getElementById('loginPassword').value;
+      const remember = document.getElementById('loginRemember').checked;
+
+      const res = loginUser(email, pass, remember);
+      if (res.success) {
+        const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || window.innerWidth < 768;
+        showAlert("✓ Alumni Login successful! Redirecting to your dashboard...", true);
+        setTimeout(() => {
+          if (res.user && res.user.role === 'teacher') {
+            window.location.href = 'index.html#teachers';
+          } else {
+            window.location.href = 'index.html';
+          }
+        }, 500);
+      } else {
+        showAlert(res.message, false);
+      }
+    }
+
+    function handleTeacherFormLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('teacherLoginEmail').value.trim();
+      const pass = document.getElementById('teacherLoginPassword').value;
+
+      const res = loginUser(email, pass, true);
+      if (res.success) {
+        const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || window.innerWidth < 768;
+        showAlert(`✓ सादर प्रणाम! Welcome, Revered <strong>${res.user.name}</strong> (${res.user.roleTitle || 'Faculty'}). Redirecting to Teachers page...`, true);
+        setTimeout(() => {
+          window.location.href = 'index.html#teachers';
+        }, 500);
+      } else {
+        showAlert(res.message, false);
+      }
+    }
+
+    // --- Registration Role Switcher: Alumni vs Gurujan/Faculty ---
+    function selectRegisterType(type) {
+      currentRegisterType = type;
+      const alumniBtn = document.getElementById('regTypeAlumniBtn');
+      const teacherBtn = document.getElementById('regTypeTeacherBtn');
+      const noticeBox = document.getElementById('regNoticeBox');
+      const nameLabel = document.getElementById('regNameLabel');
+      const nameInput = document.getElementById('regName');
+      const batchLabel = document.getElementById('regBatchLabel');
+      const batchInput = document.getElementById('regBatch');
+      const houseSection = document.getElementById('regHouseSection');
+      const houseSelect = document.getElementById('regHouse');
+      const profLabel = document.getElementById('regProfessionLabel');
+      const profInput = document.getElementById('regProfession');
+      const domainLabel = document.getElementById('regDomainLabel');
+      const submitBtnText = document.getElementById('regSubmitBtnText');
+
+      if (type === 'teacher') {
+        teacherBtn.className = "flex-1 py-2 rounded-xl bg-amber-500/20 text-amber-800 border border-amber-500/40 text-xs font-bold transition flex items-center justify-center gap-1.5";
+        alumniBtn.className = "flex-1 py-2 rounded-xl bg-transparent text-slate-500 hover:text-slate-800 text-xs font-normal transition flex items-center justify-center gap-1.5";
+        noticeBox.className = "p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-[11px] leading-relaxed flex items-start gap-2";
+        noticeBox.innerHTML = '<span class="text-base">🪔</span><div><strong>आदरणीय गुरुजन / Revered Faculty Registration:</strong> Teachers and faculty members receive institutional reverence badges, campus posting privileges, and blessing rights. An encrypted 2FA SMS OTP will be dispatched to verify your mobile number.</div>';
+        nameLabel.textContent = "Teacher / Faculty Full Name *";
+        nameInput.placeholder = "e.g. Shri R. K. Sharma / Dr. Anjali Verma";
+        batchLabel.textContent = "Joining / Service Year at JNV *";
+        batchInput.placeholder = "e.g. 1996 (Year joined)";
+        houseSelect.value = "Campus";
+        profLabel.textContent = "Faculty Subject / Designation *";
+        profInput.placeholder = "e.g. PGT Physics / TGT Hindi / Vice Principal / PET";
+        domainLabel.textContent = "Faculty Department *";
+        submitBtnText.textContent = "Proceed to Faculty 2FA SMS Verification";
+      } else {
+        alumniBtn.className = "flex-1 py-2 rounded-xl bg-emerald-500/20 text-emerald-800 border border-emerald-500/40 text-xs font-bold transition flex items-center justify-center gap-1.5";
+        teacherBtn.className = "flex-1 py-2 rounded-xl bg-transparent text-slate-500 hover:text-amber-800 text-xs font-normal transition flex items-center justify-center gap-1.5";
+        noticeBox.className = "p-3 rounded-xl bg-blue-50 border border-blue-200 text-blue-900 text-[11px] leading-relaxed flex items-start gap-2";
+        noticeBox.innerHTML = '<span class="text-base">🛡️</span><div><strong>Two-Factor Authentication (2FA SMS):</strong> Registration generates an encrypted 6-digit OTP dispatched directly to your mobile phone via SMS / WhatsApp network.</div>';
+        nameLabel.textContent = "Full Name *";
+        nameInput.placeholder = "e.g. Anand Kumar Maurya";
+        batchLabel.textContent = "Passout Batch Year *";
+        batchInput.placeholder = "e.g. 2011";
+        profLabel.textContent = "Profession / Role *";
+        profInput.placeholder = "e.g. Executive Civil Engineer";
+        domainLabel.textContent = "Domain / Field *";
+        submitBtnText.textContent = "Proceed to 2FA SMS Verification";
+      }
+    }
+
+    // --- Countdown Timer Helper ---
+    function startCountdownTimer(elementId, totalSeconds, onExpire) {
+      const el = document.getElementById(elementId);
+      if (!el) return null;
+      let remaining = totalSeconds;
+      
+      const updateText = () => {
+        const mins = Math.floor(remaining / 60);
+        const secs = remaining % 60;
+        el.textContent = `Valid for ${mins}:${secs < 10 ? '0' : ''}${secs}`;
+      };
+      updateText();
+
+      const intervalId = setInterval(() => {
+        remaining -= 1;
+        if (remaining <= 0) {
+          clearInterval(intervalId);
+          el.textContent = "OTP Expired";
+          if (onExpire) onExpire();
+        } else {
+          updateText();
+        }
+      }, 1000);
+
+      return intervalId;
+    }
+
+    // --- Password Match Verification on Registration ---
+    function checkPasswordMatch() {
+      const pass = document.getElementById('regPassword').value;
+      const conf = document.getElementById('regConfirmPassword').value;
+      const fb = document.getElementById('regPassFeedback');
+
+      if (!conf) {
+        fb.classList.add('hidden');
+        return;
+      }
+      if (pass === conf) {
+        fb.className = "text-[11px] font-semibold text-emerald-400 py-1";
+        fb.textContent = "✓ Passwords match perfectly.";
+        fb.classList.remove('hidden');
+      } else {
+        fb.className = "text-[11px] font-semibold text-red-400 py-1";
+        fb.textContent = "⚠️ Passwords do not match. Please ensure both passwords are identical.";
+        fb.classList.remove('hidden');
+      }
+    }
+
+    let regUploadedPhoto = null;
+
+    function previewRegPhoto(e) {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      if (typeof compressProfileImage === 'function') {
+        compressProfileImage(file, (dataUrl) => {
+          if (dataUrl) {
+            regUploadedPhoto = dataUrl;
+            const previewImg = document.getElementById('regPhotoPreview');
+            const placeholder = document.getElementById('regPhotoPlaceholder');
+            const removeBtn = document.getElementById('regPhotoRemoveBtn');
+            if (previewImg) { previewImg.src = dataUrl; previewImg.classList.remove('hidden'); }
+            if (placeholder) placeholder.classList.add('hidden');
+            if (removeBtn) removeBtn.classList.remove('hidden');
+          }
+        });
+      } else {
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          regUploadedPhoto = ev.target.result;
+          const previewImg = document.getElementById('regPhotoPreview');
+          const placeholder = document.getElementById('regPhotoPlaceholder');
+          const removeBtn = document.getElementById('regPhotoRemoveBtn');
+          if (previewImg) { previewImg.src = ev.target.result; previewImg.classList.remove('hidden'); }
+          if (placeholder) placeholder.classList.add('hidden');
+          if (removeBtn) removeBtn.classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function removeRegPhoto() {
+      regUploadedPhoto = null;
+      const input = document.getElementById('regPhotoInput');
+      const previewImg = document.getElementById('regPhotoPreview');
+      const placeholder = document.getElementById('regPhotoPlaceholder');
+      const removeBtn = document.getElementById('regPhotoRemoveBtn');
+      if (input) input.value = '';
+      if (previewImg) { previewImg.src = ''; previewImg.classList.add('hidden'); }
+      if (placeholder) placeholder.classList.remove('hidden');
+      if (removeBtn) removeBtn.classList.add('hidden');
+    }
+
+    // --- Dispatch Triggers for Mobile SMS & WhatsApp ---
+    function openWhatsAppSmsOtp() {
+      if (window._lastSmsOtpDispatch && window._lastSmsOtpDispatch.waUrl) {
+        window.open(window._lastSmsOtpDispatch.waUrl, '_blank');
+      } else if (pendingRegData && pendingRegOtp) {
+        const dispatch = sendMobileSmsOtp(pendingRegData.phone, pendingRegOtp, 'registration');
+        window.open(dispatch.waUrl, '_blank');
+      }
+    }
+
+    function openDeviceSmsOtp() {
+      if (window._lastSmsOtpDispatch && window._lastSmsOtpDispatch.smsUrl) {
+        window.location.href = window._lastSmsOtpDispatch.smsUrl;
+      } else if (pendingRegData && pendingRegOtp) {
+        const dispatch = sendMobileSmsOtp(pendingRegData.phone, pendingRegOtp, 'registration');
+        window.location.href = dispatch.smsUrl;
+      }
+    }
+
+    function openWhatsAppForgotOtp() {
+      if (window._lastForgotSmsDispatch && window._lastForgotSmsDispatch.waUrl) {
+        window.open(window._lastForgotSmsDispatch.waUrl, '_blank');
+      }
+    }
+
+    function openDeviceForgotOtp() {
+      if (window._lastForgotSmsDispatch && window._lastForgotSmsDispatch.smsUrl) {
+        window.location.href = window._lastForgotSmsDispatch.smsUrl;
+      }
+    }
+
+    function autoFillRegOtp() {
+      if (pendingRegOtp) {
+        document.getElementById('regOtpInput').value = pendingRegOtp;
+      }
+    }
+
+    function copyRegOtp() {
+      if (pendingRegOtp) {
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(pendingRegOtp);
+        }
+        alert(`✓ Copied OTP ${pendingRegOtp} to clipboard.`);
+      }
+    }
+
+    function autoFillForgotOtp() {
+      if (pendingForgotOtp) {
+        document.getElementById('forgotOtpInput').value = pendingForgotOtp;
+      }
+    }
+
+    function copyForgotOtp() {
+      if (pendingForgotOtp) {
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(pendingForgotOtp);
+        }
+        alert(`✓ Copied OTP ${pendingForgotOtp} to clipboard.`);
+      }
+    }
+
+    function openSmsGatewaySettings() {
+      const cfg = typeof getSmsGatewayConfig === 'function' ? getSmsGatewayConfig() : {};
+      const provEl = document.getElementById('smsGatewayProvider');
+      const keyEl = document.getElementById('smsGatewayApiKey');
+      const urlEl = document.getElementById('smsGatewayCustomUrl');
+      if (provEl) provEl.value = cfg.provider || 'fast2sms';
+      if (keyEl) keyEl.value = cfg.apiKey || '';
+      if (urlEl) urlEl.value = cfg.customWebhookUrl || '';
+      toggleGatewayFields();
+      document.getElementById('smsGatewayModal').classList.remove('hidden');
+    }
+
+    function closeSmsGatewaySettings() {
+      document.getElementById('smsGatewayModal').classList.add('hidden');
+    }
+
+    function toggleGatewayFields() {
+      const prov = document.getElementById('smsGatewayProvider').value;
+      const keyDiv = document.getElementById('smsApiKeyField');
+      const urlDiv = document.getElementById('smsCustomUrlField');
+      if (prov === 'custom') {
+        if (keyDiv) keyDiv.classList.add('hidden');
+        if (urlDiv) urlDiv.classList.remove('hidden');
+      } else {
+        if (keyDiv) keyDiv.classList.remove('hidden');
+        if (urlDiv) urlDiv.classList.add('hidden');
+      }
+    }
+
+    function handleSaveSmsGatewayConfig(e) {
+      e.preventDefault();
+      const provider = document.getElementById('smsGatewayProvider').value;
+      const apiKey = document.getElementById('smsGatewayApiKey').value.trim();
+      const customWebhookUrl = document.getElementById('smsGatewayCustomUrl').value.trim();
+      if (typeof saveSmsGatewayConfig === 'function') {
+        saveSmsGatewayConfig({ provider, apiKey, customWebhookUrl });
+      }
+      alert('✓ SMS Gateway configuration saved successfully!');
+      closeSmsGatewaySettings();
+    }
+
+    async function testSmsGatewayDispatch() {
+      const phone = document.getElementById('smsTestPhone').value.trim();
+      const resEl = document.getElementById('smsTestResult');
+      if (!phone || phone.replace(/\D/g, '').length < 10) {
+        if (resEl) {
+          resEl.className = "text-[11px] font-bold text-red-600 block";
+          resEl.textContent = "⚠️ Please enter a valid 10-digit mobile number.";
+          resEl.classList.remove('hidden');
+        }
+        return;
+      }
+      if (resEl) {
+        resEl.className = "text-[11px] font-bold text-sky-700 block";
+        resEl.textContent = "Connecting to SMS Gateway...";
+        resEl.classList.remove('hidden');
+      }
+      if (typeof dispatchRealSmsViaGateway === 'function') {
+        const testOtp = Math.floor(100000 + Math.random() * 900000).toString();
+        const outcome = await dispatchRealSmsViaGateway(phone, testOtp, 'test');
+        if (resEl) {
+          if (outcome.success) {
+            resEl.className = "text-[11px] font-bold text-emerald-700 block";
+            resEl.textContent = `✓ Dispatched! Code ${testOtp} routed via ${outcome.provider || 'gateway'}.`;
+          } else {
+            resEl.className = "text-[11px] font-bold text-amber-700 block";
+            resEl.textContent = `⚠️ Gateway response: ${outcome.message || 'Check API key or balance'}`;
+          }
+        }
+      }
+    }
+
+    // --- Registration Initiation: Dispatches 2FA SMS to Mobile ---
+    function handleFormRegister(e) {
+      e.preventDefault();
+      const pass = document.getElementById('regPassword').value;
+      const conf = document.getElementById('regConfirmPassword').value;
+
+      if (pass !== conf) {
+        showAlert("⚠️ Passwords do not match! Please make sure both password fields are identical.", false);
+        return;
+      }
+
+      if (pass.length < 6) {
+        showAlert("⚠️ Password must be at least 6 characters in length.", false);
+        return;
+      }
+
+      const isTeacher = currentRegisterType === 'teacher';
+      const cleanPhone = document.getElementById('regPhone').value.replace(/\D/g, '').slice(-10);
+
+      const userData = {
+        name: document.getElementById('regName').value.trim(),
+        batch: document.getElementById('regBatch').value.trim(),
+        house: document.getElementById('regHouse').value,
+        phone: cleanPhone,
+        email: document.getElementById('regEmail').value.trim().toLowerCase(),
+        profession: document.getElementById('regProfession').value.trim(),
+        domain: document.getElementById('regDomain').value,
+        city: document.getElementById('regCity').value.trim(),
+        photo: regUploadedPhoto || null,
+        password: pass,
+        confirmPassword: conf,
+        role: isTeacher ? 'teacher' : 'member',
+        roleTitle: isTeacher ? 'Revered Faculty Member' : 'Verified Alumni Member'
+      };
+
+      const res = initiateRegistrationOtp(userData);
+      if (!res.success) {
+        showAlert(res.message, false);
+        return;
+      }
+
+      // Store in memory & dispatch Mobile SMS
+      pendingRegData = userData;
+      pendingRegOtp = res.otp;
+
+      const smsDispatch = sendMobileSmsOtp(userData.phone, res.otp, 'registration');
+      window._lastSmsOtpDispatch = smsDispatch;
+
+      // Auto-trigger WhatsApp dispatch if available
+      if (smsDispatch && smsDispatch.waUrl) {
+        try { window.open(smsDispatch.waUrl, '_blank'); } catch(e) {}
+      }
+
+      document.getElementById('regOtpTargetEmail').textContent = userData.email;
+      document.getElementById('regOtpTargetPhone').textContent = `+91 ${cleanPhone}`;
+      const maskedPhoneEl = document.getElementById('regOtpMaskedPhone');
+      if (maskedPhoneEl) maskedPhoneEl.textContent = smsDispatch.maskedPhone;
+
+      document.getElementById('regOtpInput').value = '';
+      document.getElementById('regOtpError').classList.add('hidden');
+
+      if (regOtpCountdownInterval) clearInterval(regOtpCountdownInterval);
+      regOtpCountdownInterval = startCountdownTimer('regOtpTimer', 600, () => {
+        document.getElementById('regOtpError').textContent = "⚠️ OTP has expired. Please click 'Resend SMS OTP'.";
+        document.getElementById('regOtpError').classList.remove('hidden');
+      });
+
+      document.getElementById('regOtpModal').classList.remove('hidden');
+    }
+
+    function closeRegOtpModal() {
+      if (regOtpCountdownInterval) clearInterval(regOtpCountdownInterval);
+      document.getElementById('regOtpModal').classList.add('hidden');
+    }
+
+    function resendRegOtp() {
+      if (!pendingRegData) return;
+      const res = generateOtp(pendingRegData.email, 'registration');
+      pendingRegOtp = res.otp;
+      const smsDispatch = sendMobileSmsOtp(pendingRegData.phone, res.otp, 'registration');
+      window._lastSmsOtpDispatch = smsDispatch;
+
+      // Auto-trigger WhatsApp dispatch if available
+      if (smsDispatch && smsDispatch.waUrl) {
+        try { window.open(smsDispatch.waUrl, '_blank'); } catch(e) {}
+      }
+
+      if (regOtpCountdownInterval) clearInterval(regOtpCountdownInterval);
+      regOtpCountdownInterval = startCountdownTimer('regOtpTimer', 600);
+
+      const errBox = document.getElementById('regOtpError');
+      errBox.className = "p-2 rounded-xl bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 text-xs text-center font-medium";
+      errBox.textContent = `✓ Fresh 2FA OTP dispatched to ${smsDispatch.maskedPhone}. Please check your phone.`;
+      errBox.classList.remove('hidden');
+    }
+
+    function handleVerifyRegOtp(e) {
+      e.preventDefault();
+      const enteredCode = document.getElementById('regOtpInput').value.trim();
+      const errBox = document.getElementById('regOtpError');
+
+      if (!pendingRegData) {
+        errBox.textContent = "Registration session expired. Please refill form.";
+        errBox.classList.remove('hidden');
+        return;
+      }
+
+      const res = completeRegistrationWithOtp(pendingRegData, enteredCode);
+      if (res.success) {
+        if (window.AlumniCloudSync && typeof window.AlumniCloudSync.broadcastRegistration === 'function') {
+          window.AlumniCloudSync.broadcastRegistration(res.user || pendingRegData);
+        }
+        closeRegOtpModal();
+        setCurrentUser(res.user, true);
+        const welcomeText = pendingRegData.role === 'teacher'
+          ? `🎉 <strong>सादर प्रणाम! Faculty Registration Successful!</strong> Welcome, <strong>${pendingRegData.name}</strong>. Redirecting to your dashboard...`
+          : `🎉 <strong>Registration Successful!</strong> Welcome, <strong>${pendingRegData.name} (Batch of ${pendingRegData.batch})</strong>! Redirecting to your dashboard...`;
+        
+        showAlert(welcomeText, true);
+        document.getElementById('registrationForm').reset();
+        document.getElementById('regPassFeedback').classList.add('hidden');
+        pendingRegData = null;
+        pendingRegOtp = null;
+        setTimeout(() => {
+          const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || window.innerWidth < 768;
+          window.location.href = 'index.html';
+        }, 1200);
+      } else {
+        errBox.className = "p-2 rounded-xl bg-red-950/80 border border-red-500/40 text-red-300 text-xs text-center font-medium";
+        errBox.textContent = `⚠️ ${res.message}`;
+        errBox.classList.remove('hidden');
+      }
+    }
+
+    // --- FORGOT PASSWORD FLOW (2FA Mobile SMS Verified) ---
+    function openForgotPasswordModal() {
+      document.getElementById('forgotStep1').classList.remove('hidden');
+      document.getElementById('forgotStep2').classList.add('hidden');
+      const fb = document.getElementById('forgotFeedback');
+      fb.classList.add('hidden');
+      document.getElementById('forgotPasswordModal').classList.remove('hidden');
+    }
+
+    function closeForgotPasswordModal() {
+      if (forgotOtpCountdownInterval) clearInterval(forgotOtpCountdownInterval);
+      document.getElementById('forgotPasswordModal').classList.add('hidden');
+    }
+
+    function handleForgotStep1(e) {
+      e.preventDefault();
+      const identifier = document.getElementById('forgotIdentifier').value.trim();
+      const fb = document.getElementById('forgotFeedback');
+      fb.classList.add('hidden');
+
+      const res = initiateForgotPassword(identifier);
+      if (!res.success) {
+        fb.className = "p-3 rounded-xl text-xs font-semibold bg-red-950/80 border border-red-500/40 text-red-300";
+        fb.innerHTML = `⚠️ ${res.message}`;
+        fb.classList.remove('hidden');
+        return;
+      }
+
+      pendingForgotIdentifier = res.user.email;
+      pendingForgotOtp = res.otp;
+      pendingForgotPhone = res.user.phone || identifier;
+
+      // Dispatch Mobile SMS OTP
+      const smsDispatch = sendMobileSmsOtp(pendingForgotPhone, res.otp, 'password_reset');
+      window._lastForgotSmsDispatch = smsDispatch;
+
+      // Auto-trigger WhatsApp dispatch if available
+      if (smsDispatch && smsDispatch.waUrl) {
+        try { window.open(smsDispatch.waUrl, '_blank'); } catch(e) {}
+      }
+
+      // Move to step 2
+      document.getElementById('forgotStep1').classList.add('hidden');
+      document.getElementById('forgotStep2').classList.remove('hidden');
+      
+      const targetPhoneEl = document.getElementById('forgotOtpTargetPhone');
+      if (targetPhoneEl) targetPhoneEl.textContent = smsDispatch.maskedPhone;
+
+      document.getElementById('forgotOtpInput').value = '';
+      document.getElementById('forgotNewPassword').value = '';
+      document.getElementById('forgotConfirmPassword').value = '';
+      document.getElementById('forgotPassMismatch').classList.add('hidden');
+
+      if (forgotOtpCountdownInterval) clearInterval(forgotOtpCountdownInterval);
+      forgotOtpCountdownInterval = startCountdownTimer('forgotTimer', 600);
+    }
+
+    function backToForgotStep1() {
+      if (forgotOtpCountdownInterval) clearInterval(forgotOtpCountdownInterval);
+      document.getElementById('forgotStep2').classList.add('hidden');
+      document.getElementById('forgotStep1').classList.remove('hidden');
+    }
+
+    function resendForgotOtp() {
+      if (!pendingForgotIdentifier) return;
+      const res = generateOtp(pendingForgotIdentifier, 'password_reset');
+      pendingForgotOtp = res.otp;
+      const smsDispatch = sendMobileSmsOtp(pendingForgotPhone || pendingForgotIdentifier, res.otp, 'password_reset');
+      window._lastForgotSmsDispatch = smsDispatch;
+
+      if (forgotOtpCountdownInterval) clearInterval(forgotOtpCountdownInterval);
+      forgotOtpCountdownInterval = startCountdownTimer('forgotTimer', 600);
+
+      const fb = document.getElementById('forgotFeedback');
+      fb.className = "p-3 rounded-xl text-xs font-semibold bg-emerald-950/80 border border-emerald-500/40 text-emerald-300";
+      fb.innerHTML = `✓ A fresh reset OTP has been dispatched to ${smsDispatch.maskedPhone}.`;
+      fb.classList.remove('hidden');
+    }
+
+    function checkForgotPassMatch() {
+      const p1 = document.getElementById('forgotNewPassword').value;
+      const p2 = document.getElementById('forgotConfirmPassword').value;
+      const warning = document.getElementById('forgotPassMismatch');
+      if (p2 && p1 !== p2) {
+        warning.classList.remove('hidden');
+      } else {
+        warning.classList.add('hidden');
+      }
+    }
+
+    function handleForgotStep2(e) {
+      e.preventDefault();
+      const otpCode = document.getElementById('forgotOtpInput').value.trim();
+      const newPass = document.getElementById('forgotNewPassword').value;
+      const confPass = document.getElementById('forgotConfirmPassword').value;
+      const fb = document.getElementById('forgotFeedback');
+
+      const res = resetUserPasswordWithOtp(pendingForgotIdentifier, otpCode, newPass, confPass);
+      if (res.success) {
+        closeForgotPasswordModal();
+        showAlert(`✓ <strong>Password Reset Successfully!</strong> You can now log in using your new password. Credentials updated for ${res.email}.`, true);
+        document.getElementById('loginEmail').value = res.email;
+        document.getElementById('loginPassword').value = newPass;
+        pendingForgotIdentifier = null;
+        pendingForgotOtp = null;
+      } else {
+        fb.className = "p-3 rounded-xl text-xs font-semibold bg-red-950/80 border border-red-500/40 text-red-300";
+        fb.innerHTML = `⚠️ ${res.message}`;
+        fb.classList.remove('hidden');
+      }
+    }
+
+    // Auto-fill active session if already logged in & init cloud sync
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.AlumniCloudSync && typeof window.AlumniCloudSync.init === 'function') {
+        window.AlumniCloudSync.init();
+      }
+      const current = getCurrentUser();
+      if (current) {
+        showAlert(`You are currently signed in as <strong>${current.name}</strong> (${current.roleTitle}). <a href="index.html" class="underline text-gold-400 font-bold ml-1">Go to Portal →</a>`, true);
+      }
+    });
+  </script>
+</body>
+</html>

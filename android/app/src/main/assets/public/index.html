@@ -31,6 +31,7 @@
   <script src="assets/js/theme.js"></script>
   <!-- Enterprise High-Capacity IndexedDB & Virtualization Engine (100k+ Alumni Scale) -->
   <script src="assets/js/storage-engine.js"></script>
+  <script src="assets/js/cloud-sync.js"></script>
   <script src="assets/js/auth.js"></script>
   <script>
     // Verify session without forcing admin
@@ -1917,22 +1918,15 @@
           </button>
         </div>
 
-        <!-- Live Handset SMS Preview & 1-Click Auto Fill -->
-        <div class="p-2.5 rounded-xl bg-white border border-sky-200 text-xs space-y-1.5 shadow-inner">
-          <div class="flex items-center justify-between text-[10px] text-slate-500">
-            <span class="font-semibold text-slate-600">📶 Handset SMS Delivery Preview</span>
-            <span class="text-emerald-700 font-medium">Ready</span>
-          </div>
-          <div class="p-2 rounded-lg bg-sky-50/70 border border-sky-100 font-mono text-[11px] text-slate-800 flex items-center justify-between">
-            <span id="indexLiveOtpPreview" class="font-bold text-sky-950">OTP: ******</span>
-            <div class="flex items-center gap-1.5">
-              <button type="button" onclick="autoFillIndexOtp()" class="px-2.5 py-1 rounded bg-amber-500 hover:bg-amber-400 text-slate-950 text-[10px] font-bold shadow-sm">
-                ⚡ Auto-Fill
-              </button>
-              <button type="button" onclick="copyIndexOtp()" class="px-2.5 py-1 rounded bg-slate-200 hover:bg-slate-300 text-slate-800 text-[10px] font-semibold">
-                📋 Copy
-              </button>
+        <!-- Confidential 2FA Verification Notice -->
+          <div class="p-2.5 rounded-xl bg-white border border-sky-200 text-xs space-y-1.5 shadow-inner">
+            <div class="flex items-center justify-between text-[10px] text-slate-500">
+              <span class="font-semibold text-slate-700">🔒 Confidential Handset 2FA</span>
+              <span class="text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">Dispatched</span>
             </div>
+            <p class="text-[11px] text-slate-600 leading-relaxed">
+              Your 6-digit verification code has been dispatched directly to your WhatsApp and Phone SMS. Please enter the code from your handset below.
+            </p>
           </div>
         </div>
       </div>
@@ -2478,6 +2472,21 @@
         <button onclick="closeNewChatSelector()" class="text-slate-400 hover:text-white text-base font-bold">&times;</button>
       </div>
       <p class="text-xs text-slate-300">Choose any verified alumnus or Gurujan from the directory to start a private conversation:</p>
+      <!-- Instant Real-Time Contact Search -->
+      <div class="relative">
+        <input type="text" id="newChatSearchInput" placeholder="🔍 Search alumni by name, batch, house, profession..." 
+               class="w-full text-xs px-3.5 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400"
+               oninput="filterNewChatDirectory(this.value)">
+        <button type="button" onclick="clearNewChatSearch()" class="absolute right-2.5 top-2.5 text-xs text-slate-500 hover:text-slate-300">✕</button>
+      </div>
+
+      <!-- Quick Filter Chips -->
+      <div class="flex items-center gap-1.5 overflow-x-auto pb-1 text-[11px]">
+        <button type="button" onclick="filterNewChatCategory('all')" id="newChatChip-all" class="new-chat-chip px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/40 font-semibold whitespace-nowrap">All Contacts</button>
+        <button type="button" onclick="filterNewChatCategory('teachers')" id="newChatChip-teachers" class="new-chat-chip px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 font-semibold whitespace-nowrap">Gurujan / Faculty</button>
+        <button type="button" onclick="filterNewChatCategory('alumni')" id="newChatChip-alumni" class="new-chat-chip px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 font-semibold whitespace-nowrap">Alumni</button>
+      </div>
+
       <div class="max-h-60 overflow-y-auto space-y-1.5" id="newChatDirectoryList">
         <button onclick="startChatWithSelectedAlumnus('Ashfaq Ahmed')" class="w-full text-left p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-amber-500/40 text-xs flex items-center justify-between">
           <span class="text-white font-bold">Ashfaq Ahmed (2005 • Nilgiri)</span>
