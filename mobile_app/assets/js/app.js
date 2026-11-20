@@ -455,7 +455,7 @@ const defaultData = {
       photo: "assets/images/ls-yadav.jpg",
       respectCount: 168,
       message: "Navodaya is the confluence of multi-dimensional talents. \nLet's come together and work together to succeed with flying colours by caring and sharing, J N V Stars! ⭐⭐⭐⭐⭐",
-      specialNote: "Dedicated English educator nurturing communicative excellence and literary expression at JNV Gauriganj since 2021. Chief Editor of Vidyalaya Annual Magazine 'Navonmesh' (नवन्मेष)."
+      specialNote: "Dedicated English educator nurturing communicative excellence and literary expression at JNV Gauriganj since 2021. Chief Editor of Vidyalaya Annual Magazine 'Navonmesh' (नवोन्मेष)."
     },
     {
       id: "tch-ay",
@@ -8622,7 +8622,7 @@ function loadAppData() {
           lsy.post = "T.G.T.-English • Editor, Vidyalaya Magazine 'Navonmesh'";
           lsy.title = "T.G.T.-English, Jawahar Navodaya Vidyalaya, Gauriganj • Editor, Vidyalaya Magazine 'Navonmesh'";
           lsy.statusLabel = "Current Faculty (TGT English) • Editor, 'Navonmesh'";
-          lsy.specialNote = "Dedicated English educator nurturing communicative excellence and literary expression at JNV Gauriganj since 2021. Chief Editor of Vidyalaya Annual Magazine 'Navonmesh' (नवन्मेष).";
+          lsy.specialNote = "Dedicated English educator nurturing communicative excellence and literary expression at JNV Gauriganj since 2021. Chief Editor of Vidyalaya Annual Magazine 'Navonmesh' (नवोन्मेष).";
         }
       }
       if (parsed.directory && Array.isArray(parsed.directory)) {
