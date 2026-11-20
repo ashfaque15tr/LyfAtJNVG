@@ -47,8 +47,8 @@ const defaultCommunityBroadcasts = [
     timeAgo: "Gurujan Sandesh",
     category: "gratitude",
     tag: "Guru Sandesh",
-    content: "Navodaya is the confluence of Multi-diamensional tallents. \nLet's come together and work together to succeed with flying colours by caring and sharing, J N V Stars! ⭐⭐⭐⭐⭐",
-    text: "Navodaya is the confluence of Multi-diamensional tallents. \nLet's come together and work together to succeed with flying colours by caring and sharing, J N V Stars! ⭐⭐⭐⭐⭐",
+    content: "Navodaya is the confluence of multi-dimensional talents. \nLet's come together and work together to succeed with flying colours by caring and sharing, J N V Stars! ⭐⭐⭐⭐⭐",
+    text: "Navodaya is the confluence of multi-dimensional talents. \nLet's come together and work together to succeed with flying colours by caring and sharing, J N V Stars! ⭐⭐⭐⭐⭐",
     likes: 38,
     liked: false,
     comments: []
@@ -131,7 +131,7 @@ const defaultData = {
     { id: "sch-3", time: "11:30 AM", color: "amber", title: "Keynote Address & Teacher Felicitations (गुरु दक्षिणा सम्मान)", desc: "Honoring former gurus & faculty legends, speech by Principal & Alumni President, unveiling Association projects." },
     { id: "sch-4", time: "01:00 PM", color: "emerald", title: "Nostalgic Navodaya Mess Feast (विशेष मेस भोज)", desc: "Traditional hostel feast (puri-chole, kheer, special menu) together in the central dining hall." },
     { id: "sch-5", time: "02:30 PM", color: "purple", title: "Cultural Fiesta & Open Mic (सांस्कृतिक संगम)", desc: "Music, nostalgic hostel skits, poetry, comedy, and batch memories on the open amphitheater stage." },
-    { id: "sch-6", time: "04:30 PM", color: "red", title: "Inter-House Tug-of-War & Friendly Sports", desc: "Arawali, Shivalik, Udaigiri & Nilgiri face-off on the legendary JNV sports ground." },
+    { id: "sch-6", time: "04:30 PM", color: "red", title: "Inter-House Tug-of-War & Friendly Sports", desc: "Aravali, Shivalik, Udaigiri & Nilgiri face-off on the legendary JNV sports ground." },
     { id: "sch-7", time: "06:00 PM", color: "blue", title: "High Tea, Valedictory & Navodaya Pledge", desc: "Batch group photographs, vote of thanks by Host Batch 1996, collective pledge & farewell." }
   ],
 
@@ -163,14 +163,14 @@ const defaultData = {
   ],
 
   notableMessages: [
-    { id: 1, author: "Sh. Vivek Tiwari", batch: "1987-1994", role: "MD & CEO, Satya MicroCapital Ltd. & Donor", house: "Arawali", quote: "Navodaya gave us the courage to dream and build without fear. Every milestone in corporate or public leadership is rooted in the resilience learned in those Gauriganj classrooms. Support your junior peers relentlessly." },
+    { id: 1, author: "Sh. Vivek Tiwari", batch: "1987-1994", role: "MD & CEO, Satya MicroCapital Ltd. & Donor", house: "Aravali", quote: "Navodaya gave us the courage to dream and build without fear. Every milestone in corporate or public leadership is rooted in the resilience learned in those Gauriganj classrooms. Support your junior peers relentlessly." },
     { id: 2, author: "Alok Dubey, IAS", batch: "2007", role: "Indian Administrative Service", house: "Nilgiri", quote: "Public service is the natural continuum of Navodaya's core pledge 'Pragyanam Brahma'. To all young scholars: stay disciplined, read widely, and let integrity be your defining hallmark." },
     { id: 3, author: "Dr. Ratnesh Tiwari", batch: "1996-2003", role: "CEO, Koshish India & Co-Founder Satyapath Foundation", house: "Nilgiri", quote: "True Navodayan spirit is giving back tenfold to the rural soil that nurtured us. Empower the next generation through education, infrastructure, and sustainable community support." },
     { id: 4, author: "Sh. Utkrisht Pandey", batch: "2002", role: "Founder, Rishigram Organics • Retd. Assistant Commandant, SSB", house: "Nilgiri", quote: "From the discipline of morning assembly and cross-country runs at JNVG to guarding borders with SSB and cultivating heritage sandalwood, the greatest success is creating sustainable, ethical value rooted in our native soil." },
-    { id: 5, author: "Dr. Jai Krishna Mishra", batch: "1993 (First Batch)", role: "Project Director, ASL, DRDO Hyderabad", house: "Arawali", quote: "Discipline, relentless inquiry, and dedication to the motherland were ingrained in us at Gauriganj. Whether designing critical solid propulsion technologies or mentoring the next generation, strive for uncompromising national self-reliance." },
+    { id: 5, author: "Dr. Jai Krishna Mishra", batch: "1993 (First Batch)", role: "Project Director, ASL, DRDO Hyderabad", house: "Aravali", quote: "Discipline, relentless inquiry, and dedication to the motherland were ingrained in us at Gauriganj. Whether designing critical solid propulsion technologies or mentoring the next generation, strive for uncompromising national self-reliance." },
     { id: 6, author: "Dr. Shailendra Mohan Tripathi", batch: "1997", role: "Addl. Professor, Geriatric Mental Health, KGMU & Univ. of Aberdeen", house: "Nilgiri", quote: "Navodaya taught us empathy for the vulnerable and elder care. As clinicians and researchers battling Dementia, standing by our aged Gurujan and parents with compassionate healthcare is our sacred duty." },
     { id: 7, author: "Ashwini Mishra", batch: "1993 (First Batch)", role: "Senior Journalist, Executive Producer & News Anchor, DD News", house: "Shivalik", quote: "We are the beneficiaries of a remarkable visionary rural education system, and paying that debt back to society is our highest calling. Measure your success not just by the lives you uplift and the communities you transform **Be grounded..Be Honest..**" },
-    { id: 8, author: "Alok Singh", batch: "1995", role: "Senior Analytics & AI Leader • Enterprise Data Strategist", house: "Arawali", quote: "In the era of Artificial Intelligence and rapid technological transition, our most enduring algorithm is the curiosity, character, and lifelong fraternity forged on the campus of JNV Gauriganj." }
+    { id: 8, author: "Alok Singh", batch: "1995", role: "Senior Analytics & AI Leader • Enterprise Data Strategist", house: "Aravali", quote: "In the era of Artificial Intelligence and rapid technological transition, our most enduring algorithm is the curiosity, character, and lifelong fraternity forged on the campus of JNV Gauriganj." }
   ],
 
   helpRequests: [
@@ -289,8 +289,8 @@ const defaultData = {
       post: "Former PGT Hindi (In Memoriam)",
       subject: "Hindi Literature & Sahitya",
       tenure: "1990 – 2005 (15 Years)",
-      house: "Arawali",
-      houseDetail: "House Master - Arawali & Hindi Sahitya Parishad",
+      house: "Aravali",
+      houseDetail: "House Master - Aravali & Hindi Sahitya Parishad",
       location: "Amar Smriti • In Eternal Memory",
       initials: "PS",
       photo: null,
@@ -454,7 +454,7 @@ const defaultData = {
       initials: "LSY",
       photo: "assets/images/ls-yadav.jpg",
       respectCount: 168,
-      message: "Navodaya is the confluence of Multi-diamensional tallents. \nLet's come together and work together to succeed with flying colours by caring and sharing, J N V Stars! ⭐⭐⭐⭐⭐",
+      message: "Navodaya is the confluence of multi-dimensional talents. \nLet's come together and work together to succeed with flying colours by caring and sharing, J N V Stars! ⭐⭐⭐⭐⭐",
       specialNote: "Dedicated English educator nurturing communicative excellence and literary expression at JNV Gauriganj since 2021. Chief Editor of Vidyalaya Annual Magazine 'Navonmesh' (नवन्मेष)."
     },
     {
@@ -597,15 +597,15 @@ const defaultDirectoryAlumni = [
     "name": "Dr. Sunil Kumar Singh",
     "initials": "DS",
     "batch": 1995,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "ASSOCIATE PROFESSOR",
     "location": "VARANASI",
     "domain": "Academia",
     "email": "drsunilsinghmaths@gmail.com",
     "phone": "9451280526",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "ASSOCIATE PROFESSOR at U.P. COLLEGE, VARANASI • Batch of 1995 (Arawali House)."
+    "bio": "ASSOCIATE PROFESSOR at U.P. COLLEGE, VARANASI • Batch of 1995 (Aravali House)."
   },
   {
     "id": "alumni-8",
@@ -627,30 +627,30 @@ const defaultDirectoryAlumni = [
     "name": "Raj Kumar Singh",
     "initials": "RK",
     "batch": 1993,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Govt job/ACP",
     "location": "ACP BAZARKHALA LKO",
     "domain": "Civil Services",
     "email": "rajuppolice24@gmail.com",
     "phone": "9415273180",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Govt job/ACP at UP Police • Batch of 1993 (Arawali House)."
+    "bio": "Govt job/ACP at UP Police • Batch of 1993 (Aravali House)."
   },
   {
     "id": "alumni-10",
     "name": "Anil Kumar Singh",
     "initials": "AK",
     "batch": 1996,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Business",
     "location": "Kolkata",
     "domain": "Corporate",
     "email": "anil.singh9050@gmail.com",
     "phone": "6394127981",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Business at Singh moovars • Batch of 1996 (Arawali House)."
+    "bio": "Business at Singh moovars • Batch of 1996 (Aravali House)."
   },
   {
     "id": "alumni-11",
@@ -717,15 +717,15 @@ const defaultDirectoryAlumni = [
     "name": "Ajay Kumar Singh",
     "initials": "AK",
     "batch": 1996,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Company Secretary",
     "location": "Noida",
     "domain": "Corporate",
     "email": "singhajaycs@gmail.com",
     "phone": "9911995899",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Company Secretary at Nuberg Engineering Limited • Batch of 1996 (Arawali House)."
+    "bio": "Company Secretary at Nuberg Engineering Limited • Batch of 1996 (Aravali House)."
   },
   {
     "id": "alumni-16",
@@ -777,45 +777,45 @@ const defaultDirectoryAlumni = [
     "name": "Rajesh Kumar Sharma",
     "initials": "RK",
     "batch": 1993,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Retailer/franchise Puma, Canary London,Shiv Naresh",
     "location": "Sultanpur city UP",
     "domain": "Corporate",
     "email": "allora.raj@gmail.com",
     "phone": "7905185517",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Retailer/franchise Puma, Canary London,Shiv Naresh at Ganpati Enterprises • Batch of 1993 (Arawali House)."
+    "bio": "Retailer/franchise Puma, Canary London,Shiv Naresh at Ganpati Enterprises • Batch of 1993 (Aravali House)."
   },
   {
     "id": "alumni-20",
     "name": "Amit Mishra",
     "initials": "AM",
     "batch": 1993,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Doctor",
     "location": "Daryaganj",
     "domain": "Medicine",
     "email": "dramitmishra1@gmail.com",
     "phone": "9717416466",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Doctor at Sabharwal hospital • Batch of 1993 (Arawali House)."
+    "bio": "Doctor at Sabharwal hospital • Batch of 1993 (Aravali House)."
   },
   {
     "id": "alumni-21",
     "name": "Sanjeev Kumar Kanaujia",
     "initials": "SK",
     "batch": 1998,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Junior Engineer in UPPCL",
     "location": "Gauriganj",
     "domain": "Technology",
     "email": "sanjeevkanaujia35@gmail.com",
     "phone": "9936084460",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Junior Engineer in UPPCL at UPPCL • Batch of 1998 (Arawali House)."
+    "bio": "Junior Engineer in UPPCL at UPPCL • Batch of 1998 (Aravali House)."
   },
   {
     "id": "alumni-22",
@@ -852,30 +852,30 @@ const defaultDirectoryAlumni = [
     "name": "सन्तोष कुमार श्रीवास्तव",
     "initials": "सक",
     "batch": 1993,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "व्यापार",
     "location": "सुलतानपुर",
     "domain": "Corporate",
     "email": "arsktraders@gmail.com",
     "phone": "9415068548",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "व्यापार at ARSK TRADERS • Batch of 1993 (Arawali House)."
+    "bio": "व्यापार at ARSK TRADERS • Batch of 1993 (Aravali House)."
   },
   {
     "id": "alumni-25",
     "name": "Raj Narayan",
     "initials": "RN",
     "batch": 1993,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Teaching",
     "location": "Kadipur",
     "domain": "Corporate",
     "email": "rajnarayan22417@gmail.com",
     "phone": "9451094720",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Teaching at Basic siksha • Batch of 1993 (Arawali House)."
+    "bio": "Teaching at Basic siksha • Batch of 1993 (Aravali House)."
   },
   {
     "id": "alumni-26",
@@ -927,15 +927,15 @@ const defaultDirectoryAlumni = [
     "name": "Ram Shabd Yadav",
     "initials": "RS",
     "batch": 1997,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Assistant Teacher Intercollege",
     "location": "Aligarh",
     "domain": "Academia",
     "email": "ramshabd1979@gmail.com",
     "phone": "9650272088",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Assistant Teacher Intercollege at Ric Akarabad Aligarh • Batch of 1997 (Arawali House)."
+    "bio": "Assistant Teacher Intercollege at Ric Akarabad Aligarh • Batch of 1997 (Aravali House)."
   },
   {
     "id": "alumni-30",
@@ -957,15 +957,15 @@ const defaultDirectoryAlumni = [
     "name": "Bajrang Bali",
     "initials": "BB",
     "batch": 1996,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Primary school HT",
     "location": "Jamon Amethi",
     "domain": "Academia",
     "email": "bajrangbali8914@gmail.com",
     "phone": "9919203726",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Primary school HT at Besic Education Department • Batch of 1996 (Arawali House)."
+    "bio": "Primary school HT at Besic Education Department • Batch of 1996 (Aravali House)."
   },
   {
     "id": "alumni-32",
@@ -1017,15 +1017,15 @@ const defaultDirectoryAlumni = [
     "name": "Abhishek Kumar Baranwal",
     "initials": "AK",
     "batch": 1997,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Shopkeeper",
     "location": "Chowk sultanpur",
     "domain": "Corporate",
     "email": "suitcollection890@gmail.com",
     "phone": "7081736183",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Shopkeeper at Suit collection • Batch of 1997 (Arawali House)."
+    "bio": "Shopkeeper at Suit collection • Batch of 1997 (Aravali House)."
   },
   {
     "id": "alumni-36",
@@ -1077,15 +1077,15 @@ const defaultDirectoryAlumni = [
     "name": "Ramesh Kumar Singh",
     "initials": "RK",
     "batch": 1998,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Agriculture / Transporting",
     "location": "Kolkata",
     "domain": "Corporate",
     "email": "ramesh.singh0531@gmail.com",
     "phone": "7897543048",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Agriculture / Transporting at Krishna Traders • Batch of 1998 (Arawali House)."
+    "bio": "Agriculture / Transporting at Krishna Traders • Batch of 1998 (Aravali House)."
   },
   {
     "id": "alumni-40",
@@ -1152,15 +1152,15 @@ const defaultDirectoryAlumni = [
     "name": "Ram Sanware",
     "initials": "RS",
     "batch": 1993,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "TEACHER IN BASIC EDUCATION",
     "location": "JAISINGHPUR SULTANPUR",
     "domain": "Academia",
     "email": "rsrao.isa@gmail.com",
     "phone": "8853777094",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "TEACHER IN BASIC EDUCATION at BASIC SHIKSHA PARISHAD UTTAR PRADESH • Batch of 1993 (Arawali House)."
+    "bio": "TEACHER IN BASIC EDUCATION at BASIC SHIKSHA PARISHAD UTTAR PRADESH • Batch of 1993 (Aravali House)."
   },
   {
     "id": "alumni-45",
@@ -1197,30 +1197,30 @@ const defaultDirectoryAlumni = [
     "name": "Imamuddin",
     "initials": "I",
     "batch": 1995,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Head teacher",
     "location": "Sitapur",
     "domain": "Academia",
     "email": "ansariimam666@gmail.com",
     "phone": "9598802349",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Head teacher at Besic education • Batch of 1995 (Arawali House)."
+    "bio": "Head teacher at Besic education • Batch of 1995 (Aravali House)."
   },
   {
     "id": "alumni-48",
     "name": "Smriti K. Singh",
     "initials": "SS",
     "batch": 1996,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Bussiness",
     "location": "Work from home",
     "domain": "Corporate",
     "email": "smriti.navodaya@gmail.com",
     "phone": "7905866418",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Bussiness at Youtube • Batch of 1996 (Arawali House)."
+    "bio": "Bussiness at Youtube • Batch of 1996 (Aravali House)."
   },
   {
     "id": "alumni-49",
@@ -1287,15 +1287,15 @@ const defaultDirectoryAlumni = [
     "name": "Arunesh Vaish",
     "initials": "AV",
     "batch": 1993,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "HEAD MASTER",
     "location": "LUCKNOW",
     "domain": "Corporate",
     "email": "avaish2k3@gmail.com",
     "phone": "7839456550",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "HEAD MASTER at KENDRIYA VIDYALAYA SANGATHAN • Batch of 1993 (Arawali House)."
+    "bio": "HEAD MASTER at KENDRIYA VIDYALAYA SANGATHAN • Batch of 1993 (Aravali House)."
   },
   {
     "id": "alumni-54",
@@ -1362,30 +1362,30 @@ const defaultDirectoryAlumni = [
     "name": "Amit Mishra",
     "initials": "AM",
     "batch": 1993,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Automobil Engg/Service Genral Manager",
     "location": "Pratapgarh/ Sultanpur",
     "domain": "Corporate",
     "email": "amitmishra.sultanpur@gmail.com",
     "phone": "7355418242",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Automobil Engg/Service Genral Manager at Unique Autosales Pvt Ltd. Tata Motors Commercial • Batch of 1993 (Arawali House)."
+    "bio": "Automobil Engg/Service Genral Manager at Unique Autosales Pvt Ltd. Tata Motors Commercial • Batch of 1993 (Aravali House)."
   },
   {
     "id": "alumni-59",
     "name": "Dr Alok Tiwari",
     "initials": "DA",
     "batch": 1994,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Principal",
     "location": "Hathua Gopalganj Bihar",
     "domain": "Corporate",
     "email": "alokjayaakash@gmail.com",
     "phone": "6388144876",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Principal at Maharani Punam Sahi B Ed College Hathua Gopalganj • Batch of 1994 (Arawali House)."
+    "bio": "Principal at Maharani Punam Sahi B Ed College Hathua Gopalganj • Batch of 1994 (Aravali House)."
   },
   {
     "id": "alumni-60",
@@ -1407,15 +1407,15 @@ const defaultDirectoryAlumni = [
     "name": "Ashutosh Singh",
     "initials": "AS",
     "batch": 1998,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Private Sales Officer",
     "location": "Jaunpur",
     "domain": "Civil Services",
     "email": "ashutosh.sultanpur@gmail.com",
     "phone": "8795300082",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Private Sales Officer at Nutricia International Pvt Ltd • Batch of 1998 (Arawali House)."
+    "bio": "Private Sales Officer at Nutricia International Pvt Ltd • Batch of 1998 (Aravali House)."
   },
   {
     "id": "alumni-62",
@@ -1437,30 +1437,30 @@ const defaultDirectoryAlumni = [
     "name": "Harikesh Singh",
     "initials": "HS",
     "batch": 1994,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Advocate",
     "location": "Sultanpur",
     "domain": "Corporate",
     "email": "harikeshsing9452@gmail.com",
     "phone": "9452704927",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Advocate at Civil court Sultanpur • Batch of 1994 (Arawali House)."
+    "bio": "Advocate at Civil court Sultanpur • Batch of 1994 (Aravali House)."
   },
   {
     "id": "alumni-64",
     "name": "Rajnish Kumar Gautam",
     "initials": "RK",
     "batch": 1996,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "teacher",
     "location": "village Dilawalpur",
     "domain": "Academia",
     "email": "ratneshrolly@gmail.com",
     "phone": "9936493502",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "teacher at Basic dept. • Batch of 1996 (Arawali House)."
+    "bio": "teacher at Basic dept. • Batch of 1996 (Aravali House)."
   },
   {
     "id": "alumni-65",
@@ -1527,30 +1527,30 @@ const defaultDirectoryAlumni = [
     "name": "Anil Kumar Gautam",
     "initials": "AK",
     "batch": 1999,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Teaching/H.T",
     "location": "Jamon, Amethi",
     "domain": "Corporate",
     "email": "aniljnv1999@gmail.com",
     "phone": "9415966146",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Teaching/H.T at Besic shiksha vibhaag • Batch of 1999 (Arawali House)."
+    "bio": "Teaching/H.T at Besic shiksha vibhaag • Batch of 1999 (Aravali House)."
   },
   {
     "id": "alumni-70",
     "name": "Ashish Mishra",
     "initials": "AM",
     "batch": 1995,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Social work",
     "location": "Dewa Barabanki",
     "domain": "Corporate",
     "email": "ashish.am47@gmail.com",
     "phone": "8736990246",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Social work at Niramaya hospital and diagnostic center • Batch of 1995 (Arawali House)."
+    "bio": "Social work at Niramaya hospital and diagnostic center • Batch of 1995 (Aravali House)."
   },
   {
     "id": "alumni-71",
@@ -1602,15 +1602,15 @@ const defaultDirectoryAlumni = [
     "name": "Ankita Rai",
     "initials": "AR",
     "batch": 2006,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Physics Lecturer",
     "location": "Sarojininagar Lucknow",
     "domain": "Corporate",
     "email": "ankita.rai24@gmail.com",
     "phone": "8840381993",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Physics Lecturer at Government U.P Sainik Inter college Sarojininagar Lucknow • Batch of 2006 (Arawali House)."
+    "bio": "Physics Lecturer at Government U.P Sainik Inter college Sarojininagar Lucknow • Batch of 2006 (Aravali House)."
   },
   {
     "id": "alumni-75",
@@ -1632,15 +1632,15 @@ const defaultDirectoryAlumni = [
     "name": "Krishna Kumar Tripathi",
     "initials": "KK",
     "batch": 1998,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Medical representative",
     "location": "Sultanpur",
     "domain": "Medicine",
     "email": "kktripathi41@gmail.com",
     "phone": "9455477541",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Medical representative at Lard Pharma • Batch of 1998 (Arawali House)."
+    "bio": "Medical representative at Lard Pharma • Batch of 1998 (Aravali House)."
   },
   {
     "id": "alumni-77",
@@ -1662,15 +1662,15 @@ const defaultDirectoryAlumni = [
     "name": "Rajesh Giri",
     "initials": "RG",
     "batch": 1997,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Govt service",
     "location": "Mumbai",
     "domain": "Civil Services",
     "email": "rajeshgiri13@gmail.com",
     "phone": "9969233017",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Govt service at Income tax department • Batch of 1997 (Arawali House)."
+    "bio": "Govt service at Income tax department • Batch of 1997 (Aravali House)."
   },
   {
     "id": "alumni-79",
@@ -1752,15 +1752,15 @@ const defaultDirectoryAlumni = [
     "name": "Alok Kumar Singh",
     "initials": "AK",
     "batch": 2000,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Business Owner",
     "location": "Sultanpur",
     "domain": "Corporate",
     "email": "aloksinghdd@gmail.com",
     "phone": "9873241617",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Business Owner at SS Vegan Foods • Batch of 2000 (Arawali House)."
+    "bio": "Business Owner at SS Vegan Foods • Batch of 2000 (Aravali House)."
   },
   {
     "id": "alumni-85",
@@ -1842,15 +1842,15 @@ const defaultDirectoryAlumni = [
     "name": "Ajay Pandey",
     "initials": "AP",
     "batch": 1993,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Advocate",
     "location": "Sultanpur",
     "domain": "Corporate",
     "email": "ajayadvocate1251@gmail.com",
     "phone": "9415068535",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Advocate at Ajay Pandey Advocate • Batch of 1993 (Arawali House)."
+    "bio": "Advocate at Ajay Pandey Advocate • Batch of 1993 (Aravali House)."
   },
   {
     "id": "alumni-91",
@@ -1887,75 +1887,75 @@ const defaultDirectoryAlumni = [
     "name": "Bhanu Pratap Singh",
     "initials": "BP",
     "batch": 1998,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Captain in Merchant Navy",
     "location": "World wide",
     "domain": "Corporate",
     "email": "bpsingh901@gmail.com",
     "phone": "8299535890",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Captain in Merchant Navy at UML • Batch of 1998 (Arawali House)."
+    "bio": "Captain in Merchant Navy at UML • Batch of 1998 (Aravali House)."
   },
   {
     "id": "alumni-94",
     "name": "Nand Kumar",
     "initials": "NK",
     "batch": 1998,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Teacher",
     "location": "JAGDISHPUR",
     "domain": "Academia",
     "email": "nand11381@gmail.com",
     "phone": "9473555346",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Teacher at Basic education • Batch of 1998 (Arawali House)."
+    "bio": "Teacher at Basic education • Batch of 1998 (Aravali House)."
   },
   {
     "id": "alumni-95",
     "name": "Pramod Kumar Singh",
     "initials": "PK",
     "batch": 1998,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Software professional",
     "location": "Pune",
     "domain": "Technology",
     "email": "pramodksingh03@gmail.com",
     "phone": "9604812405",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Software professional at Capita India LTD • Batch of 1998 (Arawali House)."
+    "bio": "Software professional at Capita India LTD • Batch of 1998 (Aravali House)."
   },
   {
     "id": "alumni-96",
     "name": "Avinash",
     "initials": "A",
     "batch": 1993,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Manager Technical",
     "location": "Noida",
     "domain": "Technology",
     "email": "d.avinash.k@gmail.com",
     "phone": "9818215530",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Manager Technical at MORIROKU Technology Indian Pvt Ltd • Batch of 1993 (Arawali House)."
+    "bio": "Manager Technical at MORIROKU Technology Indian Pvt Ltd • Batch of 1993 (Aravali House)."
   },
   {
     "id": "alumni-97",
     "name": "Atma Prakash",
     "initials": "AP",
     "batch": 1996,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Manager",
     "location": "Lucknow",
     "domain": "Corporate",
     "email": "atmaprakash47516@gmail.com",
     "phone": "9140427083",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Manager at K.M sugar mill • Batch of 1996 (Arawali House)."
+    "bio": "Manager at K.M sugar mill • Batch of 1996 (Aravali House)."
   },
   {
     "id": "alumni-98",
@@ -1977,30 +1977,30 @@ const defaultDirectoryAlumni = [
     "name": "A T Rajani",
     "initials": "AT",
     "batch": 1994,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "STAFF NURSE",
     "location": "MALAMPUZHA,PALAKKAD",
     "domain": "Corporate",
     "email": "muralirajani01@gmail.com",
     "phone": "8889262830",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "STAFF NURSE at NAVODAYA VIDYALAYA SAMITI • Batch of 1994 (Arawali House)."
+    "bio": "STAFF NURSE at NAVODAYA VIDYALAYA SAMITI • Batch of 1994 (Aravali House)."
   },
   {
     "id": "alumni-100",
     "name": "Rama Shankar Yadav",
     "initials": "RS",
     "batch": 1994,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Governor's Awardee Teacher • Head Teacher",
     "location": "Gauriganj",
     "domain": "Corporate",
     "email": "rshan1477@gmail.com",
     "phone": "9651839467",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "HT at Basic Education • Batch of 1994 (Arawali House)."
+    "bio": "HT at Basic Education • Batch of 1994 (Aravali House)."
   },
   {
     "id": "alumni-101",
@@ -2022,15 +2022,15 @@ const defaultDirectoryAlumni = [
     "name": "Vishwanath Pratap Singh",
     "initials": "VP",
     "batch": 2001,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Head teacher in basic edu dept",
     "location": "Sultanpur",
     "domain": "Academia",
     "email": "singh.vishwanathpratap@gmail.com",
     "phone": "7985145735",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Head teacher in basic edu dept at Basic education dept • Batch of 2001 (Arawali House)."
+    "bio": "Head teacher in basic edu dept at Basic education dept • Batch of 2001 (Aravali House)."
   },
   {
     "id": "alumni-103",
@@ -2097,30 +2097,30 @@ const defaultDirectoryAlumni = [
     "name": "Manoj Kumar Jaiswal",
     "initials": "MK",
     "batch": 1997,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Head cashier",
     "location": "Haidergarh",
     "domain": "Corporate",
     "email": "manoj0910jaiswal@gmail.com",
     "phone": "9473520153",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Head cashier at Bank of India • Batch of 1997 (Arawali House)."
+    "bio": "Head cashier at Bank of India • Batch of 1997 (Aravali House)."
   },
   {
     "id": "alumni-108",
     "name": "Raj Shekhar Singh",
     "initials": "RS",
     "batch": 1995,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Govt appr contr",
     "location": "एनसी रेल",
     "domain": "Civil Services",
     "email": "rajshekharpbh@gmail.com",
     "phone": "8299039406",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Govt appr contr at Indra inter • Batch of 1995 (Arawali House)."
+    "bio": "Govt appr contr at Indra inter • Batch of 1995 (Aravali House)."
   },
   {
     "id": "alumni-109",
@@ -2247,30 +2247,30 @@ const defaultDirectoryAlumni = [
     "name": "Munnar Lal",
     "initials": "ML",
     "batch": 1994,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Government Job",
     "location": "Ayodhya",
     "domain": "Corporate",
     "email": "munnarlal1@gmail.com",
     "phone": "9415879407/6393551871",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Government Job at Planing • Batch of 1994 (Arawali House)."
+    "bio": "Government Job at Planing • Batch of 1994 (Aravali House)."
   },
   {
     "id": "alumni-118",
     "name": "Shweta Singh",
     "initials": "SS",
     "batch": 1998,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Business",
     "location": "X",
     "domain": "Corporate",
     "email": "shweta23123@gmail.com",
     "phone": "7905827334",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Business at X • Batch of 1998 (Arawali House)."
+    "bio": "Business at X • Batch of 1998 (Aravali House)."
   },
   {
     "id": "alumni-119",
@@ -2397,15 +2397,15 @@ const defaultDirectoryAlumni = [
     "name": "Dr. Suneeta Paswan",
     "initials": "DS",
     "batch": 1998,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Scientist",
     "location": "Saharsa , Bihar",
     "domain": "Corporate",
     "email": "suneetapaswan81@gmail.com",
     "phone": "7979817081",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Scientist at KVK, BAU, Sabour, Bhagalpur ( Bihar) • Batch of 1998 (Arawali House)."
+    "bio": "Scientist at KVK, BAU, Sabour, Bhagalpur ( Bihar) • Batch of 1998 (Aravali House)."
   },
   {
     "id": "alumni-128",
@@ -2577,15 +2577,15 @@ const defaultDirectoryAlumni = [
     "name": "Badri Vishal Mishra",
     "initials": "BV",
     "batch": 1993,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Assistant teacher",
     "location": "Haliyapur Sultanpur are you ready to",
     "domain": "Academia",
     "email": "badrivishalmishra76@gmail.com",
     "phone": "9451255537",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Assistant teacher at SSBS inter College haliyapur Sultanpur up • Batch of 1993 (Arawali House)."
+    "bio": "Assistant teacher at SSBS inter College haliyapur Sultanpur up • Batch of 1993 (Aravali House)."
   },
   {
     "id": "alumni-140",
@@ -2622,15 +2622,15 @@ const defaultDirectoryAlumni = [
     "name": "Ajay Gautam",
     "initials": "AG",
     "batch": 1997,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Teaching",
     "location": "Sultanpur",
     "domain": "Corporate",
     "email": "ajaykumar151180@gmail.com",
     "phone": "8009704462",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Teaching at UP Basic shiksha parishad • Batch of 1997 (Arawali House)."
+    "bio": "Teaching at UP Basic shiksha parishad • Batch of 1997 (Aravali House)."
   },
   {
     "id": "alumni-143",
@@ -2727,15 +2727,15 @@ const defaultDirectoryAlumni = [
     "name": "Rahul Pandey",
     "initials": "RP",
     "batch": 1996,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Service / Branch Manager",
     "location": "Unnao",
     "domain": "Corporate",
     "email": "rahulaxis@gmail.com",
     "phone": "7007656070",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Service / Branch Manager at HDFC Bank • Batch of 1996 (Arawali House)."
+    "bio": "Service / Branch Manager at HDFC Bank • Batch of 1996 (Aravali House)."
   },
   {
     "id": "alumni-150",
@@ -2772,15 +2772,15 @@ const defaultDirectoryAlumni = [
     "name": "Dr Ahmad Ali",
     "initials": "DA",
     "batch": 1996,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Doctor",
     "location": "Sultanpur",
     "domain": "Medicine",
     "email": "dr.ahmadali1979@gmail.com",
     "phone": "9935845606",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Doctor at Ya Waris Nursing Home • Batch of 1996 (Arawali House)."
+    "bio": "Doctor at Ya Waris Nursing Home • Batch of 1996 (Aravali House)."
   },
   {
     "id": "alumni-153",
@@ -2892,15 +2892,15 @@ const defaultDirectoryAlumni = [
     "name": "Raj Kumar Baranwal",
     "initials": "RK",
     "batch": 2014,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "JE Indian railway",
     "location": "Bhusawal",
     "domain": "Corporate",
     "email": "rajiit.98@gmail.com",
     "phone": "7007357464",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "JE Indian railway at Indian railway • Batch of 2014 (Arawali House)."
+    "bio": "JE Indian railway at Indian railway • Batch of 2014 (Aravali House)."
   },
   {
     "id": "alumni-161",
@@ -3042,45 +3042,45 @@ const defaultDirectoryAlumni = [
     "name": "Abhay Sharma",
     "initials": "AS",
     "batch": 2020,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Engineering",
     "location": "Bhopal",
     "domain": "Technology",
     "email": "abhaysharmamantu@gmail.com",
     "phone": "7413853084",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Engineering at College • Batch of 2020 (Arawali House)."
+    "bio": "Engineering at College • Batch of 2020 (Aravali House)."
   },
   {
     "id": "alumni-171",
     "name": "Daya Shankar",
     "initials": "DS",
     "batch": 2008,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Assistant teacher",
     "location": "Sangrampur",
     "domain": "Academia",
     "email": "devbtc11@gmail.com",
     "phone": "9598447969",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Assistant teacher at Department of Basic education up • Batch of 2008 (Arawali House)."
+    "bio": "Assistant teacher at Department of Basic education up • Batch of 2008 (Aravali House)."
   },
   {
     "id": "alumni-172",
     "name": "Anshika Giri",
     "initials": "AG",
     "batch": 2020,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Bsc student",
     "location": "Home",
     "domain": "Corporate",
     "email": "anshikagiri011@gmail.com",
     "phone": "9219088529",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Bsc student at Awadh University • Batch of 2020 (Arawali House)."
+    "bio": "Bsc student at Awadh University • Batch of 2020 (Aravali House)."
   },
   {
     "id": "alumni-173",
@@ -3102,15 +3102,15 @@ const defaultDirectoryAlumni = [
     "name": "Pawan Kumar Kaushal",
     "initials": "PK",
     "batch": 2001,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Business",
     "location": "Jagdishpur",
     "domain": "Corporate",
     "email": "pawankaushal0007@gmail.com",
     "phone": "8707566096",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Business at Not yet • Batch of 2001 (Arawali House)."
+    "bio": "Business at Not yet • Batch of 2001 (Aravali House)."
   },
   {
     "id": "alumni-175",
@@ -3192,30 +3192,30 @@ const defaultDirectoryAlumni = [
     "name": "Pradeep Kumar",
     "initials": "PK",
     "batch": 2003,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Assistant teacher in up basic",
     "location": "C S Hariharpur Bihar Kunda Pratapgarh",
     "domain": "Academia",
     "email": "pk104758@gmail.com",
     "phone": "9621057938",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Assistant teacher in up basic at UP Basic Education • Batch of 2003 (Arawali House)."
+    "bio": "Assistant teacher in up basic at UP Basic Education • Batch of 2003 (Aravali House)."
   },
   {
     "id": "alumni-181",
     "name": "Raj Gautam",
     "initials": "RG",
     "batch": 2022,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Student",
     "location": "No",
     "domain": "Corporate",
     "email": "graj37664@gmail.com",
     "phone": "8881403365",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Student at No • Batch of 2022 (Arawali House)."
+    "bio": "Student at No • Batch of 2022 (Aravali House)."
   },
   {
     "id": "alumni-182",
@@ -3252,15 +3252,15 @@ const defaultDirectoryAlumni = [
     "name": "Neelesh Kumar Agrahari",
     "initials": "NK",
     "batch": 2018,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Student",
     "location": "Nil",
     "domain": "Corporate",
     "email": "agraharineelesh9@gmail.com",
     "phone": "7393887087",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Student at Nil • Batch of 2018 (Arawali House)."
+    "bio": "Student at Nil • Batch of 2018 (Aravali House)."
   },
   {
     "id": "alumni-185",
@@ -3312,45 +3312,45 @@ const defaultDirectoryAlumni = [
     "name": "Alok Mishra",
     "initials": "AM",
     "batch": 1993,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Teacher",
     "location": "Lucknow",
     "domain": "Academia",
     "email": "alokgnj1976@gmail.com",
     "phone": "9452646956",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Teacher at Khalsa College Lucknow • Batch of 1993 (Arawali House)."
+    "bio": "Teacher at Khalsa College Lucknow • Batch of 1993 (Aravali House)."
   },
   {
     "id": "alumni-189",
     "name": "Dinesh Maurya",
     "initials": "DM",
     "batch": 2003,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Teacher",
     "location": "Gonda",
     "domain": "Academia",
     "email": "brdinesh1986@gmail.com",
     "phone": "8795030049",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Teacher at Basic Education • Batch of 2003 (Arawali House)."
+    "bio": "Teacher at Basic Education • Batch of 2003 (Aravali House)."
   },
   {
     "id": "alumni-190",
     "name": "Amritlal",
     "initials": "A",
     "batch": 2004,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Subdivisional officer",
     "location": "Ballia",
     "domain": "Civil Services",
     "email": "amritlal270@gmail.com",
     "phone": "9006174987",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Subdivisional officer at Irrigation and water resources department govt of UP • Batch of 2004 (Arawali House)."
+    "bio": "Subdivisional officer at Irrigation and water resources department govt of UP • Batch of 2004 (Aravali House)."
   },
   {
     "id": "alumni-191",
@@ -3372,15 +3372,15 @@ const defaultDirectoryAlumni = [
     "name": "Mahendra Kumar",
     "initials": "MK",
     "batch": 2002,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Up",
     "location": "Erica",
     "domain": "Corporate",
     "email": "n23441643@gmail.com",
     "phone": "7379223899",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Up at Erica • Batch of 2002 (Arawali House)."
+    "bio": "Up at Erica • Batch of 2002 (Aravali House)."
   },
   {
     "id": "alumni-193",
@@ -3537,15 +3537,15 @@ const defaultDirectoryAlumni = [
     "name": "Satyendra Kumar",
     "initials": "SK",
     "batch": 2001,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Training Manager/Area Manager",
     "location": "LUCKNOW",
     "domain": "Corporate",
     "email": "satyendrak101@gmail.com",
     "phone": "9918399996",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Training Manager/Area Manager at Talent India • Batch of 2001 (Arawali House)."
+    "bio": "Training Manager/Area Manager at Talent India • Batch of 2001 (Aravali House)."
   },
   {
     "id": "alumni-204",
@@ -3597,15 +3597,15 @@ const defaultDirectoryAlumni = [
     "name": "Anil Kumar Pandey",
     "initials": "AK",
     "batch": 2011,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Branch manager",
     "location": "Kaushambi",
     "domain": "Corporate",
     "email": "anilpandey10feb@gmail.com",
     "phone": "9415403638",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Branch manager at Bank of Baroda • Batch of 2011 (Arawali House)."
+    "bio": "Branch manager at Bank of Baroda • Batch of 2011 (Aravali House)."
   },
   {
     "id": "alumni-208",
@@ -3657,45 +3657,45 @@ const defaultDirectoryAlumni = [
     "name": "Abhay Pratap Singh",
     "initials": "AP",
     "batch": 2006,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "A.T.",
     "location": "Gonda",
     "domain": "Corporate",
     "email": "singhabhaypratap89@gmail.com",
     "phone": "9170386188",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "A.T. at Basic education • Batch of 2006 (Arawali House)."
+    "bio": "A.T. at Basic education • Batch of 2006 (Aravali House)."
   },
   {
     "id": "alumni-212",
     "name": "Vishnu Narayan Maurya",
     "initials": "VN",
     "batch": 2007,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Mechanical Engineer",
     "location": "UAE",
     "domain": "Technology",
     "email": "vishnu91290@gmail.com",
     "phone": "971561311240",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Mechanical Engineer at FIBREX • Batch of 2007 (Arawali House)."
+    "bio": "Mechanical Engineer at FIBREX • Batch of 2007 (Aravali House)."
   },
   {
     "id": "alumni-213",
     "name": "Prabhat Kumar",
     "initials": "PK",
     "batch": 2019,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Legel Students",
     "location": "Allahabad",
     "domain": "Corporate",
     "email": "prabhatpk2002s@gmail.com",
     "phone": "9956467680",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Legel Students at Ballb • Batch of 2019 (Arawali House)."
+    "bio": "Legel Students at Ballb • Batch of 2019 (Aravali House)."
   },
   {
     "id": "alumni-214",
@@ -3717,15 +3717,15 @@ const defaultDirectoryAlumni = [
     "name": "Parvati Gupta",
     "initials": "PG",
     "batch": 2007,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Teacher",
     "location": "Jaisinghpur",
     "domain": "Academia",
     "email": "parvatigupta020490@gmail.com",
     "phone": "7007970936",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Teacher at Basic shiksha vibhag • Batch of 2007 (Arawali House)."
+    "bio": "Teacher at Basic shiksha vibhag • Batch of 2007 (Aravali House)."
   },
   {
     "id": "alumni-216",
@@ -3747,30 +3747,30 @@ const defaultDirectoryAlumni = [
     "name": "Riya",
     "initials": "R",
     "batch": 2016,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Study",
     "location": "Prayagraj",
     "domain": "Corporate",
     "email": "riyakanaujiya18061998@gmail.com",
     "phone": "8810735593",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Study at Allahabad University • Batch of 2016 (Arawali House)."
+    "bio": "Study at Allahabad University • Batch of 2016 (Aravali House)."
   },
   {
     "id": "alumni-218",
     "name": "Jai Bahadur",
     "initials": "JB",
     "batch": 1993,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Teacher",
     "location": "Junior high school Bhanti, Kurwar, Sultanpur",
     "domain": "Academia",
     "email": "jbsln800500@gmail.com",
     "phone": "7985447728",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Teacher at Basic Shiksha Parishad • Batch of 1993 (Arawali House)."
+    "bio": "Teacher at Basic Shiksha Parishad • Batch of 1993 (Aravali House)."
   },
   {
     "id": "alumni-219",
@@ -3807,15 +3807,15 @@ const defaultDirectoryAlumni = [
     "name": "Reetesh Singh",
     "initials": "RS",
     "batch": 2011,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Technical Lead/Software development",
     "location": "Vancouver, Canada",
     "domain": "Technology",
     "email": "reetesh.29.rks@gmail.com",
     "phone": "17783253530",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Technical Lead/Software development at HCL Technologies • Batch of 2011 (Arawali House)."
+    "bio": "Technical Lead/Software development at HCL Technologies • Batch of 2011 (Aravali House)."
   },
   {
     "id": "alumni-222",
@@ -3837,30 +3837,30 @@ const defaultDirectoryAlumni = [
     "name": "Awadhesh Kumar Shukla",
     "initials": "AK",
     "batch": 1999,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Regional Sales Manager",
     "location": "Lucknow",
     "domain": "Corporate",
     "email": "awadhesh1448@gmail.com",
     "phone": "9918871448",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Regional Sales Manager at Kristal Spirits India Pvt Ltd • Batch of 1999 (Arawali House)."
+    "bio": "Regional Sales Manager at Kristal Spirits India Pvt Ltd • Batch of 1999 (Aravali House)."
   },
   {
     "id": "alumni-224",
     "name": "Abdul Quais",
     "initials": "AQ",
     "batch": 1993,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Basic teacher",
     "location": "Maya, Ayodhya",
     "domain": "Academia",
     "email": "abdulquais1976@gmail.com",
     "phone": "9415785500",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Basic teacher at N/A • Batch of 1993 (Arawali House)."
+    "bio": "Basic teacher at N/A • Batch of 1993 (Aravali House)."
   },
   {
     "id": "alumni-225",
@@ -3897,45 +3897,45 @@ const defaultDirectoryAlumni = [
     "name": "Avaneesh Ojha",
     "initials": "AO",
     "batch": 2007,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Service/Assistant General Manager- Tendering and proposals",
     "location": "NOIDA",
     "domain": "Corporate",
     "email": "avanishoj@gmail.com",
     "phone": "8130148280",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Service/Assistant General Manager- Tendering and proposals at Swam pneumatics pvt ltd • Batch of 2007 (Arawali House)."
+    "bio": "Service/Assistant General Manager- Tendering and proposals at Swam pneumatics pvt ltd • Batch of 2007 (Aravali House)."
   },
   {
     "id": "alumni-228",
     "name": "Ram Govind Dwivedi",
     "initials": "RG",
     "batch": 2006,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Assistant teacher",
     "location": "Sultanpur",
     "domain": "Academia",
     "email": "rgdwivediii@gmail.com",
     "phone": "8299164458",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Assistant teacher at Department of basic education • Batch of 2006 (Arawali House)."
+    "bio": "Assistant teacher at Department of basic education • Batch of 2006 (Aravali House)."
   },
   {
     "id": "alumni-229",
     "name": "Prem Shankar Pandey",
     "initials": "PS",
     "batch": 1993,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Business",
     "location": "Bhain",
     "domain": "Corporate",
     "email": "gauravpremshankar75@gmail.com",
     "phone": "6306713092",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Business at Director • Batch of 1993 (Arawali House)."
+    "bio": "Business at Director • Batch of 1993 (Aravali House)."
   },
   {
     "id": "alumni-230",
@@ -4002,15 +4002,15 @@ const defaultDirectoryAlumni = [
     "name": "Aditya Gupta",
     "initials": "AG",
     "batch": 2016,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Merchant Navy/ Marine Engineer",
     "location": "Worldwide",
     "domain": "Technology",
     "email": "info.gupta.aditya@gmail.com",
     "phone": "9828750156",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Merchant Navy/ Marine Engineer at BSM • Batch of 2016 (Arawali House)."
+    "bio": "Merchant Navy/ Marine Engineer at BSM • Batch of 2016 (Aravali House)."
   },
   {
     "id": "alumni-235",
@@ -4032,15 +4032,15 @@ const defaultDirectoryAlumni = [
     "name": "Aijaj Hussain",
     "initials": "AH",
     "batch": 2007,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Private job",
     "location": "Bareilly",
     "domain": "Corporate",
     "email": "aijajhussain1990@gmail.com",
     "phone": "8445932036",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Private job at AKC World Bajaj • Batch of 2007 (Arawali House)."
+    "bio": "Private job at AKC World Bajaj • Batch of 2007 (Aravali House)."
   },
   {
     "id": "alumni-237",
@@ -4077,15 +4077,15 @@ const defaultDirectoryAlumni = [
     "name": "Ajay Kumar Verma",
     "initials": "AK",
     "batch": 2008,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Service",
     "location": "Prayagraj",
     "domain": "Corporate",
     "email": "ajaymuir76@gmail.com",
     "phone": "9454268816",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Service at Department of post • Batch of 2008 (Arawali House)."
+    "bio": "Service at Department of post • Batch of 2008 (Aravali House)."
   },
   {
     "id": "alumni-240",
@@ -4122,15 +4122,15 @@ const defaultDirectoryAlumni = [
     "name": "Chandra Prakash Jaiswal",
     "initials": "CP",
     "batch": 2001,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Officer",
     "location": "Sultanpur",
     "domain": "Civil Services",
     "email": "chandra.jnv@gmail.com",
     "phone": "9936597487",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Officer at Bank of Baroda • Batch of 2001 (Arawali House)."
+    "bio": "Officer at Bank of Baroda • Batch of 2001 (Aravali House)."
   },
   {
     "id": "alumni-243",
@@ -4152,15 +4152,15 @@ const defaultDirectoryAlumni = [
     "name": "Aditya Mishra",
     "initials": "AM",
     "batch": 2015,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Journalist",
     "location": "Bhopal",
     "domain": "Media & Journalism",
     "email": "adityamishravoice@gmail.com",
     "phone": "7080761722",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Journalist at Dainik Bhaskar • Batch of 2015 (Arawali House)."
+    "bio": "Journalist at Dainik Bhaskar • Batch of 2015 (Aravali House)."
   },
   {
     "id": "alumni-245",
@@ -4182,15 +4182,15 @@ const defaultDirectoryAlumni = [
     "name": "Mohammad Mamoon",
     "initials": "MM",
     "batch": 2005,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Engineer",
     "location": "Delhi",
     "domain": "Technology",
     "email": "mamoon.jmi@gmail.com",
     "phone": "9871182839",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Engineer at GE RENEWABLES • Batch of 2005 (Arawali House)."
+    "bio": "Engineer at GE RENEWABLES • Batch of 2005 (Aravali House)."
   },
   {
     "id": "alumni-247",
@@ -4212,15 +4212,15 @@ const defaultDirectoryAlumni = [
     "name": "Bhanu Pratap Singh",
     "initials": "BP",
     "batch": 2014,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Real Estate Sector",
     "location": "Lucknow",
     "domain": "Corporate",
     "email": "1bhanu.singh@gmail.com",
     "phone": "9026272003",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Real Estate Sector at MG BUILDER &amp; DEVELOPERS , ALIGANJ CENTRAL LIBRARY • Batch of 2014 (Arawali House)."
+    "bio": "Real Estate Sector at MG BUILDER &amp; DEVELOPERS , ALIGANJ CENTRAL LIBRARY • Batch of 2014 (Aravali House)."
   },
   {
     "id": "alumni-249",
@@ -4347,15 +4347,15 @@ const defaultDirectoryAlumni = [
     "name": "Mayank Verma",
     "initials": "MV",
     "batch": 2016,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Software Developer",
     "location": "Delhi",
     "domain": "Technology",
     "email": "sammayank765@gmail.com",
     "phone": "9454001097",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Software Developer at Gokwik • Batch of 2016 (Arawali House)."
+    "bio": "Software Developer at Gokwik • Batch of 2016 (Aravali House)."
   },
   {
     "id": "alumni-258",
@@ -4377,15 +4377,15 @@ const defaultDirectoryAlumni = [
     "name": "Prem Chandra Baranwal",
     "initials": "PC",
     "batch": 1999,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "HEAD TEACHER IN BASIC SIKSHA",
     "location": "Mochwa block bhadar dist. Amethi",
     "domain": "Academia",
     "email": "prembaranwal2020@gmail.com",
     "phone": "9452848707",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "HEAD TEACHER IN BASIC SIKSHA at 0 • Batch of 1999 (Arawali House)."
+    "bio": "HEAD TEACHER IN BASIC SIKSHA at 0 • Batch of 1999 (Aravali House)."
   },
   {
     "id": "alumni-260",
@@ -4422,15 +4422,15 @@ const defaultDirectoryAlumni = [
     "name": "Ramendra Kumar",
     "initials": "RK",
     "batch": 2018,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "DIGITAL MARKETER",
     "location": "LUCKOW",
     "domain": "Technology",
     "email": "conultantramu12@gmail.com",
     "phone": "8299021088",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "DIGITAL MARKETER at SELF EMPLOYED • Batch of 2018 (Arawali House)."
+    "bio": "DIGITAL MARKETER at SELF EMPLOYED • Batch of 2018 (Aravali House)."
   },
   {
     "id": "alumni-263",
@@ -4467,15 +4467,15 @@ const defaultDirectoryAlumni = [
     "name": "Rajat Kumar Yadav",
     "initials": "RK",
     "batch": 2007,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Orthopaedic surgeon",
     "location": "Delhi",
     "domain": "Corporate",
     "email": "rajatyadav966@gmail.com",
     "phone": "9990756148",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Orthopaedic surgeon at Private hospital • Batch of 2007 (Arawali House)."
+    "bio": "Orthopaedic surgeon at Private hospital • Batch of 2007 (Aravali House)."
   },
   {
     "id": "alumni-266",
@@ -4497,15 +4497,15 @@ const defaultDirectoryAlumni = [
     "name": "Maharaj Baksh Singh",
     "initials": "MB",
     "batch": 1993,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Advocate",
     "location": "Lucknow",
     "domain": "Corporate",
     "email": "maharajbaksh30@gmail.com",
     "phone": "9415471325",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Advocate at High Court • Batch of 1993 (Arawali House)."
+    "bio": "Advocate at High Court • Batch of 1993 (Aravali House)."
   },
   {
     "id": "alumni-268",
@@ -4557,15 +4557,15 @@ const defaultDirectoryAlumni = [
     "name": "Hemant Gupta",
     "initials": "HG",
     "batch": 2016,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Student",
     "location": "Sultanpur",
     "domain": "Corporate",
     "email": "hemantgupta1435@gmail.com",
     "phone": "8707326032",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Student at RMLAU • Batch of 2016 (Arawali House)."
+    "bio": "Student at RMLAU • Batch of 2016 (Aravali House)."
   },
   {
     "id": "alumni-272",
@@ -4602,15 +4602,15 @@ const defaultDirectoryAlumni = [
     "name": "Swati Gautam",
     "initials": "SG",
     "batch": 2020,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "PG Student",
     "location": "Akbarpur Ambedkar Nagar",
     "domain": "Corporate",
     "email": "swatiroy9956@gmail.com",
     "phone": "9670910493",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "PG Student at Dr. Ram Manohar Lohia Avadh University ayodhya • Batch of 2020 (Arawali House)."
+    "bio": "PG Student at Dr. Ram Manohar Lohia Avadh University ayodhya • Batch of 2020 (Aravali House)."
   },
   {
     "id": "alumni-275",
@@ -4632,15 +4632,15 @@ const defaultDirectoryAlumni = [
     "name": "Arvind Kumar Agrahari",
     "initials": "AK",
     "batch": 2003,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Medical",
     "location": "Sultanpur",
     "domain": "Medicine",
     "email": "ajayknitgic555@gmail.com",
     "phone": "8830790870",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Medical at Self • Batch of 2003 (Arawali House)."
+    "bio": "Medical at Self • Batch of 2003 (Aravali House)."
   },
   {
     "id": "alumni-277",
@@ -4767,15 +4767,15 @@ const defaultDirectoryAlumni = [
     "name": "Suman Sharma",
     "initials": "SS",
     "batch": 1996,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "House-wife",
     "location": "NA",
     "domain": "Corporate",
     "email": "ravindrakumar06039@gmail.com",
     "phone": "9616160644",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "House-wife at NA • Batch of 1996 (Arawali House)."
+    "bio": "House-wife at NA • Batch of 1996 (Aravali House)."
   },
   {
     "id": "alumni-286",
@@ -4812,30 +4812,30 @@ const defaultDirectoryAlumni = [
     "name": "Abha Mishra",
     "initials": "AM",
     "batch": 2013,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Housewife",
     "location": "Nil",
     "domain": "Corporate",
     "email": "abhamishra510@gmail.com",
     "phone": "6394954641",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Housewife at Nil • Batch of 2013 (Arawali House)."
+    "bio": "Housewife at Nil • Batch of 2013 (Aravali House)."
   },
   {
     "id": "alumni-289",
     "name": "Santosh Yadav",
     "initials": "SY",
     "batch": 2007,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Manager - Commercial Air conditioning",
     "location": "Vadodara Gujrat",
     "domain": "Technology",
     "email": "90santosh1110@gmail.com",
     "phone": "9897199095",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Manager - Commercial Air conditioning at Voltas Limited • Batch of 2007 (Arawali House)."
+    "bio": "Manager - Commercial Air conditioning at Voltas Limited • Batch of 2007 (Aravali House)."
   },
   {
     "id": "alumni-290",
@@ -4872,15 +4872,15 @@ const defaultDirectoryAlumni = [
     "name": "Vineeta Saroj",
     "initials": "VS",
     "batch": 2019,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Art teacher",
     "location": "Study in rammanohar lohia awadh University ayodhya",
     "domain": "Academia",
     "email": "vineetasaroj55@gmail.com",
     "phone": "7565855868",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Art teacher at Master (painting) • Batch of 2019 (Arawali House)."
+    "bio": "Art teacher at Master (painting) • Batch of 2019 (Aravali House)."
   },
   {
     "id": "alumni-293",
@@ -4992,15 +4992,15 @@ const defaultDirectoryAlumni = [
     "name": "Avinash Kumar Singh",
     "initials": "AK",
     "batch": 2017,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Process Engineer",
     "location": "UPL Unit-12 Dahej,Bharuch, Gujrat",
     "domain": "Technology",
     "email": "avinash151617ab@gmail.com",
     "phone": "9044384357",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Process Engineer at UPL (United Phosphorus Limited) • Batch of 2017 (Arawali House)."
+    "bio": "Process Engineer at UPL (United Phosphorus Limited) • Batch of 2017 (Aravali House)."
   },
   {
     "id": "alumni-301",
@@ -5052,15 +5052,15 @@ const defaultDirectoryAlumni = [
     "name": "Dr. Pankaj Baranwal",
     "initials": "DP",
     "batch": 2005,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Associate professor, Doctor",
     "location": "Darshan ager , ayodhya",
     "domain": "Medicine",
     "email": "pankajims08@gmail.com",
     "phone": "8299272633",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Associate professor, Doctor at Ayodhya medical College, Ayodhya • Batch of 2005 (Arawali House)."
+    "bio": "Associate professor, Doctor at Ayodhya medical College, Ayodhya • Batch of 2005 (Aravali House)."
   },
   {
     "id": "alumni-305",
@@ -5262,15 +5262,15 @@ const defaultDirectoryAlumni = [
     "name": "Sushma Singh",
     "initials": "SS",
     "batch": 1996,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Assistant teacher",
     "location": "Ranmau block Dalmau Raebareli",
     "domain": "Academia",
     "email": "sushmasinghsln@gmail.com",
     "phone": "9451776860",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Assistant teacher at Basic Education • Batch of 1996 (Arawali House)."
+    "bio": "Assistant teacher at Basic Education • Batch of 1996 (Aravali House)."
   },
   {
     "id": "alumni-319",
@@ -5307,30 +5307,30 @@ const defaultDirectoryAlumni = [
     "name": "Vivek Mishra",
     "initials": "VM",
     "batch": 2008,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "District information system manager",
     "location": "CMO Office",
     "domain": "Corporate",
     "email": "vivekmishra5759@gmail.com",
     "phone": "9453900653",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "District information system manager at Health department • Batch of 2008 (Arawali House)."
+    "bio": "District information system manager at Health department • Batch of 2008 (Aravali House)."
   },
   {
     "id": "alumni-322",
     "name": "Anlesh Vikram Rao",
     "initials": "AV",
     "batch": 1999,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "SERVICE",
     "location": "SULTANPUR. UTTAR PRADESH",
     "domain": "Corporate",
     "email": "anilesh123@gmail.com",
     "phone": "9452107617",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "SERVICE at LIFE INSURANCE CORPORATION OF INDIA • Batch of 1999 (Arawali House)."
+    "bio": "SERVICE at LIFE INSURANCE CORPORATION OF INDIA • Batch of 1999 (Aravali House)."
   },
   {
     "id": "alumni-323",
@@ -5367,15 +5367,15 @@ const defaultDirectoryAlumni = [
     "name": "Vishal Jaiswal",
     "initials": "VJ",
     "batch": 1998,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Businessman",
     "location": "Derwa Pratapgarh",
     "domain": "Corporate",
     "email": "jaisankur@gmail.com",
     "phone": "9795116263",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Businessman at Vishal Traders( Reliance Jio Distribution &amp; Electronic Showroom) • Batch of 1998 (Arawali House)."
+    "bio": "Businessman at Vishal Traders( Reliance Jio Distribution &amp; Electronic Showroom) • Batch of 1998 (Aravali House)."
   },
   {
     "id": "alumni-326",
@@ -5397,15 +5397,15 @@ const defaultDirectoryAlumni = [
     "name": "Rahul Tripathi",
     "initials": "RT",
     "batch": 2006,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Chief Manager Legal",
     "location": "Mumbai",
     "domain": "Corporate",
     "email": "tripathijirahultripathiji@gmail.com",
     "phone": "9755501166",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Chief Manager Legal at IIFL • Batch of 2006 (Arawali House)."
+    "bio": "Chief Manager Legal at IIFL • Batch of 2006 (Aravali House)."
   },
   {
     "id": "alumni-328",
@@ -5592,15 +5592,15 @@ const defaultDirectoryAlumni = [
     "name": "Vivekanand Yadav",
     "initials": "VY",
     "batch": 2004,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Assistant teacher",
     "location": "Varanasi",
     "domain": "Academia",
     "email": "satya15689@gmail.com",
     "phone": "7355424259",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Assistant teacher at Basic education up • Batch of 2004 (Arawali House)."
+    "bio": "Assistant teacher at Basic education up • Batch of 2004 (Aravali House)."
   },
   {
     "id": "alumni-341",
@@ -5697,30 +5697,30 @@ const defaultDirectoryAlumni = [
     "name": "Anand Dev Shukla",
     "initials": "AD",
     "batch": 2020,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Student",
     "location": "Lucknow University",
     "domain": "Corporate",
     "email": "sureshsumananand@gmail.com",
     "phone": "6306776529",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Student at Lucknow University • Batch of 2020 (Arawali House)."
+    "bio": "Student at Lucknow University • Batch of 2020 (Aravali House)."
   },
   {
     "id": "alumni-348",
     "name": "Aman Mishra",
     "initials": "AM",
     "batch": 2013,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Non Working / student",
     "location": "NA",
     "domain": "Corporate",
     "email": "amanmishra004@gmail.com",
     "phone": "9120109595",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Non Working / student at NA • Batch of 2013 (Arawali House)."
+    "bio": "Non Working / student at NA • Batch of 2013 (Aravali House)."
   },
   {
     "id": "alumni-349",
@@ -5847,45 +5847,45 @@ const defaultDirectoryAlumni = [
     "name": "Yogesh Gupta",
     "initials": "YG",
     "batch": 2020,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Student",
     "location": "Phagwara",
     "domain": "Corporate",
     "email": "yogeshg5031@gmail.com",
     "phone": "7217874571",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Student at Lovely professional University • Batch of 2020 (Arawali House)."
+    "bio": "Student at Lovely professional University • Batch of 2020 (Aravali House)."
   },
   {
     "id": "alumni-358",
     "name": "Amarjeet Kumar Nishad",
     "initials": "AK",
     "batch": 2023,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Nil",
     "location": "Nil",
     "domain": "Corporate",
     "email": "amarjeetkumarnishad777@gmail.com",
     "phone": "8853072513",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Nil at Nil • Batch of 2023 (Arawali House)."
+    "bio": "Nil at Nil • Batch of 2023 (Aravali House)."
   },
   {
     "id": "alumni-359",
     "name": "Manish Tripathi",
     "initials": "MT",
     "batch": 1993,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "BPO/DGM",
     "location": "GURGAON",
     "domain": "Corporate",
     "email": "manishtripathi007@gmail.com",
     "phone": "9971533288",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "BPO/DGM at CONCENTRIX • Batch of 1993 (Arawali House)."
+    "bio": "BPO/DGM at CONCENTRIX • Batch of 1993 (Aravali House)."
   },
   {
     "id": "alumni-360",
@@ -5907,30 +5907,30 @@ const defaultDirectoryAlumni = [
     "name": "Yogendra Pathik",
     "initials": "YP",
     "batch": 2013,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Software Engineer",
     "location": "Gurgaon",
     "domain": "Technology",
     "email": "yogendrapathik97@gmail.com",
     "phone": "8318495699",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Software Engineer at Gemini Solutions • Batch of 2013 (Arawali House)."
+    "bio": "Software Engineer at Gemini Solutions • Batch of 2013 (Aravali House)."
   },
   {
     "id": "alumni-362",
     "name": "Shilpi Singh",
     "initials": "SS",
     "batch": 2000,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Teacher",
     "location": "Bhitaura Fatehpur",
     "domain": "Academia",
     "email": "ss895945@gmail.com",
     "phone": "9026192511",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Teacher at Basic education department • Batch of 2000 (Arawali House)."
+    "bio": "Teacher at Basic education department • Batch of 2000 (Aravali House)."
   },
   {
     "id": "alumni-363",
@@ -6102,15 +6102,15 @@ const defaultDirectoryAlumni = [
     "name": "Nikhil Kumar Thather",
     "initials": "NK",
     "batch": 2008,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Assistant Teacher",
     "location": "Jamo",
     "domain": "Academia",
     "email": "niks06kumar@gmail.com",
     "phone": "9169759959",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Assistant Teacher at Basic education department • Batch of 2008 (Arawali House)."
+    "bio": "Assistant Teacher at Basic education department • Batch of 2008 (Aravali House)."
   },
   {
     "id": "alumni-375",
@@ -6132,15 +6132,15 @@ const defaultDirectoryAlumni = [
     "name": "Pooja Gupta",
     "initials": "PG",
     "batch": 2009,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Assistant Teacher",
     "location": "Sultanpur",
     "domain": "Academia",
     "email": "poojagupta190192@gmail.com",
     "phone": "7786936258",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Assistant Teacher at Basic shiksha vibhag • Batch of 2009 (Arawali House)."
+    "bio": "Assistant Teacher at Basic shiksha vibhag • Batch of 2009 (Aravali House)."
   },
   {
     "id": "alumni-377",
@@ -6177,15 +6177,15 @@ const defaultDirectoryAlumni = [
     "name": "Shivani Maurya",
     "initials": "SM",
     "batch": 2018,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Engineer- Developer",
     "location": "Chennai",
     "domain": "Technology",
     "email": "shivanilife06@gmail.com",
     "phone": "6386911782",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Engineer- Developer at Tata Consultancy Services • Batch of 2018 (Arawali House)."
+    "bio": "Engineer- Developer at Tata Consultancy Services • Batch of 2018 (Aravali House)."
   },
   {
     "id": "alumni-380",
@@ -6207,30 +6207,30 @@ const defaultDirectoryAlumni = [
     "name": "Prachi Tiwari",
     "initials": "PT",
     "batch": 2023,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Student",
     "location": "India",
     "domain": "Corporate",
     "email": "prachi84290@gmail.com",
     "phone": "8429040367",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Student • Batch of 2023 (Arawali House)."
+    "bio": "Student • Batch of 2023 (Aravali House)."
   },
   {
     "id": "alumni-382",
     "name": "Ajay Narayan Jha",
     "initials": "AN",
     "batch": 1996,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Alumnus",
     "location": "India",
     "domain": "Corporate",
     "email": "ajaynarayan710@gmai.com",
     "phone": "7388852024",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Alumnus • Batch of 1996 (Arawali House)."
+    "bio": "Alumnus • Batch of 1996 (Aravali House)."
   },
   {
     "id": "alumni-383",
@@ -6402,15 +6402,15 @@ const defaultDirectoryAlumni = [
     "name": "Devesh Kumar Majumdar",
     "initials": "DK",
     "batch": 1995,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Homoeopathic Medical Officer",
     "location": "KULPI, SOUTH 24 PARGAMAS, West Bengal",
     "domain": "Medicine",
     "email": "deveshkr.majumdar@gmail.com",
     "phone": "7586-874181",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Homoeopathic Medical Officer at West Bengal Homoeopathic Health Services • Batch of 1995 (Arawali House)."
+    "bio": "Homoeopathic Medical Officer at West Bengal Homoeopathic Health Services • Batch of 1995 (Aravali House)."
   },
   {
     "id": "alumni-395",
@@ -6447,15 +6447,15 @@ const defaultDirectoryAlumni = [
     "name": "Arvind Kumar",
     "initials": "AK",
     "batch": 2008,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Assistant Teacher P S Saranw kurwar sultanpur up",
     "location": "Sultanpur",
     "domain": "Academia",
     "email": "kumararvind2501@gmail.com",
     "phone": "7905340371",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Assistant Teacher P S Saranw kurwar sultanpur up at Jnv alumni • Batch of 2008 (Arawali House)."
+    "bio": "Assistant Teacher P S Saranw kurwar sultanpur up at Jnv alumni • Batch of 2008 (Aravali House)."
   },
   {
     "id": "alumni-398",
@@ -6492,30 +6492,30 @@ const defaultDirectoryAlumni = [
     "name": "Ramroop Gautam",
     "initials": "RG",
     "batch": 1998,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Private job",
     "location": "Surat Gujarat",
     "domain": "Corporate",
     "email": "ramroopgautam48@gmail.com",
     "phone": "8128085022",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Private job at DyingPrinting mill • Batch of 1998 (Arawali House)."
+    "bio": "Private job at DyingPrinting mill • Batch of 1998 (Aravali House)."
   },
   {
     "id": "alumni-401",
     "name": "Sudheer Singh",
     "initials": "SS",
     "batch": 2011,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "TEACHER",
     "location": "MUSAFIRKHANA",
     "domain": "Academia",
     "email": "sudheer3ssl@gmail.com",
     "phone": "9452584803",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "TEACHER at BASIC EDUCATION DEPARTMENT • Batch of 2011 (Arawali House)."
+    "bio": "TEACHER at BASIC EDUCATION DEPARTMENT • Batch of 2011 (Aravali House)."
   },
   {
     "id": "alumni-402",
@@ -6537,30 +6537,30 @@ const defaultDirectoryAlumni = [
     "name": "Ram Kishor",
     "initials": "RK",
     "batch": 1998,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Security guard",
     "location": "Fazilka Punjab",
     "domain": "Technology",
     "email": "k160802318@gmail.com",
     "phone": "6283884275",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Security guard at Markfed • Batch of 1998 (Arawali House)."
+    "bio": "Security guard at Markfed • Batch of 1998 (Aravali House)."
   },
   {
     "id": "alumni-404",
     "name": "Anchal Sharma",
     "initials": "AS",
     "batch": 2023,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Education",
     "location": "India",
     "domain": "Academia",
     "email": "sharmaanchal4442@gmail.com",
     "phone": "9793074968",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Education at BA 1st year • Batch of 2023 (Arawali House)."
+    "bio": "Education at BA 1st year • Batch of 2023 (Aravali House)."
   },
   {
     "id": "alumni-405",
@@ -6732,15 +6732,15 @@ const defaultDirectoryAlumni = [
     "name": "Ajay Kumar",
     "initials": "AK",
     "batch": 2014,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Engineer/Assistant Manager",
     "location": "Shaktinagar sonbhadra",
     "domain": "Technology",
     "email": "akmme785@gmail.com",
     "phone": "7004877889",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Engineer/Assistant Manager at Coal India limited • Batch of 2014 (Arawali House)."
+    "bio": "Engineer/Assistant Manager at Coal India limited • Batch of 2014 (Aravali House)."
   },
   {
     "id": "alumni-417",
@@ -6777,30 +6777,30 @@ const defaultDirectoryAlumni = [
     "name": "Gautam Agrahari",
     "initials": "GA",
     "batch": 2021,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "student",
     "location": "India",
     "domain": "Corporate",
     "email": "gautamagraharijnvs@gmail.com",
     "phone": "9628966024",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "student • Batch of 2021 (Arawali House)."
+    "bio": "student • Batch of 2021 (Aravali House)."
   },
   {
     "id": "alumni-420",
     "name": "Arun Kumar",
     "initials": "AK",
     "batch": 2002,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "TEACHER (HEAD TEACHER)",
     "location": "PS DHEMA BHADAR AMETHI",
     "domain": "Academia",
     "email": "arunkumar1984ht@gmail.com",
     "phone": "9452227675",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "TEACHER (HEAD TEACHER) at Basic education up • Batch of 2002 (Arawali House)."
+    "bio": "TEACHER (HEAD TEACHER) at Basic education up • Batch of 2002 (Aravali House)."
   },
   {
     "id": "alumni-421",
@@ -6912,15 +6912,15 @@ const defaultDirectoryAlumni = [
     "name": "Ajay Kumar Gupta",
     "initials": "AK",
     "batch": 2008,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Lekhpal",
     "location": "Salon raebareli",
     "domain": "Corporate",
     "email": "ajaykumargupta15@gmail.com",
     "phone": "7317342776",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Lekhpal • Batch of 2008 (Arawali House)."
+    "bio": "Lekhpal • Batch of 2008 (Aravali House)."
   },
   {
     "id": "alumni-429",
@@ -6942,15 +6942,15 @@ const defaultDirectoryAlumni = [
     "name": "Ansar Ahmad",
     "initials": "AA",
     "batch": 2005,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Accountant",
     "location": "Aligarh",
     "domain": "Corporate",
     "email": "ansar2106@gmail.com",
     "phone": "9454049823",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Accountant at Allanasons Private Limited • Batch of 2005 (Arawali House)."
+    "bio": "Accountant at Allanasons Private Limited • Batch of 2005 (Aravali House)."
   },
   {
     "id": "alumni-431",
@@ -7002,15 +7002,15 @@ const defaultDirectoryAlumni = [
     "name": "Saurabh Maurya",
     "initials": "SM",
     "batch": 2018,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Student",
     "location": "India",
     "domain": "Corporate",
     "email": "mauryasaurabh978@gmail.com",
     "phone": "7800675841",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Student • Batch of 2018 (Arawali House)."
+    "bio": "Student • Batch of 2018 (Aravali House)."
   },
   {
     "id": "alumni-435",
@@ -7077,30 +7077,30 @@ const defaultDirectoryAlumni = [
     "name": "Arti Tiwari",
     "initials": "AT",
     "batch": 2009,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Assistant Teacher at basic education department",
     "location": "Sultanpur",
     "domain": "Academia",
     "email": "artitiwari5562@gmail.com",
     "phone": "7985004795",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Assistant Teacher at basic education department at Basic education • Batch of 2009 (Arawali House)."
+    "bio": "Assistant Teacher at basic education department at Basic education • Batch of 2009 (Aravali House)."
   },
   {
     "id": "alumni-440",
     "name": "Suneeta Yadav",
     "initials": "SY",
     "batch": 1999,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "A.T in basic",
     "location": "Jlalpur",
     "domain": "Corporate",
     "email": "yadavsunit832@gmail.com",
     "phone": "7379922960",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "A.T in basic • Batch of 1999 (Arawali House)."
+    "bio": "A.T in basic • Batch of 1999 (Aravali House)."
   },
   {
     "id": "alumni-441",
@@ -7227,45 +7227,45 @@ const defaultDirectoryAlumni = [
     "name": "Mukesh Kumar",
     "initials": "MK",
     "batch": 2000,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Fitter",
     "location": "Jayant,Singrauli",
     "domain": "Technology",
     "email": "mk6533543@gmail.com",
     "phone": "7000431864",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Fitter at NCL • Batch of 2000 (Arawali House)."
+    "bio": "Fitter at NCL • Batch of 2000 (Aravali House)."
   },
   {
     "id": "alumni-450",
     "name": "Neeraj Sharma",
     "initials": "NS",
     "batch": 1999,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "CA INTER",
     "location": "SULTANPUR",
     "domain": "Corporate",
     "email": "neeraj.ca82@gmail.com",
     "phone": "9891079132",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "CA INTER at E FILING CART • Batch of 1999 (Arawali House)."
+    "bio": "CA INTER at E FILING CART • Batch of 1999 (Aravali House)."
   },
   {
     "id": "alumni-451",
     "name": "Jayant Kumar Tiwari",
     "initials": "JK",
     "batch": 2005,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Assistant Engineer",
     "location": "Anpara",
     "domain": "Technology",
     "email": "jtiwari1989@gmail.com",
     "phone": "9140283926",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Assistant Engineer at UPRVUNL • Batch of 2005 (Arawali House)."
+    "bio": "Assistant Engineer at UPRVUNL • Batch of 2005 (Aravali House)."
   },
   {
     "id": "alumni-452",
@@ -7437,15 +7437,15 @@ const defaultDirectoryAlumni = [
     "name": "Arjun Kumar",
     "initials": "AK",
     "batch": 2009,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Alumnus",
     "location": "India",
     "domain": "Corporate",
     "email": "arjun.loving123@gmail.com",
     "phone": "9889504227",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Alumnus • Batch of 2009 (Arawali House)."
+    "bio": "Alumnus • Batch of 2009 (Aravali House)."
   },
   {
     "id": "alumni-464",
@@ -7467,15 +7467,15 @@ const defaultDirectoryAlumni = [
     "name": "Sanjay Kumar",
     "initials": "SK",
     "batch": 2004,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Govt Job",
     "location": "UP Secretariat",
     "domain": "Civil Services",
     "email": "sanjaykumarassistant@gmail.com",
     "phone": "9454414129",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Govt Job at UP Secretariat • Batch of 2004 (Arawali House)."
+    "bio": "Govt Job at UP Secretariat • Batch of 2004 (Aravali House)."
   },
   {
     "id": "alumni-466",
@@ -7557,45 +7557,45 @@ const defaultDirectoryAlumni = [
     "name": "Amit Kumar Maurya",
     "initials": "AK",
     "batch": 2007,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Software professional/Technical Lead",
     "location": "Bangalore",
     "domain": "Technology",
     "email": "info.amit28@gmail.com",
     "phone": "8892240182",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Software professional/Technical Lead at Morgan Stanley • Batch of 2007 (Arawali House)."
+    "bio": "Software professional/Technical Lead at Morgan Stanley • Batch of 2007 (Aravali House)."
   },
   {
     "id": "alumni-472",
     "name": "Phool Chandra",
     "initials": "PC",
     "batch": 1995,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "University Teaching and Research / Professor and Head",
     "location": "Moradabad UP India",
     "domain": "Technology",
     "email": "profpcpatel@gmail.com",
     "phone": "9450082374",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "University Teaching and Research / Professor and Head at Teerthanker Mahaveer University, Moradabad • Batch of 1995 (Arawali House)."
+    "bio": "University Teaching and Research / Professor and Head at Teerthanker Mahaveer University, Moradabad • Batch of 1995 (Aravali House)."
   },
   {
     "id": "alumni-473",
     "name": "Ramesh Chandra Yadav",
     "initials": "RC",
     "batch": 1996,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Member of PLA court sultanpur",
     "location": "Sultanpur",
     "domain": "Corporate",
     "email": "007yadavramesh@gmail.com",
     "phone": "9454107661",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Member of PLA court sultanpur • Batch of 1996 (Arawali House)."
+    "bio": "Member of PLA court sultanpur • Batch of 1996 (Aravali House)."
   },
   {
     "id": "alumni-474",
@@ -7662,15 +7662,15 @@ const defaultDirectoryAlumni = [
     "name": "Gunjan Mishra",
     "initials": "GM",
     "batch": 2019,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Alumnus",
     "location": "India",
     "domain": "Corporate",
     "email": "ankitmishra1247@gmail.com",
     "phone": "9307461950",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Alumnus • Batch of 2019 (Arawali House)."
+    "bio": "Alumnus • Batch of 2019 (Aravali House)."
   },
   {
     "id": "alumni-479",
@@ -7692,45 +7692,45 @@ const defaultDirectoryAlumni = [
     "name": "Shiv Shankar Shukla",
     "initials": "SS",
     "batch": 2001,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Alumnus",
     "location": "India",
     "domain": "Corporate",
     "email": "shuklashivshankar15@gmail.com",
     "phone": "7235002993",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Alumnus • Batch of 2001 (Arawali House)."
+    "bio": "Alumnus • Batch of 2001 (Aravali House)."
   },
   {
     "id": "alumni-481",
     "name": "Ankit Kumar Nishad",
     "initials": "AK",
     "batch": 2022,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Alumnus",
     "location": "India",
     "domain": "Corporate",
     "email": "nishadankit1290@gmail.com",
     "phone": "8423519873",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Alumnus • Batch of 2022 (Arawali House)."
+    "bio": "Alumnus • Batch of 2022 (Aravali House)."
   },
   {
     "id": "alumni-482",
     "name": "Rohit Maurya",
     "initials": "RM",
     "batch": 2020,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Student(Bachelor of Pharmacy)",
     "location": "Rajarshi Rananjay Sinh College of Pharmacy Amethi",
     "domain": "Corporate",
     "email": "rohitmauryaneet0361@gmail.com",
     "phone": "9598811634",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Student(Bachelor of Pharmacy) at Rajarshi Rananjay Sinh College of Pharmacy Amethi • Batch of 2020 (Arawali House)."
+    "bio": "Student(Bachelor of Pharmacy) at Rajarshi Rananjay Sinh College of Pharmacy Amethi • Batch of 2020 (Aravali House)."
   },
   {
     "id": "alumni-483",
@@ -7752,15 +7752,15 @@ const defaultDirectoryAlumni = [
     "name": "Raghu Nandan",
     "initials": "RN",
     "batch": 1996,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Electrical Officer",
     "location": "Jamnagar, Gujarat",
     "domain": "Civil Services",
     "email": "raghunandankanaujiya@gmail.com",
     "phone": "6352283944",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Electrical Officer at Adsun Offshore • Batch of 1996 (Arawali House)."
+    "bio": "Electrical Officer at Adsun Offshore • Batch of 1996 (Aravali House)."
   },
   {
     "id": "alumni-485",
@@ -7797,15 +7797,15 @@ const defaultDirectoryAlumni = [
     "name": "Digvijay Mishra",
     "initials": "DM",
     "batch": 2021,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Student BCom",
     "location": "India",
     "domain": "Corporate",
     "email": "digvijaymishra8765@gmail.com",
     "phone": "8887189971",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Student BCom at Kanpur University • Batch of 2021 (Arawali House)."
+    "bio": "Student BCom at Kanpur University • Batch of 2021 (Aravali House)."
   },
   {
     "id": "alumni-488",
@@ -7842,15 +7842,15 @@ const defaultDirectoryAlumni = [
     "name": "Abul Kalam Azad",
     "initials": "AK",
     "batch": 1993,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Teacher (Shikshamitra)",
     "location": "Jolimirganj",
     "domain": "Technology",
     "email": "kalamaji73@gmail.com",
     "phone": "9455644889",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Teacher (Shikshamitra) at PS. Jolimirganj • Batch of 1993 (Arawali House)."
+    "bio": "Teacher (Shikshamitra) at PS. Jolimirganj • Batch of 1993 (Aravali House)."
   },
   {
     "id": "alumni-491",
@@ -7872,15 +7872,15 @@ const defaultDirectoryAlumni = [
     "name": "Shani Verma",
     "initials": "SV",
     "batch": 2021,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Student",
     "location": "India",
     "domain": "Corporate",
     "email": "shanivermajnv003@gmail.com",
     "phone": "9651854844",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Student • Batch of 2021 (Arawali House)."
+    "bio": "Student • Batch of 2021 (Aravali House)."
   },
   {
     "id": "alumni-493",
@@ -7917,30 +7917,30 @@ const defaultDirectoryAlumni = [
     "name": "Dr. Pankaj Baranwal",
     "initials": "DP",
     "batch": 2005,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Eye surgeon ( MS)",
     "location": "Ayodhya",
     "domain": "Corporate",
     "email": "dr.pbeclt@gmail.com",
     "phone": "8299272633",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Eye surgeon ( MS) at Government • Batch of 2005 (Arawali House)."
+    "bio": "Eye surgeon ( MS) at Government • Batch of 2005 (Aravali House)."
   },
   {
     "id": "alumni-496",
     "name": "Vipin Singh",
     "initials": "VS",
     "batch": 2021,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "SOCIAL WORKER/ STUDENT",
     "location": "KITHAULI, LAMBHUA, SULTANPUR",
     "domain": "Corporate",
     "email": "rajpootvipinsingh165@gmail.com",
     "phone": "9580721315",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "SOCIAL WORKER/ STUDENT at RAM KISHOR SINGH CHARITABLE TRUST • Batch of 2021 (Arawali House)."
+    "bio": "SOCIAL WORKER/ STUDENT at RAM KISHOR SINGH CHARITABLE TRUST • Batch of 2021 (Aravali House)."
   },
   {
     "id": "alumni-497",
@@ -7977,15 +7977,15 @@ const defaultDirectoryAlumni = [
     "name": "Raj",
     "initials": "R",
     "batch": 2021,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Alumnus",
     "location": "India",
     "domain": "Corporate",
     "email": "rajbravo2003@gmail.com",
     "phone": "8707789337",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Alumnus • Batch of 2021 (Arawali House)."
+    "bio": "Alumnus • Batch of 2021 (Aravali House)."
   },
   {
     "id": "alumni-500",
@@ -8007,15 +8007,15 @@ const defaultDirectoryAlumni = [
     "name": "Rajmani Tripathi",
     "initials": "RT",
     "batch": 1996,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "ZM",
     "location": "Haryana",
     "domain": "Corporate",
     "email": "rajmanitiwari1979@gmail.com",
     "phone": "9873784429",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "ZM at Satya maicrocapital • Batch of 1996 (Arawali House)."
+    "bio": "ZM at Satya maicrocapital • Batch of 1996 (Aravali House)."
   },
   {
     "id": "alumni-502",
@@ -8112,30 +8112,30 @@ const defaultDirectoryAlumni = [
     "name": "Pradip Kumar Singh",
     "initials": "PK",
     "batch": 1994,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Business",
     "location": "CHAKERI KANPUR",
     "domain": "Corporate",
     "email": "mp180698@gmail.com",
     "phone": "8744920929",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Business at Mamta stationery and gift gallery • Batch of 1994 (Arawali House)."
+    "bio": "Business at Mamta stationery and gift gallery • Batch of 1994 (Aravali House)."
   },
   {
     "id": "alumni-509",
     "name": "Pramod Kumar Singh",
     "initials": "PK",
     "batch": 1998,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Software professional",
     "location": "Pune",
     "domain": "Technology",
     "email": "pramodrsingh@gmail.com",
     "phone": "9604812405",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Software professional at Capita india • Batch of 1998 (Arawali House)."
+    "bio": "Software professional at Capita india • Batch of 1998 (Aravali House)."
   },
   {
     "id": "alumni-510",
@@ -8157,30 +8157,30 @@ const defaultDirectoryAlumni = [
     "name": "Dheerendra Vikram Singh",
     "initials": "DV",
     "batch": 1997,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "District Manager",
     "location": "Sant Kabeer Nagar",
     "domain": "Corporate",
     "email": "managermisbasti@gmail.com",
     "phone": "8299177380",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "District Manager at Skill Development, • Batch of 1997 (Arawali House)."
+    "bio": "District Manager at Skill Development, • Batch of 1997 (Aravali House)."
   },
   {
     "id": "alumni-512",
     "name": "Harsh Singh",
     "initials": "HS",
     "batch": 2021,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Student",
     "location": "India",
     "domain": "Corporate",
     "email": "harshsinghrajpoot34@gmail.com",
     "phone": "9695867815",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "Student • Batch of 2021 (Arawali House)."
+    "bio": "Student • Batch of 2021 (Aravali House)."
   },
   {
     "id": "alumni-513",
@@ -8382,15 +8382,15 @@ const defaultDirectoryAlumni = [
     "name": "Ajay Gautam",
     "initials": "AG",
     "batch": 1997,
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "TEACHER(BASIC)",
     "location": "KUDWAR, SULTANPUR",
     "domain": "Academia",
     "email": "akshakya4462@gmail.com",
     "phone": "8009704462",
-    "badge": "Arawali",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "TEACHER(BASIC) at Basic • Batch of 1997 (Arawali House)."
+    "bio": "TEACHER(BASIC) at Basic • Batch of 1997 (Aravali House)."
   }
 ];
 
@@ -8573,7 +8573,7 @@ function loadAppData() {
           } else if (p.id === 'feed-gurujan-lsy') {
             p.authorPhoto = 'assets/images/ls-yadav.jpg';
             p.initials = 'LS';
-            p.content = "Navodaya is the confluence of Multi-diamensional tallents. \nLet's come together and work together to succeed with flying colours by caring and sharing, J N V Stars! ⭐⭐⭐⭐⭐";
+            p.content = "Navodaya is the confluence of multi-dimensional talents. \nLet's come together and work together to succeed with flying colours by caring and sharing, J N V Stars! ⭐⭐⭐⭐⭐";
             p.text = p.content;
           } else if (p.id === 'feed-gurujan-ay') {
             p.initials = 'AY';
@@ -8597,7 +8597,7 @@ function loadAppData() {
       if (parsed.teachers && Array.isArray(parsed.teachers)) {
         const lsy = parsed.teachers.find(t => t.id === 'tch-lsy' || (t.name && t.name.includes('L. S. Yadav')));
         if (lsy) {
-          lsy.message = "Navodaya is the confluence of Multi-diamensional tallents. \nLet's come together and work together to succeed with flying colours by caring and sharing, J N V Stars! ⭐⭐⭐⭐⭐";
+          lsy.message = "Navodaya is the confluence of multi-dimensional talents. \nLet's come together and work together to succeed with flying colours by caring and sharing, J N V Stars! ⭐⭐⭐⭐⭐";
           if (!lsy.photo) lsy.photo = 'assets/images/ls-yadav.jpg';
           lsy.post = "T.G.T.-English • Editor, Vidyalaya Magazine 'Navonmesh'";
           lsy.title = "T.G.T.-English, Jawahar Navodaya Vidyalaya, Gauriganj • Editor, Vidyalaya Magazine 'Navonmesh'";
@@ -10002,7 +10002,7 @@ function renderDirectory(append = false) {
     const normH = (h) => {
       if (!h) return '';
       const s = h.toString().trim().toLowerCase();
-      if (s.startsWith('arav') || s.startsWith('araw')) return 'arawali';
+      if (s.startsWith('arav') || s.startsWith('araw')) return 'aravali';
       if (s.startsWith('nilg') || s.startsWith('neel')) return 'nilgiri';
       if (s.startsWith('udai') || s.startsWith('uday')) return 'udaigiri';
       if (s.startsWith('shiv') || s.startsWith('shiw')) return 'shivalik';
@@ -10312,7 +10312,7 @@ const NOTABLE_ALUMNI_LIST = [
     "batch": "1994",
     "category": "defense",
     "categoryLabel": "Armed Forces & Frontline Command",
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Colonel, Indian Army",
     "academics": "National Defence Academy & Indian Military Academy",
     "intro": "Senior officer in the Indian Army (Colonel, Batch of 1994). Dedicated to the frontline defense, strategic military readiness, and sovereignty of the nation.",
@@ -10371,7 +10371,7 @@ const NOTABLE_ALUMNI_LIST = [
     "batch": "1993 (First Batch)",
     "category": "defense",
     "categoryLabel": "Defense & Strategic Missile Systems",
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Project Director, ASL, DRDO Hyderabad",
     "academics": "B.Tech (KNIT) • M.Tech (IIT Roorkee) • Ph.D. (NIT Warangal)",
     "intro": "Project Director at Advanced Systems Laboratory (ASL), DRDO Hyderabad. Pioneering scientist in solid rocket propulsion, aerospace structures, and national IRBM missile systems. Honored with DRDO Performance Excellence Award and Agni Award for Self Reliance.",
@@ -10444,7 +10444,7 @@ const NOTABLE_ALUMNI_LIST = [
     "batch": "1993",
     "category": "civil",
     "categoryLabel": "National School Education Leadership",
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Headmaster (H.M.), Kendriya Vidyalaya Sangathan (KVS)",
     "academics": "Pedagogy & Educational Administration",
     "intro": "Headmaster at Kendriya Vidyalaya Sangathan (KVS). Nurturing scholastic excellence, foundational literacy, and institutional leadership across national schools.",
@@ -10487,7 +10487,7 @@ const NOTABLE_ALUMNI_LIST = [
     "batch": "1994",
     "category": "health",
     "categoryLabel": "Healthcare & Public Medical Services",
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Medical Officer (MBBS / M.B.B.S.), PMHS, Govt. of Uttar Pradesh",
     "academics": "MBBS • Provincial Medical Health Services (PMHS)",
     "intro": "Senior government physician in the Provincial Medical Health Services (PMHS), Government of Uttar Pradesh. Serving rural and district communities with tireless clinical care, emergency medicine, and public health delivery.",
@@ -10575,7 +10575,7 @@ const NOTABLE_ALUMNI_LIST = [
     "category": "health",
     "categoryLabel": "Specialist Healthcare, Delhi",
     "role": "Senior Medical Consultant & Physician, Delhi",
-    "house": "Arawali",
+    "house": "Aravali",
     "academics": "Advanced Medical Diagnostics & Therapeutics",
     "intro": "Senior physician and clinical consultant in Delhi with extensive clinical expertise in critical care, internal medicine, and patient rehabilitation.",
     "badgeColor": "blue",
@@ -10617,7 +10617,7 @@ const NOTABLE_ALUMNI_LIST = [
     "batch": "1996 (Host Batch)",
     "category": "tech",
     "categoryLabel": "Space Research & Aerospace",
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Senior Space Scientist, ISRO",
     "academics": "Indian Space Research Organisation (ISRO)",
     "intro": "Senior Space Scientist at ISRO, actively contributing to India's satellite launch vehicle systems, telemetry operations, and prestigious national space exploration missions.",
@@ -10645,7 +10645,7 @@ const NOTABLE_ALUMNI_LIST = [
     "batch": "1995",
     "category": "tech",
     "categoryLabel": "Enterprise Technology & AI Analytics",
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Manager, Infosys • Senior Enterprise Analytics & AI Leader",
     "academics": "Advanced Analytics & Enterprise Architecture",
     "intro": "Manager at Infosys and senior analytics transformation leader driving high-impact data-driven decisions and enterprise architecture across global platforms.",
@@ -10687,7 +10687,7 @@ const NOTABLE_ALUMNI_LIST = [
     "batch": "1998",
     "category": "tech",
     "categoryLabel": "Cybersecurity & National Threat Intel",
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Principal Cyber Security Architect & Threat Researcher",
     "academics": "Computer Science & Cryptographic Systems",
     "intro": "Nationally renowned cyber threat intelligence researcher and security architect (@cybr0x). Protecting critical national infrastructure against advanced persistent cyber warfare threats.",
@@ -10757,7 +10757,7 @@ const NOTABLE_ALUMNI_LIST = [
     "batch": "1987–1994",
     "category": "enterprise",
     "categoryLabel": "Financial Inclusion & Philanthropy",
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "MD & CEO, Satya MicroCapital Ltd., Delhi",
     "academics": "Finance & Institutional Economics",
     "intro": "Microfinance visionary empowering over 2.5 million rural women entrepreneurs across India. Major Vidyalaya benefactor donating the 125 KVA silent genset, National cricket trophy, and campus ground filling.",
@@ -10799,7 +10799,7 @@ const NOTABLE_ALUMNI_LIST = [
     "batch": "2001",
     "category": "enterprise",
     "categoryLabel": "Banking & Institutional Finance",
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Senior Banking Officer, Bank of Baroda",
     "academics": "Banking Operations & Corporate Finance",
     "intro": "Senior banking professional at Bank of Baroda. Managing commercial credit, financial risk, and modern retail banking operations.",
@@ -10827,7 +10827,7 @@ const NOTABLE_ALUMNI_LIST = [
     "batch": "2009",
     "category": "media",
     "categoryLabel": "Arts & Digital Media",
-    "house": "Arawali",
+    "house": "Aravali",
     "role": "Creative Artist, Actor & Digital Content Creator",
     "academics": "Media Arts & Creative Production",
     "intro": "Celebrated creative artist, actor, and digital storyteller with an inspiring social media following. Inspiring young Navodayans to pursue cultural arts, acting, and digital media excellence.",

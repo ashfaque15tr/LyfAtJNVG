@@ -382,7 +382,7 @@ assert(indexHtml.includes('jnvgfamily.in'), 'jnvgfamily.in domain verified in in
 assert(smsDispatch.waUrl.includes('JNVGFamily'), 'WhatsApp 2FA SMS payload contains JNVGFamily branding');
 assert(indexHtml.includes('donors-board.jpg') && indexHtml.includes('125 KVA Kirloskar'), 'Official Vidyalaya Donor\'s Board plaque & genset grant verified');
 assert(indexHtml.includes('Suggestion / Issue Report') && indexHtml.includes('Site Version: v0.0.1'), 'Footer Suggestion/Issue Report and Site Version verified as strictly v0.0.1');
-assert(indexHtml.includes('Arawali') && indexHtml.includes('Udaigiri') && indexHtml.includes('Nilgiri'), 'Official NVS standard house spellings verified (Arawali, Udaigiri, Nilgiri)');
+assert(indexHtml.includes('Aravali') && indexHtml.includes('Udaigiri') && indexHtml.includes('Nilgiri'), 'Official NVS standard house spellings verified (Aravali, Udaigiri, Nilgiri)');
 
 // Verify Gallery Images exist
 assert(fs.existsSync(path.join(rootDir, 'assets', 'images', 'meet2025-1.jpg')), 'Photo Gallery asset meet2025-1.jpg exists');
@@ -761,7 +761,7 @@ expectedTabs.forEach(tId => {
 assert(!mHtml.includes('30th December') && !mHtml.includes('30 December'), 'mobile_app/index.html has no obsolete 30th December date');
 assert(!wHtml.includes('30th December') && !wHtml.includes('30 December'), 'index.html has no obsolete 30th December date');
 assert(!mHtml.includes('Tagore / Subhash') && !mHtml.includes('Ashoka / Patel'), 'mobile_app eliminated outdated corrupted house mappings');
-assert(mHtml.includes('Arawali') && mHtml.includes('Shivalik') && mHtml.includes('Udaigiri') && mHtml.includes('Nilgiri'), 'mobile_app contains verified 4 houses');
+assert(mHtml.includes('Aravali') && mHtml.includes('Shivalik') && mHtml.includes('Udaigiri') && mHtml.includes('Nilgiri'), 'mobile_app contains verified 4 houses');
 
 // 3. Home Page Full-Fledged Content Parity
 assert(mHtml.includes('Google Form') || mHtml.includes('1FAIpQLScM31QFqQdBlDvFzlsLzJm7FHglEtb0qc4oyi8Hd7ftpwkACA'), 'mobile_app home contains 4th Meet Google Form registration link');
@@ -890,16 +890,16 @@ console.log('\n--- TEST SUITE 20: ALUMNI DIRECTORY HOUSE FILTER ACCURACY ---');
 const latestIndexHtml = fs.readFileSync(path.join(rootDir, 'index.html'), 'utf8');
 const latestMobileHtml = fs.readFileSync(path.join(rootDir, 'mobile_app', 'index.html'), 'utf8');
 
-assert(latestIndexHtml.includes('<option value="Arawali">Arawali</option>'), 'index.html dirHouseFilter contains Arawali');
+assert(latestIndexHtml.includes('<option value="Aravali">Aravali</option>'), 'index.html dirHouseFilter contains Aravali');
 assert(latestIndexHtml.includes('<option value="Nilgiri">Nilgiri</option>'), 'index.html dirHouseFilter contains Nilgiri');
 assert(latestIndexHtml.includes('<option value="Shivalik">Shivalik</option>'), 'index.html dirHouseFilter contains Shivalik');
 assert(latestIndexHtml.includes('<option value="Udaigiri">Udaigiri</option>'), 'index.html dirHouseFilter contains Udaigiri');
 
-assert(!latestIndexHtml.includes('<option value="Aravali">Aravali</option>'), 'index.html dirHouseFilter eliminated incorrect Aravali');
+assert(!latestIndexHtml.includes('<option value="Arawali">Arawali</option>'), 'index.html dirHouseFilter eliminated Arawali in favor of Aravali');
 assert(!latestIndexHtml.includes('<option value="Neelgiri">Neelgiri</option>'), 'index.html dirHouseFilter eliminated incorrect Neelgiri');
 assert(!latestIndexHtml.includes('<option value="Udaygiri">Udaygiri</option>'), 'index.html dirHouseFilter eliminated incorrect Udaygiri');
 
-assert(latestMobileHtml.includes('<option value="Arawali">Arawali</option>'), 'mobile_app dirHouseFilter contains Arawali');
+assert(latestMobileHtml.includes('<option value="Aravali">Aravali</option>'), 'mobile_app dirHouseFilter contains Aravali');
 assert(latestMobileHtml.includes('<option value="Nilgiri">Nilgiri</option>'), 'mobile_app dirHouseFilter contains Nilgiri');
 assert(latestMobileHtml.includes('<option value="Shivalik">Shivalik</option>'), 'mobile_app dirHouseFilter contains Shivalik');
 assert(latestMobileHtml.includes('<option value="Udaigiri">Udaigiri</option>'), 'mobile_app dirHouseFilter contains Udaigiri');

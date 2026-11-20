@@ -70,7 +70,7 @@ const DEFAULT_ACCOUNTS = [
     password: "password123",
     name: "Sh. Manoj Mishra",
     batch: 1996,
-    house: "Arawali",
+    house: "Aravali",
     role: "batch_admin", // Batch-Wise Admin for Host 1996 Batch
     roleTitle: "Host Batch Organizer & Senior Space Scientist (ISRO)",
     status: "approved",
@@ -88,7 +88,7 @@ const DEFAULT_ACCOUNTS = [
     password: "password123",
     name: "Priya Mishra",
     batch: 2014,
-    house: "Arawali",
+    house: "Aravali",
     role: "moderator", // Semi-Admin / Content Moderator
     roleTitle: "Content Moderator",
     status: "approved",
@@ -193,7 +193,7 @@ const DEFAULT_ACCOUNTS = [
     password: "password123",
     name: "Dr. S. K. Chaudhary",
     batch: "1989-2006",
-    house: "Arawali",
+    house: "Aravali",
     role: "teacher",
     roleTitle: "Revered Faculty Luminary & Former Vice Principal",
     designation: "Senior Chemistry Luminary & Former Vice Principal",
@@ -820,7 +820,7 @@ function registerAlumni(userData) {
     password: userData.password,
     name: userData.name.trim(),
     batch: parseInt(userData.batch, 10) || 2010,
-    house: userData.house || "Arawali",
+    house: userData.house || "Aravali",
     role: isTeacher ? "unverified_teacher" : "unverified",
     roleTitle: "Membership Pending Verification",
     status: "pending", // Strict Alumni Verification required

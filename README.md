@@ -13,12 +13,12 @@ In honour of the heritage of Jawahar Navodaya Vidyalaya, Gauriganj:
 
 | Current House Name | Historical / Old Name | Authentic House Color | Theme & Accents |
 | :--- | :--- | :--- | :--- |
-| **Arawali (अरावली)** | **Ashok House (अशोक)** | **Red** | Crimson / Red (`#dc2626`) |
+| **Aravali (अरावली)** | **Ashok House (अशोक)** | **Red** | Crimson / Red (`#dc2626`) |
 | **Shivalik (शिवालिक)** | **Raman & Shivaji House (रमन और शिवाजी)** | **Blue** | Royal Blue (`#2563eb`) |
 | **Udaigiri (उदयगिरि)** | **Subhash House (सुभाष)** | **Yellow** | Golden Yellow (`#ca8a04` / `#eab308`) |
 | **Nilgiri (नीलगिरि)** | **Tagore House (टैगोर)** | **Green** | Forest Green (`#16a34a`) |
 
-> **Heritage Milestone:** In the founding years, there were previously **Sarojini House** and **Priyadarshini House** for girls, which were subsequently unified into Arawali, Nilgiri, Shivalik, and Udaigiri for complete fraternity and unity.
+> **Heritage Milestone:** In the founding years, there were previously **Sarojini House** and **Priyadarshini House** for girls, which were subsequently unified into Aravali, Nilgiri, Shivalik, and Udaigiri for complete fraternity and unity.
 
 ---
 

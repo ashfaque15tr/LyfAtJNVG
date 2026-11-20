@@ -180,7 +180,7 @@ const AlumniStorageEngine = (() => {
   function normalizeHouse(val) {
     if (!val) return '';
     const s = val.toString().trim().toLowerCase();
-    if (s.startsWith('arav') || s.startsWith('araw')) return 'arawali';
+    if (s.startsWith('arav') || s.startsWith('araw')) return 'aravali';
     if (s.startsWith('nilg') || s.startsWith('neel')) return 'nilgiri';
     if (s.startsWith('udai') || s.startsWith('uday')) return 'udaigiri';
     if (s.startsWith('shiv') || s.startsWith('shiw')) return 'shivalik';
