@@ -501,7 +501,9 @@ assert(mConvs.some(c => c.partnerName === 'Mr. P. K. Singh'), 'Alumnus receives 
 // ----------------------------------------------------
 console.log('\n--- TEST SUITE 12: 37 NOTABLE ALUMNI, ADMIN SAHAYATA QUEUE & LIGHT SKY CONTRAST ---');
 
-assert(Array.isArray(NOTABLE_ALUMNI_LIST) && NOTABLE_ALUMNI_LIST.length >= 37, 'Full 37 Notable Alumni registered in Hall of Fame');
+assert(Array.isArray(NOTABLE_ALUMNI_LIST) && NOTABLE_ALUMNI_LIST.length >= 39, 'Full 39 Notable Alumni registered in Hall of Fame');
+assert(NOTABLE_ALUMNI_LIST.some(a => a.name.includes('Manish Rana') && a.role.includes('Civil Judge')), 'Sh. Manish Rana (Judicial Magistrate / Civil Judge) verified');
+assert(NOTABLE_ALUMNI_LIST.some(a => a.name.includes('Prabhat') && a.role.includes('PPS')), 'Sh. Prabhat Kumar, PPS (Provincial Police Service) verified');
 const jkm = NOTABLE_ALUMNI_LIST.find(a => a.name.includes('Jai Krishna Mishra'));
 assert(jkm && jkm.batch.includes('1993') && jkm.role.includes('DRDO'), 'Dr. Jai Krishna Mishra (1993, DRDO ASL) verified');
 const up = NOTABLE_ALUMNI_LIST.find(a => a.name.includes('Utkrisht Pandey'));

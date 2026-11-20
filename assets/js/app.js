@@ -1738,14 +1738,14 @@ const defaultDirectoryAlumni = [
     "initials": "MR",
     "batch": 2007,
     "house": "Udaigiri",
-    "role": "Judicial Magistrate/ Civil Judge",
+    "role": "Judicial Magistrate / Civil Judge, U.P. Judiciary",
     "location": "Budaun",
-    "domain": "Corporate",
+    "domain": "Govt / PSU",
     "email": "manishranabhulaw@gmail.com",
     "phone": "8317024401",
     "badge": "Udaigiri",
     "tag": "Alumnus",
-    "bio": "Judicial Magistrate/ Civil Judge at High Court Allahabad • Batch of 2007 (Udaigiri House)."
+    "bio": "Judicial Magistrate / Civil Judge, U.P. Judicial Service at High Court Allahabad (Civil Court Bisauli, Budaun) • Batch of 2007 (Udaigiri House)." // Banaras Hindu University Law Faculty
   },
   {
     "id": "alumni-84",
@@ -10365,6 +10365,20 @@ const NOTABLE_ALUMNI_LIST = [
     "link": null
   },
   {
+    "id": "notable-prabhat-pps",
+    "name": "Sh. Prabhat Kumar, PPS",
+    "initials": "PK",
+    "batch": "PPS Officer",
+    "category": "defense",
+    "categoryLabel": "State Police Service & Law Enforcement",
+    "house": "Aravali",
+    "role": "Provincial Police Service (PPS) Officer • Dy. SP / Addl. SP, U.P. Police",
+    "academics": "Provincial Police Service (PPS), Govt. of Uttar Pradesh",
+    "intro": "Provincial Police Service (PPS) Officer in the Uttar Pradesh Police. Serving in state police administrative command, public security, and crime prevention across Uttar Pradesh.",
+    "badgeColor": "amber",
+    "link": null
+  },
+  {
     "id": "notable-jm-1",
     "name": "Dr. Jai Krishna Mishra",
     "initials": "JM",
@@ -10479,6 +10493,22 @@ const NOTABLE_ALUMNI_LIST = [
     "intro": "Distinguished Governor's Awardee Teacher and Head Master at Model School Pachehari. Honored for exemplary leadership, innovative pedagogical models, and rural educational transformation; generous Vidyalaya benefactor donating permanent campus cement benches to PM Shri JNV Gauriganj.",
     "badgeColor": "blue",
     "link": null
+  },
+  {
+    "id": "notable-mr-judge",
+    "name": "Sh. Manish Rana",
+    "initials": "MR",
+    "batch": "2007",
+    "category": "civil",
+    "categoryLabel": "Judiciary & Constitutional Justice",
+    "house": "Udaigiri",
+    "role": "Judicial Magistrate / Civil Judge, U.P. Judiciary",
+    "academics": "LL.M. (Criminology & Law), Faculty of Law, BHU • JNV Gauriganj (2007)",
+    "intro": "Judicial Officer in the Uttar Pradesh Judicial Service (Civil Judge / Judicial Magistrate, High Court of Judicature at Allahabad, Civil Court Bisauli, Budaun). Dedicated to constitutional jurisprudence, dispute resolution, and equitable administration of justice.",
+    "badgeColor": "emerald",
+    "phone": "8317024401",
+    "email": "manishranabhulaw@gmail.com",
+    "link": "https://www.facebook.com/manish.rana.9275"
   },
   {
     "id": "notable-ns-mbbs",
