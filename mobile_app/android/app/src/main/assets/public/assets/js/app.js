@@ -8391,6 +8391,21 @@ const defaultDirectoryAlumni = [
     "badge": "Aravali",
     "tag": "Alumnus",
     "bio": "TEACHER(BASIC) at Basic • Batch of 1997 (Aravali House)."
+  },
+  {
+    "id": "alumni-527",
+    "name": "Sh. Prabhat (PPS)",
+    "initials": "PR",
+    "batch": 2002,
+    "house": "Aravali",
+    "role": "Provincial Police Service (PPS) Officer • Dy. SP, U.P. Police",
+    "location": "Uttar Pradesh",
+    "domain": "Civil Services",
+    "email": "",
+    "phone": "",
+    "badge": "Aravali",
+    "tag": "Notable",
+    "bio": "Provincial Police Service (PPS) Officer at U.P. Police • Batch of 2002 (Aravali House)."
   }
 ];
 
@@ -8613,6 +8628,32 @@ function loadAppData() {
         const up = parsed.directory.find(d => d.name && d.name.includes('Utkrisht Pandey'));
         if (up) {
           up.batch = 2002;
+        }
+        const mr = parsed.directory.find(d => d.name && d.name.includes('Manish Rana'));
+        if (mr) {
+          mr.batch = 2007;
+          mr.domain = "Govt / PSU";
+          mr.role = "Judicial Magistrate / Civil Judge, U.P. Judiciary";
+        }
+        const prabhat = parsed.directory.find(d => d.id === 'alumni-527' || (d.name && d.name.includes('Prabhat') && d.role && d.role.includes('PPS')));
+        if (!prabhat) {
+          parsed.directory.push({
+            id: 'alumni-527',
+            name: 'Sh. Prabhat (PPS)',
+            initials: 'PR',
+            batch: 2002,
+            house: 'Aravali',
+            role: 'Provincial Police Service (PPS) Officer • Dy. SP, U.P. Police',
+            location: 'Uttar Pradesh',
+            domain: 'Civil Services',
+            email: '',
+            phone: '',
+            badge: 'Aravali',
+            tag: 'Notable',
+            bio: 'Provincial Police Service (PPS) Officer at U.P. Police • Batch of 2002 (Aravali House).'
+          });
+        } else {
+          prabhat.batch = 2002;
         }
       }
       return { ...defaultData, ...parsed };
@@ -10306,6 +10347,62 @@ function handleNotableMessageSubmit(e) {
 // ========================================================
 const NOTABLE_ALUMNI_LIST = [
   {
+    "id": "notable-ad-1",
+    "name": "Alok Dubey, IAS",
+    "initials": "AD",
+    "batch": "2007",
+    "category": "civil",
+    "categoryLabel": "Civil Services & Public Policy",
+    "house": "Nilgiri",
+    "role": "Indian Administrative Service (IAS) Officer",
+    "academics": "Public Administration & Governance",
+    "intro": "District and state administrative leader executing rural education transformations, public welfare delivery, and governance transparency, embodying Navodaya's pledge 'Pragyanam Brahma'.",
+    "badgeColor": "emerald",
+    "link": null
+  },
+  {
+    "id": "notable-vt-1",
+    "name": "Sh. Vivek Tiwari",
+    "initials": "VT",
+    "batch": "1987–1994",
+    "category": "enterprise",
+    "categoryLabel": "Financial Inclusion & Philanthropy",
+    "house": "Aravali",
+    "role": "MD & CEO, Satya MicroCapital Ltd., Delhi",
+    "academics": "Finance & Institutional Economics",
+    "intro": "Microfinance visionary empowering over 2.5 million rural women entrepreneurs across India. Major Vidyalaya benefactor donating the 125 KVA silent genset, National cricket trophy, and campus ground filling.",
+    "badgeColor": "amber",
+    "link": null
+  },
+  {
+    "id": "notable-ak-1",
+    "name": "Ashwini Mishra",
+    "initials": "AM",
+    "batch": "1993 (First Batch)",
+    "category": "media",
+    "categoryLabel": "Broadcast Journalism",
+    "house": "Shivalik",
+    "role": "Senior Journalist, Executive Producer & News Anchor, DD News",
+    "academics": "Journalism & Broadcast Media",
+    "intro": "Senior broadcast journalist, executive producer and prime-time news anchor at DD News (Doordarshan National). 'Measure your success not just by the lives you uplift and the communities you transform: **Be grounded..Be Honest..**'",
+    "badgeColor": "blue",
+    "link": null
+  },
+  {
+    "id": "notable-up-1",
+    "name": "Sh. Utkrisht Pandey",
+    "initials": "UP",
+    "batch": "2002",
+    "category": "enterprise",
+    "categoryLabel": "Agri-Enterprise & Security",
+    "house": "Nilgiri",
+    "role": "Founder, Rishigram Organics • Retd. Assistant Commandant, SSB",
+    "academics": "Former Officer, Sashastra Seema Bal (SSB)",
+    "intro": "Decorated former Assistant Commandant (SSB) honored by the Hon'ble Prime Minister at the Independence Day celebrations at the Red Fort (2025) and invited by the Hon'ble Governor of Uttar Pradesh (Raj Bhavan). Utkrisht Pandey is an agrarian pioneer and Founder of Rishigram Organics, promoting sustainable agriculture, commercial sandalwood agroforestry.",
+    "badgeColor": "emerald",
+    "link": "https://rishigramorganics.com/pages/about-us"
+  },
+  {
     "id": "notable-vkp-1",
     "name": "Col. Virendra Kumar Pandey",
     "initials": "VP",
@@ -10321,6 +10418,22 @@ const NOTABLE_ALUMNI_LIST = [
     "link": null
   },
   {
+    "id": "notable-mr-judge",
+    "name": "Sh. Manish Rana",
+    "initials": "MR",
+    "batch": "2007",
+    "category": "civil",
+    "categoryLabel": "Judiciary & Constitutional Justice",
+    "house": "Udaigiri",
+    "role": "Judicial Magistrate / Civil Judge, U.P. Judiciary",
+    "academics": "LL.M. (Criminology & Law), Faculty of Law, BHU • JNV Gauriganj (2007)",
+    "intro": "Judicial Officer in the Uttar Pradesh Judicial Service (Civil Judge / Judicial Magistrate, High Court of Judicature at Allahabad, Civil Court Bisauli, Budaun). Dedicated to constitutional jurisprudence, dispute resolution, and equitable administration of justice.",
+    "badgeColor": "emerald",
+    "phone": "8317024401",
+    "email": "manishranabhulaw@gmail.com",
+    "link": "https://www.facebook.com/manish.rana.9275"
+  },
+  {
     "id": "notable-ck-1",
     "name": "Sh. Chandan Kumar",
     "initials": "CK",
@@ -10333,6 +10446,20 @@ const NOTABLE_ALUMNI_LIST = [
     "intro": "Deputy Commandant conferred the Shaurya Chakra by the President of India—the nation's 3rd highest peacetime gallantry award—for conspicuous courage, heroic valor, and exceptional tactical command in frontline combat operations.",
     "badgeColor": "amber",
     "link": null
+  },
+  {
+    "id": "notable-rt-1",
+    "name": "Dr. Ratnesh Tiwari",
+    "initials": "RT",
+    "batch": "1996–2003",
+    "category": "enterprise",
+    "categoryLabel": "Clean-Tech, Renewable Energy & Social Impact",
+    "house": "Nilgiri",
+    "role": "CEO, Koshish India • Co-Founder Satyapath Foundation",
+    "academics": "Ph.D. Renewable Energy (IIT Delhi)",
+    "intro": "Clean-tech pioneer and IIT Delhi doctoral alumnus leading Koshish Sustainable Solutions and Satyapath Foundation. Driving waste-to-energy, bio-CNG, and rural sustainability across India. Generous Vidyalaya benefactor co-donating the permanent 125 KVA silent Genset.",
+    "badgeColor": "purple",
+    "link": "https://koshishindia.in/founders-thought/"
   },
   {
     "id": "notable-bps-1",
@@ -10366,15 +10493,15 @@ const NOTABLE_ALUMNI_LIST = [
   },
   {
     "id": "notable-prabhat-pps",
-    "name": "Sh. Prabhat Kumar, PPS",
-    "initials": "PK",
-    "batch": "PPS Officer",
+    "name": "Sh. Prabhat (PPS Officer)",
+    "initials": "PR",
+    "batch": "2002",
     "category": "defense",
     "categoryLabel": "State Police Service & Law Enforcement",
     "house": "Aravali",
     "role": "Provincial Police Service (PPS) Officer • Dy. SP / Addl. SP, U.P. Police",
-    "academics": "Provincial Police Service (PPS), Govt. of Uttar Pradesh",
-    "intro": "Provincial Police Service (PPS) Officer in the Uttar Pradesh Police. Serving in state police administrative command, public security, and crime prevention across Uttar Pradesh.",
+    "academics": "Provincial Police Service (PPS), Govt. of Uttar Pradesh • JNV Gauriganj (2002 Batch)",
+    "intro": "Provincial Police Service (PPS) Officer (Batch of 2002) in the Uttar Pradesh Police. Dedicated to state police administrative command, public security, maintenance of law & order, and frontline crime investigation across Uttar Pradesh.",
     "badgeColor": "amber",
     "link": null
   },
@@ -10390,20 +10517,6 @@ const NOTABLE_ALUMNI_LIST = [
     "academics": "B.Tech (KNIT) • M.Tech (IIT Roorkee) • Ph.D. (NIT Warangal)",
     "intro": "Project Director at Advanced Systems Laboratory (ASL), DRDO Hyderabad. Pioneering scientist in solid rocket propulsion, aerospace structures, and national IRBM missile systems. Honored with DRDO Performance Excellence Award and Agni Award for Self Reliance.",
     "badgeColor": "amber",
-    "link": null
-  },
-  {
-    "id": "notable-ad-1",
-    "name": "Alok Dubey, IAS",
-    "initials": "AD",
-    "batch": "2007",
-    "category": "civil",
-    "categoryLabel": "Civil Services & Public Policy",
-    "house": "Nilgiri",
-    "role": "Indian Administrative Service (IAS) Officer",
-    "academics": "Public Administration & Governance",
-    "intro": "District and state administrative leader executing rural education transformations, public welfare delivery, and governance transparency, embodying Navodaya's pledge 'Pragyanam Brahma'.",
-    "badgeColor": "emerald",
     "link": null
   },
   {
@@ -10493,22 +10606,6 @@ const NOTABLE_ALUMNI_LIST = [
     "intro": "Distinguished Governor's Awardee Teacher and Head Master at Model School Pachehari. Honored for exemplary leadership, innovative pedagogical models, and rural educational transformation; generous Vidyalaya benefactor donating permanent campus cement benches to PM Shri JNV Gauriganj.",
     "badgeColor": "blue",
     "link": null
-  },
-  {
-    "id": "notable-mr-judge",
-    "name": "Sh. Manish Rana",
-    "initials": "MR",
-    "batch": "2007",
-    "category": "civil",
-    "categoryLabel": "Judiciary & Constitutional Justice",
-    "house": "Udaigiri",
-    "role": "Judicial Magistrate / Civil Judge, U.P. Judiciary",
-    "academics": "LL.M. (Criminology & Law), Faculty of Law, BHU • JNV Gauriganj (2007)",
-    "intro": "Judicial Officer in the Uttar Pradesh Judicial Service (Civil Judge / Judicial Magistrate, High Court of Judicature at Allahabad, Civil Court Bisauli, Budaun). Dedicated to constitutional jurisprudence, dispute resolution, and equitable administration of justice.",
-    "badgeColor": "emerald",
-    "phone": "8317024401",
-    "email": "manishranabhulaw@gmail.com",
-    "link": "https://www.facebook.com/manish.rana.9275"
   },
   {
     "id": "notable-ns-mbbs",
@@ -10781,48 +10878,6 @@ const NOTABLE_ALUMNI_LIST = [
     "link": "https://www.linkedin.com/in/yasir-abdul-66258828"
   },
   {
-    "id": "notable-vt-1",
-    "name": "Sh. Vivek Tiwari",
-    "initials": "VT",
-    "batch": "1987–1994",
-    "category": "enterprise",
-    "categoryLabel": "Financial Inclusion & Philanthropy",
-    "house": "Aravali",
-    "role": "MD & CEO, Satya MicroCapital Ltd., Delhi",
-    "academics": "Finance & Institutional Economics",
-    "intro": "Microfinance visionary empowering over 2.5 million rural women entrepreneurs across India. Major Vidyalaya benefactor donating the 125 KVA silent genset, National cricket trophy, and campus ground filling.",
-    "badgeColor": "amber",
-    "link": null
-  },
-  {
-    "id": "notable-up-1",
-    "name": "Sh. Utkrisht Pandey",
-    "initials": "UP",
-    "batch": "2002",
-    "category": "enterprise",
-    "categoryLabel": "Agri-Enterprise & Security",
-    "house": "Nilgiri",
-    "role": "Founder, Rishigram Organics • Retd. Assistant Commandant, SSB",
-    "academics": "Former Officer, Sashastra Seema Bal (SSB)",
-    "intro": "Decorated former Assistant Commandant (SSB) honored by the Hon'ble Prime Minister at the Independence Day celebrations at the Red Fort (2025) and invited by the Hon'ble Governor of Uttar Pradesh (Raj Bhavan). Utkrisht Pandey is an agrarian pioneer and Founder of Rishigram Organics, promoting sustainable agriculture, commercial sandalwood agroforestry.",
-    "badgeColor": "emerald",
-    "link": "https://rishigramorganics.com/pages/about-us"
-  },
-  {
-    "id": "notable-rt-1",
-    "name": "Dr. Ratnesh Tiwari",
-    "initials": "RT",
-    "batch": "1996–2003",
-    "category": "enterprise",
-    "categoryLabel": "Clean-Tech, Renewable Energy & Social Impact",
-    "house": "Nilgiri",
-    "role": "CEO, Koshish India • Co-Founder Satyapath Foundation",
-    "academics": "Ph.D. Renewable Energy (IIT Delhi)",
-    "intro": "Clean-tech pioneer and IIT Delhi doctoral alumnus leading Koshish Sustainable Solutions and Satyapath Foundation. Driving waste-to-energy, bio-CNG, and rural sustainability across India. Generous Vidyalaya benefactor co-donating the permanent 125 KVA silent Genset.",
-    "badgeColor": "purple",
-    "link": "https://koshishindia.in/founders-thought/"
-  },
-  {
     "id": "notable-amit-bob",
     "name": "Sh. Amit Singh",
     "initials": "AS",
@@ -10834,20 +10889,6 @@ const NOTABLE_ALUMNI_LIST = [
     "academics": "Banking Operations & Corporate Finance",
     "intro": "Senior banking professional at Bank of Baroda. Managing commercial credit, financial risk, and modern retail banking operations.",
     "badgeColor": "amber",
-    "link": null
-  },
-  {
-    "id": "notable-ak-1",
-    "name": "Ashwini Mishra",
-    "initials": "AM",
-    "batch": "1993 (First Batch)",
-    "category": "media",
-    "categoryLabel": "Broadcast Journalism",
-    "house": "Shivalik",
-    "role": "Senior Journalist, Executive Producer & News Anchor, DD News",
-    "academics": "Journalism & Broadcast Media",
-    "intro": "Senior broadcast journalist, executive producer and prime-time news anchor at DD News (Doordarshan National). 'Measure your success not just by the lives you uplift and the communities you transform: **Be grounded..Be Honest..**'",
-    "badgeColor": "blue",
     "link": null
   },
   {

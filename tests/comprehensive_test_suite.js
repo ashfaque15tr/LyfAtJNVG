@@ -502,8 +502,16 @@ assert(mConvs.some(c => c.partnerName === 'Mr. P. K. Singh'), 'Alumnus receives 
 console.log('\n--- TEST SUITE 12: 37 NOTABLE ALUMNI, ADMIN SAHAYATA QUEUE & LIGHT SKY CONTRAST ---');
 
 assert(Array.isArray(NOTABLE_ALUMNI_LIST) && NOTABLE_ALUMNI_LIST.length >= 39, 'Full 39 Notable Alumni registered in Hall of Fame');
-assert(NOTABLE_ALUMNI_LIST.some(a => a.name.includes('Manish Rana') && a.role.includes('Civil Judge')), 'Sh. Manish Rana (Judicial Magistrate / Civil Judge) verified');
-assert(NOTABLE_ALUMNI_LIST.some(a => a.name.includes('Prabhat') && a.role.includes('PPS')), 'Sh. Prabhat Kumar, PPS (Provincial Police Service) verified');
+assert(NOTABLE_ALUMNI_LIST[0].name.includes('Alok Dubey'), 'Notable Alumni #1 is Alok Dubey, IAS');
+assert(NOTABLE_ALUMNI_LIST[1].name.includes('Vivek Tiwari'), 'Notable Alumni #2 is Sh. Vivek Tiwari');
+assert(NOTABLE_ALUMNI_LIST[2].name.includes('Ashwini Mishra'), 'Notable Alumni #3 is Ashwini Mishra');
+assert(NOTABLE_ALUMNI_LIST[3].name.includes('Utkrisht Pandey'), 'Notable Alumni #4 is Sh. Utkrisht Pandey');
+assert(NOTABLE_ALUMNI_LIST[4].name.includes('Virendra Kumar Pandey'), 'Notable Alumni #5 is Col. Virendra Kumar Pandey');
+assert(NOTABLE_ALUMNI_LIST[5].name.includes('Manish Rana'), 'Notable Alumni #6 is Sh. Manish Rana');
+assert(NOTABLE_ALUMNI_LIST[6].name.includes('Chandan Kumar'), 'Notable Alumni #7 is Sh. Chandan Kumar');
+assert(NOTABLE_ALUMNI_LIST[7].name.includes('Ratnesh Tiwari'), 'Notable Alumni #8 is Dr. Ratnesh Tiwari');
+assert(NOTABLE_ALUMNI_LIST.some(a => a.name.includes('Manish Rana') && a.batch === '2007' && a.role.includes('Civil Judge')), 'Sh. Manish Rana (2007 Batch, Judicial Magistrate / Civil Judge) verified');
+assert(NOTABLE_ALUMNI_LIST.some(a => a.name.includes('Prabhat') && a.batch === '2002' && a.role.includes('PPS')), 'Sh. Prabhat (PPS Officer, 2002 Batch) verified');
 const jkm = NOTABLE_ALUMNI_LIST.find(a => a.name.includes('Jai Krishna Mishra'));
 assert(jkm && jkm.batch.includes('1993') && jkm.role.includes('DRDO'), 'Dr. Jai Krishna Mishra (1993, DRDO ASL) verified');
 const up = NOTABLE_ALUMNI_LIST.find(a => a.name.includes('Utkrisht Pandey'));
