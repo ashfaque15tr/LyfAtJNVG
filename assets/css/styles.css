@@ -268,7 +268,7 @@ html[data-theme="sky"] .tab-content > div,
 html[data-theme="sky"] .dir-card,
 html[data-theme="sky"] .tch-card,
 html[data-theme="sky"] .feed-card,
-html[data-theme="sky"] [class*="bg-slate-950"],
+html[data-theme="sky"] [class*="bg-slate-950"]:not(.auth-card-left *):not(.auth-card-left):not(#loginPillarsCard),
 html[data-theme="sky"] [class*="bg-slate-900"],
 html[data-theme="sky"] [class*="bg-slate-800"]:not(button):not(a),
 html[data-theme="sky"] [class*="bg-brand-950"],
@@ -289,7 +289,7 @@ body:not(.theme-dark) .tab-content > div,
 body:not(.theme-dark) .dir-card,
 body:not(.theme-dark) .tch-card,
 body:not(.theme-dark) .feed-card,
-body:not(.theme-dark) [class*="bg-slate-950"],
+body:not(.theme-dark) [class*="bg-slate-950"]:not(.auth-card-left *):not(.auth-card-left):not(#loginPillarsCard),
 body:not(.theme-dark) [class*="bg-slate-900"],
 body:not(.theme-dark) [class*="bg-slate-800"]:not(button):not(a),
 body:not(.theme-dark) [class*="bg-brand-950"],
@@ -1461,6 +1461,7 @@ body.theme-dark ::-webkit-scrollbar-thumb:hover {
 }
 
 /* Authentication & Login Form Cards Theming */
+/* Dark Navy Theme Authentication Right Form */
 html[data-theme="dark"] .auth-card-right,
 body.theme-dark .auth-card-right {
   background-color: #071330 !important;
@@ -1472,24 +1473,122 @@ body.theme-dark .auth-card-right {
 html[data-theme="dark"] .auth-card-right label,
 body.theme-dark .auth-card-right label {
   color: #e2e8f0 !important;
+  -webkit-text-fill-color: #e2e8f0 !important;
 }
 
 html[data-theme="dark"] .auth-card-right input,
 html[data-theme="dark"] .auth-card-right select,
+html[data-theme="dark"] .auth-card-right textarea,
 body.theme-dark .auth-card-right input,
-body.theme-dark .auth-card-right select {
+body.theme-dark .auth-card-right select,
+body.theme-dark .auth-card-right textarea {
   background-color: #030816 !important;
   border-color: #334155 !important;
   color: #f8fafc !important;
+  -webkit-text-fill-color: #f8fafc !important;
 }
 
+html[data-theme="dark"] .auth-card-right .text-slate-500,
+html[data-theme="dark"] .auth-card-right .text-slate-600,
+body.theme-dark .auth-card-right .text-slate-500,
+body.theme-dark .auth-card-right .text-slate-600 {
+  color: #94a3b8 !important;
+  -webkit-text-fill-color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .auth-card-right .text-amber-600,
+html[data-theme="dark"] .auth-card-right .text-amber-700,
+body.theme-dark .auth-card-right .text-amber-600,
+body.theme-dark .auth-card-right .text-amber-700 {
+  color: #fbbf24 !important;
+  -webkit-text-fill-color: #fbbf24 !important;
+}
+
+html[data-theme="dark"] .auth-card-right .text-emerald-700,
+body.theme-dark .auth-card-right .text-emerald-700 {
+  color: #34d399 !important;
+  -webkit-text-fill-color: #34d399 !important;
+}
+
+/* Light Sky Theme Authentication Right Form */
+html[data-theme="sky"] .auth-card-right,
+body:not(.theme-dark) .auth-card-right {
+  background-color: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #1e293b !important;
+  box-shadow: 0 10px 25px -5px rgba(12, 74, 110, 0.1) !important;
+}
+
+html[data-theme="sky"] .auth-card-right label,
+body:not(.theme-dark) .auth-card-right label {
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
+  font-weight: 600 !important;
+}
+
+html[data-theme="sky"] .auth-card-right input,
+html[data-theme="sky"] .auth-card-right select,
+html[data-theme="sky"] .auth-card-right textarea,
+body:not(.theme-dark) .auth-card-right input,
+body:not(.theme-dark) .auth-card-right select,
+body:not(.theme-dark) .auth-card-right textarea {
+  background-color: #ffffff !important;
+  border: 1.5px solid #cbd5e1 !important;
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
+  font-weight: 500 !important;
+}
+
+html[data-theme="sky"] .auth-card-right input:focus,
+html[data-theme="sky"] .auth-card-right select:focus,
+html[data-theme="sky"] .auth-card-right textarea:focus,
+body:not(.theme-dark) .auth-card-right input:focus,
+body:not(.theme-dark) .auth-card-right select:focus,
+body:not(.theme-dark) .auth-card-right textarea:focus {
+  border-color: #0284c7 !important;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15) !important;
+}
+
+html[data-theme="sky"] .auth-card-right .text-slate-500,
+html[data-theme="sky"] .auth-card-right .text-slate-600,
+body:not(.theme-dark) .auth-card-right .text-slate-500,
+body:not(.theme-dark) .auth-card-right .text-slate-600 {
+  color: #475569 !important;
+  -webkit-text-fill-color: #475569 !important;
+}
+
+html[data-theme="sky"] .auth-card-right .text-amber-600,
+html[data-theme="sky"] .auth-card-right .text-amber-700,
+body:not(.theme-dark) .auth-card-right .text-amber-600,
+body:not(.theme-dark) .auth-card-right .text-amber-700 {
+  color: #b45309 !important;
+  -webkit-text-fill-color: #b45309 !important;
+  font-weight: 700 !important;
+}
+
+html[data-theme="sky"] .auth-card-right .text-emerald-700,
+body:not(.theme-dark) .auth-card-right .text-emerald-700 {
+  color: #047857 !important;
+  -webkit-text-fill-color: #047857 !important;
+  font-weight: 700 !important;
+}
+
+/* Institutional Left Banner Hero Card (.auth-card-left) */
+.auth-card-left,
 html[data-theme="sky"] .auth-card-left,
 body:not(.theme-dark) .auth-card-left {
   background: linear-gradient(135deg, #071330 0%, #0c2f54 50%, #0e255a 100%) !important;
-  border-color: #bae6fd !important;
+  border: 1px solid #1e3a5f !important;
   color: #ffffff !important;
 }
 
+.auth-card-left h1,
+.auth-card-left h2,
+.auth-card-left h3,
+.auth-card-left h4,
+.auth-card-left .font-cinzel,
+.auth-card-left strong,
+.auth-card-left .text-white,
 html[data-theme="sky"] .auth-card-left h1,
 html[data-theme="sky"] .auth-card-left h2,
 html[data-theme="sky"] .auth-card-left h3,
@@ -1509,6 +1608,9 @@ body:not(.theme-dark) .auth-card-left .text-white {
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7) !important;
 }
 
+.auth-card-left p,
+.auth-card-left .text-slate-300,
+.auth-card-left .text-slate-400,
 html[data-theme="sky"] .auth-card-left p,
 html[data-theme="sky"] .auth-card-left .text-slate-300,
 html[data-theme="sky"] .auth-card-left .text-slate-400,
@@ -1519,8 +1621,83 @@ body:not(.theme-dark) .auth-card-left .text-slate-400 {
   -webkit-text-fill-color: #e2e8f0 !important;
 }
 
+/* Security Pillars Card inside .auth-card-left */
+#loginPillarsCard,
+.login-pillars-card,
+.auth-card-left #loginPillarsCard,
+html[data-theme="sky"] #loginPillarsCard,
+body:not(.theme-dark) #loginPillarsCard {
+  background-color: #040d21 !important;
+  background-image: none !important;
+  border: 1px solid #1e3a5f !important;
+  box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.45) !important;
+}
 
+#loginPillarsCard strong,
+.login-pillars-card strong,
+html[data-theme="sky"] #loginPillarsCard strong,
+body:not(.theme-dark) #loginPillarsCard strong {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
 
+#loginPillarsCard .text-amber-300,
+.login-pillars-card .text-amber-300,
+html[data-theme="sky"] #loginPillarsCard .text-amber-300,
+body:not(.theme-dark) #loginPillarsCard .text-amber-300 {
+  color: #fcd34d !important;
+  -webkit-text-fill-color: #fcd34d !important;
+}
+
+#loginPillarsCard span,
+.login-pillars-card span,
+html[data-theme="sky"] #loginPillarsCard span,
+body:not(.theme-dark) #loginPillarsCard span {
+  color: #cbd5e1 !important;
+  -webkit-text-fill-color: #cbd5e1 !important;
+}
+
+/* Registration Button Styling & High Contrast */
+#btnSubmitRegister,
+html[data-theme="sky"] #btnSubmitRegister,
+body:not(.theme-dark) #btnSubmitRegister {
+  background: linear-gradient(135deg, #059669 0%, #0d9488 100%) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 14px 0 rgba(5, 150, 105, 0.4) !important;
+}
+
+#btnSubmitRegister *,
+html[data-theme="sky"] #btnSubmitRegister *,
+body:not(.theme-dark) #btnSubmitRegister * {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-weight: 700 !important;
+  stroke: #ffffff !important;
+}
+
+#btnSubmitRegister:hover {
+  background: linear-gradient(135deg, #047857 0%, #0f766e 100%) !important;
+}
+
+#btnSubmitRegister:disabled,
+#btnSubmitRegister.cursor-not-allowed,
+#btnSubmitRegister.opacity-50 {
+  background: #64748b !important;
+  background-image: none !important;
+  color: #f8fafc !important;
+  -webkit-text-fill-color: #f8fafc !important;
+  opacity: 0.7 !important;
+  box-shadow: none !important;
+}
+#btnSubmitRegister:disabled *,
+#btnSubmitRegister.cursor-not-allowed *,
+#btnSubmitRegister.opacity-50 * {
+  color: #f8fafc !important;
+  -webkit-text-fill-color: #f8fafc !important;
+  stroke: #f8fafc !important;
+}
 
 /* ========================================================================== */
 /* LIGHT SKY THEME - COMPREHENSIVE IMAGE PREVIEW & CONTRAST SAFEGUARDS       */
