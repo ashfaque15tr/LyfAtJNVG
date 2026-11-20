@@ -2,7 +2,7 @@
 **Official Platform for JNV Gauriganj (Amethi / Sultanpur) • [jnvgfamily.in](https://jnvgfamily.in)**  
 **Mobile App (Google Play Store & Apple App Store):** `JNVGFamily` (`org.jnvalumni.gauriganj`)
 
-Motto: **।। प्रज्ञानं ब्रह्म ।।** • *"हमी नवोदय हों"* (Hami Navodaya Ho)  
+Motto: **।। प्रज्ञानं ब्रह्म ।।** • *"हमीं नवोदय हों"* (Hami Navodaya Ho)  
 Established: **1986** (Pioneer 1st Batch Admitted 1986, Passed out 1993) • Vidyalaya (School Code: 74003)
 
 ---

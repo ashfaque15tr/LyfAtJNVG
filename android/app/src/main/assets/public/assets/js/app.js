@@ -37,8 +37,8 @@ const defaultCommunityBroadcasts = [
     author: "Sh. L. S. Yadav",
     authorRole: "teacher",
     isTeacher: true,
-    roleBadge: "Current Faculty (TGT English)",
-    roleTitle: "Revered Faculty",
+    roleBadge: "Current Faculty (TGT English) • Editor, 'Navonmesh'",
+    roleTitle: "Revered Faculty • Editor, 'Navonmesh'",
     authorPhoto: "assets/images/ls-yadav.jpg",
     initials: "LS",
     batch: null,
@@ -89,8 +89,8 @@ const defaultCommunityBroadcasts = [
     timeAgo: "Principal Blessings",
     category: "gratitude",
     tag: "Guru Sandesh",
-    content: "नवोदय का प्रांगण केवल ज्ञानार्जन का केंद्र नहीं, बल्कि चरित्र, बंधुत्व और राष्ट्र-निर्माण की पावन तपोभूमि है। जेएनवी गौरीगंज के विद्यार्थियों ने हर क्षेत्र में जो कीर्तिमान स्थापित किए हैं, उन पर मुझे गर्व है। हमी नवोदय हों!",
-    text: "नवोदय का प्रांगण केवल ज्ञानार्जन का केंद्र नहीं, बल्कि चरित्र, बंधुत्व और राष्ट्र-निर्माण की पावन तपोभूमि है। जेएनवी गौरीगंज के विद्यार्थियों ने हर क्षेत्र में जो कीर्तिमान स्थापित किए हैं, उन पर मुझे गर्व है। हमी नवोदय हों!",
+    content: "नवोदय का प्रांगण केवल ज्ञानार्जन का केंद्र नहीं, बल्कि चरित्र, बंधुत्व और राष्ट्र-निर्माण की पावन तपोभूमि है। जेएनवी गौरीगंज के विद्यार्थियों ने हर क्षेत्र में जो कीर्तिमान स्थापित किए हैं, उन पर मुझे गर्व है। हमीं नवोदय हों!",
+    text: "नवोदय का प्रांगण केवल ज्ञानार्जन का केंद्र नहीं, बल्कि चरित्र, बंधुत्व और राष्ट्र-निर्माण की पावन तपोभूमि है। जेएनवी गौरीगंज के विद्यार्थियों ने हर क्षेत्र में जो कीर्तिमान स्थापित किए हैं, उन पर मुझे गर्व है। हमीं नवोदय हों!",
     likes: 51,
     liked: false,
     comments: []
@@ -257,7 +257,7 @@ const defaultData = {
       initials: "BSR",
       photo: null,
       respectCount: 220,
-      message: "नवोदय का प्रांगण केवल ज्ञानार्जन का केंद्र नहीं, बल्कि चरित्र, बंधुत्व और राष्ट्र-निर्माण की पावन तपोभूमि है। जेएनवी गौरीगंज के विद्यार्थियों ने हर क्षेत्र में जो कीर्तिमान स्थापित किए हैं, उन पर मुझे गर्व है। अपनी जड़ों, गुरुजनों और नवोदय के संस्कारों को सदैव हृदय में संजोकर रखें। चतुर्थ महासम्मेलन के सफल आयोजन हेतु सभी प्रिय पूर्व छात्रों को मेरा असीम शुभाशीष। हमी नवोदय हों!",
+      message: "नवोदय का प्रांगण केवल ज्ञानार्जन का केंद्र नहीं, बल्कि चरित्र, बंधुत्व और राष्ट्र-निर्माण की पावन तपोभूमि है। जेएनवी गौरीगंज के विद्यार्थियों ने हर क्षेत्र में जो कीर्तिमान स्थापित किए हैं, उन पर मुझे गर्व है। अपनी जड़ों, गुरुजनों और नवोदय के संस्कारों को सदैव हृदय में संजोकर रखें। चतुर्थ महासम्मेलन के सफल आयोजन हेतु सभी प्रिय पूर्व छात्रों को मेरा असीम शुभाशीष। हमीं नवोदय हों!",
       specialNote: "Revered former Principal whose exemplary leadership, discipline, and educational vision shaped JNV Gauriganj during crucial formative years."
     },
     {
@@ -442,20 +442,20 @@ const defaultData = {
     {
       id: "tch-lsy",
       name: "Sh. L. S. Yadav",
-      title: "T.G.T.-English, Jawahar Navodaya Vidyalaya, Gauriganj",
+      title: "T.G.T.-English, Jawahar Navodaya Vidyalaya, Gauriganj • Editor, Vidyalaya Magazine 'Navonmesh'",
       category: "current",
-      statusLabel: "Current Faculty (TGT English)",
-      post: "T.G.T.-English",
-      subject: "English Language & Literature",
+      statusLabel: "Current Faculty (TGT English) • Editor, 'Navonmesh'",
+      post: "T.G.T.-English • Editor, Vidyalaya Magazine 'Navonmesh'",
+      subject: "English Language, Literature & Chief Editor 'Navonmesh'",
       tenure: "2021 – Present",
       house: "Campus",
-      houseDetail: "Faculty of English & Literary Society",
+      houseDetail: "Faculty of English & Literary Society • Chief Editor, Navonmesh Magazine",
       location: "Campus Staff Quarters, JNV Gauriganj",
       initials: "LSY",
       photo: "assets/images/ls-yadav.jpg",
       respectCount: 168,
       message: "Navodaya is the confluence of Multi-diamensional tallents. \nLet's come together and work together to succeed with flying colours by caring and sharing, J N V Stars! ⭐⭐⭐⭐⭐",
-      specialNote: "Dedicated English educator nurturing communicative excellence and literary expression at JNV Gauriganj since 2021."
+      specialNote: "Dedicated English educator nurturing communicative excellence and literary expression at JNV Gauriganj since 2021. Chief Editor of Vidyalaya Annual Magazine 'Navonmesh' (नवन्मेष)."
     },
     {
       id: "tch-ay",
@@ -8584,7 +8584,7 @@ function loadAppData() {
           } else if (p.id === 'feed-gurujan-rautela') {
             p.initials = 'BR';
             if (!p.content || p.content === 'undefined') {
-              p.content = "नवोदय का प्रांगण केवल ज्ञानार्जन का केंद्र नहीं, बल्कि चरित्र, बंधुत्व और राष्ट्र-निर्माण की पावन तपोभूमि है। जेएनवी गौरीगंज के विद्यार्थियों ने हर क्षेत्र में जो कीर्तिमान स्थापित किए हैं, उन पर मुझे गर्व है। हमी नवोदय हों!";
+              p.content = "नवोदय का प्रांगण केवल ज्ञानार्जन का केंद्र नहीं, बल्कि चरित्र, बंधुत्व और राष्ट्र-निर्माण की पावन तपोभूमि है। जेएनवी गौरीगंज के विद्यार्थियों ने हर क्षेत्र में जो कीर्तिमान स्थापित किए हैं, उन पर मुझे गर्व है। हमीं नवोदय हों!";
               p.text = p.content;
             }
           }
@@ -8599,6 +8599,10 @@ function loadAppData() {
         if (lsy) {
           lsy.message = "Navodaya is the confluence of Multi-diamensional tallents. \nLet's come together and work together to succeed with flying colours by caring and sharing, J N V Stars! ⭐⭐⭐⭐⭐";
           if (!lsy.photo) lsy.photo = 'assets/images/ls-yadav.jpg';
+          lsy.post = "T.G.T.-English • Editor, Vidyalaya Magazine 'Navonmesh'";
+          lsy.title = "T.G.T.-English, Jawahar Navodaya Vidyalaya, Gauriganj • Editor, Vidyalaya Magazine 'Navonmesh'";
+          lsy.statusLabel = "Current Faculty (TGT English) • Editor, 'Navonmesh'";
+          lsy.specialNote = "Dedicated English educator nurturing communicative excellence and literary expression at JNV Gauriganj since 2021. Chief Editor of Vidyalaya Annual Magazine 'Navonmesh' (नवन्मेष).";
         }
       }
       if (parsed.directory && Array.isArray(parsed.directory)) {
@@ -9843,6 +9847,13 @@ function renderAdminRegistrations() {
 }
 
 function approveRegistration(regId) {
+  const curUser = (typeof getCurrentUser === 'function' ? getCurrentUser() : null);
+  const canModerate = curUser && ['admin', 'host', 'batch_admin', 'moderator'].includes(curUser.role);
+  if (!canModerate) {
+    showToast('🔒 Clearance required: Only Super Admin, Hosts, and Moderators can approve alumni registrations.');
+    return;
+  }
+
   const index = AppState.pendingRegistrations.findIndex(r => r.id === regId);
   if (index === -1) return;
 
@@ -9898,10 +9909,18 @@ function approveRegistration(regId) {
   refreshInboxBadge();
   renderAdminRegistrations();
   updateQueueBadges();
-  showToast(`✓ Approved! ${reg.name} is now activated and live in the Alumni Directory.`);
+  const approverRoleLabel = curUser.role === 'admin' ? 'Super Admin' : (curUser.role === 'host' || curUser.role === 'batch_admin' ? 'Host' : 'Moderator');
+  showToast(`✓ Approved by ${curUser.name} (${approverRoleLabel})! ${reg.name} is now activated and live in the Alumni Directory.`);
 }
 
 function rejectRegistration(regId) {
+  const curUser = (typeof getCurrentUser === 'function' ? getCurrentUser() : null);
+  const canModerate = curUser && ['admin', 'host', 'batch_admin', 'moderator'].includes(curUser.role);
+  if (!canModerate) {
+    showToast('🔒 Clearance required: Only Super Admin, Hosts, and Moderators can decline alumni registrations.');
+    return;
+  }
+
   const index = AppState.pendingRegistrations.findIndex(r => r.id === regId);
   if (index !== -1) {
     const reg = AppState.pendingRegistrations[index];

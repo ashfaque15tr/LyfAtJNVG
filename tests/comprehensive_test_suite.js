@@ -527,7 +527,7 @@ const rautela = AppState.teachers.find(t => t.name.includes('Rautela'));
 assert(rautela && rautela.post === 'Former Principal', 'Sh. B. S. Singh Rautela verified as Former Principal in AppState.teachers');
 assert(rautela.message && rautela.message.includes('चतुर्थ महासम्मेलन'), 'Sh. B. S. Singh Rautela inspirational key message verified');
 assert(indexHtml.includes('Sh. B. S. Singh Rautela'), 'index.html displays Sh. B. S. Singh Rautela in Leadership & Guru Vandana');
-assert(indexHtml.includes('हमी नवोदय हों'), 'index.html contains updated official motto हमी नवोदय हों');
+assert(indexHtml.includes('हमीं नवोदय हों'), 'index.html contains updated official motto हमीं नवोदय हों');
 const smt = NOTABLE_ALUMNI_LIST.find(a => a.name.includes('Shailendra Mohan Tripathi'));
 assert(smt && smt.batch === '1997' && smt.role.includes('KGMU'), 'Dr. Shailendra Mohan Tripathi (1997, KGMU & Univ of Aberdeen) verified');
 const ck = NOTABLE_ALUMNI_LIST.find(a => a.name.includes('Chandan Kumar'));
