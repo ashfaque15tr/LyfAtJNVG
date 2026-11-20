@@ -462,12 +462,39 @@
           <span>Verify 2FA Code & Complete Registration</span>
         </button>
       </form>
+    </div>
+  </div>
 
-        <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-sky-700 to-blue-700 hover:from-sky-600 hover:to-blue-600 text-white font-bold text-sm shadow-lg transition flex items-center justify-center gap-2">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-          <span>Verify SMS OTP & Complete Registration</span>
+  <!-- ================= 3B. REGISTRATION APPLICATION SUBMITTED FOR REVIEW MODAL ================= -->
+  <div id="regUnderReviewModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-amber-500/40 rounded-3xl max-w-md w-full p-6 text-white text-center space-y-4 shadow-2xl relative">
+      <div class="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center text-3xl mx-auto shadow-inner">
+        ⏳
+      </div>
+      <div class="space-y-1.5">
+        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-900/40 text-emerald-300 border border-emerald-500/30">✓ 2FA Verified</span>
+        <h3 class="text-lg font-bold font-cinzel text-white">Application Queued for Verification</h3>
+        <p class="text-xs text-amber-300 font-medium" id="regReviewUserGreeting">Welcome to JNVGFamily!</p>
+      </div>
+      <div class="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 text-left text-xs text-slate-300 space-y-2">
+        <p class="leading-relaxed">
+          JNVGFamily is a <strong>closed, trusted community</strong> strictly for JNV Gauriganj alumni and teachers.
+        </p>
+        <p class="text-[11px] text-slate-400 leading-relaxed">
+          To safeguard member privacy and authenticity, your registration has been forwarded to <strong>Super Admin Ashfaque Ahmad</strong> (+91 9161746797) and Batch Representatives for verification.
+        </p>
+        <p class="text-[11px] text-emerald-400 font-semibold">
+          🛡️ You have immediate <strong>Read-Only Access</strong> to explore the portal. Content creation privileges will activate once approved.
+        </p>
+      </div>
+      <div class="space-y-2 pt-1">
+        <a id="regReviewWhatsAppBtn" href="#" target="_blank" class="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-bold text-xs shadow-lg flex items-center justify-center gap-2 transition">
+          <span>💬</span> <span>Notify Ashfaque Ahmad on WhatsApp for Instant Approval</span>
+        </a>
+        <button type="button" onclick="proceedToPortalReadOnly()" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs border border-slate-700 transition">
+          Continue to Portal (Read-Only Mode) →
         </button>
-      </form>
+      </div>
     </div>
   </div>
 
@@ -722,6 +749,11 @@
 
       const res = loginUser(email, pass, remember);
       if (res.success) {
+        if (res.pendingApproval || (res.user && res.user.status === 'pending')) {
+          showAlert(`⏳ Welcome, <strong>${res.user.name}</strong>! Your account is awaiting Alumni Verification. Entering portal in Read-Only mode...`, true);
+          setTimeout(() => { window.location.href = 'index.html'; }, 800);
+          return;
+        }
         const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || window.innerWidth < 768;
         showAlert("✓ Alumni Login successful! Redirecting to your dashboard...", true);
         setTimeout(() => {
@@ -1112,6 +1144,10 @@
       errBox.classList.remove('hidden');
     }
 
+    function proceedToPortalReadOnly() {
+      window.location.href = 'index.html';
+    }
+
     function handleVerifyRegOtp(e) {
       e.preventDefault();
       const enteredCode = document.getElementById('regOtpInput').value.trim();
@@ -1130,19 +1166,34 @@
         }
         closeRegOtpModal();
         setCurrentUser(res.user, true);
-        const welcomeText = pendingRegData.role === 'teacher'
-          ? `🎉 <strong>सादर प्रणाम! Faculty Registration Successful!</strong> Welcome, <strong>${pendingRegData.name}</strong>. Redirecting to your dashboard...`
-          : `🎉 <strong>Registration Successful!</strong> Welcome, <strong>${pendingRegData.name} (Batch of ${pendingRegData.batch})</strong>! Redirecting to your dashboard...`;
-        
-        showAlert(welcomeText, true);
+
+        // Populate registration under review modal
+        const greetEl = document.getElementById('regReviewUserGreeting');
+        if (greetEl) {
+          greetEl.innerHTML = `Welcome, <strong>${pendingRegData.name}</strong> (${pendingRegData.role === 'teacher' ? 'Faculty' : 'Batch of ' + pendingRegData.batch + ', ' + pendingRegData.house + ' House'})!`;
+        }
+        const waBtn = document.getElementById('regReviewWhatsAppBtn');
+        const cleanPhone = (pendingRegData.phone || '').replace(/\D/g, '').slice(-10);
+        const waMsg = `Namaste Ashfaque Bhaiya, I have registered on JNVGFamily as *${pendingRegData.name}* (${pendingRegData.role === 'teacher' ? 'Faculty' : 'Batch ' + pendingRegData.batch + ', ' + pendingRegData.house + ' House'}, Phone: +91 ${cleanPhone}, Email: ${pendingRegData.email}). Please verify and approve my alumni membership request.`;
+        const waUrl = `https://wa.me/919161746797?text=${encodeURIComponent(waMsg)}`;
+        if (waBtn) waBtn.href = waUrl;
+
+        // Auto trigger WhatsApp in new window
+        try { window.open(waUrl, '_blank'); } catch(err) {}
+
+        const reviewModal = document.getElementById('regUnderReviewModal');
+        if (reviewModal) {
+          reviewModal.classList.remove('hidden');
+          reviewModal.style.display = 'flex';
+        } else {
+          showAlert(`🎉 Registration submitted for <strong>${pendingRegData.name}</strong>. Awaiting Alumni Committee verification. Redirecting to portal in Read-Only mode...`, true);
+          setTimeout(() => { window.location.href = 'index.html'; }, 2000);
+        }
+
         document.getElementById('registrationForm').reset();
         document.getElementById('regPassFeedback').classList.add('hidden');
         pendingRegData = null;
         pendingRegOtp = null;
-        setTimeout(() => {
-          const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || window.innerWidth < 768;
-          window.location.href = 'index.html';
-        }, 1200);
       } else {
         errBox.className = "p-2 rounded-xl bg-red-950/80 border border-red-500/40 text-red-300 text-xs text-center font-medium";
         errBox.textContent = `⚠️ ${res.message}`;

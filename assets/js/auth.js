@@ -313,14 +313,7 @@ function initUsersDB() {
       }
     } catch(e) {}
 
-    // Auto-approve any pending users so every member has immediate active access
-    existing.forEach(u => {
-      if (u.status === "pending") {
-        u.status = "approved";
-        u.roleTitle = "Verified Alumnus";
-        modified = true;
-      }
-    });
+    // Ensure clean state without auto-approving pending applications
     if (modified) {
       localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(existing));
     }
@@ -462,16 +455,21 @@ function loginUser(email, password, remember = true) {
     return { success: false, message: "Incorrect password. Please verify credentials or use 'Forgot password'." };
   }
 
-  // If account was marked pending, auto-approve immediately as Member
-  if (user.status === "pending") {
-    user.status = "approved";
-    user.role = user.role || "member";
-    user.roleTitle = "Verified Alumnus";
-    saveAllUsers(users);
+  if (user.status === "rejected") {
+    return { success: false, message: "Your registration was declined by the Alumni Verification Committee. Please contact Ashfaque Ahmad (+91 9161746797) on WhatsApp for clarification." };
   }
 
-  if (user.status === "rejected") {
-    return { success: false, message: "This registration request was declined. Contact the Alumni Association Committee." };
+  // Pending verification user (Preserve pending state and grant read-only session)
+  if (user.status === "pending") {
+    user.role = user.role || (user.profession === 'Faculty' ? 'unverified_teacher' : 'unverified');
+    user.roleTitle = "Membership Pending Verification";
+    setCurrentUser(user, remember);
+    return {
+      success: true,
+      pendingApproval: true,
+      user: user,
+      message: "Alumni registration verified with 2FA. Membership approval by Super Admin Ashfaque Ahmad is currently in progress."
+    };
   }
 
   // Approved! Store session
@@ -805,7 +803,7 @@ function completeRegistrationWithOtp(userData, otpCode) {
   return registerAlumni(userData);
 }
 
-// Register New Alumni Record
+// Register New Alumni Record (Strict Membership Verification & Approval Workflow)
 function registerAlumni(userData) {
   const users = getAllUsers();
   const exists = users.find(u => u.email.toLowerCase() === userData.email.trim().toLowerCase());
@@ -814,20 +812,21 @@ function registerAlumni(userData) {
   }
 
   const initials = userData.name.split(' ').filter(n => n.length > 0).map(n => n[0]).join('').substring(0, 2).toUpperCase();
+  const isTeacher = userData.role === 'teacher' || userData.profession === 'Faculty';
 
   const newAlumnus = {
     id: `usr-${Date.now()}`,
     email: userData.email.trim().toLowerCase(),
     password: userData.password,
     name: userData.name.trim(),
-    batch: parseInt(userData.batch),
+    batch: parseInt(userData.batch, 10) || 2010,
     house: userData.house || "Arawali",
-    role: "member",
-    roleTitle: "Verified Alumnus",
-    status: "approved", // By default granted Member role with immediate active access
+    role: isTeacher ? "unverified_teacher" : "unverified",
+    roleTitle: "Membership Pending Verification",
+    status: "pending", // Strict Alumni Verification required
     phone: userData.phone.trim(),
     city: (userData.city || "Gauriganj, UP").trim(),
-    profession: (userData.profession || "Alumnus").trim(),
+    profession: (userData.profession || (isTeacher ? "Faculty" : "Alumnus")).trim(),
     domain: userData.domain || "Other",
     avatar: initials || "NV",
     photo: userData.photo || null,
@@ -838,31 +837,34 @@ function registerAlumni(userData) {
   users.push(newAlumnus);
   saveAllUsers(users);
 
-  // Directly sync to AppState.directory so the alumnus is instantly live in the Directory & Chat
+  // Sync to AppState.pendingRegistrations in JNVG_ALUMNI_APP_DATA_V2 so it appears in Admin Tab immediately
   try {
-    const appData = JSON.parse(localStorage.getItem('JNVG_ALUMNI_APP_DATA_V2')) || {};
-    if (!appData.directory) appData.directory = [];
-    const dirExists = appData.directory.some(d => (d.name || '').toLowerCase() === newAlumnus.name.toLowerCase());
-    if (!dirExists) {
-      appData.directory.push({
+    const storageKey = 'JNVG_ALUMNI_APP_DATA_V2';
+    const appData = JSON.parse(localStorage.getItem(storageKey)) || {};
+    if (!appData.pendingRegistrations) appData.pendingRegistrations = [];
+    const regExists = appData.pendingRegistrations.some(r => (r.email || '').toLowerCase() === newAlumnus.email);
+    if (!regExists) {
+      appData.pendingRegistrations.unshift({
         id: newAlumnus.id,
         name: newAlumnus.name,
         batch: newAlumnus.batch,
         house: newAlumnus.house,
+        phone: newAlumnus.phone,
+        email: newAlumnus.email,
         role: newAlumnus.profession,
-        location: newAlumnus.city,
         domain: newAlumnus.domain,
-        initials: initials,
-        photo: newAlumnus.photo || null,
-        tag: `Batch of ${newAlumnus.batch}`
+        city: newAlumnus.city,
+        photo: newAlumnus.photo,
+        date: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) + " (2FA Verified)",
+        status: "pending"
       });
-      localStorage.setItem('JNVG_ALUMNI_APP_DATA_V2', JSON.stringify(appData));
+      localStorage.setItem(storageKey, JSON.stringify(appData));
     }
   } catch (e) {
-    console.warn("Could not sync to AppState directory:", e);
+    console.warn("Could not sync to AppState pendingRegistrations:", e);
   }
 
-  return { success: true, user: newAlumnus };
+  return { success: true, user: newAlumnus, pendingApproval: true };
 }
 
 // ==========================================
@@ -932,12 +934,28 @@ function resetUserPasswordWithOtp(identifier, otpCode, newPassword, confirmPassw
 // Approve User Application (Invoked by Super Admin or Batch Admin)
 function approveUserRegistration(userId) {
   const users = getAllUsers();
-  const idx = users.findIndex(u => u.id === userId);
+  const idx = users.findIndex(u => u.id === userId || (u.email && u.email.toLowerCase() === (userId || '').toLowerCase()));
   if (idx !== -1) {
-    users[idx].status = "approved";
-    users[idx].roleTitle = "Verified Alumnus";
+    const u = users[idx];
+    u.status = "approved";
+    u.role = (u.role === 'unverified_teacher' || u.profession === 'Faculty') ? 'teacher' : 'member';
+    u.roleTitle = (u.role === 'teacher') ? 'Revered Faculty Member' : 'Verified Alumnus';
     saveAllUsers(users);
-    return users[idx];
+    return u;
+  }
+  return null;
+}
+
+// Reject User Application
+function rejectUserRegistration(userId) {
+  const users = getAllUsers();
+  const idx = users.findIndex(u => u.id === userId || (u.email && u.email.toLowerCase() === (userId || '').toLowerCase()));
+  if (idx !== -1) {
+    const u = users[idx];
+    u.status = "rejected";
+    u.roleTitle = "Application Declined";
+    saveAllUsers(users);
+    return u;
   }
   return null;
 }

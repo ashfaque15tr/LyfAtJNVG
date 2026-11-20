@@ -8754,6 +8754,21 @@ function applyUserSession(user) {
   if (userProfileTopBar) userProfileTopBar.classList.remove('hidden');
   if (guestTopBar) guestTopBar.classList.add('hidden');
 
+  const isPending = user && (user.status === 'pending' || user.role === 'unverified' || user.role === 'unverified_teacher');
+  const pendingBanner = document.getElementById('pendingVerificationAlertBanner');
+  if (pendingBanner) {
+    if (isPending) {
+      pendingBanner.classList.remove('hidden');
+      const waBtn = document.getElementById('pendingNotifyAdminWaBtn');
+      if (waBtn) {
+        const msg = `Namaste Ashfaque Bhaiya, I have registered on JNVGFamily as *${user.name}* (Batch ${user.batch || ''}, ${user.house || ''} House, Phone: ${user.phone || ''}). Please verify and approve my alumni membership request.`;
+        waBtn.href = `https://wa.me/919161746797?text=${encodeURIComponent(msg)}`;
+      }
+    } else {
+      pendingBanner.classList.add('hidden');
+    }
+  }
+
   if (avatarEl) {
     if (user.photo) {
       avatarEl.innerHTML = `<img src="${user.photo}" alt="${user.name}" class="w-full h-full rounded-full object-cover">`;
@@ -8765,13 +8780,16 @@ function applyUserSession(user) {
 
   // Clean Role Title Display (No Demo Role text)
   let cleanRoleTitle = 'Member';
-  if (user.role === 'admin') cleanRoleTitle = 'Super Admin';
+  if (isPending) cleanRoleTitle = 'Pending Verification';
+  else if (user.role === 'admin') cleanRoleTitle = 'Super Admin';
   else if (user.role === 'host' || user.role === 'batch_admin') cleanRoleTitle = 'Host';
   else if (user.role === 'moderator') cleanRoleTitle = 'Moderator';
   else if (user.role === 'teacher') cleanRoleTitle = 'Revered Gurujan';
 
   if (roleEl) {
-    if (user.role === 'teacher') {
+    if (isPending) {
+      roleEl.textContent = `Pending Verification • Batch ${user.batch || 'Alumni'}`;
+    } else if (user.role === 'teacher') {
       roleEl.textContent = `${user.designation || user.roleTitle || 'Revered Faculty'}`;
     } else {
       roleEl.textContent = `${cleanRoleTitle} • Batch ${user.batch || 'Alumni'}`;
@@ -8783,7 +8801,17 @@ function applyUserSession(user) {
   const isCurMod = user.role === 'moderator';
   const isCurTeacher = user.role === 'teacher';
 
-  if (isCurAdmin) {
+  if (isPending) {
+    if (roleBadge) {
+      roleBadge.textContent = "Pending Verification";
+      roleBadge.className = "px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-amber-500/20 text-amber-300 border border-amber-500/40";
+    }
+    if (rbacMessage) {
+      rbacMessage.textContent = `Welcome, ${user.name}! Your alumni membership is pending review by the Alumni Verification Committee (Super Admin Ashfaque Ahmad & Batch Admins). Read-only mode active.`;
+    }
+    if (adminTabNav) adminTabNav.classList.add('hidden');
+    if (AppState.activeTab === 'admin') switchTab('home');
+  } else if (isCurAdmin) {
     if (roleBadge) { roleBadge.textContent = "Alumnus"; roleBadge.className = "px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-blue-500/20 text-blue-300 border border-blue-400/30"; }
     if (rbacMessage) { rbacMessage.textContent = `Super Admin Session: ${user.name}. Full administrative governance, schedule controls, role assignments, all batches ledger, and moderation enabled.`; }
     if (adminTabNav) adminTabNav.classList.remove('hidden');
@@ -9081,7 +9109,47 @@ function openReceiptForTxn(txnId) {
 }
 
 // 8. Modals
+function showPendingVerificationModal(actionDesc = 'creating or publishing content') {
+  const curUser = (typeof getCurrentUser === 'function' ? getCurrentUser() : null) || {};
+  const alertModal = document.getElementById('pendingVerificationModal');
+  if (alertModal) {
+    const actionEl = document.getElementById('pendingModalActionText');
+    if (actionEl) actionEl.textContent = actionDesc;
+    const waLink = document.getElementById('pendingModalWaBtn');
+    if (waLink) {
+      const msg = `Namaste Ashfaque Bhaiya, I have registered on JNVGFamily as *${curUser.name || 'Alumnus'}* (Batch ${curUser.batch || ''}, ${curUser.house || ''} House, Phone: ${curUser.phone || ''}). Please verify and approve my alumni membership request.`;
+      waLink.href = `https://wa.me/919161746797?text=${encodeURIComponent(msg)}`;
+    }
+    alertModal.classList.remove('hidden');
+    alertModal.style.display = 'flex';
+  } else {
+    alert(`🔒 Membership Verification Required:\n\nWelcome ${curUser.name || 'Alumnus'}! To preserve the authenticity and security of the JNVGFamily community, ${actionDesc} is enabled once your alumni credentials are verified by Super Admin Ashfaque Ahmad (+91 9161746797).`);
+  }
+}
+
+function closePendingVerificationModal() {
+  const alertModal = document.getElementById('pendingVerificationModal');
+  if (alertModal) {
+    alertModal.classList.add('hidden');
+    alertModal.style.display = 'none';
+  }
+}
+window.showPendingVerificationModal = showPendingVerificationModal;
+window.closePendingVerificationModal = closePendingVerificationModal;
+
 function openModal(id) {
+  if (id === 'storyModal') {
+    const curUser = (typeof getCurrentUser === 'function' ? getCurrentUser() : null);
+    if (!curUser) {
+      showToast('🔒 Please sign in to share a memory.');
+      window.location.href = 'login.html';
+      return;
+    }
+    if (curUser.status === 'pending' || curUser.role === 'unverified' || curUser.role === 'unverified_teacher') {
+      showPendingVerificationModal('posting messages or photos on the Memory Wall');
+      return;
+    }
+  }
   const modal = document.getElementById(id);
   if (modal) {
     modal.classList.remove('hidden');
@@ -9683,27 +9751,59 @@ function handleVerifyIndexOtp(e) {
 
   const { name, batch, house, phone, email, role, domain, city, password, photo } = pendingIndexReg;
 
+  let regResult = null;
   if (typeof registerAlumni === 'function') {
-    registerAlumni({ name, batch, house, phone, email, profession: role, domain, city, password, photo });
+    regResult = registerAlumni({ name, batch, house, phone, email, profession: role, domain, city, password, photo });
   }
 
-  const newReg = { id: `reg-${Date.now()}`, name, batch, house, phone, email, role, domain, city, photo, date: "Just now (Verified with 2FA OTP)" };
+  const cleanPhone = String(phone).replace(/\D/g, '').slice(-10);
+  const newReg = {
+    id: (regResult && regResult.user && regResult.user.id) || `reg-${Date.now()}`,
+    name,
+    batch,
+    house,
+    phone: `+91 ${cleanPhone}`,
+    email,
+    role,
+    domain,
+    city,
+    photo,
+    date: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) + " (2FA Verified)",
+    status: "pending"
+  };
 
-  AppState.pendingRegistrations.unshift(newReg);
+  if (!AppState.pendingRegistrations) AppState.pendingRegistrations = [];
+  const existsInQueue = AppState.pendingRegistrations.some(r => (r.email || '').toLowerCase() === email.toLowerCase());
+  if (!existsInQueue) {
+    AppState.pendingRegistrations.unshift(newReg);
+  }
   saveAppData();
   renderAdminRegistrations();
   updateQueueBadges();
 
   closeModal('indexOtpModal');
   pendingIndexReg = null;
-  showToast(`🎉 2FA Verified! Registration submitted for ${name}. Forwarded to Batch Admin & Super Admin for approval.`);
+
+  // Set active session in read-only pending mode
+  const registeredUser = (typeof findUserByIdentifier === 'function') ? findUserByIdentifier(email) : null;
+  if (registeredUser) {
+    setCurrentUser(registeredUser, true);
+    applyUserSession(registeredUser);
+  }
+
+  showToast(`🎉 2FA Verified! Membership application for ${name} submitted. Forwarded to Super Admin Ashfaque Ahmad for verification.`);
+
+  // WhatsApp Alert Link to Super Admin Ashfaque Ahmad (+91 9161746797)
+  const waMsg = `Namaste Ashfaque Bhaiya, I have registered on JNVGFamily as *${name}* (Batch ${batch}, ${house} House, Phone: +91 ${cleanPhone}, Email: ${email}). Please verify and approve my alumni membership request.`;
+  const waUrl = `https://wa.me/919161746797?text=${encodeURIComponent(waMsg)}`;
+  try { window.open(waUrl, '_blank'); } catch(e) {}
 }
 
 function renderAdminRegistrations() {
   const container = document.getElementById('adminRegistrationsList');
   if (!container) return;
 
-  if (AppState.pendingRegistrations.length === 0) {
+  if (!AppState.pendingRegistrations || AppState.pendingRegistrations.length === 0) {
     container.innerHTML = `<div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl text-center text-slate-400 text-xs">✓ No pending registrations. All alumni membership requests have been reviewed.</div>`;
     return;
   }
@@ -9713,19 +9813,25 @@ function renderAdminRegistrations() {
     const card = document.createElement('div');
     card.className = "bg-slate-900 border border-slate-800 p-5 rounded-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4";
     card.id = reg.id;
+    const cleanPhone = (reg.phone || '').replace(/\D/g, '').slice(-10);
+    const waChatApplicantUrl = `https://wa.me/91${cleanPhone}?text=${encodeURIComponent('Namaste ' + reg.name + ' ji, this is from the JNVGFamily Alumni Verification Committee regarding your registration...')}`;
     card.innerHTML = `
       <div class="space-y-1">
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">⏳ Awaiting Verification</span>
           <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-900/40 text-emerald-300 border border-emerald-500/30">✓ 2FA Verified</span>
           <span class="text-sm font-bold text-white">${reg.name}</span>
-          <span class="text-xs text-amber-400 font-mono">Batch ${reg.batch}</span>
-          <span class="text-[10px] text-slate-500">• ${reg.house} House</span>
+          <span class="text-xs text-amber-400 font-mono">Batch ${reg.batch || 'Alumni'}</span>
+          <span class="text-[10px] text-slate-400">• ${reg.house || 'Campus'} House</span>
         </div>
-        <p class="text-xs text-slate-300"><strong>Profession:</strong> ${reg.role} (${reg.domain}) • <strong>Location:</strong> ${reg.city}</p>
-        <p class="text-[11px] text-slate-400"><strong>Contact:</strong> ${reg.phone} | ${reg.email}</p>
+        <p class="text-xs text-slate-300"><strong>Profession:</strong> ${reg.role || 'Alumnus'} (${reg.domain || 'General'}) • <strong>Location:</strong> ${reg.city || 'India'}</p>
+        <p class="text-[11px] text-slate-400"><strong>Contact:</strong> ${reg.phone} | ${reg.email} • <em>${reg.date || 'Recently'}</em></p>
       </div>
-      <div class="flex items-center gap-2 flex-shrink-0">
-        <button onclick="approveRegistration('${reg.id}')" class="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1 transition">
+      <div class="flex items-center gap-2 flex-shrink-0 flex-wrap">
+        <a href="${waChatApplicantUrl}" target="_blank" class="px-3 py-1.5 rounded-lg bg-emerald-600/20 text-emerald-300 hover:bg-emerald-600/30 border border-emerald-500/30 font-bold text-xs flex items-center gap-1 transition">
+          <span>💬 WhatsApp Alumnus</span>
+        </a>
+        <button onclick="approveRegistration('${reg.id}')" class="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1 transition shadow">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
           Approve & Activate in Directory
         </button>
@@ -9743,9 +9849,25 @@ function approveRegistration(regId) {
   const reg = AppState.pendingRegistrations[index];
   const initials = reg.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
 
-  const newDirectoryEntry = { id: Date.now(), name: reg.name, initials: initials || "NV", batch: reg.batch, house: reg.house, role: reg.role, location: reg.city, domain: reg.domain, badge: `${reg.house}`, verified: true, tag: `Batch of ${reg.batch}` };
+  const newDirectoryEntry = {
+    id: Date.now(),
+    name: reg.name,
+    initials: initials || "NV",
+    batch: reg.batch,
+    house: reg.house,
+    role: reg.role,
+    location: reg.city,
+    domain: reg.domain,
+    badge: `${reg.house}`,
+    verified: true,
+    tag: `Batch of ${reg.batch}`
+  };
 
-  AppState.directory.unshift(newDirectoryEntry);
+  if (!AppState.directory) AppState.directory = [];
+  const existsInDir = AppState.directory.some(d => (d.name || '').toLowerCase() === (reg.name || '').toLowerCase());
+  if (!existsInDir) {
+    AppState.directory.unshift(newDirectoryEntry);
+  }
   AppState.pendingRegistrations.splice(index, 1);
   saveAppData();
 
@@ -9753,7 +9875,20 @@ function approveRegistration(regId) {
     if (typeof getAllUsers === 'function' && typeof saveAllUsers === 'function') {
       const users = getAllUsers();
       const u = users.find(x => x.id === reg.id || (x.email && x.email.toLowerCase() === (reg.email || '').toLowerCase()));
-      if (u) { u.status = "approved"; u.roleTitle = "Verified Alumnus"; saveAllUsers(users); }
+      if (u) {
+        u.status = "approved";
+        u.role = (reg.role === 'teacher' || u.role === 'unverified_teacher') ? 'teacher' : 'member';
+        u.roleTitle = (u.role === 'teacher') ? 'Revered Faculty Member' : 'Verified Alumnus';
+        saveAllUsers(users);
+      }
+      const cur = (typeof getCurrentUser === 'function') ? getCurrentUser() : null;
+      if (cur && (cur.id === reg.id || (cur.email && cur.email.toLowerCase() === (reg.email || '').toLowerCase()))) {
+        cur.status = "approved";
+        cur.role = u ? u.role : 'member';
+        cur.roleTitle = u ? u.roleTitle : 'Verified Alumnus';
+        setCurrentUser(cur, true);
+        applyUserSession(cur);
+      }
     }
   } catch(e) { console.warn("User status sync warning:", e); }
 
@@ -9763,17 +9898,29 @@ function approveRegistration(regId) {
   refreshInboxBadge();
   renderAdminRegistrations();
   updateQueueBadges();
-  showToast(`Approved! ${reg.name} is now activated and live in the Alumni Directory.`);
+  showToast(`✓ Approved! ${reg.name} is now activated and live in the Alumni Directory.`);
 }
 
 function rejectRegistration(regId) {
   const index = AppState.pendingRegistrations.findIndex(r => r.id === regId);
   if (index !== -1) {
+    const reg = AppState.pendingRegistrations[index];
     AppState.pendingRegistrations.splice(index, 1);
     saveAppData();
+    try {
+      if (typeof getAllUsers === 'function' && typeof saveAllUsers === 'function') {
+        const users = getAllUsers();
+        const u = users.find(x => x.id === reg.id || (x.email && x.email.toLowerCase() === (reg.email || '').toLowerCase()));
+        if (u) {
+          u.status = "rejected";
+          u.roleTitle = "Application Declined";
+          saveAllUsers(users);
+        }
+      }
+    } catch(e) {}
     renderAdminRegistrations();
     updateQueueBadges();
-    showToast('Registration declined.');
+    showToast(`Registration for ${reg.name} declined.`);
   }
 }
 
@@ -11376,6 +11523,16 @@ function searchTeachers(query) {
 
 // In Memoriam / Floral Tribute Homage for Deceased Gurujan
 function openTeacherTributeModal(teacherId) {
+  const curUser = (typeof getCurrentUser === 'function' ? getCurrentUser() : null);
+  if (!curUser) {
+    showToast('🔒 Please sign in to submit a tribute.');
+    window.location.href = 'login.html';
+    return;
+  }
+  if (curUser.status === 'pending' || curUser.role === 'unverified' || curUser.role === 'unverified_teacher') {
+    showPendingVerificationModal('submitting tributes to revered faculty');
+    return;
+  }
   const teacher = (AppState.teachers || []).find(t => t.id === teacherId) || { id: teacherId, name: "आदरणीय दिवंगत गुरुजन", post: "अमर स्मृति (In Memoriam)" };
   const modal = document.getElementById('teacherTributeModal');
   if (!modal) return;
@@ -11385,7 +11542,6 @@ function openTeacherTributeModal(teacherId) {
   if (idEl) idEl.value = teacher.id || teacherId;
   if (nameEl) nameEl.textContent = teacher.name;
   if (postEl) postEl.textContent = teacher.title || teacher.post || 'अमर स्मृति (In Memoriam)';
-  const curUser = (typeof getCurrentUser === 'function' ? getCurrentUser() : null);
   if (curUser && document.getElementById('tributeAlumnusName')) {
     document.getElementById('tributeAlumnusName').value = curUser.name || '';
   }
@@ -13287,6 +13443,12 @@ function openEditProfileModal(targetIdentifier) {
     if (confirm("Please log in to edit your alumnus profile. Would you like to proceed to the Login page now?")) {
       window.location.href = 'login.html';
     }
+    return;
+  }
+
+  // Pending verification check
+  if (user.status === 'pending' || user.role === 'unverified' || user.role === 'unverified_teacher') {
+    showPendingVerificationModal('updating alumni profile records');
     return;
   }
 
