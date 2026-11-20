@@ -1,7 +1,260 @@
 /**
- * JNV Gauriganj Verified Alumni Directory Seed (527 Verified Members)
- * Authoritative Offline & Fast Initial Seed for Directory Matching & Enrichment.
+ * JNV Gauriganj Verified Alumni & Gurujan Directory Seed
+ * Authoritative Offline & Fast Initial Seed for Directory & Faculty Matching & Enrichment.
  */
+
+const defaultTeachers = [
+    {
+      id: "tch-bsr",
+      name: "Sh. B. S. Singh Rautela",
+      title: "Former Principal • Jawahar Navodaya Vidyalaya, Gauriganj",
+      category: "former",
+      statusLabel: "Former Leadership (Principal)",
+      post: "Former Principal",
+      subject: "Institutional Leadership & Educational Administration",
+      tenure: "Former Principal",
+      house: "Administration",
+      houseDetail: "Vidyalaya Leadership & Mentorship",
+      location: "Uttarakhand / Uttar Pradesh",
+      initials: "BSR",
+      photo: null,
+      respectCount: 220,
+      message: "नवोदय का प्रांगण केवल ज्ञानार्जन का केंद्र नहीं, बल्कि चरित्र, बंधुत्व और राष्ट्र-निर्माण की पावन तपोभूमि है। जेएनवी गौरीगंज के विद्यार्थियों ने हर क्षेत्र में जो कीर्तिमान स्थापित किए हैं, उन पर मुझे गर्व है। अपनी जड़ों, गुरुजनों और नवोदय के संस्कारों को सदैव हृदय में संजोकर रखें। चतुर्थ महासम्मेलन के सफल आयोजन हेतु सभी प्रिय पूर्व छात्रों को मेरा असीम शुभाशीष। हमीं नवोदय हों!",
+      specialNote: "Revered former Principal whose exemplary leadership, discipline, and educational vision shaped JNV Gauriganj during crucial formative years."
+    },
+    {
+      id: "tch-sps",
+      name: "Late Dr. S. P. Singh",
+      title: "Former Principal • Amar Smriti (अमर स्मृति)",
+      category: "in_memoriam",
+      statusLabel: "Amar Smriti • Former Principal",
+      post: "Founder Principal (In Memoriam)",
+      subject: "Foundational Leadership & Institutional Vision",
+      tenure: "1989 – 1998 (Founder Principal)",
+      house: "Administration",
+      houseDetail: "Vidyalaya Founder & Principal",
+      location: "Amar Smriti • In Eternal Memory",
+      initials: "SPS",
+      photo: null,
+      isDeceased: true,
+      tributeCount: 156,
+      respectCount: 156,
+      message: "स्वर्गीय डॉ. एस. पी. सिंह जी ने जेएनवी गौरीगंज के स्थापना काल में अपने अप्रतिम नेतृत्व, अनुशासन और दूरदर्शिता से इस पावन संस्थान की सुदृढ़ नींव रखी। उनका स्नेह और आदर्श सदैव जीवित रहेगा।",
+      specialNote: "Revered Founder Principal who established the high academic and moral standards of JNV Gauriganj."
+    },
+    {
+      id: "tch-ps",
+      name: "Late Dr. Preetam Singh",
+      title: "Former PGT Hindi • Amar Smriti (अमर स्मृति)",
+      category: "in_memoriam",
+      statusLabel: "Amar Smriti • Former PGT Hindi",
+      post: "Former PGT Hindi (In Memoriam)",
+      subject: "Hindi Literature & Sahitya",
+      tenure: "1990 – 2005 (15 Years)",
+      house: "Aravali",
+      houseDetail: "House Master - Aravali & Hindi Sahitya Parishad",
+      location: "Amar Smriti • In Eternal Memory",
+      initials: "PS",
+      photo: null,
+      isDeceased: true,
+      tributeCount: 142,
+      respectCount: 142,
+      message: "स्वर्गीय डॉ. प्रीतम सिंह जी ने नवोदय के विद्यार्थियों के भीतर हिंदी साहित्य के प्रति अगाध प्रेम और मानवीय संवेदनाओं का बीजारोपण किया। उनकी ओजस्वी वाणी और संस्कार आज भी गूंजते हैं।",
+      specialNote: "Beloved Hindi scholar and mentor who inspired generations of students in literary and ethical excellence."
+    },
+    {
+      id: "tch-1",
+      name: "Dr. S. K. Chaudhary",
+      title: "Senior Chemistry Luminary & Former Vice Principal",
+      category: "former",
+      statusLabel: "Former Faculty (Retired)",
+      post: "PGT Chemistry & Former Vice Principal",
+      subject: "Chemistry & Sciences",
+      tenure: "1989 – 2006 (17 Years)",
+      house: "Aravali",
+      houseDetail: "House Master - Aravali (Ashok)",
+      location: "Prayagraj / Lucknow, UP",
+      initials: "SKC",
+      photo: null,
+      respectCount: 210,
+      message: "नवोदय सिर्फ एक विद्यालय नहीं, यह संस्कार और चरित्र निर्माण की पावन तपोभूमि है। हमारे विद्यार्थियों ने जब भी प्रयोगशाला के टेस्ट ट्यूब से निकलकर जीवन के कठिन मैदानों में कदम रखा, उन्होंने हमेशा सत्य और परिश्रम का परचम लहराया। 13 दिसंबर को चतुर्थ महासम्मेलन में अपने सभी प्रिय शिष्यों से मिलने की उत्कंठा है। सदा विजयी भव!",
+      specialNote: "Revered Chemistry Guru who mentored over 30 batches toward national medical & engineering excellence."
+    },
+    {
+      id: "tch-2",
+      name: "Legendary Varshney Sir",
+      title: "PET Sir • Physical Education, Sports & Discipline Patriarch",
+      category: "former",
+      statusLabel: "Former Faculty (Retired)",
+      post: "Physical Education Teacher (PET) & Chief Warden",
+      subject: "Physical Education & Discipline",
+      tenure: "1990 – 2012 (22 Years)",
+      house: "Shivalik",
+      houseDetail: "Chief House Master & Sports Coordinator",
+      location: "Aligarh / Gauriganj",
+      initials: "VS",
+      photo: null,
+      respectCount: 245,
+      message: "सुबह 5:30 बजे की सीटी, खेल मैदान का चक्कर और अनुशासन—यही नवोदयी को दुनिया की किसी भी विपरीत परिस्थिति में अडिग खड़ा रखता है। मैदान में पसीना बहाने वाला कभी जिंदगी की दौड़ में पीछे नहीं रहता। अनुशासन ही नवोदय की सबसे बड़ी शक्ति है। खूब बढ़ो और संस्था का नाम रोशन करो!",
+      specialNote: "Legendary sports mentor who led JNV Gauriganj to consecutive Regional & National Navodaya Sports Championships."
+    },
+    {
+      id: "tch-3",
+      name: "Sh. Mahendra Singh Rawat",
+      title: "History Luminary, Scholar & Pastoral Guide",
+      category: "former",
+      statusLabel: "Former Faculty (Superannuated)",
+      post: "PGT History & Senior House Master",
+      subject: "History & Social Sciences",
+      tenure: "1991 – 2010 (19 Years)",
+      house: "Neelgiri",
+      houseDetail: "House Master - Neelgiri",
+      location: "Dehradun, Uttarakhand",
+      initials: "MSR",
+      photo: null,
+      respectCount: 180,
+      message: "इतिहास गवाह है कि वही कौम और वही संस्थाएं अमर होती हैं जो अपनी जड़ों और संस्कारों से जुड़ी रहती हैं। हमारे पूर्व छात्र आज देश के हर कोने में समाज को नई दिशा दे रहे हैं। जब आप अपनी पुरानी कक्षाओं और हॉस्टलों की ओर मुड़कर देखते हैं, तो नवोदय की उस पवित्र मिट्टी का ऋण स्मरण रखें।",
+      specialNote: "Eminent scholar of Indian history and ethics; guide for civil services aspirants."
+    },
+    {
+      id: "tch-4",
+      name: "Smt. Shakuntala Devi",
+      title: "Senior Guide • Matrubhasha & Girls Hostel Matron",
+      category: "former",
+      statusLabel: "Former Faculty (Retired)",
+      post: "TGT Hindi & Girls Hostel In-charge",
+      subject: "Hindi Literature & Value Education",
+      tenure: "1992 – 2014 (22 Years)",
+      house: "Priyadarshni / Sarojini",
+      houseDetail: "Matron - Priyadarshni & Sarojini House (Later unified with 4 Houses)",
+      location: "Sultanpur / Lucknow, UP",
+      initials: "SD",
+      photo: null,
+      message: "प्रिय नवोदयी बेटियों और बेटों! तुम जब छोटे-छोटे बस्ते लेकर गौरीगंज आए थे, तब से लेकर आज देश-विदेश में नेतृत्व करते देखने का सुख अद्वितीय है। संस्कार, दया और अपनी भाषा व संस्कृति का गौरव कभी मत छोड़ना। सम्मेलन में सभी को मेरा असीम स्नेह व आशीर्वाद।",
+      specialNote: "Affectionate maternal mentor for the hostel students and pioneer of cultural drama clubs."
+    },
+    {
+      id: "tch-5",
+      name: "Sh. R. K. Sharma",
+      title: "PGT Physics & Science Club Founder",
+      category: "former",
+      statusLabel: "Former Faculty (Transferred)",
+      post: "PGT Physics & Innovation Lab In-charge",
+      subject: "Physics",
+      tenure: "1993 – 2009 (16 Years)",
+      house: "Udaygiri",
+      houseDetail: "House Master - Udaygiri",
+      location: "Kanpur, UP",
+      initials: "RKS",
+      photo: null,
+      message: "गौरीगंज परिसर की छत पर टेलिस्कोप से तारों को देखना और भौतिकी के सिद्धांतों को वास्तविक जीवन में परखना आज भी ताजा है। निरंतर वैज्ञानिक सोच और जिज्ञासु स्वभाव बनाए रखें।",
+      specialNote: "Science Olympiad trainer and robotics pioneer."
+    },
+    {
+      id: "tch-6",
+      name: "Mr. P. K. Singh",
+      title: "Principal, Jawahar Navodaya Vidyalaya, Gauriganj",
+      category: "current",
+      statusLabel: "Current Leadership (Principal)",
+      post: "Principal (Present)",
+      subject: "Institutional Leadership & Administration",
+      tenure: "Present",
+      house: "Administration",
+      houseDetail: "Campus Head",
+      location: "Campus Residence, JNV Gauriganj",
+      initials: "PKS",
+      photo: null,
+      message: "जवाहर नवोदय विद्यालय, गौरीगंज के गौरवशाली पूर्व छात्रों का परिसर में हार्दिक स्वागत है। 13 दिसंबर 2026 को आयोजित होने वाला यह चतुर्थ महासम्मेलन हमारे वर्तमान अध्ययनरत 550+ विद्यार्थियों के लिए जीवंत प्रेरणा बनेगा। आपका मार्गदर्शन और सहभागिता विद्यालय को नई ऊंचाइयों पर ले जाएगा।",
+      specialNote: "Leading current campus digital infrastructure and academic transformation."
+    },
+    {
+      id: "tch-7",
+      name: "Mr. N. N. Tripathi",
+      title: "Vice Principal, Jawahar Navodaya Vidyalaya, Gauriganj",
+      category: "current",
+      statusLabel: "Current Leadership (Vice Principal)",
+      post: "Vice Principal (Present)",
+      subject: "Academic Administration & Discipline",
+      tenure: "Present",
+      house: "Administration",
+      houseDetail: "Academic Discipline Coordinator",
+      location: "Campus Staff Quarters, JNV Gauriganj",
+      initials: "NNT",
+      photo: null,
+      message: "विद्यालय की सबसे बड़ी पूंजी उसके द्वारा गढ़े गए नागरिक हैं। पूर्व छात्रों का यह एकजुट संगठन वर्तमान पीढ़ी के लिए एक मजबूत पुल है। हम सभी शिक्षकगण चतुर्थ सम्मेलन में आपके स्वागत के लिए सज्ज हैं।",
+      specialNote: "Spearheading board examination academic excellence and student counseling."
+    },
+    {
+      id: "tch-8",
+      name: "Mr. S. K. Singh",
+      title: "Alumni Coordinator Teacher & Senior Faculty",
+      category: "current",
+      statusLabel: "Current Faculty (Alumni Cell Coordinator)",
+      post: "Alumni Coordinator Teacher (Faculty In-Charge)",
+      subject: "Student Mentorship & Alumni Liaison",
+      tenure: "Present",
+      house: "Neelgiri",
+      houseDetail: "Alumni Liaison Cell & Mentorship In-charge",
+      location: "JNV Gauriganj Campus",
+      initials: "SKS",
+      photo: null,
+      message: "पूर्व छात्र प्रकोष्ठ (Alumni Cell) के माध्यम से हम विद्यालय के पूर्व और वर्तमान छात्रों के बीच सतत संवाद स्थापित कर रहे हैं। 13 दिसंबर 2026 को आयोजित चतुर्थ वार्षिक सम्मेलन में आप सभी पूर्व विद्यार्थियों का सस्नेह स्वागत है।",
+      specialNote: "Direct campus liaison officer for 4th Annual Mega Meet arrangements."
+    },
+    {
+      id: "tch-lsy",
+      name: "Sh. L. S. Yadav",
+      title: "T.G.T.-English, Jawahar Navodaya Vidyalaya, Gauriganj • Editor, Vidyalaya Magazine 'Navonmesh'",
+      category: "current",
+      statusLabel: "Current Faculty (TGT English) • Editor, 'Navonmesh'",
+      post: "T.G.T.-English • Editor, Vidyalaya Magazine 'Navonmesh'",
+      subject: "English Language, Literature & Chief Editor 'Navonmesh'",
+      tenure: "2021 – Present",
+      house: "Campus",
+      houseDetail: "Faculty of English & Literary Society • Chief Editor, Navonmesh Magazine",
+      location: "Campus Staff Quarters, JNV Gauriganj",
+      initials: "LSY",
+      photo: "assets/images/ls-yadav.jpg",
+      respectCount: 168,
+      message: "Navodaya is the confluence of multi-dimensional talents. \nLet's come together and work together to succeed with flying colours by caring and sharing, J N V Stars! ⭐⭐⭐⭐⭐",
+      specialNote: "Dedicated English educator nurturing communicative excellence and literary expression at JNV Gauriganj since 2021. Chief Editor of Vidyalaya Annual Magazine 'Navonmesh' (नवन्मेष)."
+    },
+    {
+      id: "tch-ay",
+      name: "Smt. Arpana Yadav",
+      title: "Senior Faculty (T.G.T.-English) & House Mother",
+      category: "former",
+      statusLabel: "Former Faculty (TGT English) & House Mother",
+      post: "T.G.T.-English & House Mother",
+      subject: "English Language, Literature & Values",
+      tenure: "1994 – 2012 (18 Years)",
+      house: "Priyadarshni / Sarojini",
+      houseDetail: "Senior House Mother & Literary Society In-charge",
+      location: "Lucknow / Sultanpur, UP",
+      initials: "AY",
+      photo: null,
+      respectCount: 198,
+      message: "कहाँ हो भाई सब? बहुत अच्छे लग रहे हैं आप सब! Love you all! Education is not the filling of a pail, but the lighting of a fire. हॉस्टल में आपका माँ सा ध्यान रखना और अंग्रेजी भाषा व नैतिक मूल्यों को जीवन में उतारना ही मेरा संकल्प रहा। सदा विजयी भव!",
+      specialNote: "Affectionate English mentor and pastoral guide remembered warmly by generations of Navodayans for her maternal care and inspiring literary guidance."
+    },
+    {
+      id: "tch-9",
+      name: "Sh. Ram Ashray Ram",
+      title: "Pastoral Care Patriarch • Mess & Hostel Custodian",
+      category: "pastoral",
+      statusLabel: "Non-Academic Veteran (Superannuated)",
+      post: "Senior Hostel Superintendent & Mess Custodian",
+      subject: "Pastoral Care & Hostel Welfare",
+      tenure: "1989 – 2014 (25 Years)",
+      house: "All Houses",
+      houseDetail: "Hostel Caretaker & Dining Hall In-charge",
+      location: "Gauriganj, Amethi",
+      initials: "RAR",
+      photo: null,
+      message: "रात को हॉस्टल में जब बच्चे घर की याद में रोते थे, तब उन्हें अपने बच्चे की तरह संभालना मेरा फर्ज था। आज आप सब बड़े अफसर, डॉक्टर, इंजीनियर और लीडर बन गए हैं। मेरे लिए इससे बड़ा कोई धन नहीं। 13 दिसंबर को सबको गले लगाने का इंतजार है।",
+      specialNote: "Served 25 uninterrupted years taking caring fatherly responsibility for thousands of residential students."
+    }
+];
 
 const defaultDirectoryAlumni = [
   {
@@ -7918,8 +8171,12 @@ const defaultDirectoryAlumni = [
 if (typeof window !== 'undefined') {
   window.defaultDirectoryAlumni = defaultDirectoryAlumni;
   window.JNVG_DIRECTORY_SEED = defaultDirectoryAlumni;
+  window.defaultTeachers = defaultTeachers;
+  window.JNVG_TEACHERS_SEED = defaultTeachers;
 }
 
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = defaultDirectoryAlumni;
+  module.exports.defaultDirectoryAlumni = defaultDirectoryAlumni;
+  module.exports.defaultTeachers = defaultTeachers;
 }

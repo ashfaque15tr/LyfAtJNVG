@@ -1024,6 +1024,147 @@ assert(loginHtmlContent.includes('id="regPhotoInput"'), 'login.html contains reg
 assert(mobIndexHtmlContent.includes('id="modalRegMatchNotice"'), 'mobile_app/index.html contains modalRegMatchNotice');
 assert(mobLoginHtmlContent.includes('id="regMatchNotice"'), 'mobile_app/login.html contains regMatchNotice');
 
+// ----------------------------------------------------
+// TEST SUITE 22: GURUJAN / FACULTY SMART MATCH & PROFILE CLAIM ENGINE
+// ----------------------------------------------------
+console.log('\n--- TEST SUITE 22: GURUJAN / FACULTY SMART MATCH & PROFILE CLAIM ENGINE ---');
+
+// 1. Export Checks
+assert(typeof findTeacherMatch === 'function', 'findTeacherMatch is exported as a function');
+assert(typeof getTeacherRecords === 'function', 'getTeacherRecords is exported as a function');
+const teacherRecords = getTeacherRecords();
+assert(Array.isArray(teacherRecords) && teacherRecords.length === 14, `Faculty roster has exactly 14 verified Gurujan entries (found ${teacherRecords.length})`);
+
+// 2. Exact & Canonical Name Matching for Living Faculty
+const skcMatch = findTeacherMatch({ name: 'Dr. S. K. Chaudhary' });
+assert(skcMatch.matched && skcMatch.record && skcMatch.record.id === 'tch-1', 'Name match finds Dr. S. K. Chaudhary (tch-1)');
+
+const lsyMatch = findTeacherMatch({ name: 'Sh. L. S. Yadav' });
+assert(lsyMatch.matched && lsyMatch.record && lsyMatch.record.id === 'tch-lsy', 'Name match finds Sh. L. S. Yadav (tch-lsy)');
+
+const varshneyMatch = findTeacherMatch({ name: 'Legendary Varshney Sir' });
+assert(varshneyMatch.matched && varshneyMatch.record && varshneyMatch.record.id === 'tch-2', 'Name match finds Legendary Varshney Sir (tch-2)');
+
+const msrMatch = findTeacherMatch({ name: 'Sh. Mahendra Singh Rawat' });
+assert(msrMatch.matched && msrMatch.record && msrMatch.record.id === 'tch-3', 'Name match finds Sh. Mahendra Singh Rawat (tch-3)');
+
+const sdMatch = findTeacherMatch({ name: 'Smt. Shakuntala Devi' });
+assert(sdMatch.matched && sdMatch.record && sdMatch.record.id === 'tch-4', 'Name match finds Smt. Shakuntala Devi (tch-4)');
+
+// 3. Amar Smriti / In-Memoriam Protection
+const spsMatch = findTeacherMatch({ name: 'Late Dr. S. P. Singh' });
+assert(spsMatch.matched && spsMatch.isDeceased === true && spsMatch.record.id === 'tch-sps', 'Amar Smriti Protection: Late Dr. S. P. Singh flagged as deceased memorial');
+
+const psMatch = findTeacherMatch({ name: 'Late Dr. Preetam Singh' });
+assert(psMatch.matched && psMatch.isDeceased === true && psMatch.record.id === 'tch-ps', 'Amar Smriti Protection: Late Dr. Preetam Singh flagged as deceased memorial');
+
+// 4. Unknown / New Faculty Registration Opportunity
+const newFacultyMatch = findTeacherMatch({ name: 'Dr. Anjali Verma' });
+assert(!newFacultyMatch.matched, 'Unlisted faculty member (Dr. Anjali Verma) returns matched: false to allow filling from scratch');
+
+// 5. Anti-Takeover Safeguard for Faculty
+const allUsersTch = getAllUsers();
+const tchUserItem = allUsersTch.find(u => u.claimedTeacherId === 'tch-1' || u.role === 'teacher');
+if (tchUserItem) {
+  tchUserItem.claimedTeacherId = 'tch-1';
+  tchUserItem.status = 'approved';
+  saveAllUsers(allUsersTch);
+}
+const claimedTchMatch = findTeacherMatch({ name: 'Dr. S. K. Chaudhary' });
+assert(claimedTchMatch.matched && claimedTchMatch.isAlreadyClaimed === true, 'Anti-Takeover Safeguard: Approved faculty returns isAlreadyClaimed: true');
+
+const blockedTchClaim = validateRegistrationData({
+  name: 'Dr. S. K. Chaudhary Impersonator',
+  batch: '1989',
+  house: 'Aravali',
+  email: 'fake.skc@example.com',
+  phone: '9988776655',
+  password: 'password123',
+  isTeacher: true,
+  claimedTeacherId: 'tch-1'
+});
+assert(!blockedTchClaim.valid && blockedTchClaim.message.includes('claimed'), 'validateRegistrationData blocks claim of already claimed faculty profile');
+
+// 6. In-place Gurujan Profile Enrichment
+// Ensure login as Super Admin
+const superAdminForTch = allUsersTch.find(u => (u.email || '').toLowerCase() === 'ashfaque15tr@gmail.com');
+setCurrentUser(superAdminForTch, true);
+
+const initialTeacherCount = AppState.teachers.length;
+const testTchClaimRes = registerAlumni({
+  claimedTeacherId: 'tch-lsy',
+  name: 'Sh. L. S. Yadav',
+  batch: '2021',
+  tenure: '2021 – Present',
+  house: 'Campus',
+  profession: 'T.G.T.-English & Chief Editor Navonmesh',
+  city: 'JNV Gauriganj Campus',
+  domain: 'English Language & Literature',
+  photo: 'data:image/jpeg;base64,TEST_ENRICHED_TEACHER_PHOTO',
+  phone: '9415001234',
+  email: 'lsyadav.test.claim@example.com',
+  password: 'password123',
+  isTeacher: true,
+  message: 'May all Navodaya scholars shine across the universe with flying colours!'
+});
+
+assert(testTchClaimRes.success && testTchClaimRes.claimedTeacherId === 'tch-lsy', 'Gurujan profile claim registration succeeded with claimedTeacherId');
+const lsyRecord = AppState.teachers.find(t => String(t.id) === 'tch-lsy');
+assert(lsyRecord && lsyRecord.photo === 'data:image/jpeg;base64,TEST_ENRICHED_TEACHER_PHOTO', 'In-place enrichment updated teacher photo in AppState.teachers');
+assert(lsyRecord && lsyRecord.message.includes('May all Navodaya scholars shine'), 'In-place enrichment updated teacher Guru Sandesh message');
+
+// 7. Admin Approval of Claimed Faculty
+const pendingTchItem = AppState.pendingRegistrations.find(p => p.claimedTeacherId === 'tch-lsy');
+assert(pendingTchItem && pendingTchItem.isClaimedProfile === true, 'Pending faculty registration tagged with isClaimedProfile');
+approveRegistration(pendingTchItem.id);
+assert(AppState.teachers.length === initialTeacherCount, 'Gurujan roster count strictly preserved without duplicate inflation on approval');
+assert(AppState.teachers.filter(t => String(t.id) === 'tch-lsy').length === 1, 'Gurujan roster contains exactly one unified card for tch-lsy');
+
+// 8. New Faculty Registration & Approval (Opportunity to write new profile)
+const newTchRegRes = registerAlumni({
+  name: 'Dr. Anjali Verma',
+  batch: '2024',
+  tenure: '2024 – Present',
+  house: 'Campus',
+  profession: 'PGT Biology & Eco Club Mentor',
+  city: 'Gauriganj Campus',
+  domain: 'Life Sciences',
+  photo: 'data:image/jpeg;base64,ANJALI_PHOTO',
+  phone: '9876543219',
+  email: 'anjali.verma@example.com',
+  password: 'password123',
+  isTeacher: true,
+  message: 'Dedicated to cultivating scientific inquiry and moral integrity in our students.'
+});
+assert(newTchRegRes.success, 'New faculty member registered successfully from scratch');
+const pendingNewTch = AppState.pendingRegistrations.find(p => p.email === 'anjali.verma@example.com');
+assert(pendingNewTch && pendingNewTch.isTeacher === true, 'Pending registration correctly recorded as isTeacher: true');
+approveRegistration(pendingNewTch.id);
+assert(AppState.teachers.length === initialTeacherCount + 1, 'New faculty profile activated and unshifted into AppState.teachers (count incremented by 1)');
+const createdTch = AppState.teachers.find(t => t.name === 'Dr. Anjali Verma');
+assert(createdTch && createdTch.post === 'PGT Biology & Eco Club Mentor', 'Created teacher record contains correct post');
+
+const updatedUsersList22 = getAllUsers();
+const anjaliUser = updatedUsersList22.find(u => u.email === 'anjali.verma@example.com');
+assert(anjaliUser && anjaliUser.status === 'approved' && anjaliUser.role === 'teacher' && anjaliUser.roleTitle === 'Revered Faculty Member', 'Approved faculty user activated with teacher role and Revered Faculty Member title');
+
+// 9. UI Integration Assertions for Teachers
+assert(indexHtmlContent.includes('id="modalRegTypeTeacherBtn"'), 'index.html contains modalRegTypeTeacherBtn');
+assert(indexHtmlContent.includes('id="modalRegGuruMessageGroup"'), 'index.html contains modalRegGuruMessageGroup');
+assert(indexHtmlContent.includes('id="claimedTeacherId"'), 'index.html contains claimedTeacherId input');
+
+assert(loginHtmlContent.includes('id="regTypeTeacherBtn"'), 'login.html contains regTypeTeacherBtn');
+assert(loginHtmlContent.includes('id="regGuruMessageGroup"'), 'login.html contains regGuruMessageGroup');
+assert(loginHtmlContent.includes('id="claimedTeacherId"'), 'login.html contains claimedTeacherId input');
+
+assert(mobIndexHtmlContent.includes('id="modalRegTypeTeacherBtn"'), 'mobile_app/index.html contains modalRegTypeTeacherBtn');
+assert(mobIndexHtmlContent.includes('id="modalRegGuruMessageGroup"'), 'mobile_app/index.html contains modalRegGuruMessageGroup');
+assert(mobIndexHtmlContent.includes('id="claimedTeacherId"'), 'mobile_app/index.html contains claimedTeacherId input');
+
+assert(mobLoginHtmlContent.includes('id="regTypeTeacherBtn"'), 'mobile_app/login.html contains regTypeTeacherBtn');
+assert(mobLoginHtmlContent.includes('id="regGuruMessageGroup"'), 'mobile_app/login.html contains regGuruMessageGroup');
+assert(mobLoginHtmlContent.includes('id="claimedTeacherId"'), 'mobile_app/login.html contains claimedTeacherId input');
+
 console.log('\n====================================================');
 console.log(`TEST RESULTS: ${passedTests} / ${totalTests} ASSERTIONS PASSED`);
 console.log('====================================================');

@@ -1905,6 +1905,16 @@
       </div>
 
       <form onsubmit="handleRegistrationSubmit(event)" class="space-y-3 text-xs">
+        <!-- Registration Type Switcher: Alumni vs Gurujan/Faculty -->
+        <div class="p-1 rounded-2xl bg-slate-950/80 border border-slate-800 flex items-center gap-1 mb-2">
+          <button type="button" id="modalRegTypeAlumniBtn" onclick="selectModalRegisterType('alumni')" class="flex-1 py-2 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-bold transition flex items-center justify-center gap-1.5 shadow">
+            <span>🎓 Alumni Student</span>
+          </button>
+          <button type="button" id="modalRegTypeTeacherBtn" onclick="selectModalRegisterType('teacher')" class="flex-1 py-2 rounded-xl bg-transparent text-slate-400 hover:text-amber-300 text-xs font-medium transition flex items-center justify-center gap-1.5">
+            <span>🪔 Gurujan / Faculty (शिक्षक)</span>
+          </button>
+        </div>
+
         <!-- Profile Photo Upload -->
         <div class="flex items-center gap-3 p-3 rounded-2xl bg-slate-950/70 border border-slate-800">
           <div class="relative w-14 h-14 rounded-full overflow-hidden bg-slate-900 border-2 border-dashed border-amber-500/50 flex items-center justify-center flex-shrink-0 shadow-inner">
@@ -1967,15 +1977,16 @@
         </div>
 
         <input type="hidden" id="claimedDirectoryId" value="">
+        <input type="hidden" id="claimedTeacherId" value="">
 
         <div>
-          <label class="block text-slate-300 mb-1">Full Legal Name *</label>
+          <label id="modalRegNameLabel" class="block text-slate-300 mb-1">Full Legal Name *</label>
           <input type="text" id="regName" required placeholder="e.g. Anand Kumar Maurya" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white placeholder-slate-500">
         </div>
 
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block text-slate-300 mb-1">Passout Batch Year *</label>
+            <label id="modalRegBatchLabel" class="block text-slate-300 mb-1">Passout Batch Year *</label>
             <input type="number" id="regBatch" required placeholder="e.g. 2011" min="1986" max="2026" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono placeholder-slate-500">
           </div>
           <div>
@@ -2002,11 +2013,11 @@
 
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block text-slate-300 mb-1">Profession / Role *</label>
+            <label id="modalRegRoleLabel" class="block text-slate-300 mb-1">Profession / Role *</label>
             <input type="text" id="regRole" required placeholder="e.g. Executive Civil Engineer" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white placeholder-slate-500">
           </div>
           <div>
-            <label class="block text-slate-300 mb-1">Domain *</label>
+            <label id="modalRegDomainLabel" class="block text-slate-300 mb-1">Domain *</label>
             <select id="regDomain" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">
               <option value="Civil Services">Civil Services / Govt</option>
               <option value="Software">Software & Tech</option>
@@ -2020,6 +2031,12 @@
         <div>
           <label class="block text-slate-300 mb-1">Current City / Location *</label>
           <input type="text" id="regCity" required placeholder="e.g. Prayagraj / Lucknow / Delhi" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white placeholder-slate-500">
+        </div>
+
+        <!-- Optional Guru Sandesh Message for Gurujan -->
+        <div id="modalRegGuruMessageGroup" class="hidden">
+          <label class="block text-slate-300 mb-1">Guru Sandesh / Blessing Message for Students <span class="text-slate-500 font-normal">(Optional)</span></label>
+          <textarea id="regGuruMessage" rows="2" placeholder="Write your words of wisdom, memories, or blessings for JNV Gauriganj students..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white placeholder-slate-500 text-xs"></textarea>
         </div>
 
         <!-- Password and Reconfirmation Fields -->
@@ -2036,7 +2053,7 @@
 
         <div class="pt-2">
           <button type="submit" class="w-full py-2.5 rounded-xl bg-gold-500 hover:bg-gold-600 text-slate-950 font-bold text-xs transition flex items-center justify-center gap-1.5 shadow-lg">
-            <span>🛡️ Verify with 2FA OTP & Submit Request</span>
+            <span id="modalRegSubmitBtnText">🛡️ Verify with 2FA OTP & Submit Request</span>
           </button>
         </div>
       </form>
@@ -2996,6 +3013,7 @@
   </div>
 
   <div id="toast-container" class="fixed bottom-4 right-4 z-50 space-y-2 pointer-events-none"></div>
+  <script src="assets/js/directory-seed.js"></script>
   <script src="assets/js/app.js"></script>
 </body>
 </html>

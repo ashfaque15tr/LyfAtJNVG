@@ -953,6 +953,139 @@ function findDirectoryMatch(query = {}) {
   return { matched: false };
 }
 
+/**
+ * Retrieve verified faculty / Gurujan dataset
+ */
+function getTeacherRecords() {
+  if (typeof window !== 'undefined' && window.AppState && Array.isArray(window.AppState.teachers) && window.AppState.teachers.length > 0) {
+    return window.AppState.teachers;
+  }
+  if (typeof AppState !== 'undefined' && Array.isArray(AppState.teachers) && AppState.teachers.length > 0) {
+    return AppState.teachers;
+  }
+  if (typeof window !== 'undefined' && window.defaultTeachers && Array.isArray(window.defaultTeachers) && window.defaultTeachers.length > 0) {
+    return window.defaultTeachers;
+  }
+  if (typeof defaultData !== 'undefined' && Array.isArray(defaultData.teachers) && defaultData.teachers.length > 0) {
+    return defaultData.teachers;
+  }
+  try {
+    if (typeof localStorage !== 'undefined') {
+      const raw = localStorage.getItem('JNVG_ALUMNI_APP_DATA_V2');
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && Array.isArray(parsed.teachers) && parsed.teachers.length > 0) {
+          return parsed.teachers;
+        }
+      }
+    }
+  } catch(e) {}
+  if (typeof window !== 'undefined' && Array.isArray(window.JNVG_TEACHERS_SEED) && window.JNVG_TEACHERS_SEED.length > 0) {
+    return window.JNVG_TEACHERS_SEED;
+  }
+  return [];
+}
+
+/**
+ * Find Revered Faculty / Gurujan Match
+ * Supports living faculty claim/enrichment, deceased Amar Smriti protection, and anti-takeover
+ * @param {Object} query - { phone, email, name, subject, tenure, house }
+ * @returns {Object} { matched: boolean, isDeceased: boolean, isAlreadyClaimed: boolean, record: Object, claimedUser: Object }
+ */
+function findTeacherMatch(query = {}) {
+  const records = getTeacherRecords();
+  if (!records || records.length === 0) {
+    return { matched: false };
+  }
+
+  const cp = cleanPhone(query.phone || '');
+  const ce = cleanEmail(query.email || '');
+  const cn = cleanName(query.name || '');
+
+  const registeredUsers = getAllUsers();
+
+  function evaluateTeacherClaim(tchItem) {
+    const claimedUser = registeredUsers.find(u => {
+      if (u.claimedTeacherId && String(u.claimedTeacherId) === String(tchItem.id)) return true;
+      if (u.email && tchItem.email && cleanEmail(u.email) === cleanEmail(tchItem.email)) return true;
+      if (u.phone && tchItem.phone && cleanPhone(u.phone) === cleanPhone(tchItem.phone)) return true;
+      return false;
+    });
+
+    if (claimedUser && claimedUser.status === 'approved') {
+      return {
+        isAlreadyClaimed: true,
+        claimedUser: {
+          id: claimedUser.id,
+          name: claimedUser.name,
+          email: claimedUser.email,
+          status: claimedUser.status
+        }
+      };
+    }
+    return { isAlreadyClaimed: false, claimedUser: claimedUser || null };
+  }
+
+  // Tier 1: Exact Unique Match on Phone (10 digits) OR Email
+  if (cp && cp.length === 10) {
+    const match = records.find(r => r.phone && cleanPhone(r.phone) === cp);
+    if (match) {
+      const claim = evaluateTeacherClaim(match);
+      return {
+        matched: true,
+        tier: 1,
+        confidence: 100,
+        matchType: 'phone',
+        isDeceased: !!(match.isDeceased || match.category === 'in_memoriam'),
+        record: match,
+        isAlreadyClaimed: claim.isAlreadyClaimed,
+        claimedUser: claim.claimedUser
+      };
+    }
+  }
+
+  if (ce && ce.includes('@')) {
+    const match = records.find(r => r.email && cleanEmail(r.email) === ce);
+    if (match) {
+      const claim = evaluateTeacherClaim(match);
+      return {
+        matched: true,
+        tier: 1,
+        confidence: 100,
+        matchType: 'email',
+        isDeceased: !!(match.isDeceased || match.category === 'in_memoriam'),
+        record: match,
+        isAlreadyClaimed: claim.isAlreadyClaimed,
+        claimedUser: claim.claimedUser
+      };
+    }
+  }
+
+  // Tier 2: Canonical Name Matching
+  if (cn && cn.length >= 3) {
+    const match = records.find(r => {
+      const tName = cleanName(r.name);
+      return tName === cn || (tName.length >= 4 && (tName.includes(cn) || cn.includes(tName)));
+    });
+
+    if (match) {
+      const claim = evaluateTeacherClaim(match);
+      return {
+        matched: true,
+        tier: 2,
+        confidence: 95,
+        matchType: 'name',
+        isDeceased: !!(match.isDeceased || match.category === 'in_memoriam'),
+        record: match,
+        isAlreadyClaimed: claim.isAlreadyClaimed,
+        claimedUser: claim.claimedUser
+      };
+    }
+  }
+
+  return { matched: false };
+}
+
 // ==========================================
 // REGISTRATION WITH PASSWORD RECONFIRMATION & 2FA
 // ==========================================
@@ -961,8 +1094,15 @@ function validateRegistrationData(userData) {
   if (!userData.name || !userData.name.trim()) {
     return { valid: false, message: "Please enter your full legal name." };
   }
-  if (!userData.batch || userData.batch < 1990 || userData.batch > 2030) {
-    return { valid: false, message: "Please specify a valid passout batch year (1992 - 2025)." };
+  const isTeacher = userData.role === 'teacher' || userData.profession === 'Faculty' || userData.isTeacher;
+  if (!isTeacher) {
+    if (!userData.batch || userData.batch < 1990 || userData.batch > 2030) {
+      return { valid: false, message: "Please specify a valid passout batch year (1992 - 2025)." };
+    }
+  } else {
+    if (!userData.batch && !userData.tenure) {
+      return { valid: false, message: "Please specify your joining / service year at JNV Gauriganj." };
+    }
   }
   if (!userData.email || !userData.email.includes('@')) {
     return { valid: false, message: "Please enter a valid email address." };
@@ -981,13 +1121,20 @@ function validateRegistrationData(userData) {
   const users = getAllUsers();
   const exists = users.find(u => u.email.toLowerCase() === userData.email.trim().toLowerCase());
   if (exists) {
-    return { valid: false, message: "An alumni account with this email address already exists. Please log in instead." };
+    return { valid: false, message: "An account with this email address already exists. Please log in instead." };
   }
 
   if (userData.claimedDirectoryId) {
     const claimedExists = users.find(u => u.claimedDirectoryId && String(u.claimedDirectoryId) === String(userData.claimedDirectoryId) && u.status === 'approved');
     if (claimedExists) {
       return { valid: false, message: "This directory profile has already been claimed and verified by an active member. Please log in instead." };
+    }
+  }
+
+  if (userData.claimedTeacherId) {
+    const claimedTchExists = users.find(u => u.claimedTeacherId && String(u.claimedTeacherId) === String(userData.claimedTeacherId) && u.status === 'approved');
+    if (claimedTchExists) {
+      return { valid: false, message: "This revered faculty profile has already been claimed and verified by an active member. Please log in instead." };
     }
   }
 
@@ -1028,33 +1175,88 @@ function registerAlumni(userData) {
   }
 
   const initials = userData.name.split(' ').filter(n => n.length > 0).map(n => n[0]).join('').substring(0, 2).toUpperCase();
-  const isTeacher = userData.role === 'teacher' || userData.profession === 'Faculty';
+  const isTeacher = userData.role === 'teacher' || userData.profession === 'Faculty' || userData.isTeacher;
   const claimedId = userData.claimedDirectoryId || null;
+  const claimedTeacherId = userData.claimedTeacherId || null;
 
   const newAlumnus = {
     id: `usr-${Date.now()}`,
     email: userData.email.trim().toLowerCase(),
     password: userData.password,
     name: userData.name.trim(),
-    batch: parseInt(userData.batch, 10) || 2010,
-    house: userData.house || "Aravali",
+    batch: parseInt(userData.batch, 10) || (isTeacher ? (parseInt(userData.tenure, 10) || 1995) : 2010),
+    house: userData.house || (isTeacher ? "Campus" : "Aravali"),
     role: isTeacher ? "unverified_teacher" : "unverified",
-    roleTitle: "Membership Pending Verification",
-    status: "pending", // Strict Alumni Verification required
+    roleTitle: isTeacher ? "Faculty Pending Verification" : "Membership Pending Verification",
+    designation: userData.designation || userData.profession || (isTeacher ? "Faculty" : "Alumnus"),
+    status: "pending", // Strict Alumni / Faculty Verification required
     phone: userData.phone.trim(),
     city: (userData.city || "Gauriganj, UP").trim(),
     profession: (userData.profession || (isTeacher ? "Faculty" : "Alumnus")).trim(),
-    domain: userData.domain || "Other",
+    domain: userData.domain || (isTeacher ? "Academics" : "Other"),
     avatar: initials || "NV",
     photo: userData.photo || null,
     claimedDirectoryId: claimedId,
     isClaimedProfile: !!claimedId,
+    claimedTeacherId: claimedTeacherId,
+    isClaimedTeacher: !!claimedTeacherId,
+    isTeacher: isTeacher,
+    message: userData.message || userData.guruMessage || null,
     twoFactorVerified: true,
     joinedDate: `Registered ${new Date().toLocaleDateString('en-GB')}`
   };
 
   users.push(newAlumnus);
   saveAllUsers(users);
+
+  // In-place Faculty Profile Enrichment if claiming an existing teacher entry
+  if (claimedTeacherId) {
+    try {
+      const storageKey = 'JNVG_ALUMNI_APP_DATA_V2';
+      let appData = null;
+      if (typeof localStorage !== 'undefined') {
+        const raw = localStorage.getItem(storageKey);
+        if (raw) appData = JSON.parse(raw);
+      }
+      if (!appData && typeof AppState !== 'undefined' && AppState.teachers) {
+        appData = AppState;
+      }
+
+      if (appData && Array.isArray(appData.teachers)) {
+        const targetTeacher = appData.teachers.find(t => String(t.id) === String(claimedTeacherId));
+        if (targetTeacher) {
+          if (userData.name) targetTeacher.name = userData.name.trim();
+          if (userData.subject || userData.profession) targetTeacher.subject = (userData.subject || userData.profession).trim();
+          if (userData.designation || userData.post || userData.profession) targetTeacher.post = (userData.designation || userData.post || userData.profession).trim();
+          if (userData.tenure || userData.batch) targetTeacher.tenure = String(userData.tenure || userData.batch).trim();
+          if (userData.house) targetTeacher.house = userData.house;
+          if (userData.city) targetTeacher.location = userData.city.trim();
+          if (userData.message || userData.guruMessage) targetTeacher.message = (userData.message || userData.guruMessage).trim();
+          if (userData.photo) targetTeacher.photo = userData.photo;
+          if (userData.phone) targetTeacher.phone = userData.phone.trim();
+          if (userData.email) targetTeacher.email = userData.email.trim().toLowerCase();
+          targetTeacher.claimed = true;
+          targetTeacher.claimedBy = newAlumnus.id;
+          targetTeacher.claimedAt = new Date().toISOString();
+
+          // Sync in-memory AppState if present
+          if (typeof AppState !== 'undefined' && AppState.teachers) {
+            const inMem = AppState.teachers.find(t => String(t.id) === String(claimedTeacherId));
+            if (inMem) Object.assign(inMem, targetTeacher);
+          }
+          if (typeof window !== 'undefined' && window.AppState && window.AppState.teachers) {
+            const inWin = window.AppState.teachers.find(t => String(t.id) === String(claimedTeacherId));
+            if (inWin) Object.assign(inWin, targetTeacher);
+          }
+          if (typeof localStorage !== 'undefined') {
+            localStorage.setItem(storageKey, JSON.stringify(appData));
+          }
+        }
+      }
+    } catch (e) {
+      console.warn("Could not enrich teacher record in place:", e);
+    }
+  }
 
   // In-place Directory Profile Enrichment if claiming an existing directory entry
   if (claimedId) {
@@ -1126,8 +1328,12 @@ function registerAlumni(userData) {
       city: newAlumnus.city,
       photo: newAlumnus.photo,
       claimedDirectoryId: claimedId,
-      isClaimedProfile: !!claimedId,
-      enrichmentNote: claimedId ? `Claimed & enriched verified Directory entry #${claimedId}` : null,
+      isClaimedProfile: !!(claimedId || claimedTeacherId),
+      claimedTeacherId: claimedTeacherId,
+      isClaimedTeacher: !!claimedTeacherId,
+      isTeacher: isTeacher,
+      message: userData.message || userData.guruMessage || null,
+      enrichmentNote: claimedTeacherId ? `Claimed & enriched verified Faculty entry #${claimedTeacherId}` : (claimedId ? `Claimed & enriched verified Directory entry #${claimedId}` : null),
       date: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) + " (2FA Verified)",
       status: "pending"
     };
@@ -1149,7 +1355,7 @@ function registerAlumni(userData) {
     console.warn("Could not sync to AppState pendingRegistrations:", e);
   }
 
-  return { success: true, user: newAlumnus, pendingApproval: true, claimedDirectoryId: claimedId };
+  return { success: true, user: newAlumnus, pendingApproval: true, claimedDirectoryId: claimedId, claimedTeacherId: claimedTeacherId };
 }
 
 // ==========================================
@@ -1316,6 +1522,8 @@ if (typeof window !== 'undefined') {
   window.matchesBatch = matchesBatch;
   window.getDirectoryRecords = getDirectoryRecords;
   window.findDirectoryMatch = findDirectoryMatch;
+  window.getTeacherRecords = getTeacherRecords;
+  window.findTeacherMatch = findTeacherMatch;
   window.registerAlumni = registerAlumni;
   window.validateRegistrationData = validateRegistrationData;
   window.initiateRegistrationOtp = initiateRegistrationOtp;
@@ -1332,6 +1540,8 @@ if (typeof module !== 'undefined' && module.exports) {
     matchesBatch,
     getDirectoryRecords,
     findDirectoryMatch,
+    getTeacherRecords,
+    findTeacherMatch,
     loginUser,
     registerAlumni,
     validateRegistrationData,

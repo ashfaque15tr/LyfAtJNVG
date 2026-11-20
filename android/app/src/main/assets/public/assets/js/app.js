@@ -9658,7 +9658,56 @@ function filterFeed(cat) {
 // 12. Registration & Approval
 let modalUploadedPhoto = null;
 let modalMatchedDirectoryRecord = null;
+let modalMatchedTeacherRecord = null;
+let currentModalRegisterType = 'alumni';
 let modalMatchDebounceTimer = null;
+
+function selectModalRegisterType(type) {
+  currentModalRegisterType = type;
+  const alumniBtn = document.getElementById('modalRegTypeAlumniBtn');
+  const teacherBtn = document.getElementById('modalRegTypeTeacherBtn');
+  const nameLabel = document.getElementById('modalRegNameLabel');
+  const nameInput = document.getElementById('regName');
+  const batchLabel = document.getElementById('modalRegBatchLabel');
+  const batchInput = document.getElementById('regBatch');
+  const roleLabel = document.getElementById('modalRegRoleLabel');
+  const roleInput = document.getElementById('regRole');
+  const domainLabel = document.getElementById('modalRegDomainLabel');
+  const guruMsgGroup = document.getElementById('modalRegGuruMessageGroup');
+  const submitBtnText = document.getElementById('modalRegSubmitBtnText');
+  const claimedDirInput = document.getElementById('claimedDirectoryId');
+  const claimedTchInput = document.getElementById('claimedTeacherId');
+
+  if (type === 'teacher') {
+    if (alumniBtn) alumniBtn.className = "flex-1 py-1.5 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition flex items-center justify-center gap-1.5";
+    if (teacherBtn) teacherBtn.className = "flex-1 py-1.5 px-3 rounded-lg text-xs font-bold bg-amber-500 text-brand-950 shadow transition flex items-center justify-center gap-1.5";
+    if (nameLabel) nameLabel.innerHTML = 'Faculty / Gurujan Full Name <span class="text-amber-400">*</span>';
+    if (nameInput) nameInput.placeholder = 'e.g. Dr. S. K. Chaudhary / Sh. L. S. Yadav';
+    if (batchLabel) batchLabel.innerHTML = 'Tenure / Service Joining Year <span class="text-amber-400">*</span>';
+    if (batchInput) batchInput.placeholder = 'e.g. 1994 or 2021';
+    if (roleLabel) roleLabel.innerHTML = 'Subject / Designation / Department <span class="text-amber-400">*</span>';
+    if (roleInput) roleInput.placeholder = 'e.g. PGT Chemistry / TGT English';
+    if (domainLabel) domainLabel.innerHTML = 'Primary Academic Domain / Department';
+    if (guruMsgGroup) guruMsgGroup.classList.remove('hidden');
+    if (submitBtnText) submitBtnText.textContent = 'Submit Gurujan Registration';
+    if (claimedDirInput) claimedDirInput.value = '';
+  } else {
+    if (alumniBtn) alumniBtn.className = "flex-1 py-1.5 px-3 rounded-lg text-xs font-bold bg-brand-600 text-white shadow transition flex items-center justify-center gap-1.5";
+    if (teacherBtn) teacherBtn.className = "flex-1 py-1.5 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition flex items-center justify-center gap-1.5";
+    if (nameLabel) nameLabel.innerHTML = 'Full Name <span class="text-rose-400">*</span>';
+    if (nameInput) nameInput.placeholder = 'e.g. Prabhat Kumar';
+    if (batchLabel) batchLabel.innerHTML = 'Passout Batch Year <span class="text-rose-400">*</span>';
+    if (batchInput) batchInput.placeholder = 'e.g. 2005 (1990 - 2030)';
+    if (roleLabel) roleLabel.innerHTML = 'Current Designation / Profession <span class="text-rose-400">*</span>';
+    if (roleInput) roleInput.placeholder = 'e.g. Software Engineer, Doctor, IAS';
+    if (domainLabel) domainLabel.innerHTML = 'Professional Domain / Stream';
+    if (guruMsgGroup) guruMsgGroup.classList.add('hidden');
+    if (submitBtnText) submitBtnText.textContent = 'Submit Alumni Registration';
+    if (claimedTchInput) claimedTchInput.value = '';
+  }
+
+  checkModalRegistrationMatch();
+}
 
 function checkModalRegistrationMatch() {
   clearTimeout(modalMatchDebounceTimer);
@@ -9668,6 +9717,25 @@ function checkModalRegistrationMatch() {
     const name = (document.getElementById('regName')?.value || '').trim();
     const batch = (document.getElementById('regBatch')?.value || '').trim();
     const house = (document.getElementById('regHouse')?.value || '').trim();
+    const role = (document.getElementById('regRole')?.value || '').trim();
+
+    if (currentModalRegisterType === 'teacher') {
+      if (typeof findTeacherMatch !== 'function') return;
+      if (phone.replace(/\D/g, '').length < 10 && !email.includes('@') && name.length < 3) {
+        hideModalMatchNotice();
+        return;
+      }
+      const res = findTeacherMatch({ phone, email, name, subject: role, tenure: batch, house });
+      if (res.matched && res.record) {
+        modalMatchedTeacherRecord = res.record;
+        modalMatchedDirectoryRecord = null;
+        showModalTeacherMatchNotice(res);
+      } else {
+        modalMatchedTeacherRecord = null;
+        hideModalMatchNotice();
+      }
+      return;
+    }
 
     if (typeof findDirectoryMatch !== 'function') return;
 
@@ -9679,6 +9747,7 @@ function checkModalRegistrationMatch() {
     const res = findDirectoryMatch({ phone, email, name, batch, house });
     if (res.matched && res.record) {
       modalMatchedDirectoryRecord = res.record;
+      modalMatchedTeacherRecord = null;
       showModalMatchNotice(res);
     } else {
       modalMatchedDirectoryRecord = null;
@@ -9695,7 +9764,10 @@ function showModalMatchNotice(res) {
   const badgeEl = document.getElementById('modalRegMatchBadge');
   const descEl = document.getElementById('modalRegMatchDesc');
   const hiddenIdEl = document.getElementById('claimedDirectoryId');
+  const hiddenTchIdEl = document.getElementById('claimedTeacherId');
   const submitBtn = document.querySelector('#registerModal button[type="submit"]');
+
+  if (hiddenTchIdEl) hiddenTchIdEl.value = '';
 
   if (res.isAlreadyClaimed) {
     if (noticeBox) noticeBox.classList.add('hidden');
@@ -9733,19 +9805,69 @@ function showModalMatchNotice(res) {
   autoPreFillModalFields(res.record);
 }
 
-function hideModalMatchNotice() {
+function showModalTeacherMatchNotice(res) {
   const noticeBox = document.getElementById('modalRegMatchNotice');
   const claimedBox = document.getElementById('modalRegClaimedNotice');
+  const claimedEmailEl = document.getElementById('modalClaimedUserEmail');
+  const titleEl = document.getElementById('modalRegMatchTitle');
+  const badgeEl = document.getElementById('modalRegMatchBadge');
+  const descEl = document.getElementById('modalRegMatchDesc');
   const hiddenIdEl = document.getElementById('claimedDirectoryId');
+  const hiddenTchIdEl = document.getElementById('claimedTeacherId');
   const submitBtn = document.querySelector('#registerModal button[type="submit"]');
 
-  if (noticeBox) noticeBox.classList.add('hidden');
-  if (claimedBox) claimedBox.classList.add('hidden');
   if (hiddenIdEl) hiddenIdEl.value = '';
+
+  if (res.isDeceased) {
+    if (claimedBox) claimedBox.classList.add('hidden');
+    if (noticeBox) {
+      if (titleEl) titleEl.textContent = `Amar Smriti Memorial Record: ${res.record.name}`;
+      if (badgeEl) badgeEl.textContent = `Amar Smriti (अमर स्मृति)`;
+      if (descEl) {
+        descEl.textContent = `This profile is dedicated to the sacred memory of ${res.record.name} (${res.record.post || 'Revered Faculty'}). It is permanently preserved in institutional tribute and cannot be claimed as an individual login account. If you are a faculty member, please enter your own details.`;
+      }
+      noticeBox.classList.remove('hidden');
+    }
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+    }
+    return;
+  }
+
+  if (res.isAlreadyClaimed) {
+    if (noticeBox) noticeBox.classList.add('hidden');
+    if (claimedBox) claimedBox.classList.remove('hidden');
+    if (claimedEmailEl) claimedEmailEl.textContent = (res.claimedUser && res.claimedUser.email) ? res.claimedUser.email : 'Registered Gurujan';
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+    }
+    return;
+  }
+
+  if (claimedBox) claimedBox.classList.add('hidden');
   if (submitBtn) {
     submitBtn.disabled = false;
     submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
   }
+
+  if (hiddenTchIdEl && res.record) {
+    hiddenTchIdEl.value = res.record.id || '';
+  }
+
+  if (noticeBox && res.record) {
+    if (titleEl) titleEl.textContent = `Verified Gurujan / Faculty Record Found: ${res.record.name}`;
+    if (badgeEl) badgeEl.textContent = `${res.confidence || 95}% Match (${(res.matchType || '').replace('_', ' ').toUpperCase()})`;
+    if (descEl) {
+      const postStr = res.record.post || res.record.subject || 'Faculty Member';
+      const tenureStr = res.record.tenure ? ` (${res.record.tenure})` : '';
+      descEl.textContent = `Respected Gurujan, we found your esteemed profile in the Gurujan Roster (${postStr}${tenureStr}). We have pre-filled your details below. Please review, update any missing details or contact info, add your blessings message, and upload your profile photo!`;
+    }
+    noticeBox.classList.remove('hidden');
+  }
+
+  autoPreFillModalTeacherFields(res.record);
 }
 
 function autoPreFillModalFields(rec) {
@@ -9777,7 +9899,6 @@ function autoPreFillModalFields(rec) {
   if (phoneEl && (!phoneEl.value || phoneEl.value.trim() === '') && rec.phone) phoneEl.value = rec.phone;
   if (emailEl && (!emailEl.value || emailEl.value.trim() === '') && rec.email) emailEl.value = rec.email;
 
-  // Pre-fill photo preview if record already has photo and user hasn't uploaded one
   if (rec.photo && !modalUploadedPhoto) {
     modalUploadedPhoto = rec.photo;
     const previewImg = document.getElementById('modalRegPhotoPreview');
@@ -9789,8 +9910,84 @@ function autoPreFillModalFields(rec) {
   }
 }
 
+function autoPreFillModalTeacherFields(rec) {
+  if (!rec) return;
+  const nameEl = document.getElementById('regName');
+  const batchEl = document.getElementById('regBatch');
+  const houseEl = document.getElementById('regHouse');
+  const roleEl = document.getElementById('regRole');
+  const domainEl = document.getElementById('regDomain');
+  const cityEl = document.getElementById('regCity');
+  const phoneEl = document.getElementById('regPhone');
+  const emailEl = document.getElementById('regEmail');
+  const guruMsgEl = document.getElementById('regGuruMessage');
+
+  if (nameEl && (!nameEl.value || nameEl.value.trim().length < 3)) nameEl.value = rec.name || '';
+  if (batchEl && (!batchEl.value || batchEl.value.trim() === '')) {
+    const tenureYear = (rec.tenure || '').match(/\b(19\d\d|20\d\d)\b/);
+    if (tenureYear) batchEl.value = tenureYear[1];
+    else if (rec.tenure) batchEl.value = rec.tenure;
+  }
+  if (roleEl && (!roleEl.value || roleEl.value.trim() === '')) {
+    roleEl.value = rec.post || rec.subject || 'Faculty Member';
+  }
+  if (domainEl && rec.subject) {
+    for (let i = 0; i < domainEl.options.length; i++) {
+      if (domainEl.options[i].value.toLowerCase().includes('education') || domainEl.options[i].value.toLowerCase().includes('academic')) {
+        domainEl.selectedIndex = i;
+        break;
+      }
+    }
+  }
+  if (houseEl && rec.house) {
+    const nh = (typeof normalizeHouse === 'function') ? normalizeHouse(rec.house) : rec.house.toLowerCase();
+    for (let i = 0; i < houseEl.options.length; i++) {
+      if (houseEl.options[i].value.toLowerCase().includes(nh) || nh.includes(houseEl.options[i].value.toLowerCase())) {
+        houseEl.selectedIndex = i;
+        break;
+      }
+    }
+  }
+  if (cityEl && (!cityEl.value || cityEl.value.trim() === '') && rec.location) cityEl.value = rec.location;
+  if (phoneEl && (!phoneEl.value || phoneEl.value.trim() === '') && rec.phone) phoneEl.value = rec.phone;
+  if (emailEl && (!emailEl.value || emailEl.value.trim() === '') && rec.email) emailEl.value = rec.email;
+  if (guruMsgEl && (!guruMsgEl.value || guruMsgEl.value.trim() === '') && (rec.message || rec.blessingMessage)) {
+    guruMsgEl.value = rec.message || rec.blessingMessage;
+  }
+
+  if (rec.photo && !modalUploadedPhoto) {
+    modalUploadedPhoto = rec.photo;
+    const previewImg = document.getElementById('modalRegPhotoPreview');
+    const placeholder = document.getElementById('modalRegPhotoPlaceholder');
+    const removeBtn = document.getElementById('modalRegPhotoRemoveBtn');
+    if (previewImg) { previewImg.src = rec.photo; previewImg.classList.remove('hidden'); }
+    if (placeholder) placeholder.classList.add('hidden');
+    if (removeBtn) removeBtn.classList.remove('hidden');
+  }
+}
+
+function hideModalMatchNotice() {
+  const noticeBox = document.getElementById('modalRegMatchNotice');
+  const claimedBox = document.getElementById('modalRegClaimedNotice');
+  const hiddenIdEl = document.getElementById('claimedDirectoryId');
+  const hiddenTchIdEl = document.getElementById('claimedTeacherId');
+  const submitBtn = document.querySelector('#registerModal button[type="submit"]');
+
+  if (noticeBox) noticeBox.classList.add('hidden');
+  if (claimedBox) claimedBox.classList.add('hidden');
+  if (hiddenIdEl) hiddenIdEl.value = '';
+  if (hiddenTchIdEl) hiddenTchIdEl.value = '';
+  if (submitBtn) {
+    submitBtn.disabled = false;
+    submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+  }
+}
+
 function applyModalMatchedDirectoryData() {
-  if (modalMatchedDirectoryRecord) {
+  if (currentModalRegisterType === 'teacher' && modalMatchedTeacherRecord) {
+    autoPreFillModalTeacherFields(modalMatchedTeacherRecord);
+    showToast(`✓ Pre-filled details from verified Gurujan record (${modalMatchedTeacherRecord.name}). Please review and add photo/blessings.`);
+  } else if (modalMatchedDirectoryRecord) {
     autoPreFillModalFields(modalMatchedDirectoryRecord);
     showToast(`✓ Pre-filled details from verified directory record (${modalMatchedDirectoryRecord.name}). Please review and add photo.`);
   }
@@ -9805,7 +10002,7 @@ let modalMatchListenersAttached = false;
 function initModalMatchListeners() {
   if (modalMatchListenersAttached) return;
   modalMatchListenersAttached = true;
-  ['regPhone', 'regEmail', 'regName', 'regBatch', 'regHouse'].forEach(fieldId => {
+  ['regPhone', 'regEmail', 'regName', 'regBatch', 'regHouse', 'regRole'].forEach(fieldId => {
     const el = document.getElementById(fieldId);
     if (el) {
       el.addEventListener('input', checkModalRegistrationMatch);
@@ -9886,13 +10083,16 @@ function openIndexDeviceSmsOtp() {
 function handleRegistrationSubmit(e) {
   e.preventDefault();
   const name = document.getElementById('regName').value.trim();
-  const batch = parseInt(document.getElementById('regBatch').value) || 2011;
+  const rawBatch = document.getElementById('regBatch').value.trim();
+  const isTeacher = currentModalRegisterType === 'teacher';
+  const batch = isTeacher ? rawBatch || 'Faculty' : (parseInt(rawBatch) || 2011);
   const house = document.getElementById('regHouse').value;
   const phone = document.getElementById('regPhone').value.trim();
   const email = document.getElementById('regEmail').value.trim();
   const role = document.getElementById('regRole').value.trim();
   const domain = document.getElementById('regDomain').value;
   const city = document.getElementById('regCity').value.trim();
+  const guruMessage = (document.getElementById('regGuruMessage')?.value || '').trim();
 
   const passEl = document.getElementById('regPortalPassword');
   const confEl = document.getElementById('regPortalConfirmPassword');
@@ -9911,12 +10111,16 @@ function handleRegistrationSubmit(e) {
 
   const cleanPhone = String(phone).replace(/\D/g, '').slice(-10);
   const maskedPhone = `+91 ******${cleanPhone.slice(-4)}`;
-  const claimedId = (document.getElementById('claimedDirectoryId')?.value || (modalMatchedDirectoryRecord ? modalMatchedDirectoryRecord.id : '')) || null;
+  const claimedId = (!isTeacher) ? (document.getElementById('claimedDirectoryId')?.value || (modalMatchedDirectoryRecord ? modalMatchedDirectoryRecord.id : '')) || null : null;
+  const claimedTchId = (isTeacher) ? (document.getElementById('claimedTeacherId')?.value || (modalMatchedTeacherRecord ? modalMatchedTeacherRecord.id : '')) || null : null;
 
   pendingIndexReg = {
     name, batch, house, phone, email, role, domain, city, password,
     photo: modalUploadedPhoto || null,
+    isTeacher,
     claimedDirectoryId: claimedId,
+    claimedTeacherId: claimedTchId,
+    guruMessage: guruMessage || null,
     otp: otpRes.otp
   };
 
@@ -9960,11 +10164,26 @@ function handleVerifyIndexOtp(e) {
     }
   }
 
-  const { name, batch, house, phone, email, role, domain, city, password, photo, claimedDirectoryId } = pendingIndexReg;
+  const { name, batch, house, phone, email, role, domain, city, password, photo, isTeacher, claimedDirectoryId, claimedTeacherId, guruMessage } = pendingIndexReg;
 
   let regResult = null;
   if (typeof registerAlumni === 'function') {
-    regResult = registerAlumni({ name, batch, house, phone, email, profession: role, domain, city, password, photo, claimedDirectoryId });
+    regResult = registerAlumni({
+      name,
+      batch,
+      house,
+      phone,
+      email,
+      profession: role,
+      domain,
+      city,
+      password,
+      photo,
+      isTeacher: !!isTeacher,
+      claimedDirectoryId: claimedDirectoryId || undefined,
+      claimedTeacherId: claimedTeacherId || undefined,
+      message: guruMessage || undefined
+    });
   }
 
   const cleanPhone = String(phone).replace(/\D/g, '').slice(-10);
@@ -9975,13 +10194,18 @@ function handleVerifyIndexOtp(e) {
     house,
     phone: `+91 ${cleanPhone}`,
     email,
-    role,
-    domain,
+    role: isTeacher ? 'teacher' : role,
+    domain: domain || (isTeacher ? 'Education & Academia' : 'General'),
     city,
     photo,
+    isTeacher: !!isTeacher,
     claimedDirectoryId: claimedDirectoryId || null,
-    isClaimedProfile: !!claimedDirectoryId,
-    enrichmentNote: claimedDirectoryId ? `Claimed & enriched verified Directory entry #${claimedDirectoryId}` : null,
+    claimedTeacherId: claimedTeacherId || null,
+    guruMessage: guruMessage || null,
+    isClaimedProfile: !!(claimedDirectoryId || claimedTeacherId),
+    enrichmentNote: claimedTeacherId 
+      ? `Claimed & enriched verified Gurujan entry #${claimedTeacherId}`
+      : (claimedDirectoryId ? `Claimed & enriched verified Directory entry #${claimedDirectoryId}` : (isTeacher ? 'New Gurujan / Faculty Registration' : null)),
     date: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) + " (2FA Verified)",
     status: "pending"
   };
@@ -10005,10 +10229,13 @@ function handleVerifyIndexOtp(e) {
     applyUserSession(registeredUser);
   }
 
-  showToast(`🎉 2FA Verified! Membership application for ${name} submitted. Forwarded to Super Admin Ashfaque Ahmad for verification.`);
+  const roleDesc = isTeacher ? 'Gurujan / Faculty' : 'Alumni';
+  showToast(`🎉 2FA Verified! ${roleDesc} membership application for ${name} submitted. Forwarded to Super Admin Ashfaque Ahmad for verification.`);
 
   // WhatsApp Alert Link to Super Admin Ashfaque Ahmad (+91 9161746797)
-  const waMsg = `Namaste Ashfaque Bhaiya, I have registered on JNVGFamily as *${name}* (Batch ${batch}, ${house} House, Phone: +91 ${cleanPhone}, Email: ${email}). Please verify and approve my alumni membership request.`;
+  const waMsg = isTeacher
+    ? `Pranam Ashfaque, I have registered on JNVGFamily as Gurujan / Faculty *${name}* (${role || 'Faculty'}, Phone: +91 ${cleanPhone}, Email: ${email}). Please verify and approve my faculty registration.`
+    : `Namaste Ashfaque Bhaiya, I have registered on JNVGFamily as *${name}* (Batch ${batch}, ${house} House, Phone: +91 ${cleanPhone}, Email: ${email}). Please verify and approve my alumni membership request.`;
   const waUrl = `https://wa.me/919161746797?text=${encodeURIComponent(waMsg)}`;
   try { window.open(waUrl, '_blank'); } catch(e) {}
 }
@@ -10028,26 +10255,37 @@ function renderAdminRegistrations() {
     card.className = "bg-slate-900 border border-slate-800 p-5 rounded-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4";
     card.id = reg.id;
     const cleanPhone = (reg.phone || '').replace(/\D/g, '').slice(-10);
-    const waChatApplicantUrl = `https://wa.me/91${cleanPhone}?text=${encodeURIComponent('Namaste ' + reg.name + ' ji, this is from the JNVGFamily Alumni Verification Committee regarding your registration...')}`;
+    const isTeacher = reg.isTeacher || !!reg.claimedTeacherId || reg.role === 'teacher' || reg.role === 'unverified_teacher';
+    const waChatApplicantUrl = `https://wa.me/91${cleanPhone}?text=${encodeURIComponent((isTeacher ? 'Pranam ' : 'Namaste ') + reg.name + ' ji, this is from the JNVGFamily Alumni Verification Committee regarding your registration...')}`;
+    const roleBadgeHtml = isTeacher
+      ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">🪔 Gurujan / Faculty</span>`
+      : `<span class="text-xs text-amber-400 font-mono">Batch ${reg.batch || 'Alumni'}</span>`;
+    const approveBtnText = isTeacher ? 'Approve & Activate in Gurujan Roster' : 'Approve & Activate in Directory';
+    const enrichmentBadge = reg.isClaimedProfile
+      ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-purple-900/40 text-purple-300 border border-purple-500/30">✨ Verified Claim</span>`
+      : '';
+
     card.innerHTML = `
       <div class="space-y-1">
         <div class="flex items-center gap-2 flex-wrap">
           <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">⏳ Awaiting Verification</span>
           <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-900/40 text-emerald-300 border border-emerald-500/30">✓ 2FA Verified</span>
+          ${roleBadgeHtml}
+          ${enrichmentBadge}
           <span class="text-sm font-bold text-white">${reg.name}</span>
-          <span class="text-xs text-amber-400 font-mono">Batch ${reg.batch || 'Alumni'}</span>
           <span class="text-[10px] text-slate-400">• ${reg.house || 'Campus'} House</span>
         </div>
-        <p class="text-xs text-slate-300"><strong>Profession:</strong> ${reg.role || 'Alumnus'} (${reg.domain || 'General'}) • <strong>Location:</strong> ${reg.city || 'India'}</p>
+        <p class="text-xs text-slate-300"><strong>${isTeacher ? 'Subject / Post:' : 'Profession:'}</strong> ${reg.role || (isTeacher ? 'Faculty' : 'Alumnus')} (${reg.domain || 'General'}) • <strong>Location:</strong> ${reg.city || 'India'}</p>
+        ${reg.guruMessage ? `<p class="text-[11px] text-amber-300/90 italic"><strong>Blessing Message:</strong> "${reg.guruMessage}"</p>` : ''}
         <p class="text-[11px] text-slate-400"><strong>Contact:</strong> ${reg.phone} | ${reg.email} • <em>${reg.date || 'Recently'}</em></p>
       </div>
       <div class="flex items-center gap-2 flex-shrink-0 flex-wrap">
         <a href="${waChatApplicantUrl}" target="_blank" class="px-3 py-1.5 rounded-lg bg-emerald-600/20 text-emerald-300 hover:bg-emerald-600/30 border border-emerald-500/30 font-bold text-xs flex items-center gap-1 transition">
-          <span>💬 WhatsApp Alumnus</span>
+          <span>💬 WhatsApp</span>
         </a>
         <button onclick="approveRegistration('${reg.id}')" class="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1 transition shadow">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-          Approve & Activate in Directory
+          ${approveBtnText}
         </button>
         <button onclick="rejectRegistration('${reg.id}')" class="px-3.5 py-1.5 rounded-lg bg-red-600/20 text-red-400 hover:bg-red-600/30 font-bold text-xs flex items-center gap-1 transition">Decline</button>
       </div>
@@ -10068,45 +10306,104 @@ function approveRegistration(regId) {
   if (index === -1) return;
 
   const reg = AppState.pendingRegistrations[index];
-  const initials = reg.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+  const isFaculty = reg.isTeacher || !!reg.claimedTeacherId || reg.role === 'teacher' || reg.role === 'unverified_teacher';
 
-  const newDirectoryEntry = {
-    id: reg.claimedDirectoryId || Date.now(),
-    name: reg.name,
-    initials: initials || "NV",
-    batch: reg.batch,
-    house: reg.house,
-    role: reg.role,
-    location: reg.city,
-    domain: reg.domain,
-    photo: reg.photo || null,
-    badge: `${reg.house}`,
-    verified: true,
-    tag: `Batch of ${reg.batch}`
-  };
+  if (isFaculty) {
+    if (!AppState.teachers) AppState.teachers = [];
+    const cleanTchName = (reg.name || '').toLowerCase().replace(/^(dr\.|prof\.|sh\.|smt\.|mr\.|mrs\.|late\s+(dr\.|sh\.)?)\s+/i, '').replace(/ sir$/i, '').trim();
+    let tchIdx = -1;
+    if (reg.claimedTeacherId) {
+      tchIdx = AppState.teachers.findIndex(t => String(t.id) === String(reg.claimedTeacherId));
+    }
+    if (tchIdx === -1) {
+      tchIdx = AppState.teachers.findIndex(t => {
+        const ct = (t.name || '').toLowerCase().replace(/^(dr\.|prof\.|sh\.|smt\.|mr\.|mrs\.|late\s+(dr\.|sh\.)?)\s+/i, '').replace(/ sir$/i, '').trim();
+        return ct === cleanTchName;
+      });
+    }
 
-  if (!AppState.directory) AppState.directory = [];
-  if (reg.claimedDirectoryId) {
-    const existingIdx = AppState.directory.findIndex(d => String(d.id) === String(reg.claimedDirectoryId));
-    if (existingIdx !== -1) {
-      AppState.directory[existingIdx].name = reg.name;
-      AppState.directory[existingIdx].batch = reg.batch;
-      AppState.directory[existingIdx].house = reg.house;
-      AppState.directory[existingIdx].role = reg.role;
-      AppState.directory[existingIdx].location = reg.city;
-      AppState.directory[existingIdx].domain = reg.domain;
-      if (reg.photo) AppState.directory[existingIdx].photo = reg.photo;
-      AppState.directory[existingIdx].verified = true;
-      AppState.directory[existingIdx].claimed = true;
+    if (tchIdx !== -1) {
+      const existing = AppState.teachers[tchIdx];
+      existing.name = reg.name || existing.name;
+      if (reg.role) existing.post = reg.role;
+      if (reg.domain) existing.subject = reg.domain;
+      if (reg.batch) {
+        existing.tenure = String(reg.batch).includes('–') || String(reg.batch).includes('-') ? String(reg.batch) : `${reg.batch} – Present`;
+      }
+      if (reg.house) existing.house = reg.house;
+      if (reg.city) existing.location = reg.city;
+      if (reg.phone) existing.phone = reg.phone;
+      if (reg.email) existing.email = reg.email;
+      if (reg.photo) existing.photo = reg.photo;
+      if (reg.guruMessage) existing.message = reg.guruMessage;
+      existing.claimed = true;
+      existing.claimedBy = reg.email;
+      existing.verified = true;
     } else {
-      AppState.directory.unshift(newDirectoryEntry);
+      const cleanInitials = (reg.name || '').replace(/^(dr\.|prof\.|sh\.|smt\.|mr\.|mrs\.|late\s+(dr\.|sh\.)?)\s+/i, '').split(' ').map(n => n[0]).join('').substring(0, 3).toUpperCase() || "TCH";
+      const newTeacherEntry = {
+        id: reg.claimedTeacherId || `tch-${Date.now()}`,
+        name: reg.name,
+        title: `${reg.role || 'Faculty Member'}, Jawahar Navodaya Vidyalaya, Gauriganj`,
+        category: "current",
+        statusLabel: "Current Faculty",
+        post: reg.role || "Faculty Member",
+        subject: reg.domain || "Academic Mentorship",
+        tenure: reg.batch ? (String(reg.batch).includes('–') || String(reg.batch).includes('-') ? String(reg.batch) : `${reg.batch} – Present`) : "Present",
+        house: reg.house || "Campus",
+        houseDetail: `${reg.house || 'Campus'} Faculty & Mentorship`,
+        location: reg.city || "JNV Gauriganj Campus",
+        initials: cleanInitials,
+        photo: reg.photo || null,
+        message: reg.guruMessage || "पूर्व छात्र सम्मेलन में समस्त विद्यार्थियों का हार्दिक अभिनंदन।",
+        specialNote: "Dedicated faculty member registered on JNVGFamily alumni network.",
+        claimed: true,
+        claimedBy: reg.email,
+        verified: true
+      };
+      AppState.teachers.unshift(newTeacherEntry);
     }
   } else {
-    const existsInDir = AppState.directory.some(d => (d.name || '').toLowerCase() === (reg.name || '').toLowerCase());
-    if (!existsInDir) {
-      AppState.directory.unshift(newDirectoryEntry);
+    const initials = reg.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+    const newDirectoryEntry = {
+      id: reg.claimedDirectoryId || Date.now(),
+      name: reg.name,
+      initials: initials || "NV",
+      batch: reg.batch,
+      house: reg.house,
+      role: reg.role,
+      location: reg.city,
+      domain: reg.domain,
+      photo: reg.photo || null,
+      badge: `${reg.house}`,
+      verified: true,
+      tag: `Batch of ${reg.batch}`
+    };
+
+    if (!AppState.directory) AppState.directory = [];
+    if (reg.claimedDirectoryId) {
+      const existingIdx = AppState.directory.findIndex(d => String(d.id) === String(reg.claimedDirectoryId));
+      if (existingIdx !== -1) {
+        AppState.directory[existingIdx].name = reg.name;
+        AppState.directory[existingIdx].batch = reg.batch;
+        AppState.directory[existingIdx].house = reg.house;
+        AppState.directory[existingIdx].role = reg.role;
+        AppState.directory[existingIdx].location = reg.city;
+        AppState.directory[existingIdx].domain = reg.domain;
+        if (reg.photo) AppState.directory[existingIdx].photo = reg.photo;
+        AppState.directory[existingIdx].verified = true;
+        AppState.directory[existingIdx].claimed = true;
+      } else {
+        AppState.directory.unshift(newDirectoryEntry);
+      }
+    } else {
+      const existsInDir = AppState.directory.some(d => (d.name || '').toLowerCase() === (reg.name || '').toLowerCase());
+      if (!existsInDir) {
+        AppState.directory.unshift(newDirectoryEntry);
+      }
     }
   }
+
   AppState.pendingRegistrations.splice(index, 1);
   saveAppData();
 
@@ -10116,15 +10413,15 @@ function approveRegistration(regId) {
       const u = users.find(x => x.id === reg.id || (x.email && x.email.toLowerCase() === (reg.email || '').toLowerCase()));
       if (u) {
         u.status = "approved";
-        u.role = (reg.role === 'teacher' || u.role === 'unverified_teacher') ? 'teacher' : 'member';
+        u.role = isFaculty ? 'teacher' : 'member';
         u.roleTitle = (u.role === 'teacher') ? 'Revered Faculty Member' : 'Verified Alumnus';
         saveAllUsers(users);
       }
       const cur = (typeof getCurrentUser === 'function') ? getCurrentUser() : null;
       if (cur && (cur.id === reg.id || (cur.email && cur.email.toLowerCase() === (reg.email || '').toLowerCase()))) {
         cur.status = "approved";
-        cur.role = u ? u.role : 'member';
-        cur.roleTitle = u ? u.roleTitle : 'Verified Alumnus';
+        cur.role = isFaculty ? 'teacher' : (u ? u.role : 'member');
+        cur.roleTitle = (cur.role === 'teacher') ? 'Revered Faculty Member' : 'Verified Alumnus';
         setCurrentUser(cur, true);
         applyUserSession(cur);
       }
@@ -10138,7 +10435,7 @@ function approveRegistration(regId) {
   renderAdminRegistrations();
   updateQueueBadges();
   const approverRoleLabel = curUser.role === 'admin' ? 'Super Admin' : (curUser.role === 'host' || curUser.role === 'batch_admin' ? 'Host' : 'Moderator');
-  showToast(`✓ Approved by ${curUser.name} (${approverRoleLabel})! ${reg.name} is now activated and live in the Alumni Directory.`);
+  showToast(`✓ Registration approved by ${approverRoleLabel} (${curUser.name}). Profile activated.`);
 }
 
 function rejectRegistration(regId) {
