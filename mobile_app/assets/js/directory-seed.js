@@ -3,6 +3,7 @@
  * Authoritative Offline & Fast Initial Seed for Directory & Faculty Matching & Enrichment.
  */
 
+(function(root) {
 const defaultTeachers = [
     {
       id: "tch-bsr",
@@ -8175,8 +8176,16 @@ if (typeof window !== 'undefined') {
   window.JNVG_TEACHERS_SEED = defaultTeachers;
 }
 
+if (typeof global !== 'undefined') {
+  global.defaultDirectoryAlumni = defaultDirectoryAlumni;
+  global.JNVG_DIRECTORY_SEED = defaultDirectoryAlumni;
+  global.defaultTeachers = defaultTeachers;
+  global.JNVG_TEACHERS_SEED = defaultTeachers;
+}
+
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = defaultDirectoryAlumni;
   module.exports.defaultDirectoryAlumni = defaultDirectoryAlumni;
   module.exports.defaultTeachers = defaultTeachers;
 }
+})(typeof window !== 'undefined' ? window : (typeof global !== 'undefined' ? global : this));
