@@ -214,27 +214,41 @@ body:not(.theme-dark) nav {
   border-bottom: 1px solid var(--sky-border-light) !important;
 }
 
-html[data-theme="sky"] .nav-tab,
-body:not(.theme-dark) .nav-tab {
+html[data-theme="sky"] .nav-tab:not(.active),
+body:not(.theme-dark) .nav-tab:not(.active) {
+  background-color: transparent !important;
+  background-image: none !important;
   color: var(--navy-body) !important;
+  -webkit-text-fill-color: var(--navy-body) !important;
+  box-shadow: none !important;
 }
 
-html[data-theme="sky"] .nav-tab:hover,
-body:not(.theme-dark) .nav-tab:hover {
+html[data-theme="sky"] .nav-tab:not(.active):hover,
+body:not(.theme-dark) .nav-tab:not(.active):hover {
   background-color: #e0f2fe !important;
   color: #0369a1 !important;
+  -webkit-text-fill-color: #0369a1 !important;
 }
 
 html[data-theme="sky"] .nav-tab.active,
 body:not(.theme-dark) .nav-tab.active {
   background-color: #0284c7 !important;
+  background-image: none !important;
   color: #ffffff !important;
-  box-shadow: 0 2px 8px -1px rgba(2, 132, 199, 0.4) !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 10px rgba(2, 132, 199, 0.4) !important;
 }
 
 html[data-theme="sky"] .nav-tab.active svg,
-body:not(.theme-dark) .nav-tab.active svg {
+html[data-theme="sky"] .nav-tab.active span,
+html[data-theme="sky"] .nav-tab.active *,
+body:not(.theme-dark) .nav-tab.active svg,
+body:not(.theme-dark) .nav-tab.active span,
+body:not(.theme-dark) .nav-tab.active * {
   color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  stroke: #ffffff !important;
 }
 
 /* ========================================================================== */
@@ -655,16 +669,16 @@ body:not(.theme-dark) .text-rose-400 {
 
 /* 7. Action Buttons in Light Sky Mode */
 /* Secondary / Slate Buttons */
-html[data-theme="sky"] button[class*="bg-slate-800"],
-html[data-theme="sky"] button[class*="bg-slate-900"],
-html[data-theme="sky"] button[class*="bg-slate-950"],
-html[data-theme="sky"] a[class*="bg-slate-800"],
-html[data-theme="sky"] a[class*="bg-slate-900"],
-body:not(.theme-dark) button[class*="bg-slate-800"],
-body:not(.theme-dark) button[class*="bg-slate-900"],
-body:not(.theme-dark) button[class*="bg-slate-950"],
-body:not(.theme-dark) a[class*="bg-slate-800"],
-body:not(.theme-dark) a[class*="bg-slate-900"] {
+html[data-theme="sky"] button[class*="bg-slate-800"]:not(.nav-tab),
+html[data-theme="sky"] button[class*="bg-slate-900"]:not(.nav-tab),
+html[data-theme="sky"] button[class*="bg-slate-950"]:not(.nav-tab),
+html[data-theme="sky"] a[class*="bg-slate-800"]:not(.nav-tab),
+html[data-theme="sky"] a[class*="bg-slate-900"]:not(.nav-tab),
+body:not(.theme-dark) button[class*="bg-slate-800"]:not(.nav-tab),
+body:not(.theme-dark) button[class*="bg-slate-900"]:not(.nav-tab),
+body:not(.theme-dark) button[class*="bg-slate-950"]:not(.nav-tab),
+body:not(.theme-dark) a[class*="bg-slate-800"]:not(.nav-tab),
+body:not(.theme-dark) a[class*="bg-slate-900"]:not(.nav-tab) {
   background-image: none !important;
   background-color: #f0f7ff !important;
   border: 1.5px solid #bae6fd !important;
@@ -1316,22 +1330,41 @@ body.theme-dark nav {
   border-bottom: 1px solid #1e293b !important;
 }
 
-html[data-theme="dark"] .nav-tab,
-body.theme-dark .nav-tab {
+html[data-theme="dark"] .nav-tab:not(.active),
+body.theme-dark .nav-tab:not(.active) {
+  background-color: transparent !important;
+  background-image: none !important;
   color: #94a3b8 !important;
+  -webkit-text-fill-color: #94a3b8 !important;
+  box-shadow: none !important;
 }
 
-html[data-theme="dark"] .nav-tab:hover,
-body.theme-dark .nav-tab:hover {
+html[data-theme="dark"] .nav-tab:not(.active):hover,
+body.theme-dark .nav-tab:not(.active):hover {
   background-color: #1e293b !important;
   color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
 }
 
 html[data-theme="dark"] .nav-tab.active,
 body.theme-dark .nav-tab.active {
   background-color: #153a8a !important;
+  background-image: none !important;
   color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-weight: 700 !important;
   box-shadow: 0 4px 14px -1px rgba(21, 58, 138, 0.6) !important;
+}
+
+html[data-theme="dark"] .nav-tab.active svg,
+html[data-theme="dark"] .nav-tab.active span,
+html[data-theme="dark"] .nav-tab.active *,
+body.theme-dark .nav-tab.active svg,
+body.theme-dark .nav-tab.active span,
+body.theme-dark .nav-tab.active * {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  stroke: #ffffff !important;
 }
 
 /* Cards in Dark Navy Blue */
@@ -2011,4 +2044,31 @@ body:not(.theme-dark) #tab-helpdesk [class*="max-h-[440px]"] p {
   color: #f8fafc !important;
   -webkit-text-fill-color: #f8fafc !important;
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.95) !important;
+}
+
+/* Light Theme Active Nav Tab Highest Specificity */
+html[data-theme="sky"] .nav-tab.active,
+html[data-theme="sky"] button.nav-tab.active,
+html[data-theme="sky"] nav button.nav-tab.active,
+body:not(.theme-dark) .nav-tab.active,
+body:not(.theme-dark) button.nav-tab.active,
+body:not(.theme-dark) nav button.nav-tab.active {
+  background-color: #0284c7 !important;
+  background-image: none !important;
+  border: 1px solid #0284c7 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 10px rgba(2, 132, 199, 0.45) !important;
+}
+
+html[data-theme="sky"] .nav-tab.active svg,
+html[data-theme="sky"] .nav-tab.active span,
+html[data-theme="sky"] .nav-tab.active *,
+body:not(.theme-dark) .nav-tab.active svg,
+body:not(.theme-dark) .nav-tab.active span,
+body:not(.theme-dark) .nav-tab.active * {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  stroke: #ffffff !important;
 }

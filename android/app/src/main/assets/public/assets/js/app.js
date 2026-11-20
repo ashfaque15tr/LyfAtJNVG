@@ -8712,13 +8712,15 @@ function switchTab(tabId) {
     target.classList.add('block');
   }
 
-  document.querySelectorAll('.nav-tab').forEach(btn => {
+    document.querySelectorAll('.nav-tab').forEach(btn => {
     if (btn.getAttribute('data-tab') === tabId) {
-      btn.classList.add('bg-brand-700', 'text-white', 'shadow');
+      btn.classList.add('active', 'text-white', 'shadow');
       btn.classList.remove('text-slate-300');
+      btn.setAttribute('aria-selected', 'true');
     } else {
-      btn.classList.remove('bg-brand-700', 'text-white', 'shadow');
+      btn.classList.remove('active', 'bg-brand-700', 'text-white', 'shadow');
       btn.classList.add('text-slate-300');
+      btn.setAttribute('aria-selected', 'false');
     }
   });
 
@@ -13302,6 +13304,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   setInterval(updateCountdown, 1000);
   updateCountdown();
+
+  // Initialize active tab from location hash if present
+  const initialHash = (window.location.hash || '').replace('#', '').trim();
+  if (initialHash && document.getElementById(`tab-${initialHash === 'memories' ? 'gallery' : initialHash}`)) {
+    switchTab(initialHash);
+  } else {
+    switchTab('home');
+  }
+});
+
+window.addEventListener('hashchange', () => {
+  const hash = (window.location.hash || '').replace('#', '').trim();
+  if (hash && document.getElementById(`tab-${hash === 'memories' ? 'gallery' : hash}`)) {
+    switchTab(hash);
+  }
 });
 
 // ========================================================
