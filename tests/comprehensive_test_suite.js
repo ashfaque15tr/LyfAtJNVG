@@ -415,6 +415,9 @@ assert(indexHtml.includes('themeToggleBtn') && indexHtml.includes('toggleTheme()
 assert(loginHtml.includes('themeToggleBtn') && loginHtml.includes('toggleTheme()'), 'login.html contains themeToggleBtn');
 const stylesCss = fs.readFileSync(path.join(rootDir, 'assets', 'css', 'styles.css'), 'utf8');
 assert(stylesCss.includes('data-theme="sky"') && stylesCss.includes('data-theme="dark"'), 'styles.css supports both data-theme="sky" and data-theme="dark"');
+assert(indexHtml.includes('Light Theme'), 'index.html displays Light Theme label on toggle button');
+const themeJsSrc = fs.readFileSync(path.join(rootDir, 'assets', 'js', 'theme.js'), 'utf8');
+assert(themeJsSrc.includes("'Dark Theme'") && themeJsSrc.includes("'Light Theme'"), 'theme.js manages Dark Theme and Light Theme labels');
 
 // 4. SMS Gateway Engine & Storage Configuration
 assert(typeof getSmsGatewayConfig === 'function', 'getSmsGatewayConfig function is exported');

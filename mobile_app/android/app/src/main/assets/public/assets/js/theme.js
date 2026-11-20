@@ -51,8 +51,8 @@
       const icon = btn.querySelector('#themeToggleIcon, .theme-icon');
       const label = btn.querySelector('#themeToggleLabel, .theme-label');
       if (icon) icon.textContent = isDark ? '🌙' : '☀️';
-      if (label) label.textContent = isDark ? 'Dark Navy' : 'Light Sky';
-      btn.setAttribute('title', isDark ? 'Switch to Light Sky Blue Theme' : 'Switch to Dark Navy Blue Theme');
+      if (label) label.textContent = isDark ? 'Dark Theme' : 'Light Theme';
+      btn.setAttribute('title', isDark ? 'Switch to Light Theme' : 'Switch to Dark Theme');
     });
   }
 
