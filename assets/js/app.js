@@ -8409,6 +8409,11 @@ const defaultDirectoryAlumni = [
   }
 ];
 
+if (typeof window !== 'undefined') {
+  window.defaultDirectoryAlumni = defaultDirectoryAlumni;
+  window.JNVG_DIRECTORY_SEED = defaultDirectoryAlumni;
+}
+
 function loadAppData() {
   try {
     // Soft Launch Auto-Purge: Wipe pre-launch mock feeds, directory members, RSVPs & contributions once
@@ -9195,6 +9200,9 @@ function openModal(id) {
       return;
     }
   }
+  if (id === 'registerModal') {
+    if (typeof initModalMatchListeners === 'function') initModalMatchListeners();
+  }
   const modal = document.getElementById(id);
   if (modal) {
     modal.classList.remove('hidden');
@@ -9649,6 +9657,162 @@ function filterFeed(cat) {
 
 // 12. Registration & Approval
 let modalUploadedPhoto = null;
+let modalMatchedDirectoryRecord = null;
+let modalMatchDebounceTimer = null;
+
+function checkModalRegistrationMatch() {
+  clearTimeout(modalMatchDebounceTimer);
+  modalMatchDebounceTimer = setTimeout(() => {
+    const phone = (document.getElementById('regPhone')?.value || '').trim();
+    const email = (document.getElementById('regEmail')?.value || '').trim();
+    const name = (document.getElementById('regName')?.value || '').trim();
+    const batch = (document.getElementById('regBatch')?.value || '').trim();
+    const house = (document.getElementById('regHouse')?.value || '').trim();
+
+    if (typeof findDirectoryMatch !== 'function') return;
+
+    if (phone.replace(/\D/g, '').length < 10 && !email.includes('@') && name.length < 3) {
+      hideModalMatchNotice();
+      return;
+    }
+
+    const res = findDirectoryMatch({ phone, email, name, batch, house });
+    if (res.matched && res.record) {
+      modalMatchedDirectoryRecord = res.record;
+      showModalMatchNotice(res);
+    } else {
+      modalMatchedDirectoryRecord = null;
+      hideModalMatchNotice();
+    }
+  }, 220);
+}
+
+function showModalMatchNotice(res) {
+  const noticeBox = document.getElementById('modalRegMatchNotice');
+  const claimedBox = document.getElementById('modalRegClaimedNotice');
+  const claimedEmailEl = document.getElementById('modalClaimedUserEmail');
+  const titleEl = document.getElementById('modalRegMatchTitle');
+  const badgeEl = document.getElementById('modalRegMatchBadge');
+  const descEl = document.getElementById('modalRegMatchDesc');
+  const hiddenIdEl = document.getElementById('claimedDirectoryId');
+  const submitBtn = document.querySelector('#registerModal button[type="submit"]');
+
+  if (res.isAlreadyClaimed) {
+    if (noticeBox) noticeBox.classList.add('hidden');
+    if (claimedBox) claimedBox.classList.remove('hidden');
+    if (claimedEmailEl) claimedEmailEl.textContent = (res.claimedUser && res.claimedUser.email) ? res.claimedUser.email : 'Registered Member';
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+    }
+    return;
+  }
+
+  if (claimedBox) claimedBox.classList.add('hidden');
+  if (submitBtn) {
+    submitBtn.disabled = false;
+    submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+  }
+
+  if (hiddenIdEl && res.record) {
+    hiddenIdEl.value = res.record.id || '';
+  }
+
+  if (noticeBox && res.record) {
+    if (titleEl) titleEl.textContent = `Verified Alumni Record Found: ${res.record.name}`;
+    if (badgeEl) badgeEl.textContent = `${res.confidence || 95}% Match (${(res.matchType || '').replace('_', ' ').toUpperCase()})`;
+    if (descEl) {
+      const houseStr = res.record.house ? `${res.record.house} House` : '';
+      const batchStr = res.record.batch ? `Batch ${res.record.batch}` : 'Alumnus';
+      const roleStr = res.record.role ? ` • ${res.record.role}` : '';
+      descEl.textContent = `We found your official entry in the JNV Gauriganj Directory (${batchStr}, ${houseStr}${roleStr}). We have pre-filled your verified details below. Please review, update any missing or outdated information, and upload your profile photo!`;
+    }
+    noticeBox.classList.remove('hidden');
+  }
+
+  autoPreFillModalFields(res.record);
+}
+
+function hideModalMatchNotice() {
+  const noticeBox = document.getElementById('modalRegMatchNotice');
+  const claimedBox = document.getElementById('modalRegClaimedNotice');
+  const hiddenIdEl = document.getElementById('claimedDirectoryId');
+  const submitBtn = document.querySelector('#registerModal button[type="submit"]');
+
+  if (noticeBox) noticeBox.classList.add('hidden');
+  if (claimedBox) claimedBox.classList.add('hidden');
+  if (hiddenIdEl) hiddenIdEl.value = '';
+  if (submitBtn) {
+    submitBtn.disabled = false;
+    submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+  }
+}
+
+function autoPreFillModalFields(rec) {
+  if (!rec) return;
+  const nameEl = document.getElementById('regName');
+  const batchEl = document.getElementById('regBatch');
+  const houseEl = document.getElementById('regHouse');
+  const roleEl = document.getElementById('regRole');
+  const cityEl = document.getElementById('regCity');
+  const phoneEl = document.getElementById('regPhone');
+  const emailEl = document.getElementById('regEmail');
+
+  if (nameEl && (!nameEl.value || nameEl.value.trim().length < 3)) nameEl.value = rec.name || '';
+  if (batchEl && (!batchEl.value || batchEl.value.trim() === '')) {
+    const bNum = parseInt(rec.batch, 10);
+    if (bNum && !isNaN(bNum)) batchEl.value = bNum;
+  }
+  if (houseEl && rec.house) {
+    const nh = (typeof normalizeHouse === 'function') ? normalizeHouse(rec.house) : rec.house.toLowerCase();
+    for (let i = 0; i < houseEl.options.length; i++) {
+      if (houseEl.options[i].value.toLowerCase().includes(nh) || nh.includes(houseEl.options[i].value.toLowerCase())) {
+        houseEl.selectedIndex = i;
+        break;
+      }
+    }
+  }
+  if (roleEl && (!roleEl.value || roleEl.value.trim() === '') && rec.role) roleEl.value = rec.role;
+  if (cityEl && (!cityEl.value || cityEl.value.trim() === '') && rec.location) cityEl.value = rec.location;
+  if (phoneEl && (!phoneEl.value || phoneEl.value.trim() === '') && rec.phone) phoneEl.value = rec.phone;
+  if (emailEl && (!emailEl.value || emailEl.value.trim() === '') && rec.email) emailEl.value = rec.email;
+
+  // Pre-fill photo preview if record already has photo and user hasn't uploaded one
+  if (rec.photo && !modalUploadedPhoto) {
+    modalUploadedPhoto = rec.photo;
+    const previewImg = document.getElementById('modalRegPhotoPreview');
+    const placeholder = document.getElementById('modalRegPhotoPlaceholder');
+    const removeBtn = document.getElementById('modalRegPhotoRemoveBtn');
+    if (previewImg) { previewImg.src = rec.photo; previewImg.classList.remove('hidden'); }
+    if (placeholder) placeholder.classList.add('hidden');
+    if (removeBtn) removeBtn.classList.remove('hidden');
+  }
+}
+
+function applyModalMatchedDirectoryData() {
+  if (modalMatchedDirectoryRecord) {
+    autoPreFillModalFields(modalMatchedDirectoryRecord);
+    showToast(`✓ Pre-filled details from verified directory record (${modalMatchedDirectoryRecord.name}). Please review and add photo.`);
+  }
+}
+
+function dismissModalMatchNotice() {
+  const noticeBox = document.getElementById('modalRegMatchNotice');
+  if (noticeBox) noticeBox.classList.add('hidden');
+}
+
+let modalMatchListenersAttached = false;
+function initModalMatchListeners() {
+  if (modalMatchListenersAttached) return;
+  modalMatchListenersAttached = true;
+  ['regPhone', 'regEmail', 'regName', 'regBatch', 'regHouse'].forEach(fieldId => {
+    const el = document.getElementById(fieldId);
+    if (el) {
+      el.addEventListener('input', checkModalRegistrationMatch);
+      el.addEventListener('change', checkModalRegistrationMatch);
+    }
+  });
+}
 
 function previewModalRegPhoto(e) {
   const file = e.target.files && e.target.files[0];
@@ -9747,10 +9911,12 @@ function handleRegistrationSubmit(e) {
 
   const cleanPhone = String(phone).replace(/\D/g, '').slice(-10);
   const maskedPhone = `+91 ******${cleanPhone.slice(-4)}`;
+  const claimedId = (document.getElementById('claimedDirectoryId')?.value || (modalMatchedDirectoryRecord ? modalMatchedDirectoryRecord.id : '')) || null;
 
   pendingIndexReg = {
     name, batch, house, phone, email, role, domain, city, password,
     photo: modalUploadedPhoto || null,
+    claimedDirectoryId: claimedId,
     otp: otpRes.otp
   };
 
@@ -9794,11 +9960,11 @@ function handleVerifyIndexOtp(e) {
     }
   }
 
-  const { name, batch, house, phone, email, role, domain, city, password, photo } = pendingIndexReg;
+  const { name, batch, house, phone, email, role, domain, city, password, photo, claimedDirectoryId } = pendingIndexReg;
 
   let regResult = null;
   if (typeof registerAlumni === 'function') {
-    regResult = registerAlumni({ name, batch, house, phone, email, profession: role, domain, city, password, photo });
+    regResult = registerAlumni({ name, batch, house, phone, email, profession: role, domain, city, password, photo, claimedDirectoryId });
   }
 
   const cleanPhone = String(phone).replace(/\D/g, '').slice(-10);
@@ -9813,6 +9979,9 @@ function handleVerifyIndexOtp(e) {
     domain,
     city,
     photo,
+    claimedDirectoryId: claimedDirectoryId || null,
+    isClaimedProfile: !!claimedDirectoryId,
+    enrichmentNote: claimedDirectoryId ? `Claimed & enriched verified Directory entry #${claimedDirectoryId}` : null,
     date: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) + " (2FA Verified)",
     status: "pending"
   };
@@ -9902,7 +10071,7 @@ function approveRegistration(regId) {
   const initials = reg.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
 
   const newDirectoryEntry = {
-    id: Date.now(),
+    id: reg.claimedDirectoryId || Date.now(),
     name: reg.name,
     initials: initials || "NV",
     batch: reg.batch,
@@ -9910,15 +10079,33 @@ function approveRegistration(regId) {
     role: reg.role,
     location: reg.city,
     domain: reg.domain,
+    photo: reg.photo || null,
     badge: `${reg.house}`,
     verified: true,
     tag: `Batch of ${reg.batch}`
   };
 
   if (!AppState.directory) AppState.directory = [];
-  const existsInDir = AppState.directory.some(d => (d.name || '').toLowerCase() === (reg.name || '').toLowerCase());
-  if (!existsInDir) {
-    AppState.directory.unshift(newDirectoryEntry);
+  if (reg.claimedDirectoryId) {
+    const existingIdx = AppState.directory.findIndex(d => String(d.id) === String(reg.claimedDirectoryId));
+    if (existingIdx !== -1) {
+      AppState.directory[existingIdx].name = reg.name;
+      AppState.directory[existingIdx].batch = reg.batch;
+      AppState.directory[existingIdx].house = reg.house;
+      AppState.directory[existingIdx].role = reg.role;
+      AppState.directory[existingIdx].location = reg.city;
+      AppState.directory[existingIdx].domain = reg.domain;
+      if (reg.photo) AppState.directory[existingIdx].photo = reg.photo;
+      AppState.directory[existingIdx].verified = true;
+      AppState.directory[existingIdx].claimed = true;
+    } else {
+      AppState.directory.unshift(newDirectoryEntry);
+    }
+  } else {
+    const existsInDir = AppState.directory.some(d => (d.name || '').toLowerCase() === (reg.name || '').toLowerCase());
+    if (!existsInDir) {
+      AppState.directory.unshift(newDirectoryEntry);
+    }
   }
   AppState.pendingRegistrations.splice(index, 1);
   saveAppData();

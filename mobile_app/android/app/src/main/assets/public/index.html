@@ -1924,6 +1924,50 @@
           </div>
         </div>
 
+        <!-- 4-Tier Smart Match Live Notification Banner -->
+        <div id="modalRegMatchNotice" class="hidden p-3.5 rounded-2xl bg-amber-950/70 border border-amber-500/50 text-amber-200 text-xs transition-all">
+          <div class="flex items-start gap-3">
+            <span class="text-xl flex-shrink-0">✨</span>
+            <div class="flex-1">
+              <div class="flex items-center justify-between gap-2">
+                <span class="font-bold text-amber-300" id="modalRegMatchTitle">Verified Alumni Record Found!</span>
+                <span id="modalRegMatchBadge" class="text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/40 px-2 py-0.5 rounded font-mono font-bold">95% Match</span>
+              </div>
+              <p id="modalRegMatchDesc" class="text-[11px] text-slate-300 mt-1 leading-relaxed">
+                We found your official entry in the JNV Gauriganj Directory. We have pre-filled your verified details below. Please review, update any missing or outdated information, and upload your profile photo!
+              </p>
+              <div class="mt-2.5 flex items-center gap-2">
+                <button type="button" onclick="applyModalMatchedDirectoryData()" class="px-2.5 py-1 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-[11px] transition shadow">
+                  ✓ Keep Pre-filled Details
+                </button>
+                <button type="button" onclick="dismissModalMatchNotice()" class="px-2 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] transition">
+                  Dismiss
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Anti-Takeover Safeguard Warning -->
+        <div id="modalRegClaimedNotice" class="hidden p-3.5 rounded-2xl bg-rose-950/80 border border-rose-500/60 text-rose-200 text-xs transition-all">
+          <div class="flex items-start gap-2.5">
+            <span class="text-lg flex-shrink-0">🔒</span>
+            <div class="flex-1">
+              <div class="font-bold text-rose-300">Account Already Registered & Claimed</div>
+              <p class="text-[11px] text-rose-200/90 mt-1 leading-relaxed">
+                An active registered account already exists for this verified profile (<strong id="modalClaimedUserEmail"></strong>). If this is you, please log in with your credentials or use Forgot Password.
+              </p>
+              <div class="mt-2.5 flex items-center gap-2">
+                <a href="login.html" class="px-3 py-1 rounded-lg bg-rose-600 hover:bg-rose-500 text-white font-bold text-[11px] transition inline-block">
+                  Go to Login
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <input type="hidden" id="claimedDirectoryId" value="">
+
         <div>
           <label class="block text-slate-300 mb-1">Full Legal Name *</label>
           <input type="text" id="regName" required placeholder="e.g. Anand Kumar Maurya" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white placeholder-slate-500">

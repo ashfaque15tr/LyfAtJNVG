@@ -921,6 +921,109 @@ assert(latestMobileHtml.includes('<option value="Udaigiri">Udaigiri</option>'), 
 const storageEngineCode = fs.readFileSync(path.join(rootDir, 'assets', 'js', 'storage-engine.js'), 'utf8');
 assert(storageEngineCode.includes('normalizeHouse'), 'storage-engine.js implements normalizeHouse matching logic');
 
+// ----------------------------------------------------
+// TEST SUITE 21: DIRECTORY SMART MATCH & PROFILE CLAIM ENGINE
+// ----------------------------------------------------
+console.log('\n--- TEST SUITE 21: DIRECTORY SMART MATCH & PROFILE CLAIM ENGINE ---');
+
+assert(typeof findDirectoryMatch === 'function', 'findDirectoryMatch is exported as a function');
+assert(typeof cleanName === 'function', 'cleanName is exported as a function');
+assert(typeof cleanPhone === 'function', 'cleanPhone is exported as a function');
+
+// Test cleanName honorific and title stripping
+assert(cleanName('Sh. Manish Rana') === cleanName('Manish Rana'), 'cleanName strips Sh. prefix correctly');
+assert(cleanName('Dr. Ratnesh Tiwari') === 'ratnesh tiwari', 'cleanName strips Dr. prefix correctly');
+assert(cleanName('Col. Virendra Kumar Pandey') === 'virendra kumar pandey', 'cleanName strips Col. prefix correctly');
+assert(cleanName('Alok Dubey, IAS') === 'alok dubey', 'cleanName strips IAS suffix and punctuation correctly');
+assert(cleanName('Sh. Prabhat (PPS)') === 'prabhat', 'cleanName strips parentheses and PPS designation');
+
+// Tier 1 Exact Phone & Email Matching
+const matchPhone = findDirectoryMatch({ phone: '8317024401' });
+assert(matchPhone.matched && matchPhone.tier === 1 && matchPhone.record && matchPhone.record.id === 'alumni-83', 'Tier 1: Phone match finds Manish Rana (alumni-83)');
+
+const matchEmail = findDirectoryMatch({ email: 'manishranabhulaw@gmail.com' });
+assert(matchEmail.matched && matchEmail.tier === 1 && matchEmail.record && matchEmail.record.id === 'alumni-83', 'Tier 1: Email match finds Manish Rana (alumni-83)');
+
+// Tier 2 Triangulation Matching (Name + Passout Batch)
+const matchNameBatch = findDirectoryMatch({ name: 'Sh. Manish Rana', batch: 2007 });
+assert(matchNameBatch.matched && matchNameBatch.tier === 2 && matchNameBatch.confidence === 95 && matchNameBatch.record.id === 'alumni-83', 'Tier 2: Name + Batch 2007 triangulates Manish Rana');
+
+const matchPrabhat = findDirectoryMatch({ name: 'Prabhat', batch: 2002 });
+assert(matchPrabhat.matched && matchPrabhat.tier === 2 && matchPrabhat.record && (matchPrabhat.record.name.includes('Prabhat')), 'Tier 2: Name + Batch 2002 triangulates Sh. Prabhat (PPS)');
+
+// Tier 3 Legacy Match (Name + House)
+const matchNameHouse = findDirectoryMatch({ name: 'Manish Rana', house: 'Udaigiri' });
+assert(matchNameHouse.matched && matchNameHouse.tier === 3 && matchNameHouse.confidence === 85 && matchNameHouse.record.id === 'alumni-83', 'Tier 3: Name + House Udaigiri matches Manish Rana');
+
+// Tier 4 Anti-Takeover Safeguard
+// Ashfaque Ahmad is an active approved administrator
+const matchAshfaq = findDirectoryMatch({ email: 'ashfaque15tr@gmail.com' });
+assert(matchAshfaq.matched && matchAshfaq.isAlreadyClaimed === true, 'Anti-Takeover Safeguard: Approved member returns isAlreadyClaimed: true');
+
+const currentUsersList = getAllUsers();
+const ashfaqUser = currentUsersList.find(u => (u.email || '').toLowerCase() === 'ashfaque15tr@gmail.com');
+if (ashfaqUser) {
+  ashfaqUser.claimedDirectoryId = 'dir-ashfaque-ahmad';
+  saveAllUsers(currentUsersList);
+}
+const blockedClaim = validateRegistrationData({
+  name: 'Ashfaque Ahmad Impersonator',
+  batch: 2005,
+  house: 'Nilgiri',
+  email: 'fake.ashfaq@example.com',
+  phone: '9988776655',
+  password: 'password123',
+  claimedDirectoryId: 'dir-ashfaque-ahmad'
+});
+assert(!blockedClaim.valid && blockedClaim.message.includes('already been claimed'), 'Anti-Takeover Safeguard blocks re-registration of claimed profile');
+
+// In-Place Directory Profile Claim & Enrichment
+const dirCountBeforeClaim = AppState.directory.length;
+const testClaimRes = registerAlumni({
+  claimedDirectoryId: 'alumni-83',
+  name: 'Sh. Manish Rana',
+  batch: 2007,
+  house: 'Udaigiri',
+  profession: 'Judicial Magistrate / Civil Judge, U.P. Judiciary',
+  city: 'Budaun, UP',
+  domain: 'Govt / PSU',
+  photo: 'data:image/jpeg;base64,TEST_ENRICHED_PHOTO_DATA',
+  phone: '8317024401',
+  email: 'test.manish.claim@example.com',
+  password: 'password123'
+});
+
+assert(testClaimRes.success && testClaimRes.claimedDirectoryId === 'alumni-83', 'Profile claim registration succeeded with claimedDirectoryId');
+const mrDirRecord = AppState.directory.find(d => String(d.id) === 'alumni-83');
+assert(mrDirRecord && mrDirRecord.photo === 'data:image/jpeg;base64,TEST_ENRICHED_PHOTO_DATA', 'In-place enrichment updated directory photo directly');
+assert(mrDirRecord && mrDirRecord.role === 'Judicial Magistrate / Civil Judge, U.P. Judiciary', 'In-place enrichment updated directory role');
+
+// Admin Approval does NOT duplicate the record
+const pendingItem = AppState.pendingRegistrations.find(p => p.claimedDirectoryId === 'alumni-83');
+assert(pendingItem && pendingItem.isClaimedProfile === true, 'Pending registration tagged with isClaimedProfile');
+approveRegistration(pendingItem.id);
+assert(AppState.directory.length === dirCountBeforeClaim, 'Directory total record count strictly preserved (no duplicate inflation)');
+assert(AppState.directory.filter(d => String(d.id) === 'alumni-83').length === 1, 'Directory contains exactly one unified record for alumni-83');
+
+// UI DOM Integration Assertions
+const indexHtmlContent = fs.readFileSync(path.join(rootDir, 'index.html'), 'utf8');
+const loginHtmlContent = fs.readFileSync(path.join(rootDir, 'login.html'), 'utf8');
+const mobIndexHtmlContent = fs.readFileSync(path.join(rootDir, 'mobile_app', 'index.html'), 'utf8');
+const mobLoginHtmlContent = fs.readFileSync(path.join(rootDir, 'mobile_app', 'login.html'), 'utf8');
+
+assert(indexHtmlContent.includes('id="modalRegMatchNotice"'), 'index.html contains modalRegMatchNotice');
+assert(indexHtmlContent.includes('id="modalRegClaimedNotice"'), 'index.html contains modalRegClaimedNotice');
+assert(indexHtmlContent.includes('id="claimedDirectoryId"'), 'index.html contains claimedDirectoryId input');
+assert(indexHtmlContent.includes('id="modalRegPhotoInput"'), 'index.html contains modalRegPhotoInput');
+
+assert(loginHtmlContent.includes('id="regMatchNotice"'), 'login.html contains regMatchNotice');
+assert(loginHtmlContent.includes('id="regClaimedNotice"'), 'login.html contains regClaimedNotice');
+assert(loginHtmlContent.includes('id="claimedDirectoryId"'), 'login.html contains claimedDirectoryId input');
+assert(loginHtmlContent.includes('id="regPhotoInput"'), 'login.html contains regPhotoInput');
+
+assert(mobIndexHtmlContent.includes('id="modalRegMatchNotice"'), 'mobile_app/index.html contains modalRegMatchNotice');
+assert(mobLoginHtmlContent.includes('id="regMatchNotice"'), 'mobile_app/login.html contains regMatchNotice');
+
 console.log('\n====================================================');
 console.log(`TEST RESULTS: ${passedTests} / ${totalTests} ASSERTIONS PASSED`);
 console.log('====================================================');

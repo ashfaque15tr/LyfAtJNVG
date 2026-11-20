@@ -284,6 +284,50 @@
               </div>
             </div>
 
+            <!-- 4-Tier Smart Match Live Notification Banner -->
+            <div id="regMatchNotice" class="hidden p-3.5 rounded-2xl bg-amber-50 border border-amber-300 text-amber-900 text-xs transition-all">
+              <div class="flex items-start gap-3">
+                <span class="text-xl flex-shrink-0">✨</span>
+                <div class="flex-1">
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="font-bold text-amber-800" id="regMatchTitle">Verified Alumni Record Found!</span>
+                    <span id="regMatchBadge" class="text-[10px] bg-amber-100 text-amber-800 border border-amber-300 px-2 py-0.5 rounded font-mono font-bold">95% Match</span>
+                  </div>
+                  <p id="regMatchDesc" class="text-[11px] text-amber-900/90 mt-1 leading-relaxed">
+                    We found your official entry in the JNV Gauriganj Directory. We have pre-filled your verified details below. Please review, update any missing or outdated information, and upload your profile photo!
+                  </p>
+                  <div class="mt-2.5 flex items-center gap-2">
+                    <button type="button" onclick="applyMatchedDirectoryData()" class="px-2.5 py-1 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold text-[11px] transition shadow">
+                      ✓ Keep Pre-filled Details
+                    </button>
+                    <button type="button" onclick="dismissMatchNotice()" class="px-2 py-1 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-700 text-[11px] transition">
+                      Dismiss
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Anti-Takeover Safeguard Warning -->
+            <div id="regClaimedNotice" class="hidden p-3.5 rounded-2xl bg-red-50 border border-red-300 text-red-900 text-xs transition-all">
+              <div class="flex items-start gap-2.5">
+                <span class="text-lg flex-shrink-0">🔒</span>
+                <div class="flex-1">
+                  <div class="font-bold text-red-800">Account Already Registered & Claimed</div>
+                  <p class="text-[11px] text-red-900/90 mt-1 leading-relaxed">
+                    An active registered account already exists for this verified profile (<strong id="claimedUserEmail"></strong>). If this is you, please log in with your credentials or use Forgot Password.
+                  </p>
+                  <div class="mt-2.5 flex items-center gap-2">
+                    <button type="button" onclick="switchAuthTab('login')" class="px-3 py-1 rounded-lg bg-red-600 hover:bg-red-700 text-white font-bold text-[11px] transition">
+                      Go to Login
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <input type="hidden" id="claimedDirectoryId" value="">
+
             <div>
               <label id="regNameLabel" class="block text-slate-700 font-semibold mb-1">Full Name *</label>
               <input type="text" id="regName" required placeholder="e.g. Anand Kumar Maurya" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white">
@@ -683,6 +727,7 @@
   </footer>
 
   <!-- Scripts -->
+  <script src="assets/js/directory-seed.js"></script>
   <script src="assets/js/storage-engine.js"></script>
   <script src="assets/js/cloud-sync.js"></script>
   <script src="assets/js/auth.js"></script>
@@ -1067,6 +1112,7 @@
       const isTeacher = currentRegisterType === 'teacher';
       const cleanPhone = document.getElementById('regPhone').value.replace(/\D/g, '').slice(-10);
 
+      const claimedId = (document.getElementById('claimedDirectoryId')?.value || (currentDirectoryMatch ? currentDirectoryMatch.id : '')) || null;
       const userData = {
         name: document.getElementById('regName').value.trim(),
         batch: document.getElementById('regBatch').value.trim(),
@@ -1077,6 +1123,7 @@
         domain: document.getElementById('regDomain').value,
         city: document.getElementById('regCity').value.trim(),
         photo: regUploadedPhoto || null,
+        claimedDirectoryId: claimedId,
         password: pass,
         confirmPassword: conf,
         role: isTeacher ? 'teacher' : 'member',
@@ -1323,6 +1370,163 @@
         showAlert(`You are currently signed in as <strong>${current.name}</strong> (${current.roleTitle}). <a href="index.html" class="underline text-gold-400 font-bold ml-1">Go to Portal →</a>`, true);
       }
     });
-  </script>
+  
+    // Smart Match Live Detection for Login Page Registration
+    let currentDirectoryMatch = null;
+    let matchDebounceTimer = null;
+
+    function checkRegistrationMatch() {
+      clearTimeout(matchDebounceTimer);
+      matchDebounceTimer = setTimeout(() => {
+        const phone = (document.getElementById('regPhone')?.value || '').trim();
+        const email = (document.getElementById('regEmail')?.value || '').trim();
+        const name = (document.getElementById('regName')?.value || '').trim();
+        const batch = (document.getElementById('regBatch')?.value || '').trim();
+        const house = (document.getElementById('regHouse')?.value || '').trim();
+
+        if (typeof findDirectoryMatch !== 'function') return;
+
+        if (phone.replace(/\D/g, '').length < 10 && !email.includes('@') && name.length < 3) {
+          hideMatchNotice();
+          return;
+        }
+
+        const res = findDirectoryMatch({ phone, email, name, batch, house });
+        if (res.matched && res.record) {
+          currentDirectoryMatch = res.record;
+          showMatchNotice(res);
+        } else {
+          currentDirectoryMatch = null;
+          hideMatchNotice();
+        }
+      }, 220);
+    }
+
+    function showMatchNotice(res) {
+      const noticeBox = document.getElementById('regMatchNotice');
+      const claimedBox = document.getElementById('regClaimedNotice');
+      const claimedEmailEl = document.getElementById('claimedUserEmail');
+      const titleEl = document.getElementById('regMatchTitle');
+      const badgeEl = document.getElementById('regMatchBadge');
+      const descEl = document.getElementById('regMatchDesc');
+      const hiddenIdEl = document.getElementById('claimedDirectoryId');
+      const submitBtn = document.querySelector('#registrationForm button[type="submit"]');
+
+      if (res.isAlreadyClaimed) {
+        if (noticeBox) noticeBox.classList.add('hidden');
+        if (claimedBox) claimedBox.classList.remove('hidden');
+        if (claimedEmailEl) claimedEmailEl.textContent = (res.claimedUser && res.claimedUser.email) ? res.claimedUser.email : 'Registered Member';
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        }
+        return;
+      }
+
+      if (claimedBox) claimedBox.classList.add('hidden');
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+      }
+
+      if (hiddenIdEl && res.record) {
+        hiddenIdEl.value = res.record.id || '';
+      }
+
+      if (noticeBox && res.record) {
+        if (titleEl) titleEl.textContent = `Verified Alumni Record Found: ${res.record.name}`;
+        if (badgeEl) badgeEl.textContent = `${res.confidence || 95}% Match (${(res.matchType || '').replace('_', ' ').toUpperCase()})`;
+        if (descEl) {
+          const houseStr = res.record.house ? `${res.record.house} House` : '';
+          const batchStr = res.record.batch ? `Batch ${res.record.batch}` : 'Alumnus';
+          const roleStr = res.record.role ? ` • ${res.record.role}` : '';
+          descEl.textContent = `We found your official entry in the JNV Gauriganj Directory (${batchStr}, ${houseStr}${roleStr}). We have pre-filled your verified details below. Please review, update any missing or outdated information, and upload your profile photo!`;
+        }
+        noticeBox.classList.remove('hidden');
+      }
+
+      autoPreFillFields(res.record);
+    }
+
+    function hideMatchNotice() {
+      const noticeBox = document.getElementById('regMatchNotice');
+      const claimedBox = document.getElementById('regClaimedNotice');
+      const hiddenIdEl = document.getElementById('claimedDirectoryId');
+      const submitBtn = document.querySelector('#registrationForm button[type="submit"]');
+
+      if (noticeBox) noticeBox.classList.add('hidden');
+      if (claimedBox) claimedBox.classList.add('hidden');
+      if (hiddenIdEl) hiddenIdEl.value = '';
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+      }
+    }
+
+    function autoPreFillFields(rec) {
+      if (!rec) return;
+      const nameEl = document.getElementById('regName');
+      const batchEl = document.getElementById('regBatch');
+      const houseEl = document.getElementById('regHouse');
+      const roleEl = document.getElementById('regProfession');
+      const cityEl = document.getElementById('regCity');
+      const phoneEl = document.getElementById('regPhone');
+      const emailEl = document.getElementById('regEmail');
+
+      if (nameEl && (!nameEl.value || nameEl.value.trim().length < 3)) nameEl.value = rec.name || '';
+      if (batchEl && (!batchEl.value || batchEl.value.trim() === '')) {
+        const bNum = parseInt(rec.batch, 10);
+        if (bNum && !isNaN(bNum)) batchEl.value = bNum;
+      }
+      if (houseEl && rec.house) {
+        const nh = (typeof normalizeHouse === 'function') ? normalizeHouse(rec.house) : rec.house.toLowerCase();
+        for (let i = 0; i < houseEl.options.length; i++) {
+          if (houseEl.options[i].value.toLowerCase().includes(nh) || nh.includes(houseEl.options[i].value.toLowerCase())) {
+            houseEl.selectedIndex = i;
+            break;
+          }
+        }
+      }
+      if (roleEl && (!roleEl.value || roleEl.value.trim() === '') && rec.role) roleEl.value = rec.role;
+      if (cityEl && (!cityEl.value || cityEl.value.trim() === '') && rec.location) cityEl.value = rec.location;
+      if (phoneEl && (!phoneEl.value || phoneEl.value.trim() === '') && rec.phone) phoneEl.value = rec.phone;
+      if (emailEl && (!emailEl.value || emailEl.value.trim() === '') && rec.email) emailEl.value = rec.email;
+
+      // Pre-fill photo preview if record already has photo and user hasn't uploaded one
+      if (rec.photo && !regUploadedPhoto) {
+        regUploadedPhoto = rec.photo;
+        const previewImg = document.getElementById('regPhotoPreview');
+        const placeholder = document.getElementById('regPhotoPlaceholder');
+        const removeBtn = document.getElementById('regPhotoRemoveBtn');
+        if (previewImg) { previewImg.src = rec.photo; previewImg.classList.remove('hidden'); }
+        if (placeholder) placeholder.classList.add('hidden');
+        if (removeBtn) removeBtn.classList.remove('hidden');
+      }
+    }
+
+    function applyMatchedDirectoryData() {
+      if (currentDirectoryMatch) {
+        autoPreFillFields(currentDirectoryMatch);
+        showAlert(`✓ Pre-filled details from verified directory record (<strong>${currentDirectoryMatch.name}</strong>). Please review and upload your photo!`, true);
+      }
+    }
+
+    function dismissMatchNotice() {
+      const noticeBox = document.getElementById('regMatchNotice');
+      if (noticeBox) noticeBox.classList.add('hidden');
+    }
+
+    // Attach listeners on load
+    document.addEventListener('DOMContentLoaded', () => {
+      ['regPhone', 'regEmail', 'regName', 'regBatch', 'regHouse'].forEach(fieldId => {
+        const el = document.getElementById(fieldId);
+        if (el) {
+          el.addEventListener('input', checkRegistrationMatch);
+          el.addEventListener('change', checkRegistrationMatch);
+        }
+      });
+    });
+
+</script>
 </body>
 </html>

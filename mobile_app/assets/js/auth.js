@@ -745,6 +745,215 @@ function verifyOtp(identifier, inputCode, purpose = 'registration') {
 }
 
 // ==========================================
+// 4-TIER DIRECTORY SMART MATCH & PROFILE CLAIM ENGINE
+// ==========================================
+
+function cleanName(str) {
+  if (!str) return '';
+  return str
+    .toLowerCase()
+    .replace(/\([^)]*\)/g, ' ')
+    .replace(/\b(sh|shri|smt|shrimati|mr|mrs|ms|dr|col|colonel|er|adv|advocate|prof|professor|ias|ips|pps|ies|irs|officer|judge|sir|bhaiya)\b\.?/gi, ' ')
+    .replace(/[.,/#!$%^&*;:{}=\-_`~]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function cleanPhone(str) {
+  if (!str) return '';
+  const digits = String(str).replace(/\D/g, '');
+  return digits.length >= 10 ? digits.slice(-10) : '';
+}
+
+function cleanEmail(str) {
+  if (!str) return '';
+  return String(str).trim().toLowerCase();
+}
+
+function normalizeHouse(val) {
+  if (!val) return '';
+  const s = val.toString().trim().toLowerCase();
+  if (s.startsWith('arav') || s.startsWith('araw')) return 'aravali';
+  if (s.startsWith('nilg') || s.startsWith('neel')) return 'nilgiri';
+  if (s.startsWith('udai') || s.startsWith('uday')) return 'udaigiri';
+  if (s.startsWith('shiv') || s.startsWith('shiw')) return 'shivalik';
+  return s;
+}
+
+function matchesBatch(itemBatch, userBatch) {
+  if (!itemBatch || !userBatch) return false;
+  const ub = parseInt(userBatch, 10);
+  if (!ub) return false;
+  const ibStr = String(itemBatch).trim();
+  const ibNum = parseInt(ibStr, 10);
+  if (ibNum === ub) return true;
+  const parts = ibStr.split(/[-–—]/).map(p => parseInt(p.trim(), 10)).filter(p => !isNaN(p));
+  if (parts.length === 2) {
+    if (ub >= parts[0] && ub <= parts[1]) return true;
+  }
+  return false;
+}
+
+function getDirectoryRecords() {
+  if (typeof window !== 'undefined' && window.AppState && Array.isArray(window.AppState.directory) && window.AppState.directory.length > 0) {
+    return window.AppState.directory;
+  }
+  if (typeof AppState !== 'undefined' && Array.isArray(AppState.directory) && AppState.directory.length > 0) {
+    return AppState.directory;
+  }
+  if (typeof defaultDirectoryAlumni !== 'undefined' && Array.isArray(defaultDirectoryAlumni) && defaultDirectoryAlumni.length > 0) {
+    return defaultDirectoryAlumni;
+  }
+  if (typeof window !== 'undefined' && window.defaultDirectoryAlumni && Array.isArray(window.defaultDirectoryAlumni) && window.defaultDirectoryAlumni.length > 0) {
+    return window.defaultDirectoryAlumni;
+  }
+  if (typeof window !== 'undefined' && window.AlumniStorageEngine && window.AlumniStorageEngine.cache && Array.isArray(window.AlumniStorageEngine.cache.directory) && window.AlumniStorageEngine.cache.directory.length > 0) {
+    return window.AlumniStorageEngine.cache.directory;
+  }
+  try {
+    if (typeof localStorage !== 'undefined') {
+      const raw = localStorage.getItem('JNVG_ALUMNI_APP_DATA_V2');
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && Array.isArray(parsed.directory) && parsed.directory.length > 0) {
+          return parsed.directory;
+        }
+      }
+    }
+  } catch(e) {}
+  if (typeof window !== 'undefined' && Array.isArray(window.JNVG_DIRECTORY_SEED) && window.JNVG_DIRECTORY_SEED.length > 0) {
+    return window.JNVG_DIRECTORY_SEED;
+  }
+  return [];
+}
+
+/**
+ * 4-Tier Smart Directory Matching Engine
+ * @param {Object} query - { phone, email, name, batch, house }
+ * @returns {Object} { matched: boolean, tier: number, confidence: number, matchType: string, record: Object, isAlreadyClaimed: boolean, claimedUser: Object }
+ */
+function findDirectoryMatch(query = {}) {
+  const records = getDirectoryRecords();
+  if (!records || records.length === 0) {
+    return { matched: false };
+  }
+
+  const cp = cleanPhone(query.phone || '');
+  const ce = cleanEmail(query.email || '');
+  const cn = cleanName(query.name || '');
+  const ub = parseInt(query.batch, 10);
+  const nh = normalizeHouse(query.house || '');
+
+  const registeredUsers = getAllUsers();
+
+  function evaluateClaim(dirItem) {
+    const claimedUser = registeredUsers.find(u => {
+      if (u.claimedDirectoryId && String(u.claimedDirectoryId) === String(dirItem.id)) return true;
+      if (u.email && dirItem.email && cleanEmail(u.email) === cleanEmail(dirItem.email)) return true;
+      if (u.phone && dirItem.phone && cleanPhone(u.phone) === cleanPhone(dirItem.phone)) return true;
+      return false;
+    });
+
+    if (claimedUser && claimedUser.status === 'approved') {
+      return {
+        isAlreadyClaimed: true,
+        claimedUser: {
+          id: claimedUser.id,
+          name: claimedUser.name,
+          email: claimedUser.email,
+          status: claimedUser.status
+        }
+      };
+    }
+    return { isAlreadyClaimed: false, claimedUser: claimedUser || null };
+  }
+
+  // Tier 1: 100% Exact Unique Match on Phone (10 digits) OR Email
+  if (cp && cp.length === 10) {
+    const match = records.find(r => r.phone && cleanPhone(r.phone) === cp);
+    if (match) {
+      const claim = evaluateClaim(match);
+      return {
+        matched: true,
+        tier: 1,
+        confidence: 100,
+        matchType: 'phone',
+        record: match,
+        isAlreadyClaimed: claim.isAlreadyClaimed,
+        claimedUser: claim.claimedUser
+      };
+    }
+  }
+
+  if (ce && ce.includes('@')) {
+    const match = records.find(r => r.email && cleanEmail(r.email) === ce);
+    if (match) {
+      const claim = evaluateClaim(match);
+      return {
+        matched: true,
+        tier: 1,
+        confidence: 100,
+        matchType: 'email',
+        record: match,
+        isAlreadyClaimed: claim.isAlreadyClaimed,
+        claimedUser: claim.claimedUser
+      };
+    }
+  }
+
+  // Tier 2: 95% Triangulation Match on Sanitized Name + Passout Batch
+  if (cn && cn.length >= 3 && ub) {
+    const match = records.find(r => {
+      const rName = cleanName(r.name);
+      if (rName === cn || (rName.length >= 4 && (rName.includes(cn) || cn.includes(rName)))) {
+        return matchesBatch(r.batch, ub);
+      }
+      return false;
+    });
+
+    if (match) {
+      const claim = evaluateClaim(match);
+      return {
+        matched: true,
+        tier: 2,
+        confidence: 95,
+        matchType: 'name_batch',
+        record: match,
+        isAlreadyClaimed: claim.isAlreadyClaimed,
+        claimedUser: claim.claimedUser
+      };
+    }
+  }
+
+  // Tier 3: 85% Legacy Match on Sanitized Name + House (e.g. where batch in directory was missing or generic)
+  if (cn && cn.length >= 4 && nh) {
+    const match = records.find(r => {
+      const rName = cleanName(r.name);
+      if (rName === cn || (rName.length >= 5 && (rName.includes(cn) || cn.includes(rName)))) {
+        const rHouse = normalizeHouse(r.house);
+        return rHouse === nh;
+      }
+      return false;
+    });
+
+    if (match) {
+      const claim = evaluateClaim(match);
+      return {
+        matched: true,
+        tier: 3,
+        confidence: 85,
+        matchType: 'name_house',
+        record: match,
+        isAlreadyClaimed: claim.isAlreadyClaimed,
+        claimedUser: claim.claimedUser
+      };
+    }
+  }
+
+  return { matched: false };
+}
+
+// ==========================================
 // REGISTRATION WITH PASSWORD RECONFIRMATION & 2FA
 // ==========================================
 
@@ -768,11 +977,18 @@ function validateRegistrationData(userData) {
     return { valid: false, message: "Passwords do not match! Please confirm your password correctly." };
   }
 
-  // Check uniqueness
+  // Check anti-takeover and uniqueness
   const users = getAllUsers();
   const exists = users.find(u => u.email.toLowerCase() === userData.email.trim().toLowerCase());
   if (exists) {
     return { valid: false, message: "An alumni account with this email address already exists. Please log in instead." };
+  }
+
+  if (userData.claimedDirectoryId) {
+    const claimedExists = users.find(u => u.claimedDirectoryId && String(u.claimedDirectoryId) === String(userData.claimedDirectoryId) && u.status === 'approved');
+    if (claimedExists) {
+      return { valid: false, message: "This directory profile has already been claimed and verified by an active member. Please log in instead." };
+    }
   }
 
   return { valid: true };
@@ -803,7 +1019,7 @@ function completeRegistrationWithOtp(userData, otpCode) {
   return registerAlumni(userData);
 }
 
-// Register New Alumni Record (Strict Membership Verification & Approval Workflow)
+// Register New Alumni Record (Strict Membership Verification & Profile Claim/Enrichment Workflow)
 function registerAlumni(userData) {
   const users = getAllUsers();
   const exists = users.find(u => u.email.toLowerCase() === userData.email.trim().toLowerCase());
@@ -813,6 +1029,7 @@ function registerAlumni(userData) {
 
   const initials = userData.name.split(' ').filter(n => n.length > 0).map(n => n[0]).join('').substring(0, 2).toUpperCase();
   const isTeacher = userData.role === 'teacher' || userData.profession === 'Faculty';
+  const claimedId = userData.claimedDirectoryId || null;
 
   const newAlumnus = {
     id: `usr-${Date.now()}`,
@@ -830,6 +1047,8 @@ function registerAlumni(userData) {
     domain: userData.domain || "Other",
     avatar: initials || "NV",
     photo: userData.photo || null,
+    claimedDirectoryId: claimedId,
+    isClaimedProfile: !!claimedId,
     twoFactorVerified: true,
     joinedDate: `Registered ${new Date().toLocaleDateString('en-GB')}`
   };
@@ -837,34 +1056,100 @@ function registerAlumni(userData) {
   users.push(newAlumnus);
   saveAllUsers(users);
 
+  // In-place Directory Profile Enrichment if claiming an existing directory entry
+  if (claimedId) {
+    try {
+      const storageKey = 'JNVG_ALUMNI_APP_DATA_V2';
+      let appData = null;
+      if (typeof localStorage !== 'undefined') {
+        const raw = localStorage.getItem(storageKey);
+        if (raw) appData = JSON.parse(raw);
+      }
+      if (!appData && typeof AppState !== 'undefined' && AppState.directory) {
+        appData = AppState;
+      }
+
+      if (appData && Array.isArray(appData.directory)) {
+        const target = appData.directory.find(d => String(d.id) === String(claimedId));
+        if (target) {
+          if (userData.name) target.name = userData.name.trim();
+          if (userData.batch) target.batch = parseInt(userData.batch, 10) || target.batch;
+          if (userData.house) target.house = userData.house;
+          if (userData.profession || userData.role) target.role = (userData.profession || userData.role).trim();
+          if (userData.city) target.location = userData.city.trim();
+          if (userData.domain) target.domain = userData.domain;
+          if (userData.photo) target.photo = userData.photo;
+          if (userData.phone) target.phone = userData.phone.trim();
+          if (userData.email) target.email = userData.email.trim().toLowerCase();
+          target.claimed = true;
+          target.claimedBy = newAlumnus.id;
+          target.claimedAt = new Date().toISOString();
+
+          // Sync in-memory AppState if present
+          if (typeof AppState !== 'undefined' && AppState.directory) {
+            const inMem = AppState.directory.find(d => String(d.id) === String(claimedId));
+            if (inMem) Object.assign(inMem, target);
+          }
+          if (typeof window !== 'undefined' && window.AppState && window.AppState.directory) {
+            const inWin = window.AppState.directory.find(d => String(d.id) === String(claimedId));
+            if (inWin) Object.assign(inWin, target);
+          }
+          if (typeof window !== 'undefined' && window.AlumniStorageEngine && window.AlumniStorageEngine.cache && window.AlumniStorageEngine.cache.directory) {
+            const inCache = window.AlumniStorageEngine.cache.directory.find(d => String(d.id) === String(claimedId));
+            if (inCache) Object.assign(inCache, target);
+          }
+          if (typeof localStorage !== 'undefined') {
+            localStorage.setItem(storageKey, JSON.stringify(appData));
+          }
+        }
+      }
+    } catch (e) {
+      console.warn("Could not enrich directory item in place:", e);
+    }
+  }
+
   // Sync to AppState.pendingRegistrations in JNVG_ALUMNI_APP_DATA_V2 so it appears in Admin Tab immediately
   try {
     const storageKey = 'JNVG_ALUMNI_APP_DATA_V2';
     const appData = JSON.parse(localStorage.getItem(storageKey)) || {};
     if (!appData.pendingRegistrations) appData.pendingRegistrations = [];
     const regExists = appData.pendingRegistrations.some(r => (r.email || '').toLowerCase() === newAlumnus.email);
+    const pendingObj = {
+      id: newAlumnus.id,
+      name: newAlumnus.name,
+      batch: newAlumnus.batch,
+      house: newAlumnus.house,
+      phone: newAlumnus.phone,
+      email: newAlumnus.email,
+      role: newAlumnus.profession,
+      domain: newAlumnus.domain,
+      city: newAlumnus.city,
+      photo: newAlumnus.photo,
+      claimedDirectoryId: claimedId,
+      isClaimedProfile: !!claimedId,
+      enrichmentNote: claimedId ? `Claimed & enriched verified Directory entry #${claimedId}` : null,
+      date: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) + " (2FA Verified)",
+      status: "pending"
+    };
     if (!regExists) {
-      appData.pendingRegistrations.unshift({
-        id: newAlumnus.id,
-        name: newAlumnus.name,
-        batch: newAlumnus.batch,
-        house: newAlumnus.house,
-        phone: newAlumnus.phone,
-        email: newAlumnus.email,
-        role: newAlumnus.profession,
-        domain: newAlumnus.domain,
-        city: newAlumnus.city,
-        photo: newAlumnus.photo,
-        date: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) + " (2FA Verified)",
-        status: "pending"
-      });
+      appData.pendingRegistrations.unshift(pendingObj);
       localStorage.setItem(storageKey, JSON.stringify(appData));
+    }
+    if (typeof AppState !== 'undefined' && AppState && AppState.pendingRegistrations) {
+      if (!AppState.pendingRegistrations.some(r => (r.email || '').toLowerCase() === newAlumnus.email)) {
+        AppState.pendingRegistrations.unshift(pendingObj);
+      }
+    }
+    if (typeof window !== 'undefined' && window.AppState && window.AppState.pendingRegistrations) {
+      if (!window.AppState.pendingRegistrations.some(r => (r.email || '').toLowerCase() === newAlumnus.email)) {
+        window.AppState.pendingRegistrations.unshift(pendingObj);
+      }
     }
   } catch (e) {
     console.warn("Could not sync to AppState pendingRegistrations:", e);
   }
 
-  return { success: true, user: newAlumnus, pendingApproval: true };
+  return { success: true, user: newAlumnus, pendingApproval: true, claimedDirectoryId: claimedId };
 }
 
 // ==========================================
@@ -1021,6 +1306,42 @@ function compressProfileImage(file, callback, maxWidth = 160, maxHeight = 160, q
   reader.readAsDataURL(file);
 }
 
+
+// Global Window & Module Exports
+if (typeof window !== 'undefined') {
+  window.cleanName = cleanName;
+  window.cleanPhone = cleanPhone;
+  window.cleanEmail = cleanEmail;
+  window.normalizeHouse = normalizeHouse;
+  window.matchesBatch = matchesBatch;
+  window.getDirectoryRecords = getDirectoryRecords;
+  window.findDirectoryMatch = findDirectoryMatch;
+  window.registerAlumni = registerAlumni;
+  window.validateRegistrationData = validateRegistrationData;
+  window.initiateRegistrationOtp = initiateRegistrationOtp;
+  window.completeRegistrationWithOtp = completeRegistrationWithOtp;
+  window.compressProfileImage = compressProfileImage;
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    cleanName,
+    cleanPhone,
+    cleanEmail,
+    normalizeHouse,
+    matchesBatch,
+    getDirectoryRecords,
+    findDirectoryMatch,
+    loginUser,
+    registerAlumni,
+    validateRegistrationData,
+    initiateRegistrationOtp,
+    completeRegistrationWithOtp,
+    getAllUsers,
+    saveAllUsers,
+    compressProfileImage
+  };
+}
 
 // Initialize on Load
 initUsersDB();
