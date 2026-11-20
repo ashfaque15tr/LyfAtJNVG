@@ -151,21 +151,21 @@ body:not(.theme-dark) main {
   background-color: var(--sky-bg-canvas) !important;
 }
 
-/* Headings in Light Sky Blue Theme */
-html[data-theme="sky"] h1, 
-html[data-theme="sky"] h2, 
-html[data-theme="sky"] h3, 
-html[data-theme="sky"] h4, 
-html[data-theme="sky"] h5, 
-html[data-theme="sky"] h6,
-html[data-theme="sky"] .font-cinzel,
-body:not(.theme-dark) h1,
-body:not(.theme-dark) h2,
-body:not(.theme-dark) h3,
-body:not(.theme-dark) h4,
-body:not(.theme-dark) h5,
-body:not(.theme-dark) h6,
-body:not(.theme-dark) .font-cinzel {
+/* Headings in Light Sky Blue Theme (Excluding dark overlay cards like auth-card-left) */
+html[data-theme="sky"] h1:not(.auth-card-left *):not(.auth-card-left), 
+html[data-theme="sky"] h2:not(.auth-card-left *):not(.auth-card-left), 
+html[data-theme="sky"] h3:not(.auth-card-left *):not(.auth-card-left), 
+html[data-theme="sky"] h4:not(.auth-card-left *):not(.auth-card-left), 
+html[data-theme="sky"] h5:not(.auth-card-left *):not(.auth-card-left), 
+html[data-theme="sky"] h6:not(.auth-card-left *):not(.auth-card-left),
+html[data-theme="sky"] .font-cinzel:not(.auth-card-left *):not(.auth-card-left),
+body:not(.theme-dark) h1:not(.auth-card-left *):not(.auth-card-left),
+body:not(.theme-dark) h2:not(.auth-card-left *):not(.auth-card-left),
+body:not(.theme-dark) h3:not(.auth-card-left *):not(.auth-card-left),
+body:not(.theme-dark) h4:not(.auth-card-left *):not(.auth-card-left),
+body:not(.theme-dark) h5:not(.auth-card-left *):not(.auth-card-left),
+body:not(.theme-dark) h6:not(.auth-card-left *):not(.auth-card-left),
+body:not(.theme-dark) .font-cinzel:not(.auth-card-left *):not(.auth-card-left) {
   color: var(--navy-heading) !important;
 }
 
@@ -492,29 +492,29 @@ body:not(.theme-dark) #homeHeroCard h2 span {
 }
 
 /* 6. Comprehensive Light Sky Typography Overrides - Document-Wide High Contrast */
-html[data-theme="sky"] h1:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *),
-html[data-theme="sky"] h2:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *),
-html[data-theme="sky"] h3:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *),
-html[data-theme="sky"] h4:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *),
-html[data-theme="sky"] h5:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *),
-html[data-theme="sky"] h6:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *),
-html[data-theme="sky"] .font-cinzel:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *),
-body:not(.theme-dark) h1:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *),
-body:not(.theme-dark) h2:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *),
-body:not(.theme-dark) h3:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *),
-body:not(.theme-dark) h4:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *),
-body:not(.theme-dark) h5:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *),
-body:not(.theme-dark) h6:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *),
-body:not(.theme-dark) .font-cinzel:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *) {
+html[data-theme="sky"] h1:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *):not(.auth-card-left *):not(.auth-card-left),
+html[data-theme="sky"] h2:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *):not(.auth-card-left *):not(.auth-card-left),
+html[data-theme="sky"] h3:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *):not(.auth-card-left *):not(.auth-card-left),
+html[data-theme="sky"] h4:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *):not(.auth-card-left *):not(.auth-card-left),
+html[data-theme="sky"] h5:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *):not(.auth-card-left *):not(.auth-card-left),
+html[data-theme="sky"] h6:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *):not(.auth-card-left *):not(.auth-card-left),
+html[data-theme="sky"] .font-cinzel:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *):not(.auth-card-left *):not(.auth-card-left),
+body:not(.theme-dark) h1:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *):not(.auth-card-left *):not(.auth-card-left),
+body:not(.theme-dark) h2:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *):not(.auth-card-left *):not(.auth-card-left),
+body:not(.theme-dark) h3:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *):not(.auth-card-left *):not(.auth-card-left),
+body:not(.theme-dark) h4:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *):not(.auth-card-left *):not(.auth-card-left),
+body:not(.theme-dark) h5:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *):not(.auth-card-left *):not(.auth-card-left),
+body:not(.theme-dark) h6:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *):not(.auth-card-left *):not(.auth-card-left),
+body:not(.theme-dark) .font-cinzel:not(.memory-banner-text):not(.hero-banner-text):not([class*="banner-overlay"] *):not(.auth-card-left *):not(.auth-card-left) {
   color: #0c2f54 !important;
   -webkit-text-fill-color: #0c2f54 !important;
   font-weight: 800 !important;
 }
 
-html[data-theme="sky"] p,
-html[data-theme="sky"] li,
-body:not(.theme-dark) p,
-body:not(.theme-dark) li {
+html[data-theme="sky"] p:not(.auth-card-left *):not(.auth-card-left),
+html[data-theme="sky"] li:not(.auth-card-left *):not(.auth-card-left),
+body:not(.theme-dark) p:not(.auth-card-left *):not(.auth-card-left),
+body:not(.theme-dark) li:not(.auth-card-left *):not(.auth-card-left) {
   color: #1e3a5f !important;
   -webkit-text-fill-color: #1e3a5f !important;
 }
@@ -1490,14 +1490,23 @@ body:not(.theme-dark) .auth-card-left {
   color: #ffffff !important;
 }
 
+html[data-theme="sky"] .auth-card-left h1,
 html[data-theme="sky"] .auth-card-left h2,
+html[data-theme="sky"] .auth-card-left h3,
+html[data-theme="sky"] .auth-card-left h4,
+html[data-theme="sky"] .auth-card-left .font-cinzel,
 html[data-theme="sky"] .auth-card-left strong,
 html[data-theme="sky"] .auth-card-left .text-white,
+body:not(.theme-dark) .auth-card-left h1,
 body:not(.theme-dark) .auth-card-left h2,
+body:not(.theme-dark) .auth-card-left h3,
+body:not(.theme-dark) .auth-card-left h4,
+body:not(.theme-dark) .auth-card-left .font-cinzel,
 body:not(.theme-dark) .auth-card-left strong,
 body:not(.theme-dark) .auth-card-left .text-white {
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7) !important;
 }
 
 html[data-theme="sky"] .auth-card-left p,
@@ -1506,8 +1515,8 @@ html[data-theme="sky"] .auth-card-left .text-slate-400,
 body:not(.theme-dark) .auth-card-left p,
 body:not(.theme-dark) .auth-card-left .text-slate-300,
 body:not(.theme-dark) .auth-card-left .text-slate-400 {
-  color: #cbd5e1 !important;
-  -webkit-text-fill-color: #cbd5e1 !important;
+  color: #e2e8f0 !important;
+  -webkit-text-fill-color: #e2e8f0 !important;
 }
 
 

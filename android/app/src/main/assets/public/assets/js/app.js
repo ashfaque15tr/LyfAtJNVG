@@ -15,12 +15,16 @@ const defaultCommunityBroadcasts = [
     author: "Ashfaque Ahmad",
     authorRole: "admin",
     roleBadge: "Super Admin",
+    authorPhoto: "assets/images/ashfaq-ahmed.png",
+    initials: "AA",
     batch: 2005,
     house: "Nilgiri",
     timestamp: "19 Nov 2026, 11:30 AM",
     timeAgo: "Official Announcement",
     category: "gratitude",
-    text: "Welcome to JNVGFamily The official digital home of JNV Gauriganj Alumni. Connect with batchmates across the globe, mentor young minds, and stay updated on campus reunions and milestones",
+    tag: "Memories",
+    content: "Welcome to JNVGFamily! The official digital home of JNV Gauriganj Alumni. Connect with batchmates across the globe, mentor young minds, and stay updated on campus reunions and milestones.",
+    text: "Welcome to JNVGFamily! The official digital home of JNV Gauriganj Alumni. Connect with batchmates across the globe, mentor young minds, and stay updated on campus reunions and milestones.",
     likes: 42,
     liked: false,
     comments: [
@@ -34,12 +38,17 @@ const defaultCommunityBroadcasts = [
     authorRole: "teacher",
     isTeacher: true,
     roleBadge: "Current Faculty (TGT English)",
+    roleTitle: "Revered Faculty",
+    authorPhoto: "assets/images/ls-yadav.jpg",
+    initials: "LS",
     batch: null,
     house: "Campus",
     timestamp: "19 Nov 2026, 11:32 AM",
     timeAgo: "Gurujan Sandesh",
     category: "gratitude",
-    text: "Navodaya is the confluence of multi-dimensional talents. Let's come together to succeed with flying colours.",
+    tag: "Guru Sandesh",
+    content: "Navodaya is the confluence of Multi-diamensional tallents. \nLet's come together and work together to succeed with flying colours by caring and sharing, J N V Stars! ⭐⭐⭐⭐⭐",
+    text: "Navodaya is the confluence of Multi-diamensional tallents. \nLet's come together and work together to succeed with flying colours by caring and sharing, J N V Stars! ⭐⭐⭐⭐⭐",
     likes: 38,
     liked: false,
     comments: []
@@ -50,11 +59,16 @@ const defaultCommunityBroadcasts = [
     authorRole: "teacher",
     isTeacher: true,
     roleBadge: "Former Faculty (TGT English)",
+    roleTitle: "Revered Faculty",
+    authorPhoto: null,
+    initials: "AY",
     batch: null,
     house: "Priyadarshni / Sarojini",
     timestamp: "19 Nov 2026, 11:33 AM",
     timeAgo: "Gurujan Sandesh",
     category: "memories",
+    tag: "Guru Sandesh",
+    content: "कहाँ हो भाई सब? बहुत अच्छे लग रहे हैं आप सब! Love you all! Education is not the filling of a pail, but the lighting of a fire. हॉस्टल में आपका माँ सा ध्यान रखना और अंग्रेजी भाषा व नैतिक मूल्यों को जीवन में उतारना ही मेरा संकल्प रहा। सदा विजयी भव!",
     text: "कहाँ हो भाई सब? बहुत अच्छे लग रहे हैं आप सब! Love you all! Education is not the filling of a pail, but the lighting of a fire. हॉस्टल में आपका माँ सा ध्यान रखना और अंग्रेजी भाषा व नैतिक मूल्यों को जीवन में उतारना ही मेरा संकल्प रहा। सदा विजयी भव!",
     likes: 45,
     liked: false,
@@ -66,11 +80,16 @@ const defaultCommunityBroadcasts = [
     authorRole: "teacher",
     isTeacher: true,
     roleBadge: "Former Principal",
+    roleTitle: "Former Principal Legend",
+    authorPhoto: null,
+    initials: "BR",
     batch: null,
     house: "Administration",
     timestamp: "19 Nov 2026, 11:34 AM",
     timeAgo: "Principal Blessings",
     category: "gratitude",
+    tag: "Guru Sandesh",
+    content: "नवोदय का प्रांगण केवल ज्ञानार्जन का केंद्र नहीं, बल्कि चरित्र, बंधुत्व और राष्ट्र-निर्माण की पावन तपोभूमि है। जेएनवी गौरीगंज के विद्यार्थियों ने हर क्षेत्र में जो कीर्तिमान स्थापित किए हैं, उन पर मुझे गर्व है। हमी नवोदय हों!",
     text: "नवोदय का प्रांगण केवल ज्ञानार्जन का केंद्र नहीं, बल्कि चरित्र, बंधुत्व और राष्ट्र-निर्माण की पावन तपोभूमि है। जेएनवी गौरीगंज के विद्यार्थियों ने हर क्षेत्र में जो कीर्तिमान स्थापित किए हैं, उन पर मुझे गर्व है। हमी नवोदय हों!",
     likes: 51,
     liked: false,
@@ -435,7 +454,7 @@ const defaultData = {
       initials: "LSY",
       photo: "assets/images/ls-yadav.jpg",
       respectCount: 168,
-      message: "Navodaya is the confluence of multi-dimensional talents. Let's come together to succeed with flying colours.",
+      message: "Navodaya is the confluence of Multi-diamensional tallents. \nLet's come together and work together to succeed with flying colours by caring and sharing, J N V Stars! ⭐⭐⭐⭐⭐",
       specialNote: "Dedicated English educator nurturing communicative excellence and literary expression at JNV Gauriganj since 2021."
     },
     {
@@ -1974,7 +1993,7 @@ const defaultDirectoryAlumni = [
     "initials": "RS",
     "batch": 1994,
     "house": "Arawali",
-    "role": "HT",
+    "role": "Governor's Awardee Teacher • Head Teacher",
     "location": "Gauriganj",
     "domain": "Corporate",
     "email": "rshan1477@gmail.com",
@@ -8531,9 +8550,66 @@ function loadAppData() {
             }
           });
         }
+        // Universal Sanitization & Healing: Ensure content, text, photos and initials are never undefined
+        list.forEach(p => {
+          if (!p.content && p.text) p.content = p.text;
+          if (!p.text && p.content) p.text = p.content;
+          if (p.content === 'undefined' || p.text === 'undefined' || !p.content) {
+            const def = defaultCommunityBroadcasts.find(d => d.id === p.id);
+            if (def) {
+              p.content = def.content || def.text;
+              p.text = p.content;
+              if (def.authorPhoto && !p.authorPhoto) p.authorPhoto = def.authorPhoto;
+              if (def.initials && !p.initials) p.initials = def.initials;
+            }
+          }
+          if (p.id === 'feed-official-welcome') {
+            p.authorPhoto = 'assets/images/ashfaq-ahmed.png';
+            p.initials = 'AA';
+            if (!p.content || p.content === 'undefined') {
+              p.content = "Welcome to JNVGFamily! The official digital home of JNV Gauriganj Alumni. Connect with batchmates across the globe, mentor young minds, and stay updated on campus reunions and milestones.";
+              p.text = p.content;
+            }
+          } else if (p.id === 'feed-gurujan-lsy') {
+            p.authorPhoto = 'assets/images/ls-yadav.jpg';
+            p.initials = 'LS';
+            p.content = "Navodaya is the confluence of Multi-diamensional tallents. \nLet's come together and work together to succeed with flying colours by caring and sharing, J N V Stars! ⭐⭐⭐⭐⭐";
+            p.text = p.content;
+          } else if (p.id === 'feed-gurujan-ay') {
+            p.initials = 'AY';
+            if (!p.content || p.content === 'undefined') {
+              p.content = "कहाँ हो भाई सब? बहुत अच्छे लग रहे हैं आप सब! Love you all! Education is not the filling of a pail, but the lighting of a fire. हॉस्टल में आपका माँ सा ध्यान रखना और अंग्रेजी भाषा व नैतिक मूल्यों को जीवन में उतारना ही मेरा संकल्प रहा। सदा विजयी भव!";
+              p.text = p.content;
+            }
+          } else if (p.id === 'feed-gurujan-rautela') {
+            p.initials = 'BR';
+            if (!p.content || p.content === 'undefined') {
+              p.content = "नवोदय का प्रांगण केवल ज्ञानार्जन का केंद्र नहीं, बल्कि चरित्र, बंधुत्व और राष्ट्र-निर्माण की पावन तपोभूमि है। जेएनवी गौरीगंज के विद्यार्थियों ने हर क्षेत्र में जो कीर्तिमान स्थापित किए हैं, उन पर मुझे गर्व है। हमी नवोदय हों!";
+              p.text = p.content;
+            }
+          }
+        });
         parsed.feedPosts = list;
+        try { localStorage.setItem(PERSISTENT_FEED_STORAGE_KEY, JSON.stringify(list)); } catch(fe) {}
       } catch(e) {
         parsed.feedPosts = defaultCommunityBroadcasts.slice();
+      }
+      if (parsed.teachers && Array.isArray(parsed.teachers)) {
+        const lsy = parsed.teachers.find(t => t.id === 'tch-lsy' || (t.name && t.name.includes('L. S. Yadav')));
+        if (lsy) {
+          lsy.message = "Navodaya is the confluence of Multi-diamensional tallents. \nLet's come together and work together to succeed with flying colours by caring and sharing, J N V Stars! ⭐⭐⭐⭐⭐";
+          if (!lsy.photo) lsy.photo = 'assets/images/ls-yadav.jpg';
+        }
+      }
+      if (parsed.directory && Array.isArray(parsed.directory)) {
+        const rsy = parsed.directory.find(d => d.name && (d.name.includes('Rama Shankar') || d.name.includes('Rama Sankar')));
+        if (rsy) {
+          rsy.role = "Governor's Awardee Teacher • Head Teacher";
+        }
+        const up = parsed.directory.find(d => d.name && d.name.includes('Utkrisht Pandey'));
+        if (up) {
+          up.batch = 2002;
+        }
       }
       return { ...defaultData, ...parsed };
     }
@@ -9214,6 +9290,7 @@ function handleStorySubmit(e) {
     roleTitle: curUser.roleTitle || (isTeacher ? 'Revered Faculty' : 'Verified Alumnus'),
     time: "Just now",
     content: text,
+    text: text,
     category: isTeacher ? 'teacher_blessing' : cat,
     tag: postTag,
     likes: 0,
@@ -9322,11 +9399,24 @@ function renderFeed(append = false) {
       ? `<span class="text-[10px] px-2 py-0.5 rounded font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">${post.tag || 'Guru Sandesh'}</span>`
       : `<span class="text-[10px] text-slate-500">${post.tag || 'Memories'}</span>`;
 
+    let authorPhoto = post.authorPhoto;
+    if (!authorPhoto) {
+      if ((post.author || '').toLowerCase().includes('ashfaq')) authorPhoto = 'assets/images/ashfaq-ahmed.png';
+      else if ((post.author || '').toLowerCase().includes('l. s. yadav') || (post.author || '').toLowerCase().includes('ls yadav')) authorPhoto = 'assets/images/ls-yadav.jpg';
+    }
+
+    let postText = post.content || post.text || post.message || '';
+    if (postText === 'undefined') postText = '';
+    if (!postText && post.id) {
+      const fb = defaultCommunityBroadcasts.find(d => d.id === post.id);
+      if (fb) postText = fb.content || fb.text || '';
+    }
+
     article.innerHTML = `
       <div class="flex items-center justify-between">
         <div class="flex items-center space-x-3">
-          ${post.authorPhoto 
-            ? `<img src="${post.authorPhoto}" alt="${post.author}" class="w-10 h-10 rounded-full object-cover border ${isTeacherPost ? 'border-amber-400' : 'border-amber-500/40'} shadow-sm flex-shrink-0">` 
+          ${authorPhoto 
+            ? `<img src="${authorPhoto}" alt="${post.author}" class="w-10 h-10 rounded-full object-cover border ${isTeacherPost ? 'border-amber-400' : 'border-amber-500/40'} shadow-sm flex-shrink-0">` 
             : `<div class="w-10 h-10 rounded-full ${isTeacherPost ? 'bg-amber-950 border border-amber-500/50 text-amber-300' : 'bg-blue-950 border border-blue-500/30 text-blue-400'} flex items-center justify-center font-bold text-xs flex-shrink-0">${post.initials || 'NV'}</div>`}
           <div>
             <h4 class="text-xs font-bold ${isTeacherPost ? 'text-amber-300' : 'text-slate-100'} flex items-center gap-1.5">
@@ -9347,7 +9437,7 @@ function renderFeed(append = false) {
           ` : ''}
         </div>
       </div>
-      <p class="text-xs sm:text-sm text-slate-200 leading-relaxed font-hindi">"${post.content}"</p>
+      <p class="text-xs sm:text-sm text-slate-200 leading-relaxed font-hindi">"${postText}"</p>
       ${imageHtml}
       <div class="flex items-center justify-between pt-2 border-t border-slate-800/80 text-xs text-slate-400">
         <div class="flex items-center space-x-4">
@@ -10212,15 +10302,15 @@ const NOTABLE_ALUMNI_LIST = [
   },
   {
     "id": "notable-ry-1",
-    "name": "Sh. Rama Sankar Yadav",
+    "name": "Sh. Rama Shankar Yadav (Rama Sankar Yadav)",
     "initials": "RY",
     "batch": "1987–1994",
     "category": "civil",
-    "categoryLabel": "Grassroots Education",
+    "categoryLabel": "Governor's Awardee Teacher & Education",
     "house": "Shivalik",
-    "role": "Head Master, Model School Pachehari",
-    "academics": "Elementary Education & Pedagogy",
-    "intro": "Dedicated grassroots educator recognized for innovative pedagogy in government rural schooling; generous benefactor donating permanent cement campus benches to PM Shri JNV Gauriganj.",
+    "role": "Governor's Awardee Teacher • Head Master, Model School Pachehari",
+    "academics": "Elementary Education & Innovative Pedagogy",
+    "intro": "Distinguished Governor's Awardee Teacher and Head Master at Model School Pachehari. Honored for exemplary leadership, innovative pedagogical models, and rural educational transformation; generous Vidyalaya benefactor donating permanent campus cement benches to PM Shri JNV Gauriganj.",
     "badgeColor": "blue",
     "link": null
   },
@@ -10512,13 +10602,13 @@ const NOTABLE_ALUMNI_LIST = [
     "id": "notable-up-1",
     "name": "Sh. Utkrisht Pandey",
     "initials": "UP",
-    "batch": "1999 (1994–1999)",
+    "batch": "2002",
     "category": "enterprise",
     "categoryLabel": "Agri-Enterprise & Security",
     "house": "Nilgiri",
     "role": "Founder, Rishigram Organics • Retd. Assistant Commandant, SSB",
     "academics": "Former Officer, Sashastra Seema Bal (SSB)",
-    "intro": "Decorated former Assistant Commandant (SSB), Utkrisht Pandey is an agrarian pioneer and Founder of Rishigram Organics, promoting sustainable agriculture, commercial sandalwood agroforestry. Conferred honors at Red Fort Independence Day (2025) and Raj Bhavan Uttar Pradesh.",
+    "intro": "Decorated former Assistant Commandant (SSB) honored by the Hon'ble Prime Minister at the Independence Day celebrations at the Red Fort (2025) and invited by the Hon'ble Governor of Uttar Pradesh (Raj Bhavan). Utkrisht Pandey is an agrarian pioneer and Founder of Rishigram Organics, promoting sustainable agriculture, commercial sandalwood agroforestry.",
     "badgeColor": "emerald",
     "link": "https://rishigramorganics.com/pages/about-us"
   },
@@ -10689,7 +10779,7 @@ function openNotableMessageModal() {
     "jai krishna mishra", "utkrisht pandey", "shailendra mohan", "tripathi", "anil saroj", 
     "virika solanki", "safeer khan", "satyendra singh", "cybr0x", "chandan kumar", 
     "ashwini kumar", "manoj mishra", "jaikishan", "surabhi jaiswal", "shailesh singh", 
-    "vivek tiwari", "alok dubey", "ratnesh tiwari", "rama sankar yadav"
+    "vivek tiwari", "alok dubey", "ratnesh tiwari", "rama sankar yadav", "rama shankar yadav"
   ];
   const isNotable = notableNames.some(n => (currentUser.name || '').toLowerCase().includes(n));
   
@@ -10716,7 +10806,7 @@ function approveQueueItem(id, successMsg) {
   if (index !== -1) {
     const item = AppState.queueItems[index];
     if (item.type === "Memory Story") {
-      const newFeedPost = { id: Date.now(), author: item.author.split('(')[0].trim(), initials: "AK", batch: "2011", house: "Aravali", category: item.category || "assembly", tag: "Approved Memory", content: item.text, image: item.image || null, likes: 1, comments: [] };
+      const newFeedPost = { id: Date.now(), author: item.author.split('(')[0].trim(), initials: "AK", batch: "2011", house: "Aravali", category: item.category || "assembly", tag: "Approved Memory", content: item.text, text: item.text, image: item.image || null, likes: 1, comments: [] };
       AppState.feedPosts.unshift(newFeedPost);
       renderFeed();
     }
@@ -10914,7 +11004,7 @@ const DEFAULT_SUGGESTIONS_ISSUES = [
     id: "sug-demo-2",
     category: "General Grievance / Inundation",
     name: "Utkrisht Pandey",
-    batch: "1994",
+    batch: "2002",
     contact: "+91 9415098765",
     details: "During rainy season, the internal approach pathway connecting MP Hall to the Dining Mess needs gravel pavers. Alumni fraternity can collectively fund this concrete pavement upgrade.",
     date: "16 Nov 2026",
@@ -11341,6 +11431,7 @@ function submitTeacherTribute(e) {
       roleTitle: `भावभीनी श्रद्धांजलि • ${teacher.name}`,
       time: "Just now",
       content: `🪔 भावभीनी श्रद्धांजलि संस्मरण:\n\n"${tributeNote}"\n\n— सादर पुष्पांजलि: ${alumnusName} (उत्तीर्ण बैच ${batch || 'पूर्व छात्र'}) पूज्य ${teacher.name} के चरणों में।`,
+      text: `🪔 भावभीनी श्रद्धांजलि संस्मरण:\n\n"${tributeNote}"\n\n— सादर पुष्पांजलि: ${alumnusName} (उत्तीर्ण बैच ${batch || 'पूर्व छात्र'}) पूज्य ${teacher.name} के चरणों में।`,
       category: 'teacher_blessing',
       tag: `🪔 अमर स्मृति: ${teacher.name}`,
       likes: 1,
@@ -11469,6 +11560,7 @@ function handleTeacherEnrollment(e) {
       roleTitle: `${post} • ${subject}`,
       time: "Just now",
       content: message,
+      text: message,
       category: 'teacher_blessing',
       tag: '🪔 गुरु शुभाशीष / Faculty Blessing',
       likes: 1,

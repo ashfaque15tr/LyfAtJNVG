@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
@@ -10,31 +10,162 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css?v=0.0.3">
+  
+  <!-- Theme Engine: Dual-Theme Switching between Light Sky Blue & Dark Navy Blue -->
+  <script src="assets/js/theme.js"></script>
   
   <style>
     body { font-family: 'Inter', sans-serif; }
     .font-cinzel { font-family: 'Cinzel', serif; }
+
+    /* High-contrast Theme-aware Privacy Card Styling */
+    html[data-theme="sky"] body,
+    body:not(.theme-dark) {
+      background-color: #f0f7ff !important;
+      color: #0c2f54 !important;
+    }
+    html[data-theme="sky"] .privacy-card,
+    body:not(.theme-dark) .privacy-card {
+      background-color: #ffffff !important;
+      border: 1px solid #bae6fd !important;
+      box-shadow: 0 4px 16px rgba(12, 74, 110, 0.06) !important;
+    }
+    html[data-theme="sky"] .privacy-card h2,
+    body:not(.theme-dark) .privacy-card h2 {
+      color: #0369a1 !important;
+      -webkit-text-fill-color: #0369a1 !important;
+      font-weight: 800 !important;
+    }
+    html[data-theme="sky"] .privacy-card p,
+    html[data-theme="sky"] .privacy-card li,
+    body:not(.theme-dark) .privacy-card p,
+    body:not(.theme-dark) .privacy-card li {
+      color: #1e293b !important;
+      -webkit-text-fill-color: #1e293b !important;
+      font-weight: 500 !important;
+    }
+    html[data-theme="sky"] .privacy-card strong,
+    body:not(.theme-dark) .privacy-card strong {
+      color: #0c2f54 !important;
+      -webkit-text-fill-color: #0c2f54 !important;
+      font-weight: 700 !important;
+    }
+    html[data-theme="sky"] .privacy-info-box,
+    body:not(.theme-dark) .privacy-info-box {
+      background-color: #f8fafc !important;
+      border: 1px solid #cbd5e1 !important;
+      color: #0f172a !important;
+    }
+    html[data-theme="sky"] .privacy-info-box p,
+    html[data-theme="sky"] .privacy-info-box span,
+    html[data-theme="sky"] .privacy-info-box li,
+    body:not(.theme-dark) .privacy-info-box p,
+    body:not(.theme-dark) .privacy-info-box span,
+    body:not(.theme-dark) .privacy-info-box li {
+      color: #1e293b !important;
+      -webkit-text-fill-color: #1e293b !important;
+    }
+    html[data-theme="sky"] .privacy-title,
+    body:not(.theme-dark) .privacy-title {
+      color: #0c2f54 !important;
+      -webkit-text-fill-color: #0c2f54 !important;
+    }
+    html[data-theme="sky"] .privacy-subtext,
+    body:not(.theme-dark) .privacy-subtext {
+      color: #334155 !important;
+      -webkit-text-fill-color: #334155 !important;
+    }
+    html[data-theme="sky"] .privacy-header,
+    body:not(.theme-dark) .privacy-header {
+      background: rgba(255, 255, 255, 0.96) !important;
+      border-color: #bae6fd !important;
+    }
+
+    /* Dark Mode High-contrast Overrides */
+    html[data-theme="dark"] body,
+    body.theme-dark {
+      background-color: #030816 !important;
+      color: #f8fafc !important;
+    }
+    html[data-theme="dark"] .privacy-card,
+    body.theme-dark .privacy-card {
+      background-color: #071330 !important;
+      border: 1px solid #1e293b !important;
+    }
+    html[data-theme="dark"] .privacy-card h2,
+    body.theme-dark .privacy-card h2 {
+      color: #fbbf24 !important;
+      -webkit-text-fill-color: #fbbf24 !important;
+    }
+    html[data-theme="dark"] .privacy-card p,
+    html[data-theme="dark"] .privacy-card li,
+    body.theme-dark .privacy-card p,
+    body.theme-dark .privacy-card li {
+      color: #cbd5e1 !important;
+      -webkit-text-fill-color: #cbd5e1 !important;
+    }
+    html[data-theme="dark"] .privacy-card strong,
+    body.theme-dark .privacy-card strong {
+      color: #ffffff !important;
+      -webkit-text-fill-color: #ffffff !important;
+    }
+    html[data-theme="dark"] .privacy-info-box,
+    body.theme-dark .privacy-info-box {
+      background-color: #020617 !important;
+      border: 1px solid #1e293b !important;
+      color: #f8fafc !important;
+    }
+    html[data-theme="dark"] .privacy-info-box p,
+    html[data-theme="dark"] .privacy-info-box span,
+    html[data-theme="dark"] .privacy-info-box li,
+    body.theme-dark .privacy-info-box p,
+    body.theme-dark .privacy-info-box span,
+    body.theme-dark .privacy-info-box li {
+      color: #cbd5e1 !important;
+      -webkit-text-fill-color: #cbd5e1 !important;
+    }
+    html[data-theme="dark"] .privacy-title,
+    body.theme-dark .privacy-title {
+      color: #ffffff !important;
+      -webkit-text-fill-color: #ffffff !important;
+    }
+    html[data-theme="dark"] .privacy-subtext,
+    body.theme-dark .privacy-subtext {
+      color: #94a3b8 !important;
+      -webkit-text-fill-color: #94a3b8 !important;
+    }
+    html[data-theme="dark"] .privacy-header,
+    body.theme-dark .privacy-header {
+      background: rgba(7, 19, 48, 0.95) !important;
+      border-color: #1e293b !important;
+    }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col antialiased selection:bg-amber-500 selection:text-slate-950">
+<body class="bg-[#f0f7ff] text-[#0c2f54] min-h-screen flex flex-col antialiased selection:bg-amber-500 selection:text-white transition-colors duration-200">
 
   <!-- TOP NAV BAR -->
-  <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
+  <header class="privacy-header sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-sky-200 shadow-sm transition-colors duration-200">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
       <a href="index.html" class="flex items-center gap-3 group">
         <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-slate-950 font-bold text-lg shadow-lg group-hover:scale-105 transition">
           🎓
         </div>
         <div>
-          <span class="font-extrabold text-base tracking-tight font-sans text-white group-hover:text-amber-400 transition">JNVGFamily</span>
-          <p class="text-[10px] text-slate-400 -mt-0.5">JNV Gauriganj (Amethi) Alumni Network</p>
+          <span class="font-extrabold text-base tracking-tight font-sans text-amber-600 group-hover:text-amber-500 transition">JNVGFamily</span>
+          <p class="text-[10px] text-slate-500 dark:text-slate-400 -mt-0.5">JNV Gauriganj (Amethi) Alumni Network</p>
         </div>
       </a>
       
       <div class="flex items-center gap-3">
-        <a href="index.html" class="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 hover:text-white border border-slate-700 transition flex items-center gap-1.5">
+        <!-- Theme Switcher: Light Sky Blue <-> Classic Dark Navy Blue -->
+        <button id="themeToggleBtn" onclick="toggleTheme()" class="px-2.5 py-1 rounded bg-sky-500/20 text-sky-700 dark:text-sky-300 border border-sky-400/40 font-bold flex items-center gap-1.5 hover:bg-sky-500/30 transition text-xs shadow-sm touch-ripple" title="Switch Theme (Light Sky Blue / Dark Navy Blue)">
+          <span id="themeToggleIcon" class="text-xs">☀️</span>
+          <span id="themeToggleLabel">Light Sky</span>
+        </button>
+
+        <a href="index.html" class="px-3.5 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-xs font-bold text-slate-950 shadow-sm transition flex items-center gap-1.5">
           <span>← Back to Portal</span>
         </a>
       </div>
@@ -42,71 +173,71 @@
   </header>
 
   <!-- MAIN PRIVACY CONTENT -->
-  <main class="flex-1 max-w-4xl mx-auto w-full px-4 sm:px-6 py-10 sm:py-14 space-y-10">
+  <main class="flex-1 max-w-4xl mx-auto w-full px-4 sm:px-6 py-10 sm:py-14 space-y-8">
 
     <!-- HEADER INTRO -->
-    <div class="space-y-3 border-b border-slate-800 pb-8">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold">
+    <div class="space-y-3 border-b border-slate-200 dark:border-slate-800 pb-8">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-600 dark:text-amber-400 text-xs font-semibold">
         <span>📜 Official Policy & Legal Compliance</span>
       </div>
-      <h1 class="text-3xl sm:text-4xl font-extrabold font-cinzel text-white tracking-tight">Privacy Policy</h1>
-      <p class="text-sm text-slate-400 leading-relaxed">
-        Last Updated & Effective Date: <span class="text-amber-400 font-medium">November 19, 2026</span> • Version <span class="font-mono text-emerald-400">0.0.1</span>
+      <h1 class="privacy-title text-3xl sm:text-4xl font-extrabold font-cinzel tracking-tight">Privacy Policy</h1>
+      <p class="text-sm privacy-subtext leading-relaxed">
+        Last Updated & Effective Date: <span class="text-amber-600 dark:text-amber-400 font-bold">November 20, 2026</span> • Version <span class="font-mono text-emerald-600 dark:text-emerald-400 font-bold">0.0.1</span>
       </p>
-      <p class="text-xs text-slate-300 leading-relaxed">
-        This Privacy Policy applies to the <strong class="text-white">JNV Alumni Platform & Mobile Application</strong> (available on the web at <a href="https://jnvgfamily.in" class="text-amber-400 hover:underline">jnvgfamily.in</a> and on Android / iOS devices). The platform is a voluntary, non-profit community initiative dedicated to uniting the alumni, faculty, and well-wishers of <strong class="text-white">Jawahar Navodaya Vidyalaya, Gauriganj, Dist. Amethi / Sultanpur (U.P.)</strong>.
+      <p class="text-xs sm:text-sm privacy-subtext leading-relaxed">
+        This Privacy Policy applies to the <strong class="font-bold">JNV Alumni Platform & Mobile Application</strong> (available on the web at <a href="https://jnvgfamily.in" class="text-amber-600 dark:text-amber-400 font-bold hover:underline">jnvgfamily.in</a> and on Android / iOS devices). The platform is a voluntary, non-profit community initiative dedicated to uniting the alumni, faculty, and well-wishers of <strong class="font-bold">Jawahar Navodaya Vidyalaya, Gauriganj, Dist. Amethi / Sultanpur (U.P.)</strong>.
       </p>
     </div>
 
     <!-- SECTION 1: ENTITY & PURPOSE -->
-    <section class="space-y-3 bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6">
-      <h2 class="text-lg font-bold text-amber-400 flex items-center gap-2">
+    <section class="privacy-card space-y-3 rounded-2xl p-6 sm:p-7">
+      <h2 class="text-base sm:text-lg font-bold flex items-center gap-2">
         <span>1. Institutional Non-Profit Purpose</span>
       </h2>
-      <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+      <p class="text-xs sm:text-sm leading-relaxed">
         The JNV Gauriganj Alumni Network operates strictly as a non-commercial, non-profit voluntary fraternity registered for solidarity, student mentorship, and rural education support. We do not sell, rent, monetize, or trade any personal information to data brokers, advertisers, or third-party marketing companies.
       </p>
     </section>
 
     <!-- SECTION 2: INFORMATION COLLECTED -->
-    <section class="space-y-4 bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6">
-      <h2 class="text-lg font-bold text-amber-400 flex items-center gap-2">
+    <section class="privacy-card space-y-4 rounded-2xl p-6 sm:p-7">
+      <h2 class="text-base sm:text-lg font-bold flex items-center gap-2">
         <span>2. Information We Collect</span>
       </h2>
-      <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+      <p class="text-xs sm:text-sm leading-relaxed">
         To facilitate fraternal connections, verify alumni credentials, and organize reunions, we collect the following information submitted voluntarily by users:
       </p>
-      <ul class="list-disc list-inside space-y-2 text-xs sm:text-sm text-slate-300 pl-2">
-        <li><strong class="text-white">Profile & Identity Data:</strong> Full Name, Passout Batch Year (1993–2026), School House (Arawali, Nilgiri, Shivalik, Udaigiri), Current City, and Professional Designation.</li>
-        <li><strong class="text-white">Contact & Verification Data:</strong> Phone Number (used for WhatsApp/SMS 2FA verification simulations) and Email Address. Phone numbers and emails are masked in public views to protect members against unsolicited communication.</li>
-        <li><strong class="text-white">Community & Event Contributions:</strong> Memories, hostel nostalgia, messages, and photographs posted to the Memory Wall; Cultural performance registrations for the Annual Alumni Meet; Suggestions and issue reports.</li>
-        <li><strong class="text-white">Voluntary Donation References:</strong> For voluntary contributions to the Alumni Corpus / Vidyalaya Development Fund, UPI reference IDs and transaction amounts are recorded for accounting transparency and annual audit by registered chartered accountants. We do not store sensitive payment credentials such as debit/credit card numbers or UPI PINs.</li>
+      <ul class="list-disc list-inside space-y-2 text-xs sm:text-sm pl-2 leading-relaxed">
+        <li><strong>Profile & Identity Data:</strong> Full Name, Passout Batch Year (1993–2026), School House (Arawali, Nilgiri, Shivalik, Udaigiri), Current City, and Professional Designation.</li>
+        <li><strong>Contact & Verification Data:</strong> Phone Number (used for WhatsApp/SMS 2FA verification simulations) and Email Address. Phone numbers and emails are masked in public views to protect members against unsolicited communication.</li>
+        <li><strong>Community & Event Contributions:</strong> Memories, hostel nostalgia, messages, and photographs posted to the Memory Wall; Cultural performance registrations for the Annual Alumni Meet; Suggestions and issue reports.</li>
+        <li><strong>Voluntary Donation References:</strong> For voluntary contributions to the Alumni Corpus / Vidyalaya Development Fund, UPI reference IDs and transaction amounts are recorded for accounting transparency and annual audit by registered chartered accountants. We do not store sensitive payment credentials such as debit/credit card numbers or UPI PINs.</li>
       </ul>
     </section>
 
     <!-- SECTION 3: DEVICE PERMISSIONS -->
-    <section class="space-y-3 bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6">
-      <h2 class="text-lg font-bold text-amber-400 flex items-center gap-2">
+    <section class="privacy-card space-y-3 rounded-2xl p-6 sm:p-7">
+      <h2 class="text-base sm:text-lg font-bold flex items-center gap-2">
         <span>3. Mobile App & Device Permissions</span>
       </h2>
-      <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+      <p class="text-xs sm:text-sm leading-relaxed">
         The mobile application requests the minimum necessary runtime permissions:
       </p>
-      <ul class="list-disc list-inside space-y-2 text-xs sm:text-sm text-slate-300 pl-2">
-        <li><strong class="text-white">Photos & Storage:</strong> Optional access required only if you choose to attach alumni nostalgia photos or upload a profile picture. The app never accesses photos outside of those you explicitly select.</li>
-        <li><strong class="text-white">Internet Access:</strong> Required to synchronize the live alumni directory, Memory Wall broadcasts, and event notifications.</li>
+      <ul class="list-disc list-inside space-y-2 text-xs sm:text-sm pl-2 leading-relaxed">
+        <li><strong>Photos & Storage:</strong> Optional access required only if you choose to attach alumni nostalgia photos or upload a profile picture. The app never accesses photos outside of those you explicitly select.</li>
+        <li><strong>Internet Access:</strong> Required to synchronize the live alumni directory, Memory Wall broadcasts, and event notifications.</li>
       </ul>
     </section>
 
     <!-- SECTION 4: DATA SECURITY -->
-    <section class="space-y-3 bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6">
-      <h2 class="text-lg font-bold text-amber-400 flex items-center gap-2">
+    <section class="privacy-card space-y-3 rounded-2xl p-6 sm:p-7">
+      <h2 class="text-base sm:text-lg font-bold flex items-center gap-2">
         <span>4. Role-Based Security & Data Access Controls</span>
       </h2>
-      <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+      <p class="text-xs sm:text-sm leading-relaxed">
         Our platform enforces rigorous Role-Based Access Control (RBAC):
       </p>
-      <ul class="list-disc list-inside space-y-2 text-xs sm:text-sm text-slate-300 pl-2">
+      <ul class="list-disc list-inside space-y-2 text-xs sm:text-sm pl-2 leading-relaxed">
         <li>Unauthenticated guests cannot access phone numbers, emails, or directory profiles.</li>
         <li>Alumni directory details are accessible only by verified members of the Navodaya Parivar.</li>
         <li>Financial ledgers and donor lists are restricted to authorized Association Admins, the 1996 Host Committee, and Financial Moderators.</li>
@@ -115,61 +246,61 @@
     </section>
 
     <!-- SECTION 5: DATA RETENTION & DELETION -->
-    <section class="space-y-4 bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6 border-amber-500/20">
-      <h2 class="text-lg font-bold text-amber-400 flex items-center gap-2">
+    <section class="privacy-card space-y-4 rounded-2xl p-6 sm:p-7 border-amber-500/30">
+      <h2 class="text-base sm:text-lg font-bold flex items-center gap-2">
         <span>5. Data Deletion & Account Erasure Requests</span>
       </h2>
-      <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+      <p class="text-xs sm:text-sm leading-relaxed">
         In compliance with Google Play Store User Data policies and global privacy standards, every alumnus has the absolute right to view, modify, or permanently delete their account and associated data at any time.
       </p>
-      <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2 text-xs sm:text-sm text-slate-300">
-        <p class="font-semibold text-white">How to request data deletion:</p>
+      <div class="privacy-info-box p-4 sm:p-5 rounded-xl space-y-2.5 text-xs sm:text-sm">
+        <p class="font-bold text-amber-700 dark:text-amber-400">How to request data deletion:</p>
         <p>You can request instant deletion of your profile, posts, and contact information by:</p>
         <ul class="list-disc list-inside pl-2 space-y-1">
-          <li>Sending an email from your registered address to: <a href="mailto:ashfaque15tr@gmail.com" class="text-amber-400 underline font-mono">ashfaque15tr@gmail.com</a> with subject <em>"Delete My Alumni Account"</em>.</li>
+          <li>Sending an email from your registered address to: <a href="mailto:ashfaque15tr@gmail.com" class="text-amber-600 dark:text-amber-400 font-bold underline font-mono">ashfaque15tr@gmail.com</a> with subject <em>"Delete My Alumni Account"</em>.</li>
           <li>Submitting a request through the <strong>"Suggestion / Issue Report"</strong> dialog in the platform footer.</li>
         </ul>
-        <p class="text-[11px] text-slate-400 mt-2">
+        <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-2">
           Upon receiving your request, our technical admin team will permanently purge your personal profile, phone numbers, and memory posts from our database within 48 business hours.
         </p>
       </div>
     </section>
 
     <!-- SECTION 6: CHILDREN PRIVACY -->
-    <section class="space-y-3 bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6">
-      <h2 class="text-lg font-bold text-amber-400 flex items-center gap-2">
+    <section class="privacy-card space-y-3 rounded-2xl p-6 sm:p-7">
+      <h2 class="text-base sm:text-lg font-bold flex items-center gap-2">
         <span>6. Children's Privacy</span>
       </h2>
-      <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+      <p class="text-xs sm:text-sm leading-relaxed">
         The JNV Alumni Platform is intended for alumni who have completed their secondary or senior secondary education at Jawahar Navodaya Vidyalaya, as well as current and retired teachers. We do not knowingly collect personal identifiable information from children under the age of 13.
       </p>
     </section>
 
     <!-- SECTION 7: CONTACT & GRIEVANCE -->
-    <section class="space-y-3 bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6">
-      <h2 class="text-lg font-bold text-amber-400 flex items-center gap-2">
+    <section class="privacy-card space-y-3 rounded-2xl p-6 sm:p-7">
+      <h2 class="text-base sm:text-lg font-bold flex items-center gap-2">
         <span>7. Grievance Officer & Contact Information</span>
       </h2>
-      <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+      <p class="text-xs sm:text-sm leading-relaxed">
         If you have questions, feedback, or grievance regarding this Privacy Policy or data handling practices, please contact our Technical Administration Desk:
       </p>
-      <div class="text-xs sm:text-sm text-slate-300 space-y-1 font-mono bg-slate-950 p-4 rounded-xl border border-slate-800">
-        <p class="font-bold text-white font-sans">JNV Gauriganj Alumni Association (JNVGFamily)</p>
-        <p>Technical & Privacy Officer: Ashfaq Ahmed</p>
-        <p>Email: <a href="mailto:ashfaque15tr@gmail.com" class="text-amber-400 underline">ashfaque15tr@gmail.com</a></p>
-        <p>Website: <a href="https://jnvgfamily.in" class="text-amber-400 underline">https://jnvgfamily.in</a></p>
-        <p class="text-slate-400 text-xs font-sans mt-2">Campus: Jawahar Navodaya Vidyalaya, Gauriganj, Dist. Amethi / Sultanpur (U.P.) - 227409, India</p>
+      <div class="privacy-info-box p-4 sm:p-5 rounded-xl space-y-1.5 font-mono text-xs sm:text-sm">
+        <p class="font-bold text-amber-700 dark:text-amber-400 font-sans text-sm">JNV Gauriganj Alumni Association (JNVGFamily)</p>
+        <p class="font-sans font-semibold">Technical & Privacy Officer: <span class="font-bold text-slate-900 dark:text-white">Ashfaque Ahmad</span></p>
+        <p>Email: <a href="mailto:ashfaque15tr@gmail.com" class="text-amber-600 dark:text-amber-400 font-bold underline">ashfaque15tr@gmail.com</a></p>
+        <p>Website: <a href="https://jnvgfamily.in" class="text-amber-600 dark:text-amber-400 font-bold underline">https://jnvgfamily.in</a></p>
+        <p class="text-slate-500 dark:text-slate-400 text-xs font-sans mt-2">Campus: Jawahar Navodaya Vidyalaya, Gauriganj, Dist. Amethi / Sultanpur (U.P.) - 227409, India</p>
       </div>
     </section>
 
   </main>
 
   <!-- FOOTER -->
-  <footer class="bg-slate-950 border-t border-slate-800 text-xs py-8 px-4 text-slate-400 text-center">
+  <footer class="bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 text-xs py-8 px-4 text-slate-500 dark:text-slate-400 text-center transition-colors duration-200">
     <div class="max-w-5xl mx-auto space-y-2">
-      <p class="font-bold text-slate-300">JNVGFamily • Jawahar Navodaya Vidyalaya Alumni Association</p>
-      <p class="text-[11px] text-slate-500">Gauriganj, Amethi (U.P.) - 227409 | "हमी नवोदय हों" | Official Portal: jnvgfamily.in</p>
-      <p class="text-[10px] text-slate-600">Site & App Version: v0.0.1</p>
+      <p class="font-bold text-slate-700 dark:text-slate-300">JNVGFamily • Jawahar Navodaya Vidyalaya Alumni Association</p>
+      <p class="text-[11px] text-slate-500">Gauriganj, Amethi (U.P.) - 227409 | "हमी नवोदय हों" | Official Portal: <strong class="text-amber-600 dark:text-amber-400">jnvgfamily.in</strong></p>
+      <p class="text-[10px] text-slate-400 dark:text-slate-600">Site & App Version: v0.0.1</p>
     </div>
   </footer>
 
