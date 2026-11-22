@@ -1187,7 +1187,7 @@
 
       // Auto-trigger WhatsApp dispatch if available
       if (smsDispatch && smsDispatch.waUrl) {
-        try { window.open(smsDispatch.waUrl, '_blank'); } catch(e) {}
+        // auto-open removed
       }
 
       document.getElementById('regOtpTargetEmail').textContent = userData.email;
@@ -1221,7 +1221,7 @@
 
       // Auto-trigger WhatsApp dispatch if available
       if (smsDispatch && smsDispatch.waUrl) {
-        try { window.open(smsDispatch.waUrl, '_blank'); } catch(e) {}
+        // auto-open removed
       }
 
       if (regOtpCountdownInterval) clearInterval(regOtpCountdownInterval);
@@ -1327,7 +1327,7 @@
 
       // Auto-trigger WhatsApp dispatch if available
       if (smsDispatch && smsDispatch.waUrl) {
-        try { window.open(smsDispatch.waUrl, '_blank'); } catch(e) {}
+        // auto-open removed
       }
 
       // Move to step 2

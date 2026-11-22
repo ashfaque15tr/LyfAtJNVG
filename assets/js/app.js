@@ -8806,19 +8806,16 @@ function applyUserSession(user) {
   if (userProfileTopBar) userProfileTopBar.classList.remove('hidden');
   if (guestTopBar) guestTopBar.classList.add('hidden');
 
+  if (user && (user.status === 'pending' || user.role === 'unverified' || user.role === 'unverified_teacher')) {
+    user.status = 'approved';
+    user.role = (user.isTeacher || user.profession === 'Faculty') ? 'teacher' : 'member';
+    user.roleTitle = (user.role === 'teacher') ? 'Revered Faculty Member' : 'Verified Alumnus';
+    if (typeof setCurrentUser === 'function') setCurrentUser(user, true);
+  }
   const isPending = user && (user.status === 'pending' || user.role === 'unverified' || user.role === 'unverified_teacher');
   const pendingBanner = document.getElementById('pendingVerificationAlertBanner');
   if (pendingBanner) {
-    if (isPending) {
-      pendingBanner.classList.remove('hidden');
-      const waBtn = document.getElementById('pendingNotifyAdminWaBtn');
-      if (waBtn) {
-        const msg = `Namaste Ashfaque Bhaiya, I have registered on JNVGFamily as *${user.name}* (Batch ${user.batch || ''}, ${user.house || ''} House, Phone: ${user.phone || ''}). Please verify and approve my alumni membership request.`;
-        waBtn.href = `https://wa.me/919972868674?text=${encodeURIComponent(msg)}`;
-      }
-    } else {
-      pendingBanner.classList.add('hidden');
-    }
+    pendingBanner.classList.add('hidden');
   }
 
   if (avatarEl) {
@@ -9162,21 +9159,8 @@ function openReceiptForTxn(txnId) {
 
 // 8. Modals
 function showPendingVerificationModal(actionDesc = 'creating or publishing content') {
-  const curUser = (typeof getCurrentUser === 'function' ? getCurrentUser() : null) || {};
-  const alertModal = document.getElementById('pendingVerificationModal');
-  if (alertModal) {
-    const actionEl = document.getElementById('pendingModalActionText');
-    if (actionEl) actionEl.textContent = actionDesc;
-    const waLink = document.getElementById('pendingModalWaBtn');
-    if (waLink) {
-      const msg = `Namaste Ashfaque Bhaiya, I have registered on JNVGFamily as *${curUser.name || 'Alumnus'}* (Batch ${curUser.batch || ''}, ${curUser.house || ''} House, Phone: ${curUser.phone || ''}). Please verify and approve my alumni membership request.`;
-      waLink.href = `https://wa.me/919972868674?text=${encodeURIComponent(msg)}`;
-    }
-    alertModal.classList.remove('hidden');
-    alertModal.style.display = 'flex';
-  } else {
-    alert(`🔒 Membership Verification Required:\n\nWelcome ${curUser.name || 'Alumnus'}! To preserve the authenticity and security of the JNVGFamily community, ${actionDesc} is enabled once your alumni credentials are verified by Super Admin Ashfaque Ahmad (+91 9972868674).`);
-  }
+  // Open access enabled for all alumni - do not block
+  return;
 }
 
 function closePendingVerificationModal() {
@@ -10105,41 +10089,52 @@ function handleRegistrationSubmit(e) {
     password = passEl.value;
   }
 
-  let otpRes = { otp: "123456" };
-  if (typeof generateOtp === 'function') { otpRes = generateOtp(email, 'registration'); }
-  if (typeof sendMobileSmsOtp === 'function') {
-    sendMobileSmsOtp(phone, otpRes.otp, 'registration');
-  }
-
   const cleanPhone = String(phone).replace(/\D/g, '').slice(-10);
-  const maskedPhone = `+91 ******${cleanPhone.slice(-4)}`;
   const claimedId = (!isTeacher) ? (document.getElementById('claimedDirectoryId')?.value || (modalMatchedDirectoryRecord ? modalMatchedDirectoryRecord.id : '')) || null : null;
   const claimedTchId = (isTeacher) ? (document.getElementById('claimedTeacherId')?.value || (modalMatchedTeacherRecord ? modalMatchedTeacherRecord.id : '')) || null : null;
 
-  pendingIndexReg = {
-    name, batch, house, phone, email, role, domain, city, password,
+  const userData = {
+    name, batch, house, phone: cleanPhone, email, role, domain, city, password,
     photo: modalUploadedPhoto || null,
     isTeacher,
     claimedDirectoryId: claimedId,
     claimedTeacherId: claimedTchId,
     guruMessage: guruMessage || null,
-    otp: otpRes.otp
+    profession: role,
+    status: 'approved',
+    roleTitle: isTeacher ? 'Revered Faculty Member' : 'Verified Alumnus'
   };
 
-  const targetEmailEl = document.getElementById('indexOtpTargetEmail');
-  const targetPhoneEl = document.getElementById('indexOtpTargetPhone');
-  const previewEl = document.getElementById('indexLiveOtpPreview');
-  const inputEl = document.getElementById('indexOtpInput');
-  const errEl = document.getElementById('indexOtpError');
+  const regRes = (typeof registerAlumni === 'function') ? registerAlumni(userData) : { success: true, user: userData };
+  if (!regRes.success) {
+    alert("⚠️ " + regRes.message);
+    return;
+  }
 
-  if (targetEmailEl) targetEmailEl.textContent = email;
-  if (targetPhoneEl) targetPhoneEl.textContent = maskedPhone;
-  if (previewEl) previewEl.textContent = `OTP: ${otpRes.otp}`;
-  if (inputEl) inputEl.value = '';
-  if (errEl) errEl.classList.add('hidden');
+  const registeredUser = regRes.user || userData;
+  registeredUser.status = 'approved';
+  registeredUser.role = isTeacher ? 'teacher' : 'member';
+
+  if (typeof setCurrentUser === 'function') {
+    setCurrentUser(registeredUser, true);
+  }
+  if (typeof applyUserSession === 'function') {
+    applyUserSession(registeredUser);
+  }
+
+  try {
+    if (window.AlumniCloudSync && typeof window.AlumniCloudSync.broadcastRegistration === 'function') {
+      window.AlumniCloudSync.broadcastRegistration(registeredUser);
+    }
+    if (window.AlumniCloudSync && typeof window.AlumniCloudSync.broadcastApproval === 'function') {
+      window.AlumniCloudSync.broadcastApproval(registeredUser);
+    }
+  } catch(e) {}
 
   closeModal('registerModal');
-  openModal('indexOtpModal');
+  showToast(`🎉 Welcome ${name}! Your registration is complete and your profile is active.`);
+  if (typeof renderDirectory === 'function') renderDirectory();
+  if (typeof renderTeachers === 'function') renderTeachers('all');
 }
 
 function handleVerifyIndexOtp(e) {

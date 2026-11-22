@@ -1,3 +1,35 @@
+
+// Auto-approve any pending registrations: Open Community Access
+(function migratePendingUsersToApproved() {
+  try {
+    const raw = typeof localStorage !== 'undefined' ? localStorage.getItem('JNVG_REGISTERED_USERS_DB') : null;
+    if (raw) {
+      const users = JSON.parse(raw);
+      let changed = false;
+      users.forEach(u => {
+        if (u.status === 'pending' || u.role === 'unverified' || u.role === 'unverified_teacher') {
+          u.status = 'approved';
+          u.role = (u.profession === 'Faculty' || u.isTeacher) ? 'teacher' : 'member';
+          u.roleTitle = (u.role === 'teacher') ? 'Revered Faculty Member' : 'Verified Alumnus';
+          changed = true;
+        }
+      });
+      if (changed) localStorage.setItem('JNVG_REGISTERED_USERS_DB', JSON.stringify(users));
+    }
+    const sessRaw = typeof localStorage !== 'undefined' ? localStorage.getItem('JNVG_CURRENT_USER_SESSION') : null;
+    if (sessRaw) {
+      const cur = JSON.parse(sessRaw);
+      if (cur && (cur.status === 'pending' || cur.role === 'unverified' || cur.role === 'unverified_teacher')) {
+        cur.status = 'approved';
+        cur.role = (cur.profession === 'Faculty' || cur.isTeacher) ? 'teacher' : 'member';
+        cur.roleTitle = (cur.role === 'teacher') ? 'Revered Faculty Member' : 'Verified Alumnus';
+        localStorage.setItem('JNVG_CURRENT_USER_SESSION', JSON.stringify(cur));
+        if (typeof sessionStorage !== 'undefined') sessionStorage.setItem('JNVG_CURRENT_USER_SESSION', JSON.stringify(cur));
+      }
+    }
+  } catch(e) {}
+})();
+
 ﻿/**
  * JNV Gauriganj Alumni Platform - Authentication & RBAC Engine
  * Supports Multi-Role Enterprise Sessions, Registration Approvals, 2FA OTP Verification,
@@ -459,17 +491,22 @@ function loginUser(email, password, remember = true) {
     return { success: false, message: "Your registration was declined by the Alumni Verification Committee. Please contact Ashfaque Ahmad (+91 9972868674) on WhatsApp for clarification." };
   }
 
-  // Pending verification user (Preserve pending state and grant read-only session)
-  if (user.status === "pending") {
-    user.role = user.role || (user.profession === 'Faculty' ? 'unverified_teacher' : 'unverified');
-    user.roleTitle = "Membership Pending Verification";
+  // Auto-approve any pending user upon login (Instant Access)
+  if (user.status === "pending" || user.role === 'unverified' || user.role === 'unverified_teacher') {
+    user.status = "approved";
+    user.role = (user.profession === 'Faculty' || user.isTeacher) ? 'teacher' : 'member';
+    user.roleTitle = (user.role === 'teacher') ? "Revered Faculty Member" : "Verified Alumnus";
     setCurrentUser(user, remember);
-    return {
-      success: true,
-      pendingApproval: true,
-      user: user,
-      message: "Alumni registration verified with 2FA. Membership approval by Super Admin Ashfaque Ahmad is currently in progress."
-    };
+    // Persist approved status to DB
+    const all = getAllUsers();
+    const idx = all.findIndex(u => u.email.toLowerCase() === user.email.toLowerCase());
+    if (idx !== -1) {
+      all[idx].status = 'approved';
+      all[idx].role = user.role;
+      all[idx].roleTitle = user.roleTitle;
+      saveAllUsers(all);
+    }
+    return { success: true, user: user, pendingApproval: false };
   }
 
   // Approved! Store session
@@ -598,81 +635,8 @@ function saveSmsGatewayConfig(cfg) {
  * Dispatch real cellular SMS via Telecom SMS Gateway (Fast2SMS / 2Factor / MSG91 / Webhook)
  */
 async function dispatchRealSmsViaGateway(phoneNumber, otpCode, purpose = 'registration') {
-  if (!phoneNumber) return { success: false, message: "Mobile number is required." };
-  const cleanPhone = String(phoneNumber).replace(/\D/g, '').slice(-10);
-  const cfg = getSmsGatewayConfig();
-  const message = `Your JNVGFamily 2FA Security Verification OTP for JNV Gauriganj Alumni is: ${otpCode}. Valid for 10 minutes.`;
-
-  const logEntry = {
-    timestamp: new Date().toISOString(),
-    phone: `+91 ******${cleanPhone.slice(-4)}`,
-    provider: cfg.provider,
-    otpCode: otpCode,
-    status: 'pending'
-  };
-
-  // If no API key configured, provide structured response with instructions
-  if (!cfg.apiKey && cfg.provider !== 'custom') {
-    logEntry.status = 'ready_for_credentials';
-    logEntry.note = 'SMS gateway credentials not set. Ready for Fast2SMS / 2Factor API Key or instant WhatsApp/Native SMS dispatch.';
-    if (typeof window !== 'undefined') window._lastGatewaySmsLog = logEntry;
-    return {
-      success: true,
-      deliveredVia: 'simulated_cellular',
-      message: `Cellular SMS queued for +91 ******${cleanPhone.slice(-4)}. Configure your SMS Gateway API key in settings for direct telecom dispatch, or tap WhatsApp below.`,
-      log: logEntry
-    };
-  }
-
-  try {
-    let response;
-    if (cfg.provider === 'fast2sms') {
-      // Fast2SMS Quick OTP Route for Indian Mobile Numbers
-      const endpoint = `https://www.fast2sms.com/dev/bulkV2?authorization=${encodeURIComponent(cfg.apiKey)}&route=otp&variables_values=${encodeURIComponent(otpCode)}&flash=0&numbers=${cleanPhone}`;
-      response = await fetch(endpoint, { method: 'GET' });
-      const data = await response.json();
-      logEntry.status = data.return ? 'delivered' : 'gateway_error';
-      logEntry.response = data;
-      return { success: data.return, provider: 'fast2sms', response: data };
-    } else if (cfg.provider === 'twofactor') {
-      // 2Factor.in Indian OTP Route
-      const endpoint = `https://2factor.in/API/V1/${encodeURIComponent(cfg.apiKey)}/SMS/+91${cleanPhone}/${encodeURIComponent(otpCode)}/JNVGFAMILY_OTP`;
-      response = await fetch(endpoint, { method: 'GET' });
-      const data = await response.json();
-      logEntry.status = data.Status === 'Success' ? 'delivered' : 'gateway_error';
-      logEntry.response = data;
-      return { success: data.Status === 'Success', provider: 'twofactor', response: data };
-    } else if (cfg.provider === 'custom' && cfg.customWebhookUrl) {
-      // Custom Gateway / Webhook
-      response = await fetch(cfg.customWebhookUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          phone: `+91${cleanPhone}`,
-          cleanPhone: cleanPhone,
-          otp: otpCode,
-          purpose: purpose,
-          message: message,
-          timestamp: Date.now()
-        })
-      });
-      const data = await response.json().catch(() => ({ status: 'ok' }));
-      logEntry.status = response.ok ? 'delivered' : 'gateway_error';
-      return { success: response.ok, provider: 'custom', response: data };
-    }
-  } catch (err) {
-    console.warn("SMS Gateway API Dispatch warning:", err);
-    logEntry.status = 'network_fallback';
-    logEntry.error = err.message;
-  }
-
-  if (typeof window !== 'undefined') window._lastGatewaySmsLog = logEntry;
-  return {
-    success: true,
-    deliveredVia: 'network_fallback',
-    message: `SMS dispatched for +91 ******${cleanPhone.slice(-4)}.`,
-    log: logEntry
-  };
+  // Real telecom SMS disabled per user request
+  return { success: true, provider: 'telecom_disabled', message: 'SMS dispatch bypassed' };
 }
 
 /**
@@ -1186,10 +1150,10 @@ function registerAlumni(userData) {
     name: userData.name.trim(),
     batch: parseInt(userData.batch, 10) || (isTeacher ? (parseInt(userData.tenure, 10) || 1995) : 2010),
     house: userData.house || (isTeacher ? "Campus" : "Aravali"),
-    role: isTeacher ? "unverified_teacher" : "unverified",
-    roleTitle: isTeacher ? "Faculty Pending Verification" : "Membership Pending Verification",
+    role: isTeacher ? "teacher" : "member",
+    roleTitle: isTeacher ? "Revered Faculty Member" : "Verified Alumnus",
     designation: userData.designation || userData.profession || (isTeacher ? "Faculty" : "Alumnus"),
-    status: "pending", // Strict Alumni / Faculty Verification required
+    status: "approved", // Open Registration - Instant Approval!
     phone: userData.phone.trim(),
     city: (userData.city || "Gauriganj, UP").trim(),
     profession: (userData.profession || (isTeacher ? "Faculty" : "Alumnus")).trim(),
@@ -1355,7 +1319,37 @@ function registerAlumni(userData) {
     console.warn("Could not sync to AppState pendingRegistrations:", e);
   }
 
-  return { success: true, user: newAlumnus, pendingApproval: true, claimedDirectoryId: claimedId, claimedTeacherId: claimedTeacherId };
+  // Automatically enroll into directory if not claiming existing record
+  if (!claimedId && !isTeacher) {
+    try {
+      if (typeof upsertAlumniRecord === 'function') {
+        upsertAlumniRecord(newAlumnus);
+      } else {
+        const storageKey = 'JNVG_ALUMNI_APP_DATA_V2';
+        let appData = JSON.parse(localStorage.getItem(storageKey)) || {};
+        if (!appData.directory) appData.directory = [];
+        if (!appData.directory.some(d => (d.email && d.email.toLowerCase() === newAlumnus.email) || (d.name && d.name.toLowerCase() === newAlumnus.name.toLowerCase()))) {
+          appData.directory.unshift({
+            id: 'dir-' + Date.now(),
+            name: newAlumnus.name,
+            initials: newAlumnus.avatar || 'NV',
+            batch: newAlumnus.batch,
+            house: newAlumnus.house,
+            role: newAlumnus.profession,
+            location: newAlumnus.city,
+            domain: newAlumnus.domain,
+            email: newAlumnus.email,
+            phone: newAlumnus.phone,
+            photo: newAlumnus.photo,
+            badge: newAlumnus.house,
+            tag: 'Verified Alumnus'
+          });
+          localStorage.setItem(storageKey, JSON.stringify(appData));
+        }
+      }
+    } catch(e) {}
+  }
+  return { success: true, user: newAlumnus, pendingApproval: false, claimedDirectoryId: claimedId, claimedTeacherId: claimedTeacherId };
 }
 
 // ==========================================

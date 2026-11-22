@@ -194,7 +194,7 @@ const AlumniCloudSync = (() => {
             house: u.house,
             role: u.role || 'member',
             roleTitle: u.roleTitle || 'Alumni Member',
-            status: 'pending',
+            status: 'approved',
             city: u.city,
             profession: u.profession,
             joinedDate: new Date().toLocaleDateString('en-IN')
