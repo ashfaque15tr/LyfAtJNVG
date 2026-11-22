@@ -1,5 +1,5 @@
 // Service Worker for JNV Gauriganj Alumni App
-const CACHE_NAME = 'jnvg-alumni-v20261122-v8';
+const CACHE_NAME = 'jnvg-alumni-v20261122-v9';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();

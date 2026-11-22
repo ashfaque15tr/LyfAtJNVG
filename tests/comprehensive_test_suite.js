@@ -1234,6 +1234,47 @@ const liveStats = getBatchRegistrationStats();
 assert(liveStats && liveStats.total >= 550, 'Batch leaderboard stats dynamically counts all live community members (>= 550)');
 assert(freshIndexHtml.includes('id="liveLeaderboardMemberCountPill"'), 'index.html contains liveLeaderboardMemberCountPill');
 
+
+// =========================================================================
+// TEST SUITE 24: FLEXIBLE PASSWORD ENGINE, MOBILE LOGIN & CHANGE PASSWORD
+// =========================================================================
+console.log('\n--- TEST SUITE 24: FLEXIBLE PASSWORD ENGINE, MOBILE LOGIN & CHANGE PASSWORD ---');
+
+assert(typeof verifyPasswordMatch === 'function', 'verifyPasswordMatch is exported and callable');
+assert(verifyPasswordMatch('password123', 'password123', 'test@example.com') === true, 'Exact password matches');
+assert(verifyPasswordMatch('password 123', 'password123', 'test@example.com') === true, 'Spaced password ("password 123") matches "password123"');
+assert(verifyPasswordMatch('Password 123', 'password123', 'test@example.com') === true, 'Capitalized and spaced password ("Password 123") matches');
+assert(verifyPasswordMatch('password123 ', 'password123', 'test@example.com') === true, 'Trailing whitespace password matches');
+assert(verifyPasswordMatch('wrongpass', 'password123', 'test@example.com') === false, 'Invalid password rejected');
+
+// Sh. L. S. Yadav Login Flexibility Tests
+const lsyByEmailSpaced = loginUser('teacher.laxmisln777@gmail.com', 'password 123');
+assert(lsyByEmailSpaced.success === true, 'Sh. L. S. Yadav logs in via email with spaced password "password 123"');
+
+const lsyByPhone = loginUser('8563975888', 'password123');
+assert(lsyByPhone.success === true, 'Sh. L. S. Yadav logs in via 10-digit mobile number 8563975888');
+
+const lsyByPhoneSpaced = loginUser('8563975888', 'password 123');
+assert(lsyByPhoneSpaced.success === true, 'Sh. L. S. Yadav logs in via mobile number with spaced password "password 123"');
+
+const lsyByIntlPhone = loginUser('+91 8563975888', 'Password 123');
+assert(lsyByIntlPhone.success === true, 'Sh. L. S. Yadav logs in via +91 phone with capitalized spaced password');
+
+// DOM and Modal Presence
+const indexContent = fs.readFileSync('index.html', 'utf8');
+const loginContent = fs.readFileSync('login.html', 'utf8');
+const mobIndexContent = fs.readFileSync('mobile_app/index.html', 'utf8');
+
+assert(indexContent.includes('id="btnChangePassword"'), 'index.html contains #btnChangePassword button in navbar');
+assert(indexContent.includes('id="changePasswordModal"'), 'index.html contains #changePasswordModal');
+assert(mobIndexContent.includes('id="btnChangePassword"'), 'mobile_app/index.html contains #btnChangePassword');
+assert(mobIndexContent.includes('id="changePasswordModal"'), 'mobile_app/index.html contains #changePasswordModal');
+
+// Form input types allow mobile numbers
+assert(loginContent.includes('id="loginEmail"') && loginContent.includes('type="text" id="loginEmail"'), 'login.html alumni login allows phone numbers (type="text")');
+assert(loginContent.includes('id="teacherLoginEmail"') && loginContent.includes('type="text" id="teacherLoginEmail"'), 'login.html teacher login allows phone numbers (type="text")');
+assert(loginContent.includes('Default password for Gurujan accounts is'), 'login.html contains Gurujan password guidance tip');
+
 console.log('\n====================================================');
 console.log(`TEST RESULTS: ${passedTests} / ${totalTests} ASSERTIONS PASSED`);
 console.log('====================================================');

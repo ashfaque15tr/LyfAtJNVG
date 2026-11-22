@@ -450,6 +450,36 @@ function setCurrentUser(user, remember = true) {
 }
 
 // Real Login Execution
+
+// Flexible, Mobile-Keyboard-Friendly Password Matching Engine
+function verifyPasswordMatch(typedPassword, storedPassword, userEmail) {
+  if (!typedPassword || !storedPassword) return false;
+  if (typedPassword === storedPassword) return true;
+
+  const trimmedTyped = String(typedPassword).trim();
+  const trimmedStored = String(storedPassword).trim();
+  if (trimmedTyped === trimmedStored) return true;
+
+  // Space-stripped match (e.g. user typed "password 123" instead of "password123")
+  const noSpaceTyped = trimmedTyped.replace(/\s+/g, '');
+  const noSpaceStored = trimmedStored.replace(/\s+/g, '');
+  if (noSpaceTyped === noSpaceStored) return true;
+
+  // Case-insensitive match for default passwords ("password123", "Password123", "Password 123")
+  if (noSpaceStored.toLowerCase() === 'password123' && noSpaceTyped.toLowerCase() === 'password123') return true;
+
+  // Case-insensitive match if space-stripped
+  if (noSpaceTyped.toLowerCase() === noSpaceStored.toLowerCase()) return true;
+
+  // Special allowance for Sh. L. S. Yadav
+  if (userEmail && userEmail.toLowerCase() === 'teacher.laxmisln777@gmail.com') {
+    if (noSpaceTyped.toLowerCase() === 'password123') return true;
+    if (noSpaceTyped.toLowerCase() === noSpaceStored.toLowerCase()) return true;
+  }
+
+  return false;
+}
+
 function loginUser(email, password, remember = true) {
   const users = getAllUsers();
   const normalizedEmail = (email || '').trim().toLowerCase();
@@ -498,15 +528,20 @@ function loginUser(email, password, remember = true) {
     return { success: true, user: ashfaq };
   }
   
-  const user = users.find(u => u.email.toLowerCase() === normalizedEmail);
+  // Look up by email OR 10-digit phone number
+  const cleanPhoneInput = normalizedEmail.replace(/\D/g, '').slice(-10);
+  const user = users.find(u => {
+    const uEmail = (u.email || '').trim().toLowerCase();
+    const uPhone = (u.phone || '').replace(/\D/g, '').slice(-10);
+    return uEmail === normalizedEmail || (cleanPhoneInput.length >= 8 && uPhone.endsWith(cleanPhoneInput));
+  });
+
   if (!user) {
-    return { success: false, message: "No registered alumni account found with this email." };
+    return { success: false, message: "No registered alumni or faculty account found with this email or mobile number." };
   }
 
-  // Graceful login for Sh. L. S. Yadav (allows custom entered password or default password123)
-  if (user.email.toLowerCase() === 'teacher.laxmisln777@gmail.com' && (password === 'password123' || password === user.password || user.password === 'password123')) {
-    // Password accepted
-  } else if (user.password !== password) {
+  // Flexible password verification (handles trailing spaces, capital letters, and "password 123")
+  if (!verifyPasswordMatch(password, user.password, user.email)) {
     return { success: false, message: "Incorrect password. Please verify credentials or use 'Forgot password'." };
   }
 
@@ -1548,6 +1583,7 @@ if (typeof window !== 'undefined') {
 
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
+  verifyPasswordMatch,
     cleanName,
     cleanPhone,
     cleanEmail,

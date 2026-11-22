@@ -32,11 +32,11 @@
   </script>
   <link rel="stylesheet" href="assets/css/styles.css?v=0.0.2">
   <!-- Theme Engine: Dual-Theme Switching between Light Sky Blue & Dark Navy Blue -->
-  <script src="assets/js/theme.js?v=20261122_v8"></script>
+  <script src="assets/js/theme.js?v=20261122_v9"></script>
   <!-- Enterprise High-Capacity IndexedDB & Virtualization Engine (100k+ Alumni Scale) -->
-  <script src="assets/js/storage-engine.js?v=20261122_v8"></script>
-  <script src="assets/js/cloud-sync.js?v=20261122_v8"></script>
-  <script src="assets/js/auth.js?v=20261122_v8"></script>
+  <script src="assets/js/storage-engine.js?v=20261122_v9"></script>
+  <script src="assets/js/cloud-sync.js?v=20261122_v9"></script>
+  <script src="assets/js/auth.js?v=20261122_v9"></script>
   <script>
     // Verify session without forcing admin
     const currentSessionUser = getCurrentUser();
@@ -82,6 +82,11 @@
         <button id="btnEditProfile" onclick="openEditProfileModal()" class="px-2.5 py-1.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-gold-500/50 text-slate-200 hover:text-white text-xs font-semibold flex items-center gap-1.5 transition shadow" title="Edit My Profile">
           <span>✏️</span>
           <span class="hidden sm:inline">Edit Profile</span>
+        </button>
+        <!-- Change Password Button (for both Teachers & Alumni) -->
+        <button id="btnChangePassword" onclick="openChangePasswordModal()" class="px-2.5 py-1.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-amber-500/50 text-slate-200 hover:text-white text-xs font-semibold flex items-center gap-1.5 transition shadow" title="Change Login Password">
+          <span>🔒</span>
+          <span class="hidden sm:inline">Password</span>
         </button>
         <button onclick="logoutUser()" class="px-2.5 py-1 rounded bg-red-950/50 hover:bg-red-900/60 border border-red-500/30 text-red-300 font-semibold text-[11px] flex items-center gap-1 transition" title="Sign out of your session">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
@@ -3129,6 +3134,63 @@
   </div>
 
   <div id="toast-container" class="fixed bottom-4 right-4 z-50 space-y-2 pointer-events-none"></div>
-  <script src="assets/js/app.js?v=20261122_v8"></script>
+  <script src="assets/js/app.js?v=20261122_v9"></script>
+
+  <!-- ================= IN-PORTAL CHANGE PASSWORD MODAL (TEACHERS & STUDENTS) ================= -->
+  <div id="changePasswordModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-amber-500/40 rounded-3xl max-w-md w-full p-6 sm:p-7 space-y-4 shadow-2xl relative">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 text-lg font-bold">
+            🔒
+          </div>
+          <div>
+            <h3 class="text-base font-bold font-cinzel text-white">Change Account Password</h3>
+            <p class="text-[11px] text-slate-400">Set a new secure password for portal sign-in</p>
+          </div>
+        </div>
+        <button onclick="closeModal('changePasswordModal')" class="text-slate-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+
+      <form onsubmit="handleChangePasswordSubmit(event)" class="space-y-3.5 text-xs">
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Current Password (वर्तमान पासवर्ड) *</label>
+          <div class="relative">
+            <input type="password" id="cpCurrentPassword" required placeholder="Enter current password or password123" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white pr-10 focus:border-amber-400 focus:outline-none">
+            <button type="button" onclick="togglePasswordVisibility('cpCurrentPassword')" class="absolute right-3 top-2.5 text-slate-400 hover:text-white">👁️</button>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">New Password (नया पासवर्ड) *</label>
+          <div class="relative">
+            <input type="password" id="cpNewPassword" required minlength="6" placeholder="Minimum 6 characters" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white pr-10 focus:border-amber-400 focus:outline-none">
+            <button type="button" onclick="togglePasswordVisibility('cpNewPassword')" class="absolute right-3 top-2.5 text-slate-400 hover:text-white">👁️</button>
+          </div>
+          <span class="text-[10px] text-slate-400 mt-0.5 block">Use letters, numbers, or symbols. Spaces are automatically handled.</span>
+        </div>
+
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Confirm New Password (नए पासवर्ड की पुष्टि) *</label>
+          <div class="relative">
+            <input type="password" id="cpConfirmPassword" required minlength="6" placeholder="Re-enter new password" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white pr-10 focus:border-amber-400 focus:outline-none">
+            <button type="button" onclick="togglePasswordVisibility('cpConfirmPassword')" class="absolute right-3 top-2.5 text-slate-400 hover:text-white">👁️</button>
+          </div>
+        </div>
+
+        <div id="cpFeedback" class="hidden p-3 rounded-xl text-xs font-semibold"></div>
+
+        <div class="pt-2 flex items-center justify-end gap-2.5">
+          <button type="button" onclick="closeModal('changePasswordModal')" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold transition">
+            Cancel
+          </button>
+          <button type="submit" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-gold-500 hover:from-amber-400 hover:to-gold-400 text-slate-950 font-bold transition shadow-md shadow-amber-500/20">
+            Save New Password / पासवर्ड सहेजें
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
 </body>
 </html>
