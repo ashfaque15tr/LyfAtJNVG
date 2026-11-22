@@ -16,7 +16,7 @@
   
   <link rel="stylesheet" href="assets/css/styles.css?v=0.0.2">
   <!-- Theme Engine: Dual-Theme Switching between Light Sky Blue & Dark Navy Blue -->
-  <script src="assets/js/theme.js?v=20261122_v4"></script>
+  <script src="assets/js/theme.js?v=20261122_v5"></script>
   
   <script>
     tailwind.config = {
@@ -631,10 +631,10 @@
   </footer>
 
   <!-- Scripts -->
-  <script src="assets/js/directory-seed.js?v=20261122_v4"></script>
-  <script src="assets/js/storage-engine.js?v=20261122_v4"></script>
-  <script src="assets/js/cloud-sync.js?v=20261122_v4"></script>
-  <script src="assets/js/auth.js?v=20261122_v4"></script>
+  <script src="assets/js/directory-seed.js?v=20261122_v5"></script>
+  <script src="assets/js/storage-engine.js?v=20261122_v5"></script>
+  <script src="assets/js/cloud-sync.js?v=20261122_v5"></script>
+  <script src="assets/js/auth.js?v=20261122_v5"></script>
   <script>
     // Global state for in-flight 2FA operations
     let currentRegisterType = 'alumni';
@@ -1395,8 +1395,15 @@
       }
     }
 
-    function autoPreFillFields(rec) {
+    let lastPreFilledDirectoryId = null;
+
+    function autoPreFillFields(rec, forceApply = false) {
       if (!rec) return;
+      if (!forceApply && lastPreFilledDirectoryId === rec.id) {
+        return; // Already prefilled this record once, do not overwrite user modifications!
+      }
+      lastPreFilledDirectoryId = rec.id;
+
       const nameEl = document.getElementById('regName');
       const batchEl = document.getElementById('regBatch');
       const houseEl = document.getElementById('regHouse');
@@ -1410,15 +1417,22 @@
         const bNum = parseInt(rec.batch, 10);
         if (bNum && !isNaN(bNum)) batchEl.value = bNum;
       }
-      if (houseEl && rec.house && !houseEl.dataset.userModified) {
-        const nh = (typeof normalizeHouse === 'function') ? normalizeHouse(rec.house) : rec.house.toLowerCase();
-        for (let i = 0; i < houseEl.options.length; i++) {
-          if (houseEl.options[i].value.toLowerCase().includes(nh) || nh.includes(houseEl.options[i].value.toLowerCase())) {
-            houseEl.selectedIndex = i;
-            break;
+
+      // Pre-fill House ONLY if user has not manually modified it
+      if (houseEl && rec.house) {
+        const isUserModified = houseEl.dataset.userModified === 'true' || houseEl.getAttribute('data-user-modified') === 'true';
+        if (!isUserModified) {
+          const nh = (typeof normalizeHouse === 'function') ? normalizeHouse(rec.house) : rec.house.toLowerCase();
+          for (let i = 0; i < houseEl.options.length; i++) {
+            const optVal = houseEl.options[i].value.toLowerCase();
+            if (optVal === nh || optVal.includes(nh) || nh.includes(optVal)) {
+              houseEl.selectedIndex = i;
+              break;
+            }
           }
         }
       }
+
       if (roleEl && (!roleEl.value || roleEl.value.trim() === '') && rec.role) roleEl.value = rec.role;
       if (cityEl && (!cityEl.value || cityEl.value.trim() === '') && rec.location) cityEl.value = rec.location;
       if (phoneEl && (!phoneEl.value || phoneEl.value.trim() === '') && rec.phone) phoneEl.value = rec.phone;
@@ -1435,8 +1449,15 @@
       }
     }
 
-    function autoPreFillTeacherFields(rec) {
+    let lastPreFilledTeacherId = null;
+
+    function autoPreFillTeacherFields(rec, forceApply = false) {
       if (!rec) return;
+      if (!forceApply && lastPreFilledTeacherId === rec.id) {
+        return;
+      }
+      lastPreFilledTeacherId = rec.id;
+
       const nameEl = document.getElementById('regName');
       const batchEl = document.getElementById('regBatch');
       const houseEl = document.getElementById('regHouse');
@@ -1451,7 +1472,7 @@
       if (batchEl && (!batchEl.value || batchEl.value.trim() === '')) {
         const tenureYear = (rec.tenure || '').match(/\b(19\d\d|20\d\d)\b/);
         if (tenureYear) batchEl.value = tenureYear[1];
-        else if (rec.tenure) batchEl.value = rec.tenure;
+        else if (rec.tenure) batchEl.value = tenureYear;
       }
       if (roleEl && (!roleEl.value || roleEl.value.trim() === '')) {
         roleEl.value = rec.post || rec.subject || 'Faculty Member';
@@ -1464,12 +1485,16 @@
           }
         }
       }
-      if (houseEl && rec.house && !houseEl.dataset.userModified) {
-        const nh = (typeof normalizeHouse === 'function') ? normalizeHouse(rec.house) : rec.house.toLowerCase();
-        for (let i = 0; i < houseEl.options.length; i++) {
-          if (houseEl.options[i].value.toLowerCase().includes(nh) || nh.includes(houseEl.options[i].value.toLowerCase())) {
-            houseEl.selectedIndex = i;
-            break;
+      if (houseEl && rec.house) {
+        const isUserModified = houseEl.dataset.userModified === 'true' || houseEl.getAttribute('data-user-modified') === 'true';
+        if (!isUserModified) {
+          const nh = (typeof normalizeHouse === 'function') ? normalizeHouse(rec.house) : rec.house.toLowerCase();
+          for (let i = 0; i < houseEl.options.length; i++) {
+            const optVal = houseEl.options[i].value.toLowerCase();
+            if (optVal === nh || optVal.includes(nh) || nh.includes(optVal)) {
+              houseEl.selectedIndex = i;
+              break;
+            }
           }
         }
       }
@@ -1493,10 +1518,10 @@
 
     function applyMatchedDirectoryData() {
       if (currentRegisterType === 'teacher' && currentTeacherMatch) {
-        autoPreFillTeacherFields(currentTeacherMatch);
+        autoPreFillTeacherFields(currentTeacherMatch, true);
         showAlert(`✓ Pre-filled details from verified Gurujan record (<strong>${currentTeacherMatch.name}</strong>). Please review and upload your photo!`, true);
       } else if (currentDirectoryMatch) {
-        autoPreFillFields(currentDirectoryMatch);
+        autoPreFillFields(currentDirectoryMatch, true);
         showAlert(`✓ Pre-filled details from verified directory record (<strong>${currentDirectoryMatch.name}</strong>). Please review and upload your photo!`, true);
       }
     }
@@ -1507,19 +1532,53 @@
     }
 
     // Attach listeners on load
-    document.addEventListener('DOMContentLoaded', () => {
+    function initFieldListeners() {
       const houseEl = document.getElementById('regHouse');
       if (houseEl) {
-        houseEl.addEventListener('change', () => { houseEl.dataset.userModified = 'true'; });
+        const markHouseModified = () => {
+          houseEl.dataset.userModified = 'true';
+          houseEl.setAttribute('data-user-modified', 'true');
+        };
+        houseEl.addEventListener('change', markHouseModified);
+        houseEl.addEventListener('input', markHouseModified);
       }
-      ['regPhone', 'regEmail', 'regName', 'regBatch', 'regHouse', 'regProfession'].forEach(fieldId => {
+
+      ['regPhone', 'regEmail', 'regName', 'regBatch', 'regProfession'].forEach(fieldId => {
         const el = document.getElementById(fieldId);
         if (el) {
           el.addEventListener('input', checkRegistrationMatch);
           el.addEventListener('change', checkRegistrationMatch);
         }
       });
-    });
+
+      // Self-heal stale localStorage for Rakesh Kumar (Batch 2003) -> ensure Aravali House
+      try {
+        const raw = localStorage.getItem('JNVG_ALUMNI_APP_DATA_V2');
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && Array.isArray(parsed.directory)) {
+            let changed = false;
+            parsed.directory.forEach(d => {
+              if (d.id === 'alumni-111' || d.phone === '9919563333' || (d.email && d.email.toLowerCase() === 'raka.softage@gmail.com')) {
+                d.house = 'Aravali';
+                d.badge = 'Aravali';
+                d.bio = (d.bio || '').replace(/Nilgiri/gi, 'Aravali');
+                changed = true;
+              }
+            });
+            if (changed) {
+              localStorage.setItem('JNVG_ALUMNI_APP_DATA_V2', JSON.stringify(parsed));
+            }
+          }
+        }
+      } catch(e) {}
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initFieldListeners);
+    } else {
+      initFieldListeners();
+    }
   </script>
 </body>
 </html>

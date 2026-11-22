@@ -8538,6 +8538,11 @@ function loadAppData() {
         parsed.directory = defaultDirectoryAlumni.map(def => {
           const saved = (def.email && savedMap.get(def.email.toLowerCase())) || savedMap.get((def.name + '_' + (def.batch || '')).toLowerCase());
           const merged = saved ? { ...def, ...saved } : def;
+          if (def.id === 'alumni-111' || def.phone === '9919563333' || (def.email && def.email.toLowerCase() === 'raka.softage@gmail.com')) {
+            merged.house = 'Aravali';
+            merged.badge = 'Aravali';
+            merged.bio = (merged.bio || '').replace(/Nilgiri/gi, 'Aravali');
+          }
           if (merged.email === 'ashfaque15tr@gmail.com' || merged.name === 'Ashfaque Ahmad') {
             merged.photo = 'assets/images/ashfaq-ahmed.png';
             merged.avatarImage = 'assets/images/ashfaq-ahmed.png';
@@ -9869,11 +9874,15 @@ function autoPreFillModalFields(rec) {
     if (bNum && !isNaN(bNum)) batchEl.value = bNum;
   }
   if (houseEl && rec.house) {
-    const nh = (typeof normalizeHouse === 'function') ? normalizeHouse(rec.house) : rec.house.toLowerCase();
-    for (let i = 0; i < houseEl.options.length; i++) {
-      if (houseEl.options[i].value.toLowerCase().includes(nh) || nh.includes(houseEl.options[i].value.toLowerCase())) {
-        houseEl.selectedIndex = i;
-        break;
+    const isUserModified = houseEl.dataset.userModified === 'true' || houseEl.getAttribute('data-user-modified') === 'true';
+    if (!isUserModified) {
+      const nh = (typeof normalizeHouse === 'function') ? normalizeHouse(rec.house) : rec.house.toLowerCase();
+      for (let i = 0; i < houseEl.options.length; i++) {
+        const optVal = houseEl.options[i].value.toLowerCase();
+        if (optVal === nh || optVal.includes(nh) || nh.includes(optVal)) {
+          houseEl.selectedIndex = i;
+          break;
+        }
       }
     }
   }
@@ -9923,11 +9932,15 @@ function autoPreFillModalTeacherFields(rec) {
     }
   }
   if (houseEl && rec.house) {
-    const nh = (typeof normalizeHouse === 'function') ? normalizeHouse(rec.house) : rec.house.toLowerCase();
-    for (let i = 0; i < houseEl.options.length; i++) {
-      if (houseEl.options[i].value.toLowerCase().includes(nh) || nh.includes(houseEl.options[i].value.toLowerCase())) {
-        houseEl.selectedIndex = i;
-        break;
+    const isUserModified = houseEl.dataset.userModified === 'true' || houseEl.getAttribute('data-user-modified') === 'true';
+    if (!isUserModified) {
+      const nh = (typeof normalizeHouse === 'function') ? normalizeHouse(rec.house) : rec.house.toLowerCase();
+      for (let i = 0; i < houseEl.options.length; i++) {
+        const optVal = houseEl.options[i].value.toLowerCase();
+        if (optVal === nh || optVal.includes(nh) || nh.includes(optVal)) {
+          houseEl.selectedIndex = i;
+          break;
+        }
       }
     }
   }
@@ -9985,7 +9998,7 @@ let modalMatchListenersAttached = false;
 function initModalMatchListeners() {
   if (modalMatchListenersAttached) return;
   modalMatchListenersAttached = true;
-  ['regPhone', 'regEmail', 'regName', 'regBatch', 'regHouse', 'regRole'].forEach(fieldId => {
+  ['regPhone', 'regEmail', 'regName', 'regBatch', 'regRole'].forEach(fieldId => {
     const el = document.getElementById(fieldId);
     if (el) {
       el.addEventListener('input', checkModalRegistrationMatch);

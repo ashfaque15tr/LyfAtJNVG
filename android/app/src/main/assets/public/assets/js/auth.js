@@ -759,43 +759,41 @@ function matchesBatch(itemBatch, userBatch) {
 }
 
 function getDirectoryRecords() {
+  let recs = [];
   if (typeof window !== 'undefined' && window.AppState && Array.isArray(window.AppState.directory) && window.AppState.directory.length > 0) {
-    return window.AppState.directory;
-  }
-  if (typeof AppState !== 'undefined' && Array.isArray(AppState.directory) && AppState.directory.length > 0) {
-    return AppState.directory;
-  }
-  if (typeof defaultDirectoryAlumni !== 'undefined' && Array.isArray(defaultDirectoryAlumni) && defaultDirectoryAlumni.length > 0) {
-    return defaultDirectoryAlumni;
-  }
-  if (typeof window !== 'undefined' && window.defaultDirectoryAlumni && Array.isArray(window.defaultDirectoryAlumni) && window.defaultDirectoryAlumni.length > 0) {
-    return window.defaultDirectoryAlumni;
-  }
-  if (typeof window !== 'undefined' && window.AlumniStorageEngine && window.AlumniStorageEngine.cache && Array.isArray(window.AlumniStorageEngine.cache.directory) && window.AlumniStorageEngine.cache.directory.length > 0) {
-    return window.AlumniStorageEngine.cache.directory;
-  }
-  try {
-    if (typeof localStorage !== 'undefined') {
-      const raw = localStorage.getItem('JNVG_ALUMNI_APP_DATA_V2');
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        if (parsed && Array.isArray(parsed.directory) && parsed.directory.length > 0) {
-          return parsed.directory;
+    recs = window.AppState.directory;
+  } else if (typeof AppState !== 'undefined' && Array.isArray(AppState.directory) && AppState.directory.length > 0) {
+    recs = AppState.directory;
+  } else if (typeof defaultDirectoryAlumni !== 'undefined' && Array.isArray(defaultDirectoryAlumni) && defaultDirectoryAlumni.length > 0) {
+    recs = defaultDirectoryAlumni;
+  } else if (typeof window !== 'undefined' && window.defaultDirectoryAlumni && Array.isArray(window.defaultDirectoryAlumni) && window.defaultDirectoryAlumni.length > 0) {
+    recs = window.defaultDirectoryAlumni;
+  } else {
+    try {
+      if (typeof localStorage !== 'undefined') {
+        const raw = localStorage.getItem('JNVG_ALUMNI_APP_DATA_V2');
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && Array.isArray(parsed.directory) && parsed.directory.length > 0) {
+            recs = parsed.directory;
+          }
         }
       }
-    }
-  } catch(e) {}
-  if (typeof window !== 'undefined' && Array.isArray(window.JNVG_DIRECTORY_SEED) && window.JNVG_DIRECTORY_SEED.length > 0) {
-    return window.JNVG_DIRECTORY_SEED;
+    } catch(e) {}
   }
-  return [];
+
+  // Enforce verified corrections across all records
+  if (Array.isArray(recs)) {
+    recs.forEach(r => {
+      if (r.id === 'alumni-111' || r.phone === '9919563333' || (r.email && r.email.toLowerCase() === 'raka.softage@gmail.com')) {
+        r.house = 'Aravali';
+        r.badge = 'Aravali';
+      }
+    });
+  }
+  return recs || [];
 }
 
-/**
- * 4-Tier Smart Directory Matching Engine
- * @param {Object} query - { phone, email, name, batch, house }
- * @returns {Object} { matched: boolean, tier: number, confidence: number, matchType: string, record: Object, isAlreadyClaimed: boolean, claimedUser: Object }
- */
 function findDirectoryMatch(query = {}) {
   const records = getDirectoryRecords();
   if (!records || records.length === 0) {
