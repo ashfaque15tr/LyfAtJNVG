@@ -456,7 +456,7 @@ function loginUser(email, password, remember = true) {
   }
 
   if (user.status === "rejected") {
-    return { success: false, message: "Your registration was declined by the Alumni Verification Committee. Please contact Ashfaque Ahmad (+91 9161746797) on WhatsApp for clarification." };
+    return { success: false, message: "Your registration was declined by the Alumni Verification Committee. Please contact Ashfaque Ahmad (+91 9972868674) on WhatsApp for clarification." };
   }
 
   // Pending verification user (Preserve pending state and grant read-only session)

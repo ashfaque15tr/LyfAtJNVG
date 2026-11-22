@@ -549,7 +549,7 @@
           JNVGFamily is a <strong>closed, trusted community</strong> strictly for JNV Gauriganj alumni and teachers.
         </p>
         <p class="text-[11px] text-slate-400 leading-relaxed">
-          To safeguard member privacy and authenticity, your registration has been forwarded to <strong>Super Admin Ashfaque Ahmad</strong> (+91 9161746797) and Batch Representatives for verification.
+          To safeguard member privacy and authenticity, your registration has been forwarded to <strong>Super Admin Ashfaque Ahmad</strong> (+91 9972868674) and Batch Representatives for verification.
         </p>
         <p class="text-[11px] text-emerald-400 font-semibold">
           🛡️ You have immediate <strong>Read-Only Access</strong> to explore the portal. Content creation privileges will activate once approved.
@@ -1264,11 +1264,10 @@
         const waBtn = document.getElementById('regReviewWhatsAppBtn');
         const cleanPhone = (pendingRegData.phone || '').replace(/\D/g, '').slice(-10);
         const waMsg = `Namaste Ashfaque Bhaiya, I have registered on JNVGFamily as *${pendingRegData.name}* (${pendingRegData.role === 'teacher' ? 'Faculty' : 'Batch ' + pendingRegData.batch + ', ' + pendingRegData.house + ' House'}, Phone: +91 ${cleanPhone}, Email: ${pendingRegData.email}). Please verify and approve my alumni membership request.`;
-        const waUrl = `https://wa.me/919161746797?text=${encodeURIComponent(waMsg)}`;
+        const waUrl = `https://wa.me/919972868674?text=${encodeURIComponent(waMsg)}`;
         if (waBtn) waBtn.href = waUrl;
 
-        // Auto trigger WhatsApp in new window
-        try { window.open(waUrl, '_blank'); } catch(err) {}
+        // Manual expedited approval link only - auto popup removed
 
         const reviewModal = document.getElementById('regUnderReviewModal');
         if (reviewModal) {
@@ -1611,7 +1610,7 @@
         const bNum = parseInt(rec.batch, 10);
         if (bNum && !isNaN(bNum)) batchEl.value = bNum;
       }
-      if (houseEl && rec.house) {
+      if (houseEl && rec.house && !houseEl.dataset.userModified) {
         const nh = (typeof normalizeHouse === 'function') ? normalizeHouse(rec.house) : rec.house.toLowerCase();
         for (let i = 0; i < houseEl.options.length; i++) {
           if (houseEl.options[i].value.toLowerCase().includes(nh) || nh.includes(houseEl.options[i].value.toLowerCase())) {
@@ -1665,7 +1664,7 @@
           }
         }
       }
-      if (houseEl && rec.house) {
+      if (houseEl && rec.house && !houseEl.dataset.userModified) {
         const nh = (typeof normalizeHouse === 'function') ? normalizeHouse(rec.house) : rec.house.toLowerCase();
         for (let i = 0; i < houseEl.options.length; i++) {
           if (houseEl.options[i].value.toLowerCase().includes(nh) || nh.includes(houseEl.options[i].value.toLowerCase())) {
@@ -1709,6 +1708,10 @@
 
     // Attach listeners on load
     document.addEventListener('DOMContentLoaded', () => {
+      const houseEl = document.getElementById('regHouse');
+      if (houseEl) {
+        houseEl.addEventListener('change', () => { houseEl.dataset.userModified = 'true'; });
+      }
       ['regPhone', 'regEmail', 'regName', 'regBatch', 'regHouse', 'regProfession'].forEach(fieldId => {
         const el = document.getElementById(fieldId);
         if (el) {

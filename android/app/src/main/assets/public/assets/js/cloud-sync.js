@@ -207,6 +207,7 @@ const AlumniCloudSync = (() => {
           const inPending = AppState.pendingRegistrations.some(p => (p.email || '').toLowerCase() === u.email.toLowerCase());
           if (!inPending && (!existingUser || existingUser.status === 'pending')) {
             AppState.pendingRegistrations.push({
+              id: u.id || 'reg-' + (u.email ? u.email.replace(/[^a-z0-9]/gi, '_') : Date.now()),
               name: u.name,
               email: u.email,
               phone: u.phone,

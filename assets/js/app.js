@@ -2157,15 +2157,15 @@ const defaultDirectoryAlumni = [
     "name": "Rakesh Kumar",
     "initials": "RK",
     "batch": 2003,
-    "house": "Nilgiri",
+    "house": "Aravali",
     "role": "LIC Agent",
     "location": "Sultanpur",
     "domain": "Corporate",
     "email": "raka.softage@gmail.com",
     "phone": "9919563333",
-    "badge": "Nilgiri",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "LIC Agent at LIC • Batch of 2003 (Nilgiri House)."
+    "bio": "LIC Agent at LIC • Batch of 2003 (Aravali House)."
   },
   {
     "id": "alumni-112",
@@ -4396,8 +4396,8 @@ const defaultDirectoryAlumni = [
     "role": "Lieutenant Colonel",
     "location": "Rajouri",
     "domain": "Corporate",
-    "email": "rvkp1977@gmail.com",
-    "phone": "9161746797",
+    "email": "",
+    "phone": "",
     "badge": "Nilgiri",
     "tag": "Alumnus",
     "bio": "Lieutenant Colonel at Indian Army • Batch of 1994 (Nilgiri House)."
@@ -8814,7 +8814,7 @@ function applyUserSession(user) {
       const waBtn = document.getElementById('pendingNotifyAdminWaBtn');
       if (waBtn) {
         const msg = `Namaste Ashfaque Bhaiya, I have registered on JNVGFamily as *${user.name}* (Batch ${user.batch || ''}, ${user.house || ''} House, Phone: ${user.phone || ''}). Please verify and approve my alumni membership request.`;
-        waBtn.href = `https://wa.me/919161746797?text=${encodeURIComponent(msg)}`;
+        waBtn.href = `https://wa.me/919972868674?text=${encodeURIComponent(msg)}`;
       }
     } else {
       pendingBanner.classList.add('hidden');
@@ -9170,12 +9170,12 @@ function showPendingVerificationModal(actionDesc = 'creating or publishing conte
     const waLink = document.getElementById('pendingModalWaBtn');
     if (waLink) {
       const msg = `Namaste Ashfaque Bhaiya, I have registered on JNVGFamily as *${curUser.name || 'Alumnus'}* (Batch ${curUser.batch || ''}, ${curUser.house || ''} House, Phone: ${curUser.phone || ''}). Please verify and approve my alumni membership request.`;
-      waLink.href = `https://wa.me/919161746797?text=${encodeURIComponent(msg)}`;
+      waLink.href = `https://wa.me/919972868674?text=${encodeURIComponent(msg)}`;
     }
     alertModal.classList.remove('hidden');
     alertModal.style.display = 'flex';
   } else {
-    alert(`🔒 Membership Verification Required:\n\nWelcome ${curUser.name || 'Alumnus'}! To preserve the authenticity and security of the JNVGFamily community, ${actionDesc} is enabled once your alumni credentials are verified by Super Admin Ashfaque Ahmad (+91 9161746797).`);
+    alert(`🔒 Membership Verification Required:\n\nWelcome ${curUser.name || 'Alumnus'}! To preserve the authenticity and security of the JNVGFamily community, ${actionDesc} is enabled once your alumni credentials are verified by Super Admin Ashfaque Ahmad (+91 9972868674).`);
   }
 }
 
@@ -10234,12 +10234,12 @@ function handleVerifyIndexOtp(e) {
   const roleDesc = isTeacher ? 'Gurujan / Faculty' : 'Alumni';
   showToast(`🎉 2FA Verified! ${roleDesc} membership application for ${name} submitted. Forwarded to Super Admin Ashfaque Ahmad for verification.`);
 
-  // WhatsApp Alert Link to Super Admin Ashfaque Ahmad (+91 9161746797)
+  // WhatsApp Alert Link to Super Admin Ashfaque Ahmad (+91 9972868674)
   const waMsg = isTeacher
     ? `Pranam Ashfaque, I have registered on JNVGFamily as Gurujan / Faculty *${name}* (${role || 'Faculty'}, Phone: +91 ${cleanPhone}, Email: ${email}). Please verify and approve my faculty registration.`
     : `Namaste Ashfaque Bhaiya, I have registered on JNVGFamily as *${name}* (Batch ${batch}, ${house} House, Phone: +91 ${cleanPhone}, Email: ${email}). Please verify and approve my alumni membership request.`;
-  const waUrl = `https://wa.me/919161746797?text=${encodeURIComponent(waMsg)}`;
-  try { window.open(waUrl, '_blank'); } catch(e) {}
+  const waUrl = `https://wa.me/919972868674?text=${encodeURIComponent(waMsg)}`;
+  // Manual expedited approval link only - NO auto popups
 }
 
 function renderAdminRegistrations() {
@@ -10252,7 +10252,10 @@ function renderAdminRegistrations() {
   }
 
   container.innerHTML = '';
-  AppState.pendingRegistrations.forEach(reg => {
+  AppState.pendingRegistrations.forEach((reg, idx) => {
+    if (!reg.id) {
+      reg.id = 'reg-' + (reg.email ? reg.email.replace(/[^a-z0-9]/gi, '_') : Date.now() + '-' + idx);
+    }
     const card = document.createElement('div');
     card.className = "bg-slate-900 border border-slate-800 p-5 rounded-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4";
     card.id = reg.id;
@@ -10304,8 +10307,24 @@ function approveRegistration(regId) {
     return;
   }
 
-  const index = AppState.pendingRegistrations.findIndex(r => r.id === regId);
-  if (index === -1) return;
+  if (!AppState.pendingRegistrations || !Array.isArray(AppState.pendingRegistrations)) {
+    AppState.pendingRegistrations = [];
+    return;
+  }
+
+  const index = AppState.pendingRegistrations.findIndex(r => 
+    (r.id && String(r.id) === String(regId)) ||
+    (r.email && regId && r.email.toLowerCase() === String(regId).toLowerCase()) ||
+    (r.name && regId && r.name.toLowerCase() === String(regId).toLowerCase()) ||
+    (r.id === regId)
+  );
+
+  if (index === -1) {
+    console.warn("Registration not found for id:", regId);
+    showToast("⚠️ Registration request not found or already approved.");
+    renderAdminRegistrations();
+    return;
+  }
 
   const reg = AppState.pendingRegistrations[index];
   const isFaculty = reg.isTeacher || !!reg.claimedTeacherId || reg.role === 'teacher' || reg.role === 'unverified_teacher';
@@ -10408,6 +10427,15 @@ function approveRegistration(regId) {
 
   AppState.pendingRegistrations.splice(index, 1);
   saveAppData();
+
+  // Broadcast real-time approval to CloudSync network
+  try {
+    if (typeof AlumniCloudSync !== 'undefined' && AlumniCloudSync.broadcastApproval) {
+      AlumniCloudSync.broadcastApproval(reg);
+    }
+  } catch (err) {
+    console.warn("[CloudSync] Approval broadcast error:", err);
+  }
 
   try {
     if (typeof getAllUsers === 'function' && typeof saveAllUsers === 'function') {
@@ -10900,7 +10928,7 @@ const NOTABLE_ALUMNI_LIST = [
     "academics": "National Defence Academy & Indian Military Academy",
     "intro": "Senior officer in the Indian Army (Colonel, Batch of 1994). Dedicated to the frontline defense, strategic military readiness, and sovereignty of the nation.",
     "badgeColor": "amber",
-    "phone": "9161746797",
+    "phone": "",
     "link": null
   },
   {

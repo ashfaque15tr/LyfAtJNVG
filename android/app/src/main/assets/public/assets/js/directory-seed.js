@@ -1916,15 +1916,15 @@ const defaultDirectoryAlumni = [
     "name": "Rakesh Kumar",
     "initials": "RK",
     "batch": 2003,
-    "house": "Nilgiri",
+    "house": "Aravali",
     "role": "LIC Agent",
     "location": "Sultanpur",
     "domain": "Corporate",
     "email": "raka.softage@gmail.com",
     "phone": "9919563333",
-    "badge": "Nilgiri",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "LIC Agent at LIC • Batch of 2003 (Nilgiri House)."
+    "bio": "LIC Agent at LIC • Batch of 2003 (Aravali House)."
   },
   {
     "id": "alumni-112",
@@ -4155,8 +4155,8 @@ const defaultDirectoryAlumni = [
     "role": "Lieutenant Colonel",
     "location": "Rajouri",
     "domain": "Corporate",
-    "email": "rvkp1977@gmail.com",
-    "phone": "9161746797",
+    "email": "",
+    "phone": "",
     "badge": "Nilgiri",
     "tag": "Alumnus",
     "bio": "Lieutenant Colonel at Indian Army • Batch of 1994 (Nilgiri House)."
