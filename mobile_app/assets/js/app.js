@@ -8567,12 +8567,14 @@ function loadAppData() {
       // Ensure only Ashfaque Ahmad is present in directory as sole Super Admin today
       // Preserve modified directory records across reloads while ensuring official registry defaults
       if (parsed.directory && Array.isArray(parsed.directory) && parsed.directory.length > 0) {
+        const originalSavedDir = parsed.directory.slice();
         const savedMap = new Map();
-        parsed.directory.forEach(d => {
+        originalSavedDir.forEach(d => {
+          if (!d) return;
           if (d.email) savedMap.set(d.email.toLowerCase(), d);
           else if (d.name) savedMap.set((d.name + '_' + (d.batch || '')).toLowerCase(), d);
         });
-        parsed.directory = defaultDirectoryAlumni.map(def => {
+        const mergedList = defaultDirectoryAlumni.map(def => {
           const saved = (def.email && savedMap.get(def.email.toLowerCase())) || savedMap.get((def.name + '_' + (def.batch || '')).toLowerCase());
           const merged = saved ? { ...def, ...saved } : def;
           if (def.id === 'alumni-111' || def.phone === '9919563333' || (def.email && def.email.toLowerCase() === 'raka.softage@gmail.com')) {
@@ -8586,12 +8588,18 @@ function loadAppData() {
           }
           return merged;
         });
-        parsed.directory.forEach(d => {
-          const exists = defaultDirectoryAlumni.some(def => (def.email && d.email && def.email.toLowerCase() === d.email.toLowerCase()) || (def.name.toLowerCase() === d.name.toLowerCase() && def.batch === d.batch));
-          if (!exists && !parsed.directory.some(x => x.id === d.id)) {
-            parsed.directory.push(d);
+        originalSavedDir.forEach(d => {
+          if (!d) return;
+          const exists = defaultDirectoryAlumni.some(def => 
+            (def.id && d.id && def.id === d.id) ||
+            (def.email && d.email && def.email.toLowerCase() === d.email.toLowerCase()) || 
+            (def.name && d.name && def.name.toLowerCase() === d.name.toLowerCase() && parseInt(def.batch, 10) === parseInt(d.batch, 10))
+          );
+          if (!exists && !mergedList.some(x => x.id === d.id || (x.email && d.email && x.email.toLowerCase() === d.email.toLowerCase()))) {
+            mergedList.unshift(d);
           }
         });
+        parsed.directory = mergedList;
       } else {
         parsed.directory = defaultDirectoryAlumni.slice();
       }
@@ -8712,6 +8720,11 @@ function loadAppData() {
 }
 
 const AppState = loadAppData();
+
+// Universal auto-reconciliation: ensure registered users are in directory on startup
+if (typeof syncRegisteredUsersToDirectory === 'function') {
+  syncRegisteredUsersToDirectory();
+}
 
 function saveAppData() {
   try {
@@ -10276,6 +10289,20 @@ function handleVerifyIndexOtp(e) {
     applyUserSession(registeredUser);
   }
 
+  try {
+    const syncUser = registeredUser || { ...newReg, password: password || 'password123' };
+    if (window.AlumniCloudSync && typeof window.AlumniCloudSync.broadcastRegistration === 'function') {
+      window.AlumniCloudSync.broadcastRegistration(syncUser);
+    }
+    if (window.AlumniCloudSync && typeof window.AlumniCloudSync.broadcastApproval === 'function') {
+      window.AlumniCloudSync.broadcastApproval(syncUser);
+    }
+  } catch(e) {}
+
+  if (typeof syncRegisteredUsersToDirectory === 'function') syncRegisteredUsersToDirectory();
+  if (typeof renderDirectory === 'function') renderDirectory();
+  if (typeof renderBatchLeaderboard === 'function') renderBatchLeaderboard();
+
   const roleDesc = isTeacher ? 'Gurujan / Faculty' : 'Alumni';
   showToast(`🎉 2FA Verified! ${roleDesc} membership application for ${name} submitted. Forwarded to Super Admin Ashfaque Ahmad for verification.`);
 
@@ -10596,17 +10623,33 @@ function syncRegisteredUsersToDirectory() {
     const uName = (u.name || '').toLowerCase().trim();
     const uBatch = parseInt(u.batch, 10);
 
-    const exists = AppState.directory.some(d => {
-      const dEmail = (d.email || '').toLowerCase().trim();
-      const dPhone = (d.phone || '').replace(/\D/g, '').slice(-10);
-      const dName = (d.name || '').toLowerCase().trim();
-      const dBatch = parseInt(d.batch, 10);
-      return (uEmail && dEmail && uEmail === dEmail) ||
-             (uPhone && dPhone && uPhone.length >= 8 && dPhone === uPhone) ||
-             (uName && dName && uName === dName && uBatch === dBatch);
-    });
+    let existing = null;
+    if (u.claimedDirectoryId) {
+      existing = AppState.directory.find(d => String(d.id) === String(u.claimedDirectoryId));
+    }
+    if (!existing) {
+      existing = AppState.directory.find(d => {
+        const dEmail = (d.email || '').toLowerCase().trim();
+        const dPhone = (d.phone || '').replace(/\D/g, '').slice(-10);
+        const dName = (d.name || '').toLowerCase().trim();
+        const dBatch = parseInt(d.batch, 10);
+        return (uEmail && dEmail && uEmail === dEmail) ||
+               (uPhone && dPhone && uPhone.length >= 8 && dPhone === uPhone) ||
+               (uName && dName && uName === dName && uBatch === dBatch);
+      });
+    }
 
-    if (!exists && uName) {
+    if (existing) {
+      let cardChanged = false;
+      if (!existing.claimed) { existing.claimed = true; cardChanged = true; }
+      if (!existing.verified) { existing.verified = true; cardChanged = true; }
+      if (u.phone && !existing.phone) { existing.phone = u.phone; cardChanged = true; }
+      if (uEmail && !existing.email) { existing.email = uEmail; cardChanged = true; }
+      if (u.profession && (!existing.role || existing.role === 'Alumnus')) { existing.role = u.profession; cardChanged = true; }
+      if (u.city && (!existing.location || existing.location === 'India')) { existing.location = u.city; cardChanged = true; }
+      if (u.house && existing.house !== u.house) { existing.house = u.house; existing.badge = u.house; cardChanged = true; }
+      if (cardChanged) added = true;
+    } else if (uName) {
       AppState.directory.unshift({
         id: u.id || `dir-usr-${Date.now()}`,
         name: u.name,
@@ -14616,6 +14659,9 @@ window.submitNotableRegards = submitNotableRegards;
 // BATCH-WISE REGISTRATION LEADERBOARD & FOMO ENGINE
 // =========================================================================
 function getBatchRegistrationStats() {
+  if (typeof syncRegisteredUsersToDirectory === 'function') {
+    syncRegisteredUsersToDirectory();
+  }
   const baseDir = (AppState && Array.isArray(AppState.directory) && AppState.directory.length > 0)
     ? [...AppState.directory]
     : [...(window.defaultDirectoryAlumni || [])];

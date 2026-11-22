@@ -73,11 +73,13 @@ const rootDir = path.resolve(__dirname, '..');
 const authCode = fs.readFileSync(path.join(rootDir, 'assets/js/auth.js'), 'utf8');
 const appCode = fs.readFileSync(path.join(rootDir, 'assets/js/app.js'), 'utf8');
 const storageCode = fs.readFileSync(path.join(rootDir, 'assets/js/storage-engine.js'), 'utf8');
+const cloudSyncCode = fs.readFileSync(path.join(rootDir, 'assets/js/cloud-sync.js'), 'utf8');
 
-// Load auth.js, app.js & storage-engine.js into global context
+// Load auth.js, app.js, storage-engine.js & cloud-sync.js into global context
 vm.runInThisContext(authCode);
 vm.runInThisContext(appCode);
 vm.runInThisContext(storageCode);
+vm.runInThisContext(cloudSyncCode);
 
 console.log('====================================================');
 console.log('JNV GAURIGANJ ALUMNI PLATFORM - AUTOMATED TEST SUITE');
@@ -1318,6 +1320,62 @@ const aryanshUser = allUsersList.find(u => u.name === 'Aryansh Patel');
 assert(!!aryanshUser, 'Aryansh Patel is present in default accounts/users database');
 assert(aryanshUser.house === 'Nilgiri', 'Aryansh Patel user account house is Nilgiri');
 assert(aryanshUser.batch === 2025, 'Aryansh Patel user account batch is 2025');
+
+// =========================================================================
+// TEST SUITE 26: UNIVERSAL CROSS-DEVICE REGISTRATION SYNC & DYNAMIC DIRECTORY RECONCILIATION
+// =========================================================================
+console.log('\n--- TEST SUITE 26: UNIVERSAL CROSS-DEVICE REGISTRATION SYNC & RECONCILIATION ---');
+
+// 1. AlumniCloudSync presence and stream capabilities
+assert(typeof AlumniCloudSync !== 'undefined', 'AlumniCloudSync global module is defined');
+assert(typeof AlumniCloudSync.startRegStream === 'function', 'AlumniCloudSync exports startRegStream for real-time SSE updates');
+assert(typeof AlumniCloudSync.broadcastRegistration === 'function', 'AlumniCloudSync exports broadcastRegistration');
+assert(typeof AlumniCloudSync.broadcastApproval === 'function', 'AlumniCloudSync exports broadcastApproval');
+assert(typeof AlumniCloudSync.syncRegistrations === 'function', 'AlumniCloudSync exports syncRegistrations');
+
+// 2. Register arbitrary new alumnus with photo
+const uniqueEmail = `sync.alumnus.${Date.now()}@example.com`;
+const heavyPhoto = 'data:image/jpeg;base64,' + 'A'.repeat(6000);
+const regRes = registerAlumni({
+  name: 'Universal Test Alumnus',
+  batch: 2024,
+  house: 'Nilgiri',
+  phone: '9876543210',
+  email: uniqueEmail,
+  profession: 'AI Research Scientist',
+  domain: 'Technology',
+  city: 'Bengaluru, India',
+  password: 'password123',
+  photo: heavyPhoto
+});
+
+assert(regRes && regRes.success, 'Arbitrary new alumnus registered successfully');
+const freshUsers = getAllUsers();
+const createdUser = freshUsers.find(u => u.email === uniqueEmail);
+assert(!!createdUser, 'New alumnus exists in users database');
+assert(createdUser.batch === 2024, 'New alumnus has correct batch 2024');
+
+// 3. Dynamic Directory Reconciliation
+syncRegisteredUsersToDirectory();
+const inDir = AppState.directory.find(d => d.email === uniqueEmail);
+assert(!!inDir, 'Universal syncRegisteredUsersToDirectory merged new alumnus into AppState.directory');
+assert(inDir && inDir.name === 'Universal Test Alumnus', 'Reconciled directory card has correct name');
+assert(inDir && inDir.batch === 2024, 'Reconciled directory card has correct batch 2024');
+
+// 4. Storage Engine Indexing & Filtering
+window.AlumniStorageEngine.buildCacheIndexes(AppState.directory);
+const queryRes2024 = window.AlumniStorageEngine.queryDirectory({ batch: '2024' });
+assert(queryRes2024.totalCount >= 1, 'AlumniStorageEngine batch query finds newly registered user');
+assert(queryRes2024.items.some(x => x.email === uniqueEmail), 'Query results contain newly registered user');
+
+// 5. Leaderboard dynamic updates
+const stats = getBatchRegistrationStats();
+assert(stats.counts[2024] >= 1, 'Leaderboard stats count batch 2024 accurately');
+assert(stats.total >= AppState.directory.length, 'Total registered count reflects all members dynamically');
+
+// 6. Persistence across reloads (loadAppData does not wipe non-default users)
+const reloadedData = loadAppData();
+assert(reloadedData.directory.some(d => d.email === uniqueEmail), 'loadAppData preserves dynamically registered users across page reloads');
 
 console.log('\n====================================================');
 console.log(`TEST RESULTS: ${passedTests} / ${totalTests} ASSERTIONS PASSED`);
