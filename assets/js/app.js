@@ -10233,7 +10233,7 @@ function handleVerifyIndexOtp(e) {
   const waMsg = isTeacher
     ? `Pranam Ashfaque, I have registered on JNVGFamily as Gurujan / Faculty *${name}* (${role || 'Faculty'}, Phone: +91 ${cleanPhone}, Email: ${email}). Please verify and approve my faculty registration.`
     : `Namaste Ashfaque Bhaiya, I have registered on JNVGFamily as *${name}* (Batch ${batch}, ${house} House, Phone: +91 ${cleanPhone}, Email: ${email}). Please verify and approve my alumni membership request.`;
-  const waUrl = `https://wa.me/919972868674?text=${encodeURIComponent(waMsg)}`;
+  const waUrl = '';
   // Manual expedited approval link only - NO auto popups
 }
 
@@ -10256,7 +10256,7 @@ function renderAdminRegistrations() {
     card.id = reg.id;
     const cleanPhone = (reg.phone || '').replace(/\D/g, '').slice(-10);
     const isTeacher = reg.isTeacher || !!reg.claimedTeacherId || reg.role === 'teacher' || reg.role === 'unverified_teacher';
-    const waChatApplicantUrl = `https://wa.me/91${cleanPhone}?text=${encodeURIComponent((isTeacher ? 'Pranam ' : 'Namaste ') + reg.name + ' ji, this is from the JNVGFamily Alumni Verification Committee regarding your registration...')}`;
+    const waChatApplicantUrl = '#';
     const roleBadgeHtml = isTeacher
       ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">🪔 Gurujan / Faculty</span>`
       : `<span class="text-xs text-amber-400 font-mono">Batch ${reg.batch || 'Alumni'}</span>`;
@@ -10280,9 +10280,7 @@ function renderAdminRegistrations() {
         <p class="text-[11px] text-slate-400"><strong>Contact:</strong> ${reg.phone} | ${reg.email} • <em>${reg.date || 'Recently'}</em></p>
       </div>
       <div class="flex items-center gap-2 flex-shrink-0 flex-wrap">
-        <a href="${waChatApplicantUrl}" target="_blank" class="px-3 py-1.5 rounded-lg bg-emerald-600/20 text-emerald-300 hover:bg-emerald-600/30 border border-emerald-500/30 font-bold text-xs flex items-center gap-1 transition">
-          <span>💬 WhatsApp</span>
-        </a>
+        <!-- WhatsApp trigger removed for applicant -->
         <button onclick="approveRegistration('${reg.id}')" class="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1 transition shadow">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
           ${approveBtnText}
@@ -11503,8 +11501,8 @@ function renderNotableAlumni(filter = 'all') {
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Hall of Fame
           </span>
         `}
-        <button onclick="openChatWithAlumnus('${item.name}')" class="px-3 py-1 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-1 transition shadow-sm">
-          <span>💬 Message</span>
+        <button onclick="openNotableRegardsModal('${item.id}')" class="px-3.5 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow-sm transition touch-ripple">
+          <span>🤝</span> <span>Send Regards / शुभकामनाएं</span>
         </button>
       </div>
     `;
