@@ -14541,16 +14541,7 @@ function filterDirectoryBySpecificBatch(batchYear) {
 }
 
 function shareBatchFomoWhatsApp() {
-  const curUser = (typeof getCurrentUser === 'function') ? getCurrentUser() : null;
-  const userBatch = (curUser && curUser.batch && !isNaN(parseInt(curUser.batch, 10))) ? parseInt(curUser.batch, 10) : 1996;
-  const { sorted } = getBatchRegistrationStats();
-  const rankIdx = sorted.findIndex(s => s.batch === userBatch);
-  const myCount = rankIdx !== -1 ? sorted[rankIdx].count : 0;
-  const myRank = rankIdx !== -1 ? `#${rankIdx + 1}` : 'ranking';
-
-  const waText = `🚩 *JNV Gauriganj Alumni Meet — 13 Dec 2026!*\n\nHamare *Batch of ${userBatch}* ke abhi tak *${myCount} alumni* register ho chuke hain (Leaderboard Rank: ${myRank})! 🏆\n\nLeaderboard par apne batch ko #1 banayein aur Alumni Directory me shamil hon!\n🔗 *Register Here:* https://jnvgfamily.in\n\n_Kripya sabhi batchmates ko forward karein!_`;
-  const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(waText)}`;
-  window.open(waUrl, '_blank');
+  // WhatsApp boost button removed
 }
 
 window.getBatchRegistrationStats = getBatchRegistrationStats;
