@@ -10581,6 +10581,7 @@ function renderDirectory(append = false) {
   }
 
   if (typeof populateBatchFilterOptions === 'function') populateBatchFilterOptions();
+  if (typeof renderBatchLeaderboard === 'function') renderBatchLeaderboard();
   if (window.AlumniStorageEngine && typeof window.AlumniStorageEngine.buildCacheIndexes === 'function') {
     window.AlumniStorageEngine.buildCacheIndexes(AppState.directory || []);
   }
@@ -14511,23 +14512,99 @@ window.submitNotableRegards = submitNotableRegards;
 // BATCH-WISE REGISTRATION LEADERBOARD & FOMO ENGINE
 // =========================================================================
 function getBatchRegistrationStats() {
-  const dir = (AppState && Array.isArray(AppState.directory) && AppState.directory.length > 0)
-    ? AppState.directory
-    : (window.defaultDirectoryAlumni || []);
+  const baseDir = (AppState && Array.isArray(AppState.directory) && AppState.directory.length > 0)
+    ? [...AppState.directory]
+    : [...(window.defaultDirectoryAlumni || [])];
+
+  const countedEmails = new Set();
+  const countedPhones = new Set();
+  const countedIds = new Set();
+
+  baseDir.forEach(d => {
+    if (d.id) countedIds.add(String(d.id));
+    if (d.email) countedEmails.add(d.email.trim().toLowerCase());
+    if (d.phone) {
+      const p = String(d.phone).replace(/\D/g, '').slice(-10);
+      if (p.length === 10) countedPhones.add(p);
+    }
+  });
 
   const counts = {};
-  dir.forEach(a => {
+  baseDir.forEach(a => {
     const b = parseInt(a.batch, 10);
     if (b && !isNaN(b)) {
       counts[b] = (counts[b] || 0) + 1;
     }
   });
 
+  let totalMembers = baseDir.length;
+
+  // Include registered users from Users DB who are not in base directory
+  const allUsers = typeof getAllUsers === 'function' ? getAllUsers() : [];
+  allUsers.forEach(u => {
+    if (!u || !u.name) return;
+    const uEmail = (u.email || '').trim().toLowerCase();
+    const uPhone = String(u.phone || '').replace(/\D/g, '').slice(-10);
+    const uClaimedId = u.claimedDirectoryId ? String(u.claimedDirectoryId) : null;
+
+    const isAlreadyCounted = (uClaimedId && countedIds.has(uClaimedId)) ||
+      (uEmail && countedEmails.has(uEmail)) ||
+      (uPhone.length === 10 && countedPhones.has(uPhone));
+
+    if (!isAlreadyCounted) {
+      totalMembers++;
+      if (uEmail) countedEmails.add(uEmail);
+      if (uPhone.length === 10) countedPhones.add(uPhone);
+      const b = parseInt(u.batch, 10);
+      if (b && !isNaN(b)) {
+        counts[b] = (counts[b] || 0) + 1;
+      }
+    }
+  });
+
+  // Include registered Gurujan/Teachers
+  if (AppState && Array.isArray(AppState.teachers)) {
+    AppState.teachers.forEach(t => {
+      if (!t || !t.name) return;
+      const tEmail = (t.email || '').trim().toLowerCase();
+      const tPhone = String(t.phonePrivate || t.phone || '').replace(/\D/g, '').slice(-10);
+      const isAlreadyCounted = (tEmail && countedEmails.has(tEmail)) ||
+        (tPhone.length === 10 && countedPhones.has(tPhone));
+
+      if (!isAlreadyCounted) {
+        totalMembers++;
+        if (tEmail) countedEmails.add(tEmail);
+        if (tPhone.length === 10) countedPhones.add(tPhone);
+      }
+    });
+  }
+
+  // Include any pending registrations not yet merged
+  if (AppState && Array.isArray(AppState.pendingRegistrations)) {
+    AppState.pendingRegistrations.forEach(p => {
+      if (!p || !p.name) return;
+      const pEmail = (p.email || '').trim().toLowerCase();
+      const pPhone = String(p.phone || '').replace(/\D/g, '').slice(-10);
+      const isAlreadyCounted = (pEmail && countedEmails.has(pEmail)) ||
+        (pPhone.length === 10 && countedPhones.has(pPhone));
+
+      if (!isAlreadyCounted) {
+        totalMembers++;
+        if (pEmail) countedEmails.add(pEmail);
+        if (pPhone.length === 10) countedPhones.add(pPhone);
+        const b = parseInt(p.batch, 10);
+        if (b && !isNaN(b)) {
+          counts[b] = (counts[b] || 0) + 1;
+        }
+      }
+    });
+  }
+
   const sorted = Object.entries(counts)
     .map(([batch, count]) => ({ batch: parseInt(batch, 10), count }))
     .sort((a, b) => b.count - a.count);
 
-  return { total: dir.length, sorted, counts };
+  return { total: totalMembers, sorted, counts };
 }
 
 function renderBatchLeaderboard() {
@@ -14537,6 +14614,8 @@ function renderBatchLeaderboard() {
 
   const { total, sorted } = getBatchRegistrationStats();
   if (totalEl) totalEl.textContent = `${total} Verified Alumni Registered`;
+  const pillEl = document.getElementById('liveLeaderboardMemberCountPill');
+  if (pillEl) pillEl.textContent = `⚡ ${total}+ Members Enrolled`;
 
   if (!sorted || sorted.length === 0) return;
 

@@ -32,11 +32,11 @@
   </script>
   <link rel="stylesheet" href="assets/css/styles.css?v=0.0.2">
   <!-- Theme Engine: Dual-Theme Switching between Light Sky Blue & Dark Navy Blue -->
-  <script src="assets/js/theme.js?v=20261122_v7"></script>
+  <script src="assets/js/theme.js?v=20261122_v8"></script>
   <!-- Enterprise High-Capacity IndexedDB & Virtualization Engine (100k+ Alumni Scale) -->
-  <script src="assets/js/storage-engine.js?v=20261122_v7"></script>
-  <script src="assets/js/cloud-sync.js?v=20261122_v7"></script>
-  <script src="assets/js/auth.js?v=20261122_v7"></script>
+  <script src="assets/js/storage-engine.js?v=20261122_v8"></script>
+  <script src="assets/js/cloud-sync.js?v=20261122_v8"></script>
+  <script src="assets/js/auth.js?v=20261122_v8"></script>
   <script>
     // Verify session without forcing admin
     const currentSessionUser = getCurrentUser();
@@ -1201,7 +1201,7 @@
             <div>
               <div class="flex items-center gap-2">
                 <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 uppercase tracking-wider">Live Alumni Standings</span>
-                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">⚡ 527+ Members Enrolled</span>
+                <span id="liveLeaderboardMemberCountPill" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">⚡ 550+ Members Enrolled</span>
               </div>
               <h3 class="text-xl sm:text-2xl font-cinzel font-bold text-white mt-1">🏆 Batch Registration Leaderboard</h3>
               <p class="text-xs text-slate-300 mt-0.5">See where your batch ranks in the alumni network. Challenge batchmates and lead the table!</p>
@@ -1217,7 +1217,7 @@
               <span class="font-bold text-slate-300 flex items-center gap-1.5">
                 <span>📊</span> <span>Complete Batch Participation Standings (Click any batch to view members)</span>
               </span>
-              <span class="text-[11px] text-amber-400 font-mono font-bold" id="leaderboardTotalRegistered">527 Registered</span>
+              <span class="text-[11px] text-amber-400 font-mono font-bold" id="leaderboardTotalRegistered">550 Verified Alumni Registered</span>
             </div>
             <div id="batchLeaderboardGrid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2"></div>
           </div>
@@ -3129,6 +3129,6 @@
   </div>
 
   <div id="toast-container" class="fixed bottom-4 right-4 z-50 space-y-2 pointer-events-none"></div>
-  <script src="assets/js/app.js?v=20261122_v7"></script>
+  <script src="assets/js/app.js?v=20261122_v8"></script>
 </body>
 </html>

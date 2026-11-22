@@ -293,6 +293,7 @@ if (hasChanges) {
       if (typeof saveAppData === 'function') saveAppData();
       if (typeof renderAdminQueue === 'function') renderAdminQueue();
       if (typeof renderDirectory === 'function') renderDirectory();
+      if (typeof renderBatchLeaderboard === 'function') renderBatchLeaderboard();
       console.log("[CloudSync] Registrations & Users synchronized across devices.");
     }
   }

@@ -1229,6 +1229,11 @@ assert(freshIndexHtml.includes('id="adminAuditLogsList"'), 'index.html contains 
 const freshMobIndexHtml = fs.readFileSync(path.join(rootDir, 'mobile_app', 'index.html'), 'utf8');
 assert(freshMobIndexHtml.includes('id="adminAuditLogsList"'), 'mobile_app/index.html contains adminAuditLogsList container');
 
+// 6. Dynamic Batch Leaderboard Live Counter
+const liveStats = getBatchRegistrationStats();
+assert(liveStats && liveStats.total >= 550, 'Batch leaderboard stats dynamically counts all live community members (>= 550)');
+assert(freshIndexHtml.includes('id="liveLeaderboardMemberCountPill"'), 'index.html contains liveLeaderboardMemberCountPill');
+
 console.log('\n====================================================');
 console.log(`TEST RESULTS: ${passedTests} / ${totalTests} ASSERTIONS PASSED`);
 console.log('====================================================');
