@@ -1173,6 +1173,62 @@ assert(mobLoginHtmlContent.includes('id="regTypeTeacherBtn"'), 'mobile_app/login
 assert(mobLoginHtmlContent.includes('id="regGuruMessageGroup"'), 'mobile_app/login.html contains regGuruMessageGroup');
 assert(mobLoginHtmlContent.includes('id="claimedTeacherId"'), 'mobile_app/login.html contains claimedTeacherId input');
 
+
+// ----------------------------------------------------
+// TEST SUITE 23: GURUJAN ROSTER ACCURACY, NOTABLE CIVIL LEADERSHIP & AUDIT LOG
+// ----------------------------------------------------
+console.log('\n--- TEST SUITE 23: GURUJAN ROSTER ACCURACY, NOTABLE CIVIL LEADERSHIP & AUDIT LOG ---');
+
+// 1. Sh. Gulab Chand Sonkar (Notable Alumni & Directory)
+const gulabNotable = NOTABLE_ALUMNI_LIST.find(a => a.name.includes('Gulab Chand Sonkar'));
+assert(gulabNotable && gulabNotable.batch === '2002' && gulabNotable.house === 'Shivalik', 'Sh. Gulab Chand Sonkar verified in Notable Alumni (Batch 2002, Shivalik House)');
+assert(gulabNotable && gulabNotable.role.includes('Deputy Commissioner'), 'Sh. Gulab Chand Sonkar role is Deputy Commissioner, Prayagraj');
+
+const gulabDir = AppState.directory.find(d => (d.name && d.name.includes('Gulab')) || d.id === 'alumni-112');
+assert(gulabDir && gulabDir.batch === 2002 && gulabDir.house === 'Shivalik', 'Alumni-112 updated to Sh. Gulab Chand Sonkar (Batch 2002, Shivalik House)');
+
+// 2. Smt. Arpana Yadav (Photo & Tenure 1995-2016)
+const arpanaTch = AppState.teachers.find(t => t.id === 'tch-ay' || t.name.includes('Arpana Yadav'));
+assert(arpanaTch && arpanaTch.photo === 'assets/images/arpana-yadav.jpg', 'Smt. Arpana Yadav profile photo verified');
+assert(arpanaTch && arpanaTch.tenure.includes('1995') && arpanaTch.tenure.includes('2016'), 'Smt. Arpana Yadav tenure verified as 1995-2016');
+
+// 3. Late Dr. Preetam Singh (Nilgiri House Master)
+const preetamTch = AppState.teachers.find(t => t.id === 'tch-ps' || t.name.includes('Preetam Singh'));
+assert(preetamTch && preetamTch.house === 'Nilgiri', 'Late Dr. Preetam Singh verified as House Master of Nilgiri House');
+
+// 4. Sh. L. S. Yadav (Revered English Faculty & Login Account)
+const lsyTch = AppState.teachers.find(t => t.id === 'tch-lsy' || t.name.includes('L. S. Yadav'));
+assert(lsyTch && (lsyTch.house === 'Udaigiri' || (lsyTch.houseDetail && lsyTch.houseDetail.includes('Udaigiri'))), 'Sh. L. S. Yadav verified as Udaigiri House Master');
+assert(lsyTch && lsyTch.phonePrivate === '8563975888', 'Sh. L. S. Yadav phone number verified');
+
+const lsyLoginRes = loginUser('teacher.laxmisln777@gmail.com', 'password123');
+assert(lsyLoginRes && lsyLoginRes.success && lsyLoginRes.user.role === 'teacher', 'Sh. L. S. Yadav authenticates successfully as Revered Faculty');
+
+// 5. Platform Activity & Change Audit Log Engine
+assert(typeof logPlatformActivity === 'function', 'logPlatformActivity is defined and exported');
+assert(typeof renderAuditLogs === 'function', 'renderAuditLogs is defined and exported');
+
+const initialLogCount = getAuditLogs().length;
+assert(initialLogCount <= 50, 'Audit log capped at 50 activities');
+
+// Record a state change activity
+logPlatformActivity('MEET_RSVP', 'Test Alumnus', 'Test Alumnus confirmed attendance for 4th Annual Meet 2026');
+const logsAfterChange = getAuditLogs();
+assert(logsAfterChange[0].type === 'MEET_RSVP' && logsAfterChange[0].actor === 'Test Alumnus', 'State change activity successfully recorded in audit log');
+
+// Ensure passive events (LOGIN, PAGE_BROWSE, etc.) are strictly rejected
+const countBeforePassive = getAuditLogs().length;
+logPlatformActivity('LOGIN', 'Test Alumnus', 'User logged in');
+logPlatformActivity('VIEW_PROFILE', 'Test Alumnus', 'Viewed profile');
+const countAfterPassive = getAuditLogs();
+assert(countAfterPassive.length === countBeforePassive && countAfterPassive[0].type !== 'LOGIN', 'Passive events (LOGIN, VIEW_PROFILE) strictly excluded from audit log');
+
+// UI container assertions
+const freshIndexHtml = fs.readFileSync(path.join(rootDir, 'index.html'), 'utf8');
+assert(freshIndexHtml.includes('id="adminAuditLogsList"'), 'index.html contains adminAuditLogsList container');
+const freshMobIndexHtml = fs.readFileSync(path.join(rootDir, 'mobile_app', 'index.html'), 'utf8');
+assert(freshMobIndexHtml.includes('id="adminAuditLogsList"'), 'mobile_app/index.html contains adminAuditLogsList container');
+
 console.log('\n====================================================');
 console.log(`TEST RESULTS: ${passedTests} / ${totalTests} ASSERTIONS PASSED`);
 console.log('====================================================');

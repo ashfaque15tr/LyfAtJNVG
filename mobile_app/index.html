@@ -1650,6 +1650,38 @@
       <!-- TAB 10: ADMIN PANEL                            -->
       <!-- ============================================== -->
       <section id="tab-admin" class="tab-content hidden space-y-6">
+        <!-- ================= LIVE WEBSITE ACTIVITY & CHANGE AUDIT LOG (LAST 50 ACTIVITIES) ================= -->
+        <div class="bg-slate-900 border border-emerald-500/30 p-6 rounded-3xl shadow-xl shadow-emerald-950/20">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
+            <div>
+              <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-[10px] font-bold mb-1">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping inline-block"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block -ml-2.5 mr-1"></span>
+                <span>LIVE PLATFORM AUDIT LOG</span>
+              </div>
+              <h2 class="text-xl font-bold font-cinzel text-white flex items-center gap-2">
+                <span>Recent Website Activities & Changes</span>
+              </h2>
+              <p class="text-xs text-slate-400 mt-0.5">
+                Displays the last 50 state changes (Registrations, Memory Wall Posts, RSVPs, Contributions & Gurujan Enrollments). Passive logins & profile visits are strictly excluded.
+              </p>
+            </div>
+            <div class="flex items-center gap-2 flex-wrap">
+              <span id="auditLogCounter" class="px-2.5 py-1 rounded-xl bg-emerald-500/20 text-emerald-300 font-bold text-xs border border-emerald-500/40">
+                50 Activities
+              </span>
+              <button onclick="renderAuditLogs()" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition flex items-center gap-1.5">
+                <span>🔄 Refresh</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Audit Log Scrollable Feed -->
+          <div id="adminAuditLogsList" class="space-y-2 max-h-[460px] overflow-y-auto pr-1">
+            <!-- Populated dynamically by renderAuditLogs() -->
+          </div>
+        </div>
+
         <div class="bg-slate-900 border border-purple-500/30 p-6 rounded-3xl">
           <div class="flex items-center justify-between">
             <div>

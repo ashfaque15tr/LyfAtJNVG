@@ -58,9 +58,9 @@ const defaultCommunityBroadcasts = [
     author: "Smt. Arpana Yadav",
     authorRole: "teacher",
     isTeacher: true,
-    roleBadge: "Former Faculty (TGT English)",
+    roleBadge: "Former Faculty (TGT English, 1995–2016)",
     roleTitle: "Revered Faculty",
-    authorPhoto: null,
+    authorPhoto: "assets/images/arpana-yadav.jpg",
     initials: "AY",
     batch: null,
     house: "Priyadarshni / Sarojini",
@@ -289,16 +289,16 @@ const defaultData = {
       post: "Former PGT Hindi (In Memoriam)",
       subject: "Hindi Literature & Sahitya",
       tenure: "1990 – 2005 (15 Years)",
-      house: "Aravali",
-      houseDetail: "House Master - Aravali & Hindi Sahitya Parishad",
+      house: "Nilgiri",
+      houseDetail: "House Master - Nilgiri House & Hindi Sahitya Parishad",
       location: "Amar Smriti • In Eternal Memory",
       initials: "PS",
       photo: null,
       isDeceased: true,
       tributeCount: 142,
       respectCount: 142,
-      message: "स्वर्गीय डॉ. प्रीतम सिंह जी ने नवोदय के विद्यार्थियों के भीतर हिंदी साहित्य के प्रति अगाध प्रेम और मानवीय संवेदनाओं का बीजारोपण किया। उनकी ओजस्वी वाणी और संस्कार आज भी गूंजते हैं।",
-      specialNote: "Beloved Hindi scholar and mentor who inspired generations of students in literary and ethical excellence."
+      message: "स्वर्गीय डॉ. प्रीतम सिंह सर ने अपने 15 वर्षों के सुदीर्घ कार्यकाल (1990-2005) में नवोदय के विद्यार्थियों के भीतर हिंदी साहित्य के प्रति अगाध प्रेम और मानवीय संवेदनाओं का बीजारोपण किया।",
+      specialNote: "House Master (Nilgiri House) & Revered PGT Hindi Faculty."
     },
     {
       id: "tch-1",
@@ -448,32 +448,34 @@ const defaultData = {
       post: "T.G.T.-English • Editor, Vidyalaya Magazine 'Navonmesh'",
       subject: "English Language, Literature & Chief Editor 'Navonmesh'",
       tenure: "2021 – Present",
-      house: "Campus",
-      houseDetail: "Faculty of English & Literary Society • Chief Editor, Navonmesh Magazine",
-      location: "Campus Staff Quarters, JNV Gauriganj",
+      house: "Udaigiri",
+      houseDetail: "House Master - Udaigiri House • Chief Editor, Navonmesh Magazine",
+      location: "Campus (Home Town-Sultanpur)",
       initials: "LSY",
       photo: "assets/images/ls-yadav.jpg",
-      respectCount: 168,
-      message: "Navodaya is the confluence of multi-dimensional talents. \nLet's come together and work together to succeed with flying colours by caring and sharing, J N V Stars! ⭐⭐⭐⭐⭐",
-      specialNote: "Dedicated English educator nurturing communicative excellence and literary expression at JNV Gauriganj since 2021. Chief Editor of Vidyalaya Annual Magazine 'Navonmesh' (नवोन्मेष)."
+      respectCount: 247,
+      email: "teacher.laxmisln777@gmail.com",
+      phonePrivate: "8563975888",
+      message: "Navodaya is the confluence of multi-dimensional talents. Let's come together & work together to succeed with flying colours by sharing & caring and refreshing our sweet & unforgettable memories,J N V Stars !",
+      specialNote: "Revered English Faculty, House Master (Udaigiri House) & Editor of Vidyalaya Annual Magazine 'Navonmesh'."
     },
     {
       id: "tch-ay",
       name: "Smt. Arpana Yadav",
-      title: "Senior Faculty (T.G.T.-English) & House Mother",
+      title: "Senior Faculty (T.G.T.-English, 1995–2016) & House Mother",
       category: "former",
-      statusLabel: "Former Faculty (TGT English) & House Mother",
+      statusLabel: "Former Faculty (TGT English, 1995–2016) & House Mother",
       post: "T.G.T.-English & House Mother",
       subject: "English Language, Literature & Values",
-      tenure: "1994 – 2012 (18 Years)",
+      tenure: "1995 – 2016 (21 Years)",
       house: "Priyadarshni / Sarojini",
       houseDetail: "Senior House Mother & Literary Society In-charge",
       location: "Lucknow / Sultanpur, UP",
       initials: "AY",
-      photo: null,
+      photo: "assets/images/arpana-yadav.jpg",
       respectCount: 198,
-      message: "कहाँ हो भाई सब? बहुत अच्छे लग रहे हैं आप सब! Love you all! Education is not the filling of a pail, but the lighting of a fire. हॉस्टल में आपका माँ सा ध्यान रखना और अंग्रेजी भाषा व नैतिक मूल्यों को जीवन में उतारना ही मेरा संकल्प रहा। सदा विजयी भव!",
-      specialNote: "Affectionate English mentor and pastoral guide remembered warmly by generations of Navodayans for her maternal care and inspiring literary guidance."
+      message: "कहाँ हो भाई सब? 4th Annual Meet 2026 में सभी विद्यार्थियों से मिलने का बेसब्री से इंतज़ार है। खूब तरक्की करो और नवोदय का नाम रोशन करो!",
+      specialNote: "Revered English Faculty & Senior House Mother at JNV Gauriganj (1995–2016)."
     },
     {
       id: "tch-9",
@@ -2169,18 +2171,18 @@ const defaultDirectoryAlumni = [
   },
   {
     "id": "alumni-112",
-    "name": "Gulab Chandra",
-    "initials": "GC",
+    "name": "Sh. Gulab Chand Sonkar",
+    "initials": "GS",
     "batch": 2002,
-    "house": "Nilgiri",
-    "role": "Govt/ DDO",
-    "location": "Unnao",
+    "house": "Shivalik",
+    "role": "Deputy Commissioner, Prayagraj",
+    "location": "Prayagraj",
     "domain": "Civil Services",
     "email": "vinod18896@gmail.com",
     "phone": "7983793938",
-    "badge": "Nilgiri",
-    "tag": "Alumnus",
-    "bio": "Govt/ DDO at Rural development • Batch of 2002 (Nilgiri House)."
+    "badge": "Shivalik",
+    "tag": "Notable Alumnus",
+    "bio": "Deputy Commissioner, Prayagraj • Provincial Development Service (PDS) • Batch of 2002 (Shivalik House)."
   },
   {
     "id": "alumni-113",
@@ -9255,6 +9257,9 @@ function handleRsvpSubmit(e) {
   renderRsvpTable();
   closeModal('rsvpModal');
   showToast(`RSVP Confirmed for ${name}! See you on 13 Dec 2026.`);
+  if (typeof logPlatformActivity === 'function') {
+    logPlatformActivity('MEET_RSVP', name, `${name} (Batch of ${batch}, ${house}) confirmed attendance for 4th Annual Alumni Meet 2026.`, { batch, house, city });
+  }
 }
 
 function renderRsvpTable() {
@@ -11062,6 +11067,20 @@ const NOTABLE_ALUMNI_LIST = [
     "link": null
   },
   {
+    "id": "notable-gcs-1",
+    "name": "Sh. Gulab Chand Sonkar",
+    "initials": "GS",
+    "batch": "2002",
+    "category": "civil",
+    "categoryLabel": "Civil Services & Public Policy",
+    "house": "Shivalik",
+    "role": "Deputy Commissioner, Prayagraj • Provincial Development Service (PDS)",
+    "academics": "Public Administration, Rural Development & Governance",
+    "intro": "Distinguished officer of the Provincial Development Service (PDS) serving as Deputy Commissioner, Prayagraj. Leading rural transformation, administrative governance, and welfare development oversight across Uttar Pradesh.",
+    "badgeColor": "emerald",
+    "link": null
+  },
+  {
     "id": "notable-jm-1",
     "name": "Dr. Jai Krishna Mishra",
     "initials": "JM",
@@ -11623,6 +11642,7 @@ function rejectQueueItem(id) {
 }
 
 function renderAdminQueue() {
+  if (typeof renderAuditLogs === 'function') renderAuditLogs();
   const container = document.getElementById('adminQueueList');
   if (!container) return;
 
@@ -12376,6 +12396,9 @@ function handleTeacherEnrollment(e) {
   closeTeacherEnrollModal();
   e.target.reset();
   showToast(`सादर नमन! Respected ${name} enrolled successfully. Guru Sandesh is now published on the Memory Wall.`);
+  if (typeof logPlatformActivity === 'function') {
+    logPlatformActivity('TEACHER_ENROLL', name, `Respected ${name} (${post}, ${subject}) enrolled as Revered Faculty.`, { tenure, house, phone });
+  }
 }
 
 let activePranamTeacher = null;
@@ -14587,3 +14610,233 @@ window.getBatchRegistrationStats = getBatchRegistrationStats;
 window.renderBatchLeaderboard = renderBatchLeaderboard;
 window.filterDirectoryBySpecificBatch = filterDirectoryBySpecificBatch;
 window.shareBatchFomoWhatsApp = shareBatchFomoWhatsApp;
+
+
+// =========================================================================
+// PLATFORM ACTIVITY & CHANGE AUDIT LOG ENGINE (Strictly State Changes Only)
+// Tracks: Registrations, Wall Posts, RSVPs, Contributions, Gurujan Enrollments
+// Strictly Excludes: Logins, Session checks, Profile visits
+// =========================================================================
+const JNVG_AUDIT_LOG_KEY = 'JNVG_PLATFORM_AUDIT_LOGS_V1';
+
+// Pre-seeded initial realistic recent activities
+const INITIAL_AUDIT_LOGS = [
+  {
+    id: "log-seed-1",
+    timestamp: new Date(Date.now() - 15 * 60 * 1000).toISOString(),
+    timeFormatted: "15 mins ago",
+    type: "TEACHER_ENROLL",
+    actor: "Sh. L. S. Yadav",
+    badgeLabel: "Gurujan Enrollment",
+    badgeColor: "amber",
+    icon: "🪔",
+    details: "Respected Sh. L. S. Yadav enrolled as Revered Faculty (T.G.T.-English, Udaigiri House Master) and shared Guru Sandesh."
+  },
+  {
+    id: "log-seed-2",
+    timestamp: new Date(Date.now() - 35 * 60 * 1000).toISOString(),
+    timeFormatted: "35 mins ago",
+    type: "REGISTRATION",
+    actor: "Rakesh Kumar",
+    badgeLabel: "Profile Claimed",
+    badgeColor: "emerald",
+    icon: "📝",
+    details: "Rakesh Kumar (Batch 2003, Aravali House) registered and claimed verified alumni directory profile."
+  },
+  {
+    id: "log-seed-3",
+    timestamp: new Date(Date.now() - 1 * 3600 * 1000).toISOString(),
+    timeFormatted: "1 hour ago",
+    type: "NOTABLE_ALUMNI",
+    actor: "Sh. Gulab Chand Sonkar",
+    badgeLabel: "Notable Honor",
+    badgeColor: "cyan",
+    icon: "⭐",
+    details: "Sh. Gulab Chand Sonkar (Batch 2002, Shivalik House, Deputy Commissioner Prayagraj) inducted into Notable Alumni."
+  },
+  {
+    id: "log-seed-4",
+    timestamp: new Date(Date.now() - 2 * 3600 * 1000).toISOString(),
+    timeFormatted: "2 hours ago",
+    type: "WALL_POST",
+    actor: "Smt. Arpana Yadav",
+    badgeLabel: "Memory Wall",
+    badgeColor: "purple",
+    icon: "📢",
+    details: "Smt. Arpana Yadav (Senior English Faculty, 1995–2016) published blessing: 'कहाँ हो भाई सब? 4th Annual Meet में मिलने का बेसब्री से इंतज़ार है।'"
+  },
+  {
+    id: "log-seed-5",
+    timestamp: new Date(Date.now() - 4 * 3600 * 1000).toISOString(),
+    timeFormatted: "4 hours ago",
+    type: "MEET_RSVP",
+    actor: "Sh. Utkrisht Pandey",
+    badgeLabel: "Meet RSVP",
+    badgeColor: "blue",
+    icon: "🎟️",
+    details: "Sh. Utkrisht Pandey (Batch 2002, Nilgiri House) confirmed attendance for 4th Annual Meet 2026."
+  },
+  {
+    id: "log-seed-6",
+    timestamp: new Date(Date.now() - 5 * 3600 * 1000).toISOString(),
+    timeFormatted: "5 hours ago",
+    type: "DONATION",
+    actor: "Sh. Vivek Tiwari",
+    badgeLabel: "Vidyalaya Contribution",
+    badgeColor: "amber",
+    icon: "💰",
+    details: "Sh. Vivek Tiwari (Batch 1994, MD Satya MicroCapital) sponsored 125 KVA Silent Generator & Cricket Trophy."
+  },
+  {
+    id: "log-seed-7",
+    timestamp: new Date(Date.now() - 7 * 3600 * 1000).toISOString(),
+    timeFormatted: "7 hours ago",
+    type: "WALL_POST",
+    actor: "Dr. Amitabh Singh",
+    badgeLabel: "Memory Wall",
+    badgeColor: "purple",
+    icon: "📢",
+    details: "Dr. Amitabh Singh (Batch 1998, Shivalik House) announced 4th Annual Meet Schedule & Guru Vandana itinerary."
+  },
+  {
+    id: "log-seed-8",
+    timestamp: new Date(Date.now() - 10 * 3600 * 1000).toISOString(),
+    timeFormatted: "10 hours ago",
+    type: "REGISTRATION",
+    actor: "Col. Virendra Kumar Pandey",
+    badgeLabel: "Directory Verified",
+    badgeColor: "emerald",
+    icon: "📝",
+    details: "Col. Virendra Kumar Pandey (Batch 1994, Indian Army) directory record verified under Aravali House."
+  }
+];
+
+function getAuditLogs() {
+  try {
+    const raw = localStorage.getItem(JNVG_AUDIT_LOG_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    }
+  } catch (e) {
+    console.error('Audit log fetch error:', e);
+  }
+  return [...INITIAL_AUDIT_LOGS];
+}
+
+function saveAuditLogs(logs) {
+  try {
+    const trimmed = (logs || []).slice(0, 50);
+    localStorage.setItem(JNVG_AUDIT_LOG_KEY, JSON.stringify(trimmed));
+  } catch (e) {
+    console.error('Audit log save error:', e);
+  }
+}
+
+function logPlatformActivity(type, actor, details, metadata = {}) {
+  // Strictly filter out passive events
+  const passiveEvents = ['LOGIN', 'LOGOUT', 'VISIT', 'VIEW_PROFILE', 'PAGE_BROWSE', 'CHECK_SESSION'];
+  if (passiveEvents.includes(type)) return;
+
+  const typeConfig = {
+    'REGISTRATION': { badge: 'New Registration', color: 'emerald', icon: '📝' },
+    'REGISTRATION_APPROVED': { badge: 'Approved Member', color: 'emerald', icon: '✅' },
+    'WALL_POST': { badge: 'Memory Wall Post', color: 'purple', icon: '📢' },
+    'WALL_LIKE': { badge: 'Story Liked', color: 'rose', icon: '❤️' },
+    'WALL_COMMENT': { badge: 'Story Comment', color: 'blue', icon: '💬' },
+    'MEET_RSVP': { badge: 'Meet RSVP Confirmed', color: 'blue', icon: '🎟️' },
+    'DONATION': { badge: 'Vidyalaya Fund', color: 'amber', icon: '💰' },
+    'TEACHER_ENROLL': { badge: 'Gurujan Enrollment', color: 'amber', icon: '🪔' },
+    'ROLE_CHANGE': { badge: 'Role Delegation', color: 'indigo', icon: '🛡️' },
+    'PROFILE_UPDATE': { badge: 'Profile Updated', color: 'cyan', icon: '✏️' },
+    'CULTURAL_ACT': { badge: 'Cultural Act Slot', color: 'purple', icon: '🎭' },
+    'NOTABLE_ALUMNI': { badge: 'Notable Honor', color: 'cyan', icon: '⭐' }
+  };
+
+  const cfg = typeConfig[type] || { badge: 'Website Change', color: 'slate', icon: '⚡' };
+  const d = new Date();
+  const timeFormatted = d.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true }) + ', ' + d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+
+  const entry = {
+    id: `log-${Date.now()}-${Math.floor(Math.random() * 10000)}`,
+    timestamp: d.toISOString(),
+    timeFormatted: timeFormatted,
+    type: type,
+    actor: actor || 'Alumnus Member',
+    badgeLabel: cfg.badge,
+    badgeColor: cfg.color,
+    icon: cfg.icon,
+    details: details,
+    metadata: metadata
+  };
+
+  const currentLogs = getAuditLogs();
+  currentLogs.unshift(entry);
+  saveAuditLogs(currentLogs);
+
+  // Broadcast to cloud sync if available
+  if (typeof AlumniCloudSync !== 'undefined' && typeof AlumniCloudSync.publish === 'function') {
+    AlumniCloudSync.publish('AUDIT_LOG_CREATED', entry);
+  }
+
+  // Refresh UI if visible
+  if (document.getElementById('adminAuditLogsList')) {
+    renderAuditLogs();
+  }
+}
+
+function renderAuditLogs() {
+  const container = document.getElementById('adminAuditLogsList');
+  if (!container) return;
+
+  const logs = getAuditLogs().slice(0, 50);
+  const counterEl = document.getElementById('auditLogCounter');
+  if (counterEl) {
+    counterEl.textContent = `${logs.length} Recent Activities`;
+  }
+
+  if (logs.length === 0) {
+    container.innerHTML = `
+      <div class="p-6 text-center text-slate-400 bg-slate-950/60 rounded-2xl border border-slate-800">
+        <span class="text-2xl block mb-1">📭</span>
+        <p class="text-xs">No website changes recorded yet. Only mutations (registrations, posts, RSVPs, contributions) are logged here.</p>
+      </div>`;
+    return;
+  }
+
+  const badgeColorMap = {
+    emerald: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
+    amber: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
+    purple: 'bg-purple-500/15 text-purple-300 border-purple-500/30',
+    blue: 'bg-blue-500/15 text-blue-300 border-blue-500/30',
+    cyan: 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30',
+    rose: 'bg-rose-500/15 text-rose-300 border-rose-500/30',
+    indigo: 'bg-indigo-500/15 text-indigo-300 border-indigo-500/30',
+    slate: 'bg-slate-700/30 text-slate-300 border-slate-600/40'
+  };
+
+  let html = '';
+  logs.forEach(log => {
+    const badgeStyle = badgeColorMap[log.badgeColor] || badgeColorMap.slate;
+    html += `
+      <div class="p-3 rounded-2xl bg-slate-950/70 border border-slate-800/80 hover:border-slate-700 transition flex items-start gap-3 text-xs group">
+        <div class="w-8 h-8 rounded-xl bg-slate-900 border border-slate-700/80 flex items-center justify-center text-sm flex-shrink-0 mt-0.5 group-hover:scale-105 transition">
+          ${log.icon || '⚡'}
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex flex-wrap items-center justify-between gap-1.5 mb-1">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="font-bold text-white tracking-tight">${log.actor}</span>
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold border ${badgeStyle}">
+                ${log.badgeLabel}
+              </span>
+            </div>
+            <span class="text-[10px] text-slate-400 font-mono flex-shrink-0">${log.timeFormatted}</span>
+          </div>
+          <p class="text-slate-300 text-[11px] leading-relaxed break-words">${log.details}</p>
+        </div>
+      </div>`;
+  });
+
+  container.innerHTML = html;
+}
