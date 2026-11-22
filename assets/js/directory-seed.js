@@ -259,6 +259,40 @@ const defaultTeachers = [
 
 const defaultDirectoryAlumni = [
   {
+    "id": "alumni-2025-aryansh",
+    "name": "Aryansh Patel",
+    "initials": "AP",
+    "batch": 2025,
+    "house": "Nilgiri",
+    "role": "Alumnus",
+    "location": "Gauriganj, Amethi",
+    "domain": "Technology",
+    "email": "aryansh.patel.jnvg@gmail.com",
+    "phone": "",
+    "badge": "Nilgiri",
+    "tag": "Alumnus",
+    "claimed": true,
+    "verified": true,
+    "bio": "Alumnus • Batch of 2025 (Nilgiri House)."
+  },
+  {
+    "id": "alumni-2025-anurag",
+    "name": "Anurag",
+    "initials": "A",
+    "batch": 2025,
+    "house": "Udaigiri",
+    "role": "Student at IIT Kharagpur",
+    "location": "KHARAGPUR, WEST BENGAL",
+    "domain": "Education",
+    "email": "anuragchaudhari07@gmail.com",
+    "phone": "9792710727",
+    "badge": "Udaigiri",
+    "tag": "Alumnus",
+    "claimed": true,
+    "verified": true,
+    "bio": "Student at IIT Kharagpur • Batch of 2025 (Udaigiri House)."
+  },
+  {
     "id": "dir-ashfaque-ahmad",
     "name": "Ashfaque Ahmad",
     "initials": "AA",
@@ -6474,17 +6508,18 @@ const defaultDirectoryAlumni = [
   {
     "id": "alumni-415",
     "name": "Shiv Kumar Verma",
-    "initials": "SK",
+    "initials": "SV",
     "batch": 1995,
-    "house": "Nilgiri",
-    "role": "Engineer",
-    "location": "Washington metropolitan area/National Capital Region",
+    "house": "Shivalik",
+    "role": "Global Engineering Leader & Tech Architect",
+    "location": "Washington metropolitan area / National Capital Region",
     "domain": "Technology",
     "email": "shivverma@gmail.com",
     "phone": "",
-    "badge": "Nilgiri",
-    "tag": "Alumnus",
-    "bio": "Engineer • Batch of 1995 (Nilgiri House)."
+    "badge": "Shivalik",
+    "tag": "Notable",
+    "link": "https://www.linkedin.com/in/vermashiv/",
+    "bio": "Global Engineering Leader at Washington D.C. Area • Batch of 1995 (Raman / Shivalik House)."
   },
   {
     "id": "alumni-416",

@@ -160,11 +160,13 @@ const AlumniStorageEngine = (() => {
     cache.directory = directoryItems || [];
     cache.directoryByBatch.clear();
     cache.directory.forEach(alumnus => {
-      const b = alumnus.batch;
-      if (!cache.directoryByBatch.has(b)) {
-        cache.directoryByBatch.set(b, []);
+      const b = parseInt(alumnus.batch, 10);
+      if (!isNaN(b)) {
+        if (!cache.directoryByBatch.has(b)) {
+          cache.directoryByBatch.set(b, []);
+        }
+        cache.directoryByBatch.get(b).push(alumnus);
       }
-      cache.directoryByBatch.get(b).push(alumnus);
     });
   }
 
@@ -193,8 +195,8 @@ const AlumniStorageEngine = (() => {
 
     // Fast-path index filtering by batch if specific batch requested
     if (batch !== 'all') {
-      const bNum = parseInt(batch);
-      dataset = cache.directoryByBatch.get(bNum) || [];
+      const bNum = parseInt(batch, 10);
+      dataset = cache.directoryByBatch.get(bNum) || cache.directory.filter(d => parseInt(d.batch, 10) === bNum);
     }
 
     const q = (query || '').trim().toLowerCase();

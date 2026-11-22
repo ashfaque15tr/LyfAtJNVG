@@ -43,6 +43,40 @@ const OTP_STORAGE_KEY = 'JNVG_ACTIVE_OTP_SESSIONS';
 // Pre-seeded verified alumni user directory with distinct roles
 const DEFAULT_ACCOUNTS = [
   {
+    id: "usr-aryansh-2025",
+    name: "Aryansh Patel",
+    email: "aryansh.patel.jnvg@gmail.com",
+    batch: 2025,
+    house: "Nilgiri",
+    role: "member",
+    roleTitle: "Verified Alumni Member",
+    status: "approved",
+    phone: "",
+    city: "Gauriganj, Amethi",
+    profession: "Alumnus",
+    domain: "Technology",
+    avatar: "AP",
+    photo: null,
+    joinedDate: "Registered Member (Batch 2025)"
+  },
+  {
+    id: "usr-anurag-2025",
+    name: "Anurag",
+    email: "anuragchaudhari07@gmail.com",
+    batch: 2025,
+    house: "Udaigiri",
+    role: "member",
+    roleTitle: "Verified Alumni Member",
+    status: "approved",
+    phone: "9792710727",
+    city: "KHARAGPUR, WEST BENGAL",
+    profession: "Student at IIT Kharagpur",
+    domain: "Education",
+    avatar: "A",
+    photo: null,
+    joinedDate: "Registered Member (Batch 2025)"
+  },
+  {
     id: "usr-tch-lsy",
     email: "teacher.laxmisln777@gmail.com",
     password: "password123",
@@ -1228,6 +1262,56 @@ function registerAlumni(userData) {
 
   users.push(newAlumnus);
   saveAllUsers(users);
+  // Immediate auto-addition to Directory if new alumnus (not claiming existing record)
+  if (!claimedId && !isTeacher) {
+    try {
+      const storageKey = 'JNVG_ALUMNI_APP_DATA_V2';
+      let appData = null;
+      if (typeof localStorage !== 'undefined') {
+        const raw = localStorage.getItem(storageKey);
+        if (raw) appData = JSON.parse(raw);
+      }
+      if (!appData && typeof AppState !== 'undefined' && AppState.directory) {
+        appData = AppState;
+      }
+      if (appData && Array.isArray(appData.directory)) {
+        const dirExists = appData.directory.some(d => (d.email && d.email.toLowerCase() === newAlumnus.email) || ((d.name || '').toLowerCase() === newAlumnus.name.toLowerCase() && parseInt(d.batch) === parseInt(newAlumnus.batch)));
+        if (!dirExists) {
+          const newDirItem = {
+            id: `alumni-${Date.now()}`,
+            name: newAlumnus.name,
+            initials: initials || "NV",
+            batch: newAlumnus.batch,
+            house: newAlumnus.house,
+            role: newAlumnus.profession || "Alumnus",
+            location: newAlumnus.city,
+            domain: newAlumnus.domain || "Other",
+            email: newAlumnus.email,
+            phone: newAlumnus.phone,
+            badge: newAlumnus.house,
+            tag: "Alumnus",
+            verified: true,
+            claimed: true,
+            photo: newAlumnus.photo || null,
+            bio: `${newAlumnus.profession || 'Alumnus'} • Batch of ${newAlumnus.batch} (${newAlumnus.house} House).`
+          };
+          appData.directory.unshift(newDirItem);
+          if (typeof AppState !== 'undefined' && AppState.directory) {
+            AppState.directory.unshift(newDirItem);
+          }
+          if (typeof window !== 'undefined' && window.AlumniStorageEngine && typeof window.AlumniStorageEngine.buildCacheIndexes === 'function') {
+            window.AlumniStorageEngine.buildCacheIndexes(appData.directory);
+          }
+          if (typeof localStorage !== 'undefined') {
+            localStorage.setItem(storageKey, JSON.stringify(appData));
+          }
+        }
+      }
+    } catch(err) {
+      console.warn("Could not auto-add to directory in registerAlumni:", err);
+    }
+  }
+
 
   // In-place Faculty Profile Enrichment if claiming an existing teacher entry
   if (claimedTeacherId) {

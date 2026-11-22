@@ -502,6 +502,40 @@ const SOFT_LAUNCH_STORAGE_FLAG = 'JNVG_SOFT_LAUNCH_2026_CLEARED_V8';
 // As of today, Ashfaque Ahmad is the ONLY verified alumni present in the directory as Super Admin (Batch of 2005)
 const defaultDirectoryAlumni = [
   {
+    "id": "alumni-2025-aryansh",
+    "name": "Aryansh Patel",
+    "initials": "AP",
+    "batch": 2025,
+    "house": "Nilgiri",
+    "role": "Alumnus",
+    "location": "Gauriganj, Amethi",
+    "domain": "Technology",
+    "email": "aryansh.patel.jnvg@gmail.com",
+    "phone": "",
+    "badge": "Nilgiri",
+    "tag": "Alumnus",
+    "claimed": true,
+    "verified": true,
+    "bio": "Alumnus • Batch of 2025 (Nilgiri House)."
+  },
+  {
+    "id": "alumni-2025-anurag",
+    "name": "Anurag",
+    "initials": "A",
+    "batch": 2025,
+    "house": "Udaigiri",
+    "role": "Student at IIT Kharagpur",
+    "location": "KHARAGPUR, WEST BENGAL",
+    "domain": "Education",
+    "email": "anuragchaudhari07@gmail.com",
+    "phone": "9792710727",
+    "badge": "Udaigiri",
+    "tag": "Alumnus",
+    "claimed": true,
+    "verified": true,
+    "bio": "Student at IIT Kharagpur • Batch of 2025 (Udaigiri House)."
+  },
+  {
     "id": "dir-ashfaque-ahmad",
     "name": "Ashfaque Ahmad",
     "initials": "AA",
@@ -6717,17 +6751,18 @@ const defaultDirectoryAlumni = [
   {
     "id": "alumni-415",
     "name": "Shiv Kumar Verma",
-    "initials": "SK",
+    "initials": "SV",
     "batch": 1995,
-    "house": "Nilgiri",
-    "role": "Engineer",
-    "location": "Washington metropolitan area/National Capital Region",
+    "house": "Shivalik",
+    "role": "Global Engineering Leader & Tech Architect",
+    "location": "Washington metropolitan area / National Capital Region",
     "domain": "Technology",
     "email": "shivverma@gmail.com",
     "phone": "",
-    "badge": "Nilgiri",
-    "tag": "Alumnus",
-    "bio": "Engineer • Batch of 1995 (Nilgiri House)."
+    "badge": "Shivalik",
+    "tag": "Notable",
+    "link": "https://www.linkedin.com/in/vermashiv/",
+    "bio": "Global Engineering Leader at Washington D.C. Area • Batch of 1995 (Raman / Shivalik House)."
   },
   {
     "id": "alumni-416",
@@ -10548,7 +10583,62 @@ function populateBatchFilterOptions() {
   }
 }
 
+
+// Dynamically merge registered verified alumni from getAllUsers() into directory
+function syncRegisteredUsersToDirectory() {
+  if (!AppState || !Array.isArray(AppState.directory)) return;
+  const allUsers = typeof getAllUsers === 'function' ? getAllUsers() : [];
+  let added = false;
+  allUsers.forEach(u => {
+    if (u.role === 'teacher' || u.isTeacher || u.profession === 'Faculty') return;
+    const uEmail = (u.email || '').toLowerCase().trim();
+    const uPhone = (u.phone || '').replace(/\D/g, '').slice(-10);
+    const uName = (u.name || '').toLowerCase().trim();
+    const uBatch = parseInt(u.batch, 10);
+
+    const exists = AppState.directory.some(d => {
+      const dEmail = (d.email || '').toLowerCase().trim();
+      const dPhone = (d.phone || '').replace(/\D/g, '').slice(-10);
+      const dName = (d.name || '').toLowerCase().trim();
+      const dBatch = parseInt(d.batch, 10);
+      return (uEmail && dEmail && uEmail === dEmail) ||
+             (uPhone && dPhone && uPhone.length >= 8 && dPhone === uPhone) ||
+             (uName && dName && uName === dName && uBatch === dBatch);
+    });
+
+    if (!exists && uName) {
+      AppState.directory.unshift({
+        id: u.id || `dir-usr-${Date.now()}`,
+        name: u.name,
+        initials: (u.name.split(' ').map(n=>n[0]).join('').slice(0,2) || 'NV').toUpperCase(),
+        batch: uBatch || 2025,
+        house: u.house || 'Nilgiri',
+        role: u.profession || u.roleTitle || 'Alumnus',
+        location: u.city || 'India',
+        domain: u.domain || 'Technology',
+        email: u.email || '',
+        phone: u.phone || '',
+        badge: u.house || 'Nilgiri',
+        tag: 'Alumnus',
+        verified: true,
+        claimed: true,
+        photo: u.photo || null,
+        bio: `${u.profession || 'Alumnus'} • Batch of ${uBatch || 2025} (${u.house || 'Nilgiri'} House).`
+      });
+      added = true;
+    }
+  });
+
+  if (added) {
+    if (window.AlumniStorageEngine && typeof window.AlumniStorageEngine.buildCacheIndexes === 'function') {
+      window.AlumniStorageEngine.buildCacheIndexes(AppState.directory);
+    }
+    if (typeof saveAppData === 'function') saveAppData();
+  }
+}
+
 function renderDirectory(append = false) {
+  syncRegisteredUsersToDirectory();
   const grid = document.getElementById('directoryGrid');
   if (!grid) return;
 
@@ -11080,6 +11170,20 @@ const NOTABLE_ALUMNI_LIST = [
     "intro": "Distinguished officer of the Provincial Development Service (PDS) serving as Deputy Commissioner, Prayagraj. Leading rural transformation, administrative governance, and welfare development oversight across Uttar Pradesh.",
     "badgeColor": "emerald",
     "link": null
+  },
+  {
+    "id": "notable-skv-1",
+    "name": "Sh. Shiv Kumar Verma",
+    "initials": "SV",
+    "batch": "1995",
+    "category": "enterprise",
+    "categoryLabel": "Global Technology & Engineering Leadership",
+    "house": "Shivalik",
+    "role": "Global Engineering Leader & Tech Architect (Washington D.C. / USA)",
+    "academics": "Engineering & Technology Architecture • JNV Gauriganj (1995 Batch, Raman House)",
+    "intro": "Distinguished global systems engineering and enterprise architecture leader based in the Washington metropolitan area / National Capital Region (USA). Batch of 1995 (Raman / Shivalik House), driving cloud computing systems, technological modernization, and enterprise architecture.",
+    "badgeColor": "cyan",
+    "link": "https://www.linkedin.com/in/vermashiv/"
   },
   {
     "id": "notable-jm-1",

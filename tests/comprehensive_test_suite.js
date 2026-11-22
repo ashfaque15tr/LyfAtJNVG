@@ -72,10 +72,12 @@ const vm = require('vm');
 const rootDir = path.resolve(__dirname, '..');
 const authCode = fs.readFileSync(path.join(rootDir, 'assets/js/auth.js'), 'utf8');
 const appCode = fs.readFileSync(path.join(rootDir, 'assets/js/app.js'), 'utf8');
+const storageCode = fs.readFileSync(path.join(rootDir, 'assets/js/storage-engine.js'), 'utf8');
 
-// Load auth.js & app.js into global context
+// Load auth.js, app.js & storage-engine.js into global context
 vm.runInThisContext(authCode);
 vm.runInThisContext(appCode);
+vm.runInThisContext(storageCode);
 
 console.log('====================================================');
 console.log('JNV GAURIGANJ ALUMNI PLATFORM - AUTOMATED TEST SUITE');
@@ -1274,6 +1276,48 @@ assert(mobIndexContent.includes('id="changePasswordModal"'), 'mobile_app/index.h
 assert(loginContent.includes('id="loginEmail"') && loginContent.includes('type="text" id="loginEmail"'), 'login.html alumni login allows phone numbers (type="text")');
 assert(loginContent.includes('id="teacherLoginEmail"') && loginContent.includes('type="text" id="teacherLoginEmail"'), 'login.html teacher login allows phone numbers (type="text")');
 assert(loginContent.includes('Default password for Gurujan accounts is'), 'login.html contains Gurujan password guidance tip');
+
+
+// =========================================================================
+// TEST SUITE 25: BATCH 2025 ALUMNI, SHIV VERMA NOTABLE & DIRECTORY SYNC
+// =========================================================================
+console.log('\n--- TEST SUITE 25: BATCH 2025 ALUMNI, SHIV VERMA NOTABLE & DIRECTORY SYNC ---');
+
+// 1. Shiv Kumar Verma (1995, Shivalik / Raman) in Notable Alumni
+const shivNotable = NOTABLE_ALUMNI_LIST.find(a => a.id === 'notable-skv-1');
+assert(!!shivNotable, 'Sh. Shiv Kumar Verma is registered in NOTABLE_ALUMNI_LIST');
+assert(shivNotable.batch === '1995', 'Sh. Shiv Kumar Verma batch is 1995');
+assert(shivNotable.house === 'Shivalik', 'Sh. Shiv Kumar Verma house is Shivalik (Raman House)');
+assert(shivNotable.link === 'https://www.linkedin.com/in/vermashiv/', 'Sh. Shiv Kumar Verma has verified LinkedIn link');
+
+// 2. Aryansh Patel and Anurag in Batch 2025 Directory Seed
+const seedDir = require('../assets/js/directory-seed.js');
+const aryanshSeed = seedDir.find(d => d.name === 'Aryansh Patel' && parseInt(d.batch) === 2025);
+assert(!!aryanshSeed, 'Aryansh Patel is present in directory-seed.js (Batch 2025)');
+assert(aryanshSeed.house === 'Nilgiri', 'Aryansh Patel belongs to Nilgiri House');
+
+const anuragSeed = seedDir.find(d => d.name === 'Anurag' && parseInt(d.batch) === 2025);
+assert(!!anuragSeed, 'Anurag is present in directory-seed.js (Batch 2025)');
+assert(anuragSeed.house === 'Udaigiri', 'Anurag belongs to Udaigiri House');
+
+// 3. Storage Engine Cache Indexing (Integer & String batch query resolution)
+if (typeof window.AlumniStorageEngine === 'undefined' && typeof AlumniStorageEngine !== 'undefined') window.AlumniStorageEngine = AlumniStorageEngine;
+window.AlumniStorageEngine.buildCacheIndexes(seedDir);
+const qStr2025 = window.AlumniStorageEngine.queryDirectory({ batch: '2025' });
+assert(qStr2025.totalCount >= 2, 'Batch "2025" string query finds at least 2 alumni (found ' + qStr2025.totalCount + ')');
+assert(qStr2025.items.some(x => x.name === 'Aryansh Patel'), 'Batch "2025" string query contains Aryansh Patel');
+assert(qStr2025.items.some(x => x.name === 'Anurag'), 'Batch "2025" string query contains Anurag');
+
+const qNum2025 = window.AlumniStorageEngine.queryDirectory({ batch: 2025 });
+assert(qNum2025.totalCount >= 2, 'Batch 2025 integer query finds at least 2 alumni (found ' + qNum2025.totalCount + ')');
+assert(qNum2025.items.some(x => x.name === 'Aryansh Patel'), 'Batch 2025 integer query contains Aryansh Patel');
+
+// 4. Default accounts include Aryansh Patel
+const allUsersList = getAllUsers();
+const aryanshUser = allUsersList.find(u => u.name === 'Aryansh Patel');
+assert(!!aryanshUser, 'Aryansh Patel is present in default accounts/users database');
+assert(aryanshUser.house === 'Nilgiri', 'Aryansh Patel user account house is Nilgiri');
+assert(aryanshUser.batch === 2025, 'Aryansh Patel user account batch is 2025');
 
 console.log('\n====================================================');
 console.log(`TEST RESULTS: ${passedTests} / ${totalTests} ASSERTIONS PASSED`);

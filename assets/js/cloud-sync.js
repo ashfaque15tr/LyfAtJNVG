@@ -34,11 +34,19 @@ const AlumniCloudSync = (() => {
    */
   async function publishEvent(topic, eventType, payload) {
     try {
+      // Create clean, lightweight payload without huge base64 strings so ntfy never rejects or converts to expiring attachment
+      let cleanPayload = payload;
+      if (payload && typeof payload === 'object') {
+        cleanPayload = { ...payload };
+        if (cleanPayload.photo && String(cleanPayload.photo).startsWith('data:')) {
+          cleanPayload.photo = null; // keep payload lightweight (< 2KB)
+        }
+      }
       const body = JSON.stringify({
         type: eventType,
         source: 'jnvg_platform',
         timestamp: Date.now(),
-        payload: payload
+        payload: cleanPayload
       });
 
       const res = await fetch(`${BASE_URL}/${topic}`, {
@@ -200,6 +208,32 @@ const AlumniCloudSync = (() => {
             joinedDate: new Date().toLocaleDateString('en-IN')
           });
           hasChanges = true;
+        }
+
+        // Immediately ensure directory knows about this registered alumnus
+        if (typeof AppState !== 'undefined' && Array.isArray(AppState.directory) && u.role !== 'teacher') {
+          const inDir = AppState.directory.some(d => (d.email && d.email.toLowerCase() === u.email.toLowerCase()) || ((d.name || '').toLowerCase() === (u.name || '').toLowerCase() && parseInt(d.batch) === parseInt(u.batch)));
+          if (!inDir) {
+            AppState.directory.unshift({
+              id: u.id || `dir-sync-${Date.now()}`,
+              name: u.name,
+              initials: (u.name.split(' ').map(n=>n[0]).join('').slice(0,2) || 'NV').toUpperCase(),
+              batch: parseInt(u.batch) || 2025,
+              house: u.house || 'Nilgiri',
+              role: u.profession || 'Alumnus',
+              location: u.city || 'India',
+              domain: u.domain || 'Technology',
+              email: u.email,
+              phone: u.phone,
+              badge: u.house || 'Nilgiri',
+              tag: 'Alumnus',
+              verified: true,
+              claimed: true,
+              photo: u.photo || null,
+              bio: `${u.profession || 'Alumnus'} • Batch of ${parseInt(u.batch) || 2025} (${u.house || 'Nilgiri'} House).`
+            });
+            hasChanges = true;
+          }
         }
 
         // Add to AppState.pendingRegistrations if Admin
