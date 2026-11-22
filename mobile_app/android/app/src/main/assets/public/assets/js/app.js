@@ -10133,7 +10133,7 @@ function handleRegistrationSubmit(e) {
 
   closeModal('registerModal');
   showToast(`🎉 Welcome ${name}! Your registration is complete and your profile is active.`);
-  if (typeof renderDirectory === 'function') renderDirectory();
+  if (typeof renderDirectory === 'function') renderDirectory(); if (typeof renderBatchLeaderboard === "function") renderBatchLeaderboard();
   if (typeof renderTeachers === 'function') renderTeachers('all');
 }
 
@@ -10453,7 +10453,7 @@ function approveRegistration(regId) {
     }
   } catch(e) { console.warn("User status sync warning:", e); }
 
-  renderDirectory();
+  renderDirectory(); if (typeof renderBatchLeaderboard === "function") renderBatchLeaderboard();
   renderTeachers('all');
   renderHelpRequests('all');
   refreshInboxBadge();
@@ -10808,7 +10808,7 @@ function deleteAlumniProfile(targetName) {
   }
 
   // 5. Re-render directory & role governance
-  renderDirectory();
+  renderDirectory(); if (typeof renderBatchLeaderboard === "function") renderBatchLeaderboard();
   if (typeof renderRoleGovernanceList === 'function') renderRoleGovernanceList();
 
   showToast(`✓ Profile of ${targetName} permanently deleted from directory.`, 'success');
@@ -13305,7 +13305,7 @@ if (typeof navigator !== 'undefined' && 'serviceWorker' in navigator && typeof w
 document.addEventListener('DOMContentLoaded', () => {
   renderRsvpTable();
   renderFeed();
-  renderDirectory();
+  renderDirectory(); if (typeof renderBatchLeaderboard === "function") renderBatchLeaderboard();
   renderTeachers('all');
   renderHelpRequests('all');
   refreshInboxBadge();
@@ -13905,7 +13905,7 @@ function changeUserRole(targetIdentifier, newRole) {
 
   saveAppData();
   renderRoleGovernanceList(document.getElementById('roleManageSearch') ? document.getElementById('roleManageSearch').value : '');
-  renderDirectory();
+  renderDirectory(); if (typeof renderBatchLeaderboard === "function") renderBatchLeaderboard();
 
   const cleanRoleName = newRole === 'admin' ? 'Super Admin' : newRole === 'host' ? 'Host' : newRole === 'moderator' ? 'Moderator' : newRole === 'teacher' ? 'Revered Gurujan' : 'Member';
   showToast(`Role updated: ${targetDisplayName} is now a ${cleanRoleName}!`);
@@ -14232,7 +14232,7 @@ function handleProfileUpdate(e) {
 
   // Refresh live UI
   if (typeof applyUserSession === 'function') applyUserSession(curUser);
-  if (typeof renderDirectory === 'function') renderDirectory();
+  if (typeof renderDirectory === 'function') renderDirectory(); if (typeof renderBatchLeaderboard === "function") renderBatchLeaderboard();
 
   if (typeof closeModal === 'function') closeModal('editProfileModal');
   alert("✓ Your alumnus profile has been successfully updated!");
@@ -14360,3 +14360,198 @@ function toggleTeacherTributes(teacherId) {
 if (typeof window !== 'undefined' && window.AlumniCloudSync && typeof window.AlumniCloudSync.init === 'function') {
   window.AlumniCloudSync.init();
 }
+
+
+// =========================================================================
+// NOTABLE ALUMNI REGARDS ENGINE (Send Respect & Regards to Hall of Fame)
+// =========================================================================
+let activeRegardsNotable = null;
+
+function openNotableRegardsModal(notableId) {
+  const item = NOTABLE_ALUMNI_LIST.find(a => a.id === notableId || a.name === notableId);
+  if (!item) return;
+  activeRegardsNotable = item;
+
+  const nameEl = document.getElementById('notableRegardsRecipientName');
+  const roleEl = document.getElementById('notableRegardsRecipientRole');
+  if (nameEl) nameEl.textContent = item.name;
+  if (roleEl) roleEl.textContent = `${item.role} • Batch of ${item.batch} (${item.house} House)`;
+
+  const curUser = (typeof getCurrentUser === 'function') ? getCurrentUser() : null;
+  const nameIn = document.getElementById('notableRegardsSenderName');
+  const batchIn = document.getElementById('notableRegardsSenderBatch');
+  const noteIn = document.getElementById('notableRegardsNote');
+
+  if (nameIn) nameIn.value = (curUser && curUser.name && curUser.name !== 'Alumnus Visitor') ? curUser.name : '';
+  if (batchIn) batchIn.value = (curUser && curUser.batch && curUser.batch !== 'Guest') ? curUser.batch : '';
+  if (noteIn) noteIn.value = '';
+
+  const modal = document.getElementById('notableRegardsModal');
+  if (modal) {
+    modal.classList.remove('hidden');
+    modal.style.display = 'flex';
+  }
+}
+
+function closeNotableRegardsModal() {
+  const modal = document.getElementById('notableRegardsModal');
+  if (modal) modal.classList.add('hidden');
+}
+
+function submitNotableRegards(e) {
+  e.preventDefault();
+  const sender = (document.getElementById('notableRegardsSenderName')?.value || '').trim();
+  const batch = (document.getElementById('notableRegardsSenderBatch')?.value || '').trim();
+  const note = (document.getElementById('notableRegardsNote')?.value || '').trim();
+  const notable = activeRegardsNotable;
+
+  if (notable) {
+    const curUser = (typeof getCurrentUser === 'function') ? getCurrentUser() : null;
+    const msgs = getAllChatMessages();
+    const newMsg = {
+      id: "regards-" + Date.now() + "-" + Math.floor(Math.random() * 1000),
+      senderId: curUser ? curUser.id : ('guest-' + Date.now()),
+      senderName: sender || (curUser ? curUser.name : 'Alumnus'),
+      senderBatch: batch || (curUser ? curUser.batch : 'Alumni'),
+      recipientId: notable.id,
+      recipientName: notable.name,
+      recipientBatch: String(notable.batch),
+      text: `🤝 [शुभकामना संदेश / Warm Regards]: ${note || 'हृदयतल से सादर प्रणाम एवं हार्दिक शुभकामनाएं! JNVG परिवार को आप पर गर्व है।'}`,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      createdAt: Date.now(),
+      type: 'regards',
+      read: false
+    };
+    msgs.push(newMsg);
+    saveAllChatMessages(msgs);
+    if (window.AlumniCloudSync && typeof window.AlumniCloudSync.sendChatMessage === 'function') {
+      window.AlumniCloudSync.sendChatMessage(newMsg);
+    }
+
+    notable.regardsCount = (notable.regardsCount || 0) + 1;
+    saveAppData();
+    renderNotableAlumni(currentNotableFilter);
+    refreshInboxBadge();
+  }
+
+  closeNotableRegardsModal();
+  e.target.reset();
+  showToast(`🤝 शुभकामनाएं प्रेषित! Your warm regards from Batch of ${batch || 'Alumni'} have been conveyed to ${notable ? notable.name : 'Distinguished Alumnus'}.`);
+}
+
+window.openNotableRegardsModal = openNotableRegardsModal;
+window.closeNotableRegardsModal = closeNotableRegardsModal;
+window.submitNotableRegards = submitNotableRegards;
+
+// =========================================================================
+// BATCH-WISE REGISTRATION LEADERBOARD & FOMO ENGINE
+// =========================================================================
+function getBatchRegistrationStats() {
+  const dir = (AppState && Array.isArray(AppState.directory) && AppState.directory.length > 0)
+    ? AppState.directory
+    : (window.defaultDirectoryAlumni || []);
+
+  const counts = {};
+  dir.forEach(a => {
+    const b = parseInt(a.batch, 10);
+    if (b && !isNaN(b)) {
+      counts[b] = (counts[b] || 0) + 1;
+    }
+  });
+
+  const sorted = Object.entries(counts)
+    .map(([batch, count]) => ({ batch: parseInt(batch, 10), count }))
+    .sort((a, b) => b.count - a.count);
+
+  return { total: dir.length, sorted, counts };
+}
+
+function renderBatchLeaderboard() {
+  const podiumEl = document.getElementById('batchLeaderboardPodium');
+  const gridEl = document.getElementById('batchLeaderboardGrid');
+  const totalEl = document.getElementById('leaderboardTotalRegistered');
+
+  const { total, sorted } = getBatchRegistrationStats();
+  if (totalEl) totalEl.textContent = `${total} Verified Alumni Registered`;
+
+  if (!sorted || sorted.length === 0) return;
+
+  // 1. TOP 3 PODIUM
+  if (podiumEl) {
+    const top3 = sorted.slice(0, 3);
+    const podiumStyles = [
+      { rank: '1st', medal: '🥇', title: 'Leader Batch', border: 'border-amber-400', bg: 'bg-gradient-to-b from-amber-500/20 to-slate-900', text: 'text-amber-300' },
+      { rank: '2nd', medal: '🥈', title: 'Runner-up Batch', border: 'border-slate-300', bg: 'bg-gradient-to-b from-slate-400/20 to-slate-900', text: 'text-slate-200' },
+      { rank: '3rd', medal: '🥉', title: 'Bronze Batch', border: 'border-amber-700', bg: 'bg-gradient-to-b from-amber-700/20 to-slate-900', text: 'text-amber-600' }
+    ];
+
+    podiumEl.innerHTML = top3.map((item, idx) => {
+      const p = podiumStyles[idx] || podiumStyles[2];
+      const pct = Math.round((item.count / total) * 100);
+      return `
+        <div onclick="filterDirectoryBySpecificBatch('${item.batch}')" class="cursor-pointer border-2 ${p.border} ${p.bg} rounded-2xl p-4 flex items-center justify-between transition hover:scale-[1.02] shadow-lg">
+          <div class="flex items-center gap-3">
+            <span class="text-3xl">${p.medal}</span>
+            <div>
+              <span class="text-[10px] font-bold uppercase tracking-wider ${p.text}">${p.rank} • ${p.title}</span>
+              <h4 class="text-lg font-bold font-mono text-white">Batch of ${item.batch}</h4>
+              <span class="text-xs text-slate-400">${pct}% of all registrations</span>
+            </div>
+          </div>
+          <div class="text-right">
+            <span class="text-2xl font-black font-mono text-white block">${item.count}</span>
+            <span class="text-[10px] text-amber-400 font-semibold">Alumni</span>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // 2. FULL BATCH GRID
+  if (gridEl) {
+    gridEl.innerHTML = sorted.map((item, idx) => {
+      const isTop3 = idx < 3;
+      const rankBadge = isTop3 ? (idx === 0 ? '🥇' : (idx === 1 ? '🥈' : '🥉')) : `#${idx + 1}`;
+      return `
+        <button onclick="filterDirectoryBySpecificBatch('${item.batch}')" class="p-2.5 rounded-xl bg-slate-950/80 hover:bg-slate-800 border border-slate-800 hover:border-amber-500/50 transition text-left flex flex-col justify-between group touch-ripple">
+          <div class="flex items-center justify-between text-[10px] text-slate-400 font-mono w-full">
+            <span>${rankBadge}</span>
+            <span class="text-amber-400 font-bold">${item.count}</span>
+          </div>
+          <span class="text-xs font-bold text-white group-hover:text-amber-300 font-mono mt-1">Batch ${item.batch}</span>
+        </button>
+      `;
+    }).join('');
+  }
+}
+
+function filterDirectoryBySpecificBatch(batchYear) {
+  const batchFilterEl = document.getElementById('dirBatchFilter');
+  if (batchFilterEl) {
+    batchFilterEl.value = String(batchYear);
+    if (typeof filterDirectory === 'function') filterDirectory();
+  }
+  const dirList = document.getElementById('directoryList');
+  if (dirList) {
+    dirList.scrollIntoView({ behavior: 'smooth' });
+  }
+  showToast(`Filtered directory to Batch of ${batchYear}`);
+}
+
+function shareBatchFomoWhatsApp() {
+  const curUser = (typeof getCurrentUser === 'function') ? getCurrentUser() : null;
+  const userBatch = (curUser && curUser.batch && !isNaN(parseInt(curUser.batch, 10))) ? parseInt(curUser.batch, 10) : 1996;
+  const { sorted } = getBatchRegistrationStats();
+  const rankIdx = sorted.findIndex(s => s.batch === userBatch);
+  const myCount = rankIdx !== -1 ? sorted[rankIdx].count : 0;
+  const myRank = rankIdx !== -1 ? `#${rankIdx + 1}` : 'ranking';
+
+  const waText = `🚩 *JNV Gauriganj Alumni Meet — 13 Dec 2026!*\n\nHamare *Batch of ${userBatch}* ke abhi tak *${myCount} alumni* register ho chuke hain (Leaderboard Rank: ${myRank})! 🏆\n\nLeaderboard par apne batch ko #1 banayein aur Alumni Directory me shamil hon!\n🔗 *Register Here:* https://jnvgfamily.in\n\n_Kripya sabhi batchmates ko forward karein!_`;
+  const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(waText)}`;
+  window.open(waUrl, '_blank');
+}
+
+window.getBatchRegistrationStats = getBatchRegistrationStats;
+window.renderBatchLeaderboard = renderBatchLeaderboard;
+window.filterDirectoryBySpecificBatch = filterDirectoryBySpecificBatch;
+window.shareBatchFomoWhatsApp = shareBatchFomoWhatsApp;
