@@ -10505,6 +10505,44 @@ function rejectRegistration(regId) {
 let dirCurrentPage = 1;
 const DIR_PAGE_SIZE = 24;
 
+
+function populateBatchFilterOptions() {
+  const select = document.getElementById('dirBatchFilter');
+  if (!select) return;
+  if (select._batchesPopulated) return;
+  const currentVal = select.value || 'all';
+
+  // Ensure all batches from 1993 to 2026 are present
+  const existingValues = new Set();
+  if (select.options) {
+    for (let i = 0; i < select.options.length; i++) {
+      existingValues.add(select.options[i].value);
+    }
+  }
+
+  const allBatches = new Set();
+  for (let y = 1993; y <= 2026; y++) allBatches.add(y);
+
+  if (AppState && Array.isArray(AppState.directory)) {
+    AppState.directory.forEach(a => {
+      const b = parseInt(a.batch, 10);
+      if (b && !isNaN(b)) allBatches.add(b);
+    });
+  }
+
+  const sorted = Array.from(allBatches).sort((a, b) => a - b);
+  let html = '<option value="all">All Batches</option>';
+  sorted.forEach(y => {
+    const lbl = (y === 1993) ? '1993 (First Batch)' : String(y);
+    html += `<option value="${y}">${lbl}</option>`;
+  });
+  select.innerHTML = html;
+  select._batchesPopulated = true;
+  if (existingValues.has(currentVal)) {
+    select.value = currentVal;
+  }
+}
+
 function renderDirectory(append = false) {
   const grid = document.getElementById('directoryGrid');
   if (!grid) return;
@@ -10537,6 +10575,7 @@ function renderDirectory(append = false) {
     return;
   }
 
+  if (typeof populateBatchFilterOptions === 'function') populateBatchFilterOptions();
   if (window.AlumniStorageEngine && typeof window.AlumniStorageEngine.buildCacheIndexes === 'function') {
     window.AlumniStorageEngine.buildCacheIndexes(AppState.directory || []);
   }

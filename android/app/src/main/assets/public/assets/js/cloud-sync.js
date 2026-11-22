@@ -235,28 +235,60 @@ const AlumniCloudSync = (() => {
             hasChanges = true;
           }
         }
-        // Add to Directory if not present
+        // Add or in-place enrich Directory
         if (typeof AppState !== 'undefined' && Array.isArray(AppState.directory)) {
-          const inDir = AppState.directory.some(d => (d.email || '').toLowerCase() === approvedEmail || (d.name || '').toLowerCase() === (evt.payload.name || '').toLowerCase());
-          if (!inDir && evt.payload.name) {
+          const uPayload = evt.payload;
+          const targetEmail = approvedEmail;
+          const targetPhone = (uPayload.phone || '').replace(/\D/g, '').slice(-10);
+
+          let existingDir = null;
+          if (uPayload.claimedDirectoryId) {
+            existingDir = AppState.directory.find(d => String(d.id) === String(uPayload.claimedDirectoryId));
+          }
+          if (!existingDir) {
+            existingDir = AppState.directory.find(d => 
+              (d.email && d.email.toLowerCase() === targetEmail) ||
+              (d.phone && d.phone.replace(/\D/g, '').slice(-10) === targetPhone) ||
+              (d.name && d.name.toLowerCase() === (uPayload.name || '').toLowerCase() && parseInt(d.batch) === parseInt(uPayload.batch))
+            );
+          }
+
+          if (existingDir) {
+            if (uPayload.photo) existingDir.photo = uPayload.photo;
+            if (uPayload.house) {
+              existingDir.house = uPayload.house;
+              existingDir.badge = uPayload.house;
+            }
+            if (uPayload.profession || uPayload.designation) {
+              existingDir.role = (uPayload.profession || uPayload.designation);
+            }
+            if (uPayload.city) existingDir.location = uPayload.city;
+            if (uPayload.phone) existingDir.phone = uPayload.phone;
+            if (uPayload.email) existingDir.email = uPayload.email;
+            existingDir.claimed = true;
+            hasChanges = true;
+          } else if (uPayload.name) {
             AppState.directory.push({
-              id: `dir-${Date.now()}`,
-              name: evt.payload.name,
-              email: approvedEmail,
-              phone: evt.payload.phone,
-              batch: parseInt(evt.payload.batch) || 2005,
-              house: evt.payload.house || 'Nilgiri',
-              role: evt.payload.profession || 'Alumnus',
-              location: evt.payload.city || 'India',
-              domain: evt.payload.domain || 'Alumni'
+              id: uPayload.id || `dir-${Date.now()}`,
+              name: uPayload.name,
+              email: targetEmail,
+              phone: uPayload.phone,
+              batch: parseInt(uPayload.batch) || 2005,
+              house: uPayload.house || 'Aravali',
+              role: uPayload.profession || 'Alumnus',
+              location: uPayload.city || 'India',
+              domain: uPayload.domain || 'Corporate',
+              photo: uPayload.photo || null,
+              badge: uPayload.house || 'Aravali',
+              tag: 'Alumnus',
+              claimed: true
             });
             hasChanges = true;
           }
         }
       }
     });
-
-    if (hasChanges) {
+if (hasChanges) {
       if (typeof saveAllUsers === 'function') saveAllUsers(allUsers);
       if (typeof saveAppData === 'function') saveAppData();
       if (typeof renderAdminQueue === 'function') renderAdminQueue();

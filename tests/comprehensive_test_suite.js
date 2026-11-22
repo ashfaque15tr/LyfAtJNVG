@@ -921,6 +921,14 @@ assert(latestMobileHtml.includes('<option value="Udaigiri">Udaigiri</option>'), 
 const storageEngineCode = fs.readFileSync(path.join(rootDir, 'assets', 'js', 'storage-engine.js'), 'utf8');
 assert(storageEngineCode.includes('normalizeHouse'), 'storage-engine.js implements normalizeHouse matching logic');
 
+// Batch filter options verification (all batches 1993 - 2026 including 2003)
+assert(latestIndexHtml.includes('<option value="2003">2003</option>'), 'index.html dirBatchFilter contains Batch 2003');
+assert(latestIndexHtml.includes('<option value="1993">1993 (First Batch)</option>'), 'index.html dirBatchFilter contains Batch 1993');
+assert(latestIndexHtml.includes('<option value="2026">2026</option>'), 'index.html dirBatchFilter contains Batch 2026');
+assert(latestMobileHtml.includes('<option value="2003">2003</option>'), 'mobile_app dirBatchFilter contains Batch 2003');
+const appJsCode = fs.readFileSync(path.join(rootDir, 'assets', 'js', 'app.js'), 'utf8');
+assert(appJsCode.includes('populateBatchFilterOptions'), 'app.js defines populateBatchFilterOptions');
+
 // ----------------------------------------------------
 // TEST SUITE 21: DIRECTORY SMART MATCH & PROFILE CLAIM ENGINE
 // ----------------------------------------------------
