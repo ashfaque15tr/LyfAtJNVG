@@ -1963,7 +1963,7 @@ const defaultDirectoryAlumni = [
   },
   {
     "id": "alumni-112",
-    "name": "Sh. Gulab Chand",
+    "name": "Sh. Gulab Chandra",
     "initials": "GC",
     "batch": 2002,
     "house": "Shivalik",

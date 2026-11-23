@@ -1183,14 +1183,14 @@ assert(mobLoginHtmlContent.includes('id="claimedTeacherId"'), 'mobile_app/login.
 // ----------------------------------------------------
 console.log('\n--- TEST SUITE 23: GURUJAN ROSTER ACCURACY, NOTABLE CIVIL LEADERSHIP & AUDIT LOG ---');
 
-// 1. Sh. Gulab Chand (Notable Alumni & Directory)
-const gulabNotable = NOTABLE_ALUMNI_LIST.find(a => a.name === 'Sh. Gulab Chand');
-assert(gulabNotable && gulabNotable.batch === '2002' && gulabNotable.house === 'Shivalik', 'Sh. Gulab Chand verified in Notable Alumni (Batch 2002, Shivalik House)');
-assert(gulabNotable && !gulabNotable.name.includes('Sonkar'), 'Sh. Gulab Chand does not contain Sonkar in Notable Alumni');
-assert(gulabNotable && gulabNotable.role.includes('Deputy Commissioner'), 'Sh. Gulab Chand role is Deputy Commissioner, Prayagraj');
+// 1. Sh. Gulab Chandra (Notable Alumni & Directory)
+const gulabNotable = NOTABLE_ALUMNI_LIST.find(a => a.name === 'Sh. Gulab Chandra');
+assert(gulabNotable && gulabNotable.batch === '2002' && gulabNotable.house === 'Shivalik', 'Sh. Gulab Chandra verified in Notable Alumni (Batch 2002, Shivalik House)');
+assert(gulabNotable && !gulabNotable.name.includes('Sonkar'), 'Sh. Gulab Chandra does not contain Sonkar in Notable Alumni');
+assert(gulabNotable && gulabNotable.role.includes('Deputy Commissioner'), 'Sh. Gulab Chandra role is Deputy Commissioner, Prayagraj');
 
 const gulabDir = AppState.directory.find(d => (d.name && d.name.includes('Gulab')) || d.id === 'alumni-112');
-assert(gulabDir && gulabDir.name === 'Sh. Gulab Chand' && gulabDir.batch === 2002 && gulabDir.house === 'Shivalik', 'Alumni-112 updated to Sh. Gulab Chand (Batch 2002, Shivalik House)');
+assert(gulabDir && gulabDir.name === 'Sh. Gulab Chandra' && gulabDir.batch === 2002 && gulabDir.house === 'Shivalik', 'Alumni-112 updated to Sh. Gulab Chandra (Batch 2002, Shivalik House)');
 
 // 1b. Current Principal Mr. P. K. Singh Profile Picture & Leadership
 const pkSinghTch = AppState.teachers.find(t => t.id === 'tch-6' || t.name === 'Mr. P. K. Singh');

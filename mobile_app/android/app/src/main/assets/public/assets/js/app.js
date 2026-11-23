@@ -2206,7 +2206,7 @@ const defaultDirectoryAlumni = [
   },
   {
     "id": "alumni-112",
-    "name": "Sh. Gulab Chand",
+    "name": "Sh. Gulab Chandra",
     "initials": "GC",
     "batch": 2002,
     "house": "Shivalik",
@@ -8589,8 +8589,8 @@ function loadAppData() {
             merged.badge = 'Aravali';
             merged.bio = (merged.bio || '').replace(/Nilgiri/gi, 'Aravali');
           }
-          if (def.id === 'alumni-112' || (def.name && def.name.includes('Gulab Chand')) || (def.email && def.email.toLowerCase() === 'vinod18896@gmail.com')) {
-            merged.name = 'Sh. Gulab Chand';
+          if (def.id === 'alumni-112' || (def.name && (def.name.includes('Gulab Chand') || def.name.includes('Gulab Chandra'))) || (def.email && def.email.toLowerCase() === 'vinod18896@gmail.com')) {
+            merged.name = 'Sh. Gulab Chandra';
             merged.initials = 'GC';
             merged.house = 'Shivalik';
             merged.badge = 'Shivalik';
@@ -11262,7 +11262,7 @@ const NOTABLE_ALUMNI_LIST = [
   },
   {
     "id": "notable-gcs-1",
-    "name": "Sh. Gulab Chand",
+    "name": "Sh. Gulab Chandra",
     "initials": "GC",
     "batch": "2002",
     "category": "civil",
@@ -14987,11 +14987,11 @@ const INITIAL_AUDIT_LOGS = [
     timestamp: new Date(Date.now() - 1 * 3600 * 1000).toISOString(),
     timeFormatted: "1 hour ago",
     type: "NOTABLE_ALUMNI",
-    actor: "Sh. Gulab Chand",
+    actor: "Sh. Gulab Chandra",
     badgeLabel: "Notable Honor",
     badgeColor: "cyan",
     icon: "⭐",
-    details: "Sh. Gulab Chand (Batch 2002, Shivalik House, Deputy Commissioner Prayagraj) inducted into Notable Alumni."
+    details: "Sh. Gulab Chandra (Batch 2002, Shivalik House, Deputy Commissioner Prayagraj) inducted into Notable Alumni."
   },
   {
     id: "log-seed-4",

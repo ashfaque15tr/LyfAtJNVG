@@ -78,7 +78,7 @@ const DEFAULT_ACCOUNTS = [
   },
   {
     id: "usr-gulab-2002",
-    name: "Sh. Gulab Chand",
+    name: "Sh. Gulab Chandra",
     email: "vinod18896@gmail.com",
     password: "password123",
     batch: 2002,
