@@ -1384,6 +1384,38 @@ assert(stats.total >= AppState.directory.length, 'Total registered count reflect
 const reloadedData = loadAppData();
 assert(reloadedData.directory.some(d => d.email === uniqueEmail), 'loadAppData preserves dynamically registered users across page reloads');
 
+console.log('\n--- TEST SUITE 27: GURU SANDESH EDITOR, ANDROID LAUNCHER ICONS & BANNER OVERLAY ---');
+// 1. Guru Sandesh Logic
+assert(typeof window.openEditTeacherMessageModal === 'function', 'openEditTeacherMessageModal is exported on window');
+assert(typeof window.saveTeacherMessage === 'function', 'saveTeacherMessage is exported on window');
+assert(typeof window.openMyTeacherMessageModal === 'function', 'openMyTeacherMessageModal is exported on window');
+assert(typeof window.openTeacherPhotoUploadModal === 'function', 'openTeacherPhotoUploadModal is exported on window');
+
+// 2. HTML Markup Verifications
+const rootIndexHtml = fs.readFileSync(path.join(rootDir, 'index.html'), 'utf8');
+const mobIndexHtml = fs.readFileSync(path.join(rootDir, 'mobile_app', 'index.html'), 'utf8');
+
+assert(rootIndexHtml.includes('id="teacherPortalHub"'), 'index.html contains teacherPortalHub self-service action hub');
+assert(mobIndexHtml.includes('id="teacherPortalHub"'), 'mobile_app/index.html contains teacherPortalHub');
+assert(rootIndexHtml.includes('id="editTeacherMessageModal"'), 'index.html contains editTeacherMessageModal');
+assert(mobIndexHtml.includes('id="editTeacherMessageModal"'), 'mobile_app/index.html contains editTeacherMessageModal');
+assert(rootIndexHtml.includes('class="memory-wall-banner-card'), 'index.html contains memory-wall-banner-card');
+assert(!rootIndexHtml.includes('A live, open social community board — like WhatsApp and Facebook — for alumni to post personal stories'), 'Memory Wall banner giant text box removed so stage photo is never hooded');
+
+// 3. Android Launcher Icon Assets
+const densities = ['mipmap-mdpi', 'mipmap-hdpi', 'mipmap-xhdpi', 'mipmap-xxhdpi', 'mipmap-xxxhdpi'];
+densities.forEach(d => {
+  const launcherPng = path.join(rootDir, 'android', 'app', 'src', 'main', 'res', d, 'ic_launcher.png');
+  const roundPng = path.join(rootDir, 'android', 'app', 'src', 'main', 'res', d, 'ic_launcher_round.png');
+  const fgPng = path.join(rootDir, 'android', 'app', 'src', 'main', 'res', d, 'ic_launcher_foreground.png');
+  assert(fs.existsSync(launcherPng) && fs.statSync(launcherPng).size > 1000, `Android launcher icon exists for ${d}`);
+  assert(fs.existsSync(roundPng) && fs.statSync(roundPng).size > 1000, `Android circular launcher icon exists for ${d}`);
+  assert(fs.existsSync(fgPng) && fs.statSync(fgPng).size > 1000, `Android adaptive foreground icon exists for ${d}`);
+});
+
+const legacyV24 = path.join(rootDir, 'android', 'app', 'src', 'main', 'res', 'drawable-v24', 'ic_launcher_foreground.xml');
+assert(!fs.existsSync(legacyV24), 'Legacy Capacitor robot vector ic_launcher_foreground.xml is removed');
+
 console.log('\n====================================================');
 console.log(`TEST RESULTS: ${passedTests} / ${totalTests} ASSERTIONS PASSED`);
 console.log('====================================================');

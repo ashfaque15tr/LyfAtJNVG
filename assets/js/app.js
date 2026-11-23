@@ -12,11 +12,11 @@ let attachedStoryPhoto = null;
 const defaultCommunityBroadcasts = [
   {
     id: "feed-official-welcome",
-    author: "Ashfaque Ahmad",
+    author: "JNVGFamily Admin",
     authorRole: "admin",
-    roleBadge: "Super Admin",
-    authorPhoto: "assets/images/ashfaq-ahmed.png",
-    initials: "AA",
+    roleBadge: "Super Admin • Vidyalaya Alumni Cell",
+    authorPhoto: "assets/images/logo.jpeg",
+    initials: "NV",
     batch: 2005,
     house: "Nilgiri",
     timestamp: "19 Nov 2026, 11:30 AM",
@@ -8722,7 +8722,9 @@ function loadAppData() {
       if (parsed.teachers && Array.isArray(parsed.teachers)) {
         const lsy = parsed.teachers.find(t => t.id === 'tch-lsy' || (t.name && t.name.includes('L. S. Yadav')));
         if (lsy) {
-          lsy.message = "Navodaya is the confluence of multi-dimensional talents. \nLet's come together and work together to succeed with flying colours by caring and sharing, J N V Stars! ⭐⭐⭐⭐⭐";
+          if (!lsy.message || lsy.message.trim() === '') {
+            lsy.message = "Navodaya is the confluence of multi-dimensional talents. \nLet's come together and work together to succeed with flying colours by caring and sharing, J N V Stars! ⭐⭐⭐⭐⭐";
+          }
           if (!lsy.photo) lsy.photo = 'assets/images/ls-yadav.jpg';
           lsy.post = "T.G.T.-English • Editor, Vidyalaya Magazine 'Navonmesh'";
           lsy.title = "T.G.T.-English, Jawahar Navodaya Vidyalaya, Gauriganj • Editor, Vidyalaya Magazine 'Navonmesh'";
@@ -8933,19 +8935,28 @@ function applyUserSession(user) {
     pendingBanner.classList.add('hidden');
   }
 
+  const isCurAdmin = user.role === 'admin' || (user.email && user.email.toLowerCase() === 'ashfaque15tr@gmail.com');
+  const isCurHost = user.role === 'host' || user.role === 'batch_admin';
+  const isCurMod = user.role === 'moderator';
+  const isCurTeacher = user.role === 'teacher';
+
   if (avatarEl) {
-    if (user.photo) {
+    if (isCurAdmin) {
+      avatarEl.innerHTML = `<img src="assets/images/logo.jpeg" alt="JNVGFamily Admin" class="w-full h-full rounded-full object-cover">`;
+    } else if (user.photo) {
       avatarEl.innerHTML = `<img src="${user.photo}" alt="${user.name}" class="w-full h-full rounded-full object-cover">`;
     } else {
       avatarEl.textContent = user.avatar || "NV";
     }
   }
-  if (nameEl) nameEl.textContent = user.name;
+  if (nameEl) {
+    nameEl.textContent = isCurAdmin ? "JNVGFamily Admin" : user.name;
+  }
 
   // Clean Role Title Display (No Demo Role text)
   let cleanRoleTitle = 'Member';
   if (isPending) cleanRoleTitle = 'Pending Verification';
-  else if (user.role === 'admin') cleanRoleTitle = 'Super Admin';
+  else if (isCurAdmin) cleanRoleTitle = 'Super Admin';
   else if (user.role === 'host' || user.role === 'batch_admin') cleanRoleTitle = 'Host';
   else if (user.role === 'moderator') cleanRoleTitle = 'Moderator';
   else if (user.role === 'teacher') cleanRoleTitle = 'Revered Gurujan';
@@ -8955,15 +8966,12 @@ function applyUserSession(user) {
       roleEl.textContent = `Pending Verification • Batch ${user.batch || 'Alumni'}`;
     } else if (user.role === 'teacher') {
       roleEl.textContent = `${user.designation || user.roleTitle || 'Revered Faculty'}`;
+    } else if (isCurAdmin) {
+      roleEl.textContent = `Super Admin • Batch ${user.batch || '2005'}`;
     } else {
       roleEl.textContent = `${cleanRoleTitle} • Batch ${user.batch || 'Alumni'}`;
     }
   }
-
-  const isCurAdmin = user.role === 'admin';
-  const isCurHost = user.role === 'host' || user.role === 'batch_admin';
-  const isCurMod = user.role === 'moderator';
-  const isCurTeacher = user.role === 'teacher';
 
   if (isPending) {
     if (roleBadge) {
@@ -8971,13 +8979,13 @@ function applyUserSession(user) {
       roleBadge.className = "px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-amber-500/20 text-amber-300 border border-amber-500/40";
     }
     if (rbacMessage) {
-      rbacMessage.textContent = `Welcome, ${user.name}! Your alumni membership is pending review by the Alumni Verification Committee (Super Admin Ashfaque Ahmad & Batch Admins). Read-only mode active.`;
+      rbacMessage.textContent = `Welcome, ${user.name}! Your alumni membership is pending review by the Alumni Verification Committee & Batch Admins. Read-only mode active.`;
     }
     if (adminTabNav) adminTabNav.classList.add('hidden');
     if (AppState.activeTab === 'admin') switchTab('home');
   } else if (isCurAdmin) {
-    if (roleBadge) { roleBadge.textContent = "Alumnus"; roleBadge.className = "px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-blue-500/20 text-blue-300 border border-blue-400/30"; }
-    if (rbacMessage) { rbacMessage.textContent = `Super Admin Session: ${user.name}. Full administrative governance, schedule controls, role assignments, all batches ledger, and moderation enabled.`; }
+    if (roleBadge) { roleBadge.textContent = "Super Admin"; roleBadge.className = "px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-blue-500/20 text-blue-300 border border-blue-400/30"; }
+    if (rbacMessage) { rbacMessage.textContent = `Super Admin Session: JNVGFamily Administration. Full administrative governance, schedule controls, role assignments, all batches ledger, and moderation enabled.`; }
     if (adminTabNav) adminTabNav.classList.remove('hidden');
   } else if (isCurHost) {
     if (roleBadge) { roleBadge.textContent = "Event Host"; roleBadge.className = "px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-amber-500/20 text-amber-300 border border-amber-500/40"; }
@@ -12257,6 +12265,41 @@ function renderTeachers(filter = 'all', searchQuery = '') {
   const countBadge = document.getElementById('teachersCountBadge');
   if (countBadge) countBadge.textContent = `${filtered.length} Gurujan Listed`;
 
+  const curUser = (typeof getCurrentUser === 'function' ? getCurrentUser() : null);
+  const isCurAdmin = curUser && (curUser.role === 'admin' || (curUser.email && curUser.email.toLowerCase() === 'ashfaque15tr@gmail.com'));
+
+  // Update Teacher Portal Self-Service Hub if Gurujan or Admin is logged in
+  const portalHub = document.getElementById('teacherPortalHub');
+  if (portalHub) {
+    if (curUser && (curUser.role === 'teacher' || isCurAdmin)) {
+      portalHub.classList.remove('hidden');
+      const welcomeTitle = document.getElementById('teacherPortalWelcomeTitle');
+      const activeMsg = document.getElementById('teacherPortalActiveMessage');
+      let teacherObj = null;
+      if (curUser.role === 'teacher') {
+        teacherObj = (AppState.teachers || []).find(t => 
+          (t.email && curUser.email && t.email.toLowerCase() === curUser.email.toLowerCase()) ||
+          (curUser.name && t.name && curUser.name.toLowerCase().includes(t.name.toLowerCase().replace(/^(sh\.|smt\.|dr\.|prof\.)\s*/i, ''))) ||
+          (curUser.phone && t.phonePrivate && curUser.phone === t.phonePrivate) ||
+          (curUser.email && (curUser.email.toLowerCase().includes('laxmi') || curUser.email.toLowerCase().includes('yadav')) && (t.id === 'tch-lsy' || (t.name && t.name.includes('Yadav'))))
+        );
+      }
+      if (!teacherObj) {
+        teacherObj = (AppState.teachers || []).find(t => t.id === 'tch-lsy') || (AppState.teachers || [])[0];
+      }
+      if (welcomeTitle) {
+        welcomeTitle.textContent = curUser.role === 'teacher' 
+          ? `सादर प्रणाम, पूज्य गुरुदेव ${curUser.name}!` 
+          : `गुरुजन संपादन केंद्र (Administrator Session)`;
+      }
+      if (activeMsg && teacherObj) {
+        activeMsg.textContent = teacherObj.message ? `"${teacherObj.message}"` : `(अभी तक कोई सन्देश दर्ज नहीं है)`;
+      }
+    } else {
+      portalHub.classList.add('hidden');
+    }
+  }
+
   if (filtered.length === 0) {
     grid.innerHTML = `
       <div class="col-span-full bg-slate-900/60 border border-slate-800 p-8 rounded-3xl text-center space-y-3">
@@ -12283,6 +12326,14 @@ function renderTeachers(filter = 'all', searchQuery = '') {
     const respectLabel = t.respectCount 
       ? `${t.respectCount} सादर प्रणाम` 
       : `सादर प्रणाम भेजें`;
+
+    const isThisTeacher = curUser && curUser.role === 'teacher' && (
+      (curUser.email && t.email && curUser.email.toLowerCase() === t.email.toLowerCase()) ||
+      (curUser.name && t.name && curUser.name.toLowerCase().includes(t.name.toLowerCase().replace(/^(sh\.|smt\.|dr\.|prof\.)\s*/i, ''))) ||
+      (curUser.phone && t.phonePrivate && curUser.phone === t.phonePrivate) ||
+      (curUser.email && (curUser.email.toLowerCase().includes('laxmi') || curUser.email.toLowerCase().includes('yadav')) && (t.id === 'tch-lsy' || (t.name && t.name.includes('Yadav'))))
+    );
+    const canEditMessage = isThisTeacher || isCurAdmin;
 
     const actionFooterHtml = isDeceased ? `
       <div class="pt-3 border-t border-slate-800 flex items-center justify-between gap-2 text-xs flex-wrap">
@@ -12321,7 +12372,11 @@ function renderTeachers(filter = 'all', searchQuery = '') {
         <span class="text-[10px] text-amber-400 font-bold flex items-center gap-1">
           <span>🙏</span> <span>${respectLabel}</span>
         </span>
-        <div class="flex items-center gap-1.5">
+        <div class="flex items-center gap-1.5 flex-wrap">
+          ${canEditMessage ? `
+          <button onclick="openEditTeacherMessageModal('${t.id}')" class="px-3 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 font-bold text-xs flex items-center gap-1.5 shadow-sm transition touch-ripple">
+            <span>✏️</span> <span>गुरु सन्देश</span>
+          </button>` : ''}
           <button onclick="openChatWithTeacher('${t.id}')" class="px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition touch-ripple">
             <span>💬</span> <span>Send Message</span>
           </button>
@@ -12376,12 +12431,23 @@ function renderTeachers(filter = 'all', searchQuery = '') {
         ${t.location ? `<p class="text-[11px] text-slate-400 flex items-center gap-1.5"><span class="text-slate-500">📍 Current Base:</span> <span class="text-slate-300 font-medium">${t.location}</span></p>` : ''}
 
         ${t.message ? `
-        <div class="bg-amber-500/5 border-l-2 border-amber-500/50 p-3.5 rounded-r-2xl space-y-1">
-          <div class="text-[10px] font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
-            <span>🪔</span> <span>${isDeceased ? 'अमर स्मृति एवं पावन संस्मरण' : 'गुरु सन्देश एवं शुभाशीष'}</span>
+        <div class="bg-amber-500/5 border-l-2 border-amber-500/50 p-3.5 rounded-r-2xl space-y-1 relative group">
+          <div class="text-[10px] font-bold text-amber-400 uppercase tracking-wider flex items-center justify-between gap-1.5">
+            <div class="flex items-center gap-1.5">
+              <span>🪔</span> <span>${isDeceased ? 'अमर स्मृति एवं पावन संस्मरण' : 'गुरु सन्देश एवं शुभाशीष'}</span>
+            </div>
+            ${canEditMessage ? `
+            <button type="button" onclick="openEditTeacherMessageModal('${t.id}')" class="text-[10px] text-amber-400 hover:text-amber-300 font-bold flex items-center gap-1 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/30 transition">
+              <span>✏️</span> <span>सम्पादित करें</span>
+            </button>` : ''}
           </div>
           <p class="text-xs text-slate-200 italic leading-relaxed">"${t.message}"</p>
-        </div>` : ''}
+        </div>` : (canEditMessage ? `
+        <div class="p-3 rounded-2xl bg-amber-500/10 border border-dashed border-amber-500/40 text-center">
+          <button type="button" onclick="openEditTeacherMessageModal('${t.id}')" class="text-xs text-amber-400 font-bold flex items-center justify-center gap-1.5 w-full">
+            <span>✏️</span> <span>+ गुरु सन्देश एवं शुभाशीष जोड़ें (Add Guru Sandesh)</span>
+          </button>
+        </div>` : '')}
 
         ${t.specialNote ? `
         <p class="text-[11px] text-slate-400 leading-relaxed"><strong class="text-slate-300 font-semibold">Distinction Note:</strong> ${t.specialNote}</p>` : ''}
@@ -12488,6 +12554,126 @@ function submitTeacherTribute(e) {
   showToast(`🪔 ${alumnusName} जी, ${teacher ? teacher.name : 'दिवंगत गुरुजन'} के प्रति आपकी भावभीनी श्रद्धांजलि एवं कृतज्ञता अमर स्मृति पट्ट पर अंकित कर दी गई है।`, 'success');
   if (e && e.target && typeof e.target.reset === 'function') e.target.reset();
 }
+
+// Guru Sandesh & Blessings Management for Revered Gurujan & Administration
+function openEditTeacherMessageModal(teacherId) {
+  const curUser = (typeof getCurrentUser === 'function' ? getCurrentUser() : null);
+  if (!curUser) {
+    showToast('🔒 Please sign in to edit teacher message.');
+    window.location.href = 'login.html';
+    return;
+  }
+  const teacher = (AppState.teachers || []).find(t => t.id === teacherId) || (AppState.teachers || [])[0];
+  if (!teacher) return;
+  const modal = document.getElementById('editTeacherMessageModal');
+  if (!modal) return;
+  const idEl = document.getElementById('editTeacherId');
+  const nameEl = document.getElementById('editTeacherModalName');
+  const postEl = document.getElementById('editTeacherModalPost');
+  const textEl = document.getElementById('editTeacherMessageText');
+  if (idEl) idEl.value = teacher.id;
+  if (nameEl) nameEl.textContent = teacher.name;
+  if (postEl) postEl.textContent = `${teacher.post || 'Revered Faculty'} • ${teacher.subject || 'JNV Gauriganj'}`;
+  if (textEl) textEl.value = teacher.message || '';
+  modal.classList.remove('hidden');
+}
+
+function closeEditTeacherMessageModal() {
+  const modal = document.getElementById('editTeacherMessageModal');
+  if (modal) modal.classList.add('hidden');
+}
+
+function saveTeacherMessage(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  const id = (document.getElementById('editTeacherId') ? document.getElementById('editTeacherId').value : '') || 'tch-lsy';
+  const msg = ((document.getElementById('editTeacherMessageText') ? document.getElementById('editTeacherMessageText').value : '') || '').trim();
+  if (!msg) {
+    showToast('⚠️ कृपया गुरु सन्देश दर्ज करें।', 'warning');
+    return;
+  }
+  const teacher = (AppState.teachers || []).find(t => t.id === id);
+  if (teacher) {
+    teacher.message = msg;
+    
+    // Synchronize or create post on Memory Wall as a Revered Blessing
+    let existingFeedPost = (AppState.feedPosts || []).find(p => p.id === `guru-sandesh-${teacher.id}` || (p.isTeacher && p.author === teacher.name));
+    if (existingFeedPost) {
+      existingFeedPost.content = msg;
+      existingFeedPost.text = msg;
+      existingFeedPost.time = "Just updated";
+    } else {
+      existingFeedPost = {
+        id: `guru-sandesh-${teacher.id}`,
+        author: teacher.name,
+        batch: teacher.tenure || 'Revered Gurujan',
+        house: teacher.house || 'Campus',
+        initials: teacher.initials || 'TCH',
+        authorPhoto: teacher.photo || null,
+        authorRole: 'teacher',
+        isTeacher: true,
+        roleTitle: `${teacher.post || 'Faculty'} • JNV Gauriganj`,
+        time: "Just now",
+        content: msg,
+        text: msg,
+        category: 'teacher_blessing',
+        tag: '🪔 गुरु सन्देश एवं शुभाशीष',
+        likes: 12,
+        image: null,
+        comments: []
+      };
+      if (!AppState.feedPosts) AppState.feedPosts = [];
+      AppState.feedPosts.unshift(existingFeedPost);
+    }
+    
+    try {
+      localStorage.setItem(PERSISTENT_FEED_STORAGE_KEY, JSON.stringify(AppState.feedPosts));
+    } catch(fe) {}
+
+    if (window.AlumniCloudSync && typeof window.AlumniCloudSync.broadcastFeedPost === 'function') {
+      window.AlumniCloudSync.broadcastFeedPost(existingFeedPost);
+    }
+
+    saveAppData();
+    renderTeachers(currentTeacherFilter);
+    renderFeed();
+    closeEditTeacherMessageModal();
+    showToast(`🙏 पूज्य ${teacher.name} जी का पावन गुरु सन्देश एवं शुभाशीष सफलतापूर्वक अद्यतित कर दिया गया है!`, 'success');
+    if (typeof logPlatformActivity === 'function') {
+      logPlatformActivity('WALL_POST', teacher.name, `Respected ${teacher.name} (${teacher.post}) updated Guru Sandesh & Blessings for Alumni.`);
+    }
+  }
+}
+
+function openMyTeacherMessageModal() {
+  const curUser = (typeof getCurrentUser === 'function' ? getCurrentUser() : null);
+  let teacher = null;
+  if (curUser && curUser.role === 'teacher') {
+    teacher = (AppState.teachers || []).find(t => 
+      (t.email && curUser.email && t.email.toLowerCase() === curUser.email.toLowerCase()) ||
+      (curUser.name && t.name && curUser.name.toLowerCase().includes(t.name.toLowerCase().replace(/^(sh\.|smt\.|dr\.|prof\.)\s*/i, ''))) ||
+      (curUser.phone && t.phonePrivate && curUser.phone === t.phonePrivate) ||
+      (curUser.email && (curUser.email.toLowerCase().includes('laxmi') || curUser.email.toLowerCase().includes('yadav')) && (t.id === 'tch-lsy' || (t.name && t.name.includes('Yadav'))))
+    );
+  }
+  if (!teacher) {
+    teacher = (AppState.teachers || []).find(t => t.id === 'tch-lsy') || (AppState.teachers || [])[0];
+  }
+  if (teacher) openEditTeacherMessageModal(teacher.id);
+}
+
+function openTeacherPhotoUploadModal() {
+  openModal('storyModal');
+  const catSel = document.getElementById('storyCategory');
+  if (catSel) catSel.value = 'teacher_blessing';
+  const tagIn = document.getElementById('storyTag');
+  if (tagIn) tagIn.value = '🪔 गुरु संस्मरण एवं छायाचित्र';
+}
+
+window.openEditTeacherMessageModal = openEditTeacherMessageModal;
+window.closeEditTeacherMessageModal = closeEditTeacherMessageModal;
+window.saveTeacherMessage = saveTeacherMessage;
+window.openMyTeacherMessageModal = openMyTeacherMessageModal;
+window.openTeacherPhotoUploadModal = openTeacherPhotoUploadModal;
 
 function openTeacherEnrollModal() {
   const modal = document.getElementById('teacherEnrollModal');
@@ -12710,7 +12896,7 @@ const DEFAULT_CHAT_MESSAGES = [
   {
     id: "msg-101",
     senderId: "usr-ashfaque-admin",
-    senderName: "Ashfaq Ahmed",
+    senderName: "JNVGFamily Alumni Desk",
     senderBatch: 2005,
     recipientId: "notable-jm-1",
     recipientName: "Dr. Jai Krishna Mishra",
@@ -12726,9 +12912,9 @@ const DEFAULT_CHAT_MESSAGES = [
     senderName: "Dr. Jai Krishna Mishra",
     senderBatch: 1993,
     recipientId: "usr-ashfaque-admin",
-    recipientName: "Ashfaq Ahmed",
+    recipientName: "JNVGFamily Alumni Desk",
     recipientBatch: 2005,
-    text: "Thank you Ashfaq. Proud to see our Navodaya fraternity uniting across 30+ batches. My full blessings and support to the Vidyalaya, Gurujan, and younger scholars.",
+    text: "Thank you Alumni Team. Proud to see our Navodaya fraternity uniting across 30+ batches. My full blessings and support to the Vidyalaya, Gurujan, and younger scholars.",
     timestamp: "Today, 09:15 AM",
     createdAt: Date.now() - 3600000 * 3,
     read: false
@@ -12736,7 +12922,7 @@ const DEFAULT_CHAT_MESSAGES = [
   {
     id: "msg-103",
     senderId: "usr-ashfaque-admin",
-    senderName: "Ashfaq Ahmed",
+    senderName: "JNVGFamily Alumni Desk",
     senderBatch: 2005,
     recipientId: "notable-vt-1",
     recipientName: "Vivek Tiwari",
@@ -12752,7 +12938,7 @@ const DEFAULT_CHAT_MESSAGES = [
     senderName: "Mr. P. K. Singh",
     senderBatch: "Principal",
     recipientId: "usr-ashfaque-admin",
-    recipientName: "Ashfaq Ahmed",
+    recipientName: "JNVGFamily Alumni Desk",
     recipientBatch: 2005,
     text: "सादर आशीष! 13 दिसंबर 2026 के महासम्मेलन हेतु विद्यालय प्रबंधन पूर्ण सहयोग के लिए तत्पर है। सभी पूर्व छात्रों का परिसर में हार्दिक स्वागत है।",
     timestamp: "Today, 11:30 AM",
