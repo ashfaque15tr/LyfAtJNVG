@@ -676,15 +676,15 @@ const defaultDirectoryAlumni = [
     "name": "Anurag Yadav",
     "initials": "AY",
     "batch": 1995,
-    "house": "Nilgiri",
+    "house": "Aravali",
     "role": "P G T",
     "location": "Allahabad",
     "domain": "Corporate",
     "email": "anuragamethi@gmail.com",
     "phone": "9454267417",
-    "badge": "Nilgiri",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "P G T at MPVM • Batch of 1995 (Nilgiri House)."
+    "bio": "P G T at MPVM • Batch of 1995 (Aravali House)."
   },
   {
     "id": "alumni-27",
@@ -1963,18 +1963,18 @@ const defaultDirectoryAlumni = [
   },
   {
     "id": "alumni-112",
-    "name": "Gulab Chandra",
+    "name": "Sh. Gulab Chand",
     "initials": "GC",
     "batch": 2002,
-    "house": "Nilgiri",
-    "role": "Govt/ DDO",
-    "location": "Unnao",
+    "house": "Shivalik",
+    "role": "Deputy Commissioner, Prayagraj",
+    "location": "Prayagraj",
     "domain": "Civil Services",
     "email": "vinod18896@gmail.com",
     "phone": "7983793938",
-    "badge": "Nilgiri",
-    "tag": "Alumnus",
-    "bio": "Govt/ DDO at Rural development • Batch of 2002 (Nilgiri House)."
+    "badge": "Shivalik",
+    "tag": "Notable Alumnus",
+    "bio": "Deputy Commissioner, Prayagraj • Provincial Development Service (PDS) • Batch of 2002 (Shivalik House)."
   },
   {
     "id": "alumni-113",
@@ -3226,15 +3226,15 @@ const defaultDirectoryAlumni = [
     "name": "Kamran Khan",
     "initials": "KK",
     "batch": 2004,
-    "house": "Nilgiri",
+    "house": "Shivalik",
     "role": "Self employed",
     "location": "JAGDISHPUR",
     "domain": "Corporate",
     "email": "kamran020188@gmail.com",
     "phone": "9956347070",
-    "badge": "Nilgiri",
+    "badge": "Shivalik",
     "tag": "Alumnus",
-    "bio": "Self employed at Jafarganj green city • Batch of 2004 (Nilgiri House)."
+    "bio": "Self employed at Jafarganj green city • Batch of 2004 (Shivalik House)."
   },
   {
     "id": "alumni-197",

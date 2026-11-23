@@ -919,15 +919,15 @@ const defaultDirectoryAlumni = [
     "name": "Anurag Yadav",
     "initials": "AY",
     "batch": 1995,
-    "house": "Nilgiri",
+    "house": "Aravali",
     "role": "P G T",
     "location": "Allahabad",
     "domain": "Corporate",
     "email": "anuragamethi@gmail.com",
     "phone": "9454267417",
-    "badge": "Nilgiri",
+    "badge": "Aravali",
     "tag": "Alumnus",
-    "bio": "P G T at MPVM • Batch of 1995 (Nilgiri House)."
+    "bio": "P G T at MPVM • Batch of 1995 (Aravali House)."
   },
   {
     "id": "alumni-27",
@@ -3469,15 +3469,15 @@ const defaultDirectoryAlumni = [
     "name": "Kamran Khan",
     "initials": "KK",
     "batch": 2004,
-    "house": "Nilgiri",
+    "house": "Shivalik",
     "role": "Self employed",
     "location": "JAGDISHPUR",
     "domain": "Corporate",
     "email": "kamran020188@gmail.com",
     "phone": "9956347070",
-    "badge": "Nilgiri",
+    "badge": "Shivalik",
     "tag": "Alumnus",
-    "bio": "Self employed at Jafarganj green city • Batch of 2004 (Nilgiri House)."
+    "bio": "Self employed at Jafarganj green city • Batch of 2004 (Shivalik House)."
   },
   {
     "id": "alumni-197",
@@ -8589,9 +8589,53 @@ function loadAppData() {
             merged.badge = 'Aravali';
             merged.bio = (merged.bio || '').replace(/Nilgiri/gi, 'Aravali');
           }
-          if (def.id === 'alumni-112' || (def.name && def.name.includes('Gulab Chand'))) {
+          if (def.id === 'alumni-112' || (def.name && def.name.includes('Gulab Chand')) || (def.email && def.email.toLowerCase() === 'vinod18896@gmail.com')) {
             merged.name = 'Sh. Gulab Chand';
             merged.initials = 'GC';
+            merged.house = 'Shivalik';
+            merged.badge = 'Shivalik';
+            merged.role = 'Deputy Commissioner, Prayagraj';
+            merged.location = 'Prayagraj';
+            merged.domain = 'Civil Services';
+            merged.tag = 'Notable Alumnus';
+            merged.bio = 'Deputy Commissioner, Prayagraj • Provincial Development Service (PDS) • Batch of 2002 (Shivalik House).';
+          }
+          if (def.id === 'alumni-196' || (def.email && def.email.toLowerCase() === 'kamran020188@gmail.com')) {
+            merged.house = 'Shivalik';
+            merged.badge = 'Shivalik';
+            merged.phone = '9956347070';
+            merged.claimed = true;
+            merged.verified = true;
+            merged.bio = (merged.bio || '').replace(/Nilgiri/gi, 'Shivalik');
+          }
+          if (def.id === 'alumni-26' || (def.email && def.email.toLowerCase() === 'anuragamethi@gmail.com')) {
+            merged.house = 'Aravali';
+            merged.badge = 'Aravali';
+            merged.phone = '9454267417';
+            merged.claimed = true;
+            merged.verified = true;
+            merged.bio = (merged.bio || '').replace(/Nilgiri/gi, 'Aravali');
+          }
+          if (def.id === 'alumni-6' || (def.email && def.email.toLowerCase() === 'raaj.gupta18@gmail.com')) {
+            merged.house = 'Shivalik';
+            merged.badge = 'Shivalik';
+            merged.phone = '9807222143';
+            merged.claimed = true;
+            merged.verified = true;
+          }
+          if (def.id === 'alumni-176' || (def.email && def.email.toLowerCase() === 'casatyarshi@gmail.com')) {
+            merged.house = 'Udaigiri';
+            merged.badge = 'Udaigiri';
+            merged.phone = '9595331390';
+            merged.claimed = true;
+            merged.verified = true;
+          }
+          if (def.id === 'alumni-2025-aryansh' || (def.name && def.name.toLowerCase().includes('aryansh patel'))) {
+            merged.batch = 2025;
+            merged.house = 'Nilgiri';
+            merged.badge = 'Nilgiri';
+            merged.claimed = true;
+            merged.verified = true;
           }
           if (merged.email === 'ashfaque15tr@gmail.com' || merged.name === 'Ashfaque Ahmad') {
             merged.photo = 'assets/images/ashfaq-ahmed.png';
@@ -8806,6 +8850,10 @@ function switchTab(tabId) {
     renderFeed();
   } else if (tabId === 'teachers') {
     renderTeachers();
+  } else if (tabId === 'directory') {
+    if (typeof syncRegisteredUsersToDirectory === 'function') syncRegisteredUsersToDirectory();
+    renderDirectory();
+    renderBatchLeaderboard();
   } else if (tabId === 'notable') {
     renderNotableMessages();
     renderNotableAlumni(currentNotableFilter);
@@ -8814,6 +8862,7 @@ function switchTab(tabId) {
     renderAdminHelpDeskQueue();
     renderAdminSuggestionsList();
     renderRoleGovernanceList();
+    renderAuditLogs();
   }
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -14868,6 +14917,28 @@ const JNVG_AUDIT_LOG_KEY = 'JNVG_PLATFORM_AUDIT_LOGS_V1';
 // Pre-seeded initial realistic recent activities
 const INITIAL_AUDIT_LOGS = [
   {
+    id: "log-reg-anurag-1995",
+    timestamp: new Date(Date.now() - 5 * 60 * 1000).toISOString(),
+    timeFormatted: "5 mins ago",
+    type: "REGISTRATION",
+    actor: "Anurag Yadav",
+    badgeLabel: "Directory Verified",
+    badgeColor: "emerald",
+    icon: "📝",
+    details: "Anurag Yadav (Batch 1995, Aravali House) registered and verified alumni directory profile."
+  },
+  {
+    id: "log-reg-kamran-2004",
+    timestamp: new Date(Date.now() - 12 * 60 * 1000).toISOString(),
+    timeFormatted: "12 mins ago",
+    type: "REGISTRATION",
+    actor: "Kamran Khan",
+    badgeLabel: "Profile Claimed",
+    badgeColor: "emerald",
+    icon: "📝",
+    details: "Kamran Khan (Batch 2004, Shivalik House) registered and claimed verified alumni directory profile."
+  },
+  {
     id: "log-seed-1",
     timestamp: new Date(Date.now() - 15 * 60 * 1000).toISOString(),
     timeFormatted: "15 mins ago",
@@ -14879,6 +14950,17 @@ const INITIAL_AUDIT_LOGS = [
     details: "Respected Sh. L. S. Yadav enrolled as Revered Faculty (T.G.T.-English, Udaigiri House Master) and shared Guru Sandesh."
   },
   {
+    id: "log-reg-satyarshi-2006",
+    timestamp: new Date(Date.now() - 22 * 60 * 1000).toISOString(),
+    timeFormatted: "22 mins ago",
+    type: "REGISTRATION",
+    actor: "Satyarshi Mishra",
+    badgeLabel: "Profile Claimed",
+    badgeColor: "emerald",
+    icon: "📝",
+    details: "Satyarshi Mishra (Batch 2006, Udaigiri House) registered and claimed verified alumni directory profile."
+  },
+  {
     id: "log-seed-2",
     timestamp: new Date(Date.now() - 35 * 60 * 1000).toISOString(),
     timeFormatted: "35 mins ago",
@@ -14888,6 +14970,17 @@ const INITIAL_AUDIT_LOGS = [
     badgeColor: "emerald",
     icon: "📝",
     details: "Rakesh Kumar (Batch 2003, Aravali House) registered and claimed verified alumni directory profile."
+  },
+  {
+    id: "log-reg-raj-1998",
+    timestamp: new Date(Date.now() - 40 * 60 * 1000).toISOString(),
+    timeFormatted: "40 mins ago",
+    type: "REGISTRATION",
+    actor: "Raj Kumar Gupta",
+    badgeLabel: "Profile Claimed",
+    badgeColor: "emerald",
+    icon: "📝",
+    details: "Raj Kumar Gupta (Batch 1998, Shivalik House) registered and claimed verified alumni directory profile."
   },
   {
     id: "log-seed-3",
@@ -14962,12 +15055,23 @@ function getAuditLogs() {
     const raw = localStorage.getItem(JNVG_AUDIT_LOG_KEY);
     if (raw) {
       const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        const existingKeys = new Set(parsed.map(p => p.id || (p.actor + '_' + p.type)));
+        INITIAL_AUDIT_LOGS.forEach(seedLog => {
+          const key = seedLog.id || (seedLog.actor + '_' + seedLog.type);
+          if (!existingKeys.has(key)) {
+            parsed.push(seedLog);
+            existingKeys.add(key);
+          }
+        });
+        parsed.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+        return parsed.slice(0, 50);
+      }
     }
   } catch (e) {
     console.error('Audit log fetch error:', e);
   }
-  return [...INITIAL_AUDIT_LOGS];
+  return [...INITIAL_AUDIT_LOGS].slice(0, 50);
 }
 
 function saveAuditLogs(logs) {
@@ -15086,6 +15190,22 @@ function renderAuditLogs() {
 
   container.innerHTML = html;
 }
+
+async function refreshAuditLogs() {
+  const btn = document.querySelector('button[onclick*="AuditLogs"]');
+  if (btn) btn.innerHTML = '<span>⏳ Syncing...</span>';
+  if (window.AlumniCloudSync && typeof window.AlumniCloudSync.syncRegistrations === 'function') {
+    try {
+      await window.AlumniCloudSync.syncRegistrations();
+    } catch(e) {}
+  }
+  if (typeof syncRegisteredUsersToDirectory === 'function') {
+    syncRegisteredUsersToDirectory();
+  }
+  renderAuditLogs();
+  if (btn) btn.innerHTML = '<span>🔄 Refresh</span>';
+}
+window.refreshAuditLogs = refreshAuditLogs;
 
 
 // =========================================================================

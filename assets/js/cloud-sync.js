@@ -326,10 +326,16 @@ const AlumniCloudSync = (() => {
       if (window.AlumniStorageEngine && typeof window.AlumniStorageEngine.buildCacheIndexes === 'function' && AppState && AppState.directory) {
         window.AlumniStorageEngine.buildCacheIndexes(AppState.directory);
       }
+      if (typeof logPlatformActivity === 'function') {
+        const uBatchStr = uBatch ? `Batch of ${uBatch}` : 'Alumnus';
+        const houseStr = u.house ? `${u.house} House` : 'Navodaya';
+        logPlatformActivity('REGISTRATION', u.name, `${u.name} (${uBatchStr}, ${houseStr}) registered and claimed verified alumni directory profile.`, { batch: uBatch, house: u.house, email: cleanEmail });
+      }
       if (typeof renderAdminRegistrations === 'function') renderAdminRegistrations();
       if (typeof renderAdminQueue === 'function') renderAdminQueue();
       if (typeof renderDirectory === 'function') renderDirectory();
       if (typeof renderBatchLeaderboard === 'function') renderBatchLeaderboard();
+      if (typeof renderAuditLogs === 'function') renderAuditLogs();
       if (typeof updateQueueBadges === 'function') updateQueueBadges();
     }
 
@@ -495,7 +501,13 @@ const AlumniCloudSync = (() => {
     startRegStream,
     sendChatMessage,
     syncChatMessages,
-    startChatStream
+    startChatStream,
+    publish: async (eventType, payload) => {
+      if (eventType === 'AUDIT_LOG_CREATED') {
+        return await publishEvent(REG_TOPIC, 'AUDIT_LOG_CREATED', payload);
+      }
+      return await publishEvent(FEED_TOPIC, eventType, payload);
+    }
   };
 })();
 
