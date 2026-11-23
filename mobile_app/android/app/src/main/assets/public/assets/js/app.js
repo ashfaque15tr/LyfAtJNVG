@@ -401,7 +401,8 @@ const defaultData = {
       houseDetail: "Campus Head",
       location: "Campus Residence, JNV Gauriganj",
       initials: "PKS",
-      photo: null,
+      photo: "assets/images/pk-singh.jpg",
+      avatarImage: "assets/images/pk-singh.jpg",
       message: "जवाहर नवोदय विद्यालय, गौरीगंज के गौरवशाली पूर्व छात्रों का परिसर में हार्दिक स्वागत है। 13 दिसंबर 2026 को आयोजित होने वाला यह चतुर्थ महासम्मेलन हमारे वर्तमान अध्ययनरत 550+ विद्यार्थियों के लिए जीवंत प्रेरणा बनेगा। आपका मार्गदर्शन और सहभागिता विद्यालय को नई ऊंचाइयों पर ले जाएगा।",
       specialNote: "Leading current campus digital infrastructure and academic transformation."
     },
@@ -2205,8 +2206,8 @@ const defaultDirectoryAlumni = [
   },
   {
     "id": "alumni-112",
-    "name": "Sh. Gulab Chand Sonkar",
-    "initials": "GS",
+    "name": "Sh. Gulab Chand",
+    "initials": "GC",
     "batch": 2002,
     "house": "Shivalik",
     "role": "Deputy Commissioner, Prayagraj",
@@ -8533,6 +8534,12 @@ function loadAppData() {
             };
           }
         });
+        parsed.teachers.forEach(t => {
+          if (t && (t.id === 'tch-6' || (t.name && (t.name.includes('P. K. Singh') || t.name.includes('P.K. Singh'))))) {
+            t.photo = 'assets/images/pk-singh.jpg';
+            t.avatarImage = 'assets/images/pk-singh.jpg';
+          }
+        });
       }
       if (parsed.teachers) {
         parsed.teachers.sort((a, b) => {
@@ -8540,18 +8547,18 @@ function loadAppData() {
             const name = (t.name || '').toLowerCase();
             const p = (t.post || '').toLowerCase();
             const isCur = t.category === 'current' || (t.statusLabel || '').toLowerCase().includes('current');
-            // 1. Late Dr. S. P. Singh (Former Principal)
-            if (name.includes('s.p. singh') || name.includes('s. p. singh') || (t.isDeceased && p.includes('principal'))) return 1;
-            // 2. Late Dr. Preetam Singh (Former PGT Hindi)
-            if (name.includes('preetam') || name.includes('pritam') || (t.isDeceased && p.includes('hindi'))) return 2;
-            // 3. Current Principal
-            if (isCur && p.includes('principal') && !p.includes('vice')) return 3;
-            // 4. Current Vice Principal
-            if (isCur && p.includes('vice principal')) return 4;
+            // 1. Current Principal (Mr. P. K. Singh)
+            if (isCur && p.includes('principal') && !p.includes('vice')) return 1;
+            // 2. Current Vice Principal (Mr. N. N. Tripathi)
+            if (isCur && p.includes('vice principal')) return 2;
+            // 3. Late Dr. S. P. Singh (Founder Principal)
+            if (name.includes('s.p. singh') || name.includes('s. p. singh') || (t.isDeceased && p.includes('principal'))) return 3;
+            // 4. Late Dr. Preetam Singh (Former PGT Hindi)
+            if (name.includes('preetam') || name.includes('pritam') || (t.isDeceased && p.includes('hindi'))) return 4;
             // 5. Current Faculty Alumni Coordinator
             if (isCur && (p.includes('alumni') || (t.title || '').toLowerCase().includes('alumni') || p.includes('coordinator'))) return 5;
-      if (name.includes('rautela') || (!t.isDeceased && p.includes('principal') && !p.includes('vice'))) return 6;
-            if (isCur) return 6;
+            if (name.includes('rautela') || (!t.isDeceased && p.includes('principal') && !p.includes('vice'))) return 6;
+            if (isCur) return 7;
             return 10;
           };
           return getLeadershipRank(a) - getLeadershipRank(b);
@@ -8581,6 +8588,10 @@ function loadAppData() {
             merged.house = 'Aravali';
             merged.badge = 'Aravali';
             merged.bio = (merged.bio || '').replace(/Nilgiri/gi, 'Aravali');
+          }
+          if (def.id === 'alumni-112' || (def.name && def.name.includes('Gulab Chand'))) {
+            merged.name = 'Sh. Gulab Chand';
+            merged.initials = 'GC';
           }
           if (merged.email === 'ashfaque15tr@gmail.com' || merged.name === 'Ashfaque Ahmad') {
             merged.photo = 'assets/images/ashfaq-ahmed.png';
@@ -11202,8 +11213,8 @@ const NOTABLE_ALUMNI_LIST = [
   },
   {
     "id": "notable-gcs-1",
-    "name": "Sh. Gulab Chand Sonkar",
-    "initials": "GS",
+    "name": "Sh. Gulab Chand",
+    "initials": "GC",
     "batch": "2002",
     "category": "civil",
     "categoryLabel": "Civil Services & Public Policy",
@@ -12160,19 +12171,25 @@ function renderTeachers(filter = 'all', searchQuery = '') {
     return true;
   });
 
-  // Strict Hierarchy Sorting: 1. Late Dr. S.P. Singh (Principal), 2. Late Dr. Preetam Singh (PGT Hindi), 3. Current Principal, 4. Current Vice Principal, 5. Current Faculty Alumni Coordinator
+  // Strict Hierarchy Sorting: 1. Current Principal, 2. Current Vice Principal, 3. Late Dr. S.P. Singh (Principal), 4. Late Dr. Preetam Singh (PGT Hindi), 5. Current Faculty Alumni Coordinator
   filtered.sort((a, b) => {
     const getLeadershipRank = (t) => {
       const name = (t.name || '').toLowerCase();
       const p = (t.post || '').toLowerCase();
       const s = (t.statusLabel || '').toLowerCase();
       const isCur = t.category === 'current' || s.includes('current');
-      if (name.includes('s.p. singh') || name.includes('s. p. singh') || (t.isDeceased && p.includes('principal'))) return 1;
-      if (name.includes('preetam') || name.includes('pritam') || (t.isDeceased && p.includes('hindi'))) return 2;
-      if (isCur && p.includes('principal') && !p.includes('vice')) return 3;
-      if (isCur && p.includes('vice principal')) return 4;
+      // 1. Current Principal (Mr. P. K. Singh)
+      if (isCur && p.includes('principal') && !p.includes('vice')) return 1;
+      // 2. Current Vice Principal (Mr. N. N. Tripathi)
+      if (isCur && p.includes('vice principal')) return 2;
+      // 3. Late Dr. S. P. Singh (Founder Principal)
+      if (name.includes('s.p. singh') || name.includes('s. p. singh') || (t.isDeceased && p.includes('principal'))) return 3;
+      // 4. Late Dr. Preetam Singh (Former PGT Hindi)
+      if (name.includes('preetam') || name.includes('pritam') || (t.isDeceased && p.includes('hindi'))) return 4;
+      // 5. Current Faculty Alumni Coordinator
       if (isCur && (p.includes('alumni') || (t.title || '').toLowerCase().includes('alumni') || p.includes('coordinator'))) return 5;
-      if (isCur) return 6;
+      if (name.includes('rautela') || (!t.isDeceased && p.includes('principal') && !p.includes('vice'))) return 6;
+      if (isCur) return 7;
       return 10;
     };
     return getLeadershipRank(a) - getLeadershipRank(b);
@@ -14877,11 +14894,11 @@ const INITIAL_AUDIT_LOGS = [
     timestamp: new Date(Date.now() - 1 * 3600 * 1000).toISOString(),
     timeFormatted: "1 hour ago",
     type: "NOTABLE_ALUMNI",
-    actor: "Sh. Gulab Chand Sonkar",
+    actor: "Sh. Gulab Chand",
     badgeLabel: "Notable Honor",
     badgeColor: "cyan",
     icon: "⭐",
-    details: "Sh. Gulab Chand Sonkar (Batch 2002, Shivalik House, Deputy Commissioner Prayagraj) inducted into Notable Alumni."
+    details: "Sh. Gulab Chand (Batch 2002, Shivalik House, Deputy Commissioner Prayagraj) inducted into Notable Alumni."
   },
   {
     id: "log-seed-4",

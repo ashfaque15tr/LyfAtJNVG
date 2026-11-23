@@ -361,6 +361,8 @@ const DEFAULT_ACCOUNTS = [
     profession: "Campus Principal & Administration",
     domain: "Institutional Leadership",
     avatar: "PKS",
+    photo: "assets/images/pk-singh.jpg",
+    avatarImage: "assets/images/pk-singh.jpg",
     joinedDate: "Principal & Institutional Patron"
   },
   {
@@ -524,6 +526,17 @@ function initUsersDB() {
         });
       }
     } catch(e) {}
+
+    // Ensure Mr. P. K. Singh photo is up to date
+    existing.forEach(u => {
+      if ((u.email || '').toLowerCase() === 'principal@jnvalumni.org' || (u.name || '').includes('P. K. Singh') || (u.name || '').includes('P.K. Singh')) {
+        if (u.photo !== 'assets/images/pk-singh.jpg') {
+          u.photo = 'assets/images/pk-singh.jpg';
+          u.avatarImage = 'assets/images/pk-singh.jpg';
+          modified = true;
+        }
+      }
+    });
 
     // Ensure clean state without auto-approving pending applications
     if (modified) {

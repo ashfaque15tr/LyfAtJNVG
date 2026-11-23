@@ -621,7 +621,7 @@ const psIdx = indexHtml.indexOf('Late Dr. Preetam Singh');
 const pksIdx = indexHtml.indexOf('Mr. P. K. Singh');
 const nntIdx = indexHtml.indexOf('Mr. N. N. Tripathi');
 assert(spsIdx !== -1 && psIdx !== -1 && pksIdx !== -1 && nntIdx !== -1, 'All 4 Guru Vandana apex Gurujan present in index.html');
-assert(spsIdx < psIdx && psIdx < pksIdx && pksIdx < nntIdx, 'Guru Vandana sequence strictly ordered: Late Dr. S.P. Singh -> Late Dr. Preetam Singh -> Mr. P.K. Singh -> Mr. N.N. Tripathi');
+assert(pksIdx < nntIdx && nntIdx < spsIdx && spsIdx < psIdx, 'Guru Vandana sequence strictly ordered: Mr. P. K. Singh -> Mr. N. N. Tripathi -> Late Dr. S. P. Singh -> Late Dr. Preetam Singh');
 
 // 5. Donor Board Direct Visibility Without Click
 assert(indexHtml.includes('Official Vidyalaya Plaque — Directly Readable'), 'Donor Board is directly readable in index.html without requiring click');
@@ -1183,13 +1183,20 @@ assert(mobLoginHtmlContent.includes('id="claimedTeacherId"'), 'mobile_app/login.
 // ----------------------------------------------------
 console.log('\n--- TEST SUITE 23: GURUJAN ROSTER ACCURACY, NOTABLE CIVIL LEADERSHIP & AUDIT LOG ---');
 
-// 1. Sh. Gulab Chand Sonkar (Notable Alumni & Directory)
-const gulabNotable = NOTABLE_ALUMNI_LIST.find(a => a.name.includes('Gulab Chand Sonkar'));
-assert(gulabNotable && gulabNotable.batch === '2002' && gulabNotable.house === 'Shivalik', 'Sh. Gulab Chand Sonkar verified in Notable Alumni (Batch 2002, Shivalik House)');
-assert(gulabNotable && gulabNotable.role.includes('Deputy Commissioner'), 'Sh. Gulab Chand Sonkar role is Deputy Commissioner, Prayagraj');
+// 1. Sh. Gulab Chand (Notable Alumni & Directory)
+const gulabNotable = NOTABLE_ALUMNI_LIST.find(a => a.name === 'Sh. Gulab Chand');
+assert(gulabNotable && gulabNotable.batch === '2002' && gulabNotable.house === 'Shivalik', 'Sh. Gulab Chand verified in Notable Alumni (Batch 2002, Shivalik House)');
+assert(gulabNotable && !gulabNotable.name.includes('Sonkar'), 'Sh. Gulab Chand does not contain Sonkar in Notable Alumni');
+assert(gulabNotable && gulabNotable.role.includes('Deputy Commissioner'), 'Sh. Gulab Chand role is Deputy Commissioner, Prayagraj');
 
 const gulabDir = AppState.directory.find(d => (d.name && d.name.includes('Gulab')) || d.id === 'alumni-112');
-assert(gulabDir && gulabDir.batch === 2002 && gulabDir.house === 'Shivalik', 'Alumni-112 updated to Sh. Gulab Chand Sonkar (Batch 2002, Shivalik House)');
+assert(gulabDir && gulabDir.name === 'Sh. Gulab Chand' && gulabDir.batch === 2002 && gulabDir.house === 'Shivalik', 'Alumni-112 updated to Sh. Gulab Chand (Batch 2002, Shivalik House)');
+
+// 1b. Current Principal Mr. P. K. Singh Profile Picture & Leadership
+const pkSinghTch = AppState.teachers.find(t => t.id === 'tch-6' || t.name === 'Mr. P. K. Singh');
+assert(pkSinghTch && pkSinghTch.photo === 'assets/images/pk-singh.jpg', 'Current Principal Mr. P. K. Singh profile photo is assets/images/pk-singh.jpg');
+const pkSinghUser = getAllUsers().find(u => u.name === 'Mr. P. K. Singh');
+assert(pkSinghUser && pkSinghUser.photo === 'assets/images/pk-singh.jpg', 'Current Principal user account has photo assets/images/pk-singh.jpg');
 
 // 2. Smt. Arpana Yadav (Photo & Tenure 1995-2016)
 const arpanaTch = AppState.teachers.find(t => t.id === 'tch-ay' || t.name.includes('Arpana Yadav'));

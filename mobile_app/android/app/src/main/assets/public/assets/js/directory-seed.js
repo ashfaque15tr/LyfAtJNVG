@@ -164,7 +164,8 @@ const defaultTeachers = [
       houseDetail: "Campus Head",
       location: "Campus Residence, JNV Gauriganj",
       initials: "PKS",
-      photo: null,
+      photo: "assets/images/pk-singh.jpg",
+      avatarImage: "assets/images/pk-singh.jpg",
       message: "जवाहर नवोदय विद्यालय, गौरीगंज के गौरवशाली पूर्व छात्रों का परिसर में हार्दिक स्वागत है। 13 दिसंबर 2026 को आयोजित होने वाला यह चतुर्थ महासम्मेलन हमारे वर्तमान अध्ययनरत 550+ विद्यार्थियों के लिए जीवंत प्रेरणा बनेगा। आपका मार्गदर्शन और सहभागिता विद्यालय को नई ऊंचाइयों पर ले जाएगा।",
       specialNote: "Leading current campus digital infrastructure and academic transformation."
     },
