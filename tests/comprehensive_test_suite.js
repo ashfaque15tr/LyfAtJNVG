@@ -591,7 +591,7 @@ assert(NOTABLE_ALUMNI_LIST.some(a => a.name.includes('Utkrisht Pandey')), 'Notab
 assert(NOTABLE_ALUMNI_LIST.find(a => a.name === 'Virika Solanki').batch === '2009', 'Virika Solanki batch verified as 2009');
 assert(NOTABLE_ALUMNI_LIST.find(a => a.name.includes('Utkrisht Pandey')).batch.includes('1999') || NOTABLE_ALUMNI_LIST.find(a => a.name.includes('Utkrisht Pandey')).batch === '2002', 'Utkrisht Pandey batch verified');
 assert(NOTABLE_ALUMNI_LIST.find(a => a.name.includes('Alok Singh')).batch === '1995', 'Alok Singh batch verified as 1995');
-assert(NOTABLE_ALUMNI_LIST.some(a => a.name === 'Yasir Abdul' && a.batch === '1995' && a.link.includes('yasir-abdul-66258828')), 'Yasir Abdul Batch of 1995 added to Notable Alumni');
+assert(NOTABLE_ALUMNI_LIST.some(a => (a.name === 'Sh. Yasir Abdul' || a.name === 'Yasir Abdul') && a.batch === '1995' && a.link.includes('yasir-abdul-66258828')), 'Yasir Abdul Batch of 1995 added to Notable Alumni');
 assert(NOTABLE_ALUMNI_LIST.find(a => a.name.includes('Ratnesh Tiwari')).link === 'https://koshishindia.in/founders-thought/', 'Ratnesh Tiwari profile link verified as koshishindia.in/founders-thought/');
 assert(NOTABLE_ALUMNI_LIST.find(a => a.name.includes('Ashwini Mishra')).intro.includes('**Be grounded..Be Honest..**'), 'Ashwini Mishra quote contains bold Be grounded..Be Honest..');
 
@@ -603,7 +603,7 @@ assert(indexHtml.includes('Meet Memories & Gallery'), 'Meet Memories and Gallery
 // 2. Added Notable Alumni Profiles
 const alokSingh = NOTABLE_ALUMNI_LIST.find(a => a.name.includes('Alok Singh'));
 assert(alokSingh && alokSingh.link && alokSingh.link.includes('aloksinghanalytics'), 'Alok Singh profile added to Notable Alumni');
-const manishTiwari = NOTABLE_ALUMNI_LIST.find(a => a.name === 'Manish Tiwari');
+const manishTiwari = NOTABLE_ALUMNI_LIST.find(a => a.name === 'Sh. Manish Tiwari' || a.name === 'Manish Tiwari');
 assert(manishTiwari && manishTiwari.batch === '2004' && manishTiwari.link.includes('manish-tiwari-37845514'), 'Manish Tiwari (Batch 2004) added to Notable Alumni');
 
 // 3. Guru Vandana: Late Dr. S. P. Singh & Late Dr. Preetam Singh

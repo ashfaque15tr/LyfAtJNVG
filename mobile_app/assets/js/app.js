@@ -11103,7 +11103,7 @@ function handleNotableMessageSubmit(e) {
 const NOTABLE_ALUMNI_LIST = [
   {
     "id": "notable-ad-1",
-    "name": "Alok Dubey, IAS",
+    "name": "Sh. Alok Dubey, IAS",
     "initials": "AD",
     "batch": "2007",
     "category": "civil",
@@ -11131,7 +11131,7 @@ const NOTABLE_ALUMNI_LIST = [
   },
   {
     "id": "notable-ak-1",
-    "name": "Ashwini Mishra",
+    "name": "Sh. Ashwini Mishra",
     "initials": "AM",
     "batch": "1993 (First Batch)",
     "category": "media",
@@ -11578,7 +11578,7 @@ const NOTABLE_ALUMNI_LIST = [
   },
   {
     "id": "notable-sk-1",
-    "name": "Safeer Khan",
+    "name": "Sh. Safeer Khan",
     "initials": "SK",
     "batch": "2010",
     "category": "tech",
@@ -11592,7 +11592,7 @@ const NOTABLE_ALUMNI_LIST = [
   },
   {
     "id": "notable-ss-1",
-    "name": "Satyendra Singh Satya (@cybr0x)",
+    "name": "Sh. Satyendra Singh Satya (@cybr0x)",
     "initials": "SS",
     "batch": "1998",
     "category": "tech",
@@ -11620,7 +11620,7 @@ const NOTABLE_ALUMNI_LIST = [
   },
   {
     "id": "notable-ss2-1",
-    "name": "Shailesh Singh, MIEAust",
+    "name": "Sh. Shailesh Singh, MIEAust",
     "initials": "SS",
     "batch": "1997",
     "category": "tech",
@@ -11634,7 +11634,7 @@ const NOTABLE_ALUMNI_LIST = [
   },
   {
     "id": "notable-mt-1",
-    "name": "Manish Tiwari",
+    "name": "Sh. Manish Tiwari",
     "initials": "MT",
     "batch": "2004",
     "category": "tech",
@@ -11648,7 +11648,7 @@ const NOTABLE_ALUMNI_LIST = [
   },
   {
     "id": "notable-ya-1",
-    "name": "Yasir Abdul",
+    "name": "Sh. Yasir Abdul",
     "initials": "YA",
     "batch": "1995",
     "category": "tech",
