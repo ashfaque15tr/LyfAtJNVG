@@ -41,56 +41,79 @@
     // Verify session without forcing admin
     const currentSessionUser = getCurrentUser();
   </script>
+  <style>
+    html, body {
+      width: 100%;
+      max-width: 100vw;
+      overflow-x: hidden !important;
+      margin: 0;
+      padding: 0;
+      -webkit-text-size-adjust: 100%;
+    }
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    #appViewportContainer, main, header, section, .tab-content {
+      width: 100%;
+      max-width: 100vw;
+      overflow-x: hidden;
+      box-sizing: border-box;
+    }
+    img, video, iframe {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
 </head>
-<body class="min-h-full bg-[#f0f7ff] text-[#0c2f54] font-sans antialiased flex flex-col selection:bg-amber-400 selection:text-slate-900">
+<body class="min-h-full bg-[#f0f7ff] text-[#0c2f54] font-sans antialiased flex flex-col selection:bg-amber-400 selection:text-slate-900 w-full max-w-full overflow-x-hidden">
 
   <!-- TOP HEADER / BRANDING -->
-  <header class="bg-slate-900 border-b border-slate-800 text-xs py-2.5 px-4 sticky top-0 z-50 backdrop-blur-md bg-opacity-95 no-print">
-    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
-      <div class="flex items-center space-x-3">
-        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-blue-950 border border-blue-800 text-blue-300 font-semibold text-[11px]">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          Official Alumni Network
+  <header class="bg-slate-900 border-b border-slate-800 text-xs py-2 px-3 sm:py-2.5 sm:px-4 sticky top-0 z-50 backdrop-blur-md bg-opacity-95 no-print w-full max-w-full overflow-hidden">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2 sm:gap-3 w-full">
+      <div class="flex flex-wrap items-center gap-1.5 sm:gap-2.5">
+        <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-blue-950 border border-blue-800 text-blue-300 font-semibold text-[10px] sm:text-[11px] whitespace-nowrap">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>Alumni Network</span>
         </span>
-        <button id="langToggleBtn" onclick="toggleLanguage()" class="px-2.5 py-1 rounded bg-amber-500/15 text-amber-300 border border-amber-500/30 font-medium flex items-center gap-1.5 hover:bg-amber-500/25 transition text-[11px]">
+        <button id="langToggleBtn" onclick="toggleLanguage()" class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 border border-amber-500/30 font-medium flex items-center gap-1 hover:bg-amber-500/25 transition text-[10px] sm:text-[11px] whitespace-nowrap">
           <span class="font-bold">अ/A</span>
           <span id="langLabel">हिन्दी मोड</span>
         </button>
         <!-- Theme Switcher: Light Sky Blue <-> Classic Dark Navy Blue -->
-        <button id="themeToggleBtn" onclick="toggleTheme()" class="px-2.5 py-1 rounded bg-sky-500/20 text-sky-700 border border-sky-400/40 font-bold flex items-center gap-1.5 hover:bg-sky-500/30 transition text-[11px] shadow-sm touch-ripple" title="Switch Theme (Light Theme / Dark Theme)">
+        <button id="themeToggleBtn" onclick="toggleTheme()" class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-700 border border-sky-400/40 font-bold flex items-center gap-1 hover:bg-sky-500/30 transition text-[10px] sm:text-[11px] shadow-sm touch-ripple whitespace-nowrap" title="Switch Theme (Light Theme / Dark Theme)">
           <span id="themeToggleIcon" class="text-xs">☀️</span>
           <span id="themeToggleLabel">Light Theme</span>
         </button>
       </div>
 
       <!-- Authenticated User Profile Capsule (Active Session) -->
-      <div class="flex items-center space-x-2.5 ml-auto" id="userProfileTopBar">
+      <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 ml-auto max-w-full" id="userProfileTopBar">
         <!-- Alumni Chat / Inbox Button -->
-        <button id="topInboxBtn" onclick="openChatModal()" class="px-3 py-1.5 rounded-xl bg-slate-950 border border-slate-800 hover:border-gold-500/50 text-slate-200 hover:text-white text-xs font-semibold flex items-center gap-2 transition relative shadow">
-          <svg class="w-4 h-4 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+        <button id="topInboxBtn" onclick="openChatModal()" class="px-2.5 py-1 rounded-xl bg-slate-950 border border-slate-800 hover:border-gold-500/50 text-slate-200 hover:text-white text-[11px] sm:text-xs font-semibold flex items-center gap-1.5 transition relative shadow">
+          <svg class="w-3.5 h-3.5 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
           <span>Inbox</span>
           <span id="unreadInboxBadge" class="hidden px-1.5 py-0.2 rounded-full bg-red-600 text-white text-[10px] font-black">0</span>
         </button>
-        <div class="flex items-center space-x-2 bg-slate-950 border border-slate-800 py-1 px-2.5 rounded-xl">
-          <div id="userAvatarInitials" class="w-7 h-7 rounded-full bg-gold-500 text-slate-950 font-bold flex items-center justify-center text-[10px] overflow-hidden flex-shrink-0">NV</div>
-          <div class="text-left">
-            <span id="userDisplayName" class="font-bold text-white text-xs block leading-none">Alumni</span>
-            <span id="userDisplayRole" class="text-[10px] text-amber-400 font-semibold leading-tight">Member</span>
+        <div class="flex items-center space-x-1.5 bg-slate-950 border border-slate-800 py-0.5 px-2 rounded-xl max-w-[170px] sm:max-w-none">
+          <div id="userAvatarInitials" class="w-6 h-6 rounded-full bg-gold-500 text-slate-950 font-bold flex items-center justify-center text-[10px] overflow-hidden flex-shrink-0">NV</div>
+          <div class="text-left min-w-0">
+            <span id="userDisplayName" class="font-bold text-white text-[11px] sm:text-xs block leading-none truncate">Alumni</span>
+            <span id="userDisplayRole" class="text-[9px] sm:text-[10px] text-amber-400 font-semibold leading-tight truncate block">Member</span>
           </div>
         </div>
-                <!-- Edit Profile Button -->
-        <button id="btnEditProfile" onclick="openEditProfileModal()" class="px-2.5 py-1.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-gold-500/50 text-slate-200 hover:text-white text-xs font-semibold flex items-center gap-1.5 transition shadow" title="Edit My Profile">
+        <!-- Edit Profile Button -->
+        <button id="btnEditProfile" onclick="openEditProfileModal()" class="p-1 sm:px-2.5 sm:py-1.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-gold-500/50 text-slate-200 hover:text-white text-xs font-semibold flex items-center gap-1 transition shadow flex-shrink-0" title="Edit My Profile">
           <span>✏️</span>
-          <span class="hidden sm:inline">Edit Profile</span>
+          <span class="hidden md:inline">Edit Profile</span>
         </button>
         <!-- Change Password Button (for both Teachers & Alumni) -->
-        <button id="btnChangePassword" onclick="openChangePasswordModal()" class="px-2.5 py-1.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-amber-500/50 text-slate-200 hover:text-white text-xs font-semibold flex items-center gap-1.5 transition shadow" title="Change Login Password">
+        <button id="btnChangePassword" onclick="openChangePasswordModal()" class="p-1 sm:px-2.5 sm:py-1.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-amber-500/50 text-slate-200 hover:text-white text-xs font-semibold flex items-center gap-1 transition shadow flex-shrink-0" title="Change Login Password">
           <span>🔒</span>
-          <span class="hidden sm:inline">Password</span>
+          <span class="hidden md:inline">Password</span>
         </button>
-        <button onclick="logoutUser()" class="px-2.5 py-1 rounded bg-red-950/50 hover:bg-red-900/60 border border-red-500/30 text-red-300 font-semibold text-[11px] flex items-center gap-1 transition" title="Sign out of your session">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
-          <span>Sign Out</span>
+        <button onclick="logoutUser()" class="px-2 py-1 rounded bg-red-950/50 hover:bg-red-900/60 border border-red-500/30 text-red-300 font-semibold text-[10px] sm:text-[11px] flex items-center gap-1 transition flex-shrink-0" title="Sign out of your session">
+          <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+          <span class="hidden xs:inline">Sign Out</span>
         </button>
       </div>
 
@@ -108,8 +131,15 @@
   </header>
 
   <!-- RBAC BANNER -->
-  <div id="rbacBanner" class="bg-blue-950/70 border-b border-blue-800/50 px-4 py-1.5 text-xs text-blue-200 no-print">
-    <div class="max-w-7xl mx-auto w-full flex items-center justify-between">
+  <div id="rbacBanner" class="bg-blue-950/70 border-b border-blue-800/50 px-3 sm:px-4 py-1.5 text-xs text-blue-200 no-print overflow-hidden w-full max-w-full">
+    <div class="max-w-7xl mx-auto w-full flex flex-wrap items-center justify-between gap-1.5">
+      <div class="flex flex-wrap items-center gap-2 min-w-0 flex-1">
+        <span id="roleBadge" class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 flex-shrink-0">Alumni Member</span>
+        <span id="rbacMessage" class="break-words min-w-0 text-[11px] sm:text-xs">Welcome to Jawahar Navodaya Vidyalaya Alumni Association, Gauriganj.</span>
+      </div>
+      <span class="text-[11px] text-slate-400 hidden md:inline">Non-profit voluntary alumni network registered for education & solidarity</span>
+    </div>
+  </div>
       <div class="flex items-center gap-2">
         <span id="roleBadge" class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">Alumni Member</span>
         <span id="rbacMessage">Welcome to Jawahar Navodaya Vidyalaya Alumni Association, Gauriganj.</span>
@@ -120,41 +150,41 @@
 
   <!-- Pending Verification Banner completely removed -->
   <!-- MAIN HEADER / HERO BANNER -->
-  <div id="appViewportContainer" class="flex-1 w-full mx-auto">
-    <section class="bg-gradient-to-b from-brand-950 via-slate-900 to-slate-950 border-b border-slate-800 text-white relative overflow-hidden">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-5 sm:py-7 relative z-10">
-        <div class="flex flex-col md:flex-row items-center justify-between gap-5">
-          <div class="flex items-center space-x-4 sm:space-x-5 text-center md:text-left cursor-pointer group" onclick="switchTab('home')" title="Go to JNVGFamily Home">
-            <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white p-1 shadow-2xl flex-shrink-0 flex items-center justify-center border-2 border-gold-500/60 group-hover:scale-105 transition">
+  <div id="appViewportContainer" class="flex-1 w-full mx-auto max-w-full overflow-x-hidden">
+    <section class="bg-gradient-to-b from-brand-950 via-slate-900 to-slate-950 border-b border-slate-800 text-white relative overflow-hidden max-w-full">
+      <div class="max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-7 relative z-10">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-5">
+          <div class="flex items-center space-x-3 sm:space-x-5 text-left cursor-pointer group w-full md:w-auto" onclick="switchTab('home')" title="Go to JNVGFamily Home">
+            <div class="w-14 h-14 sm:w-20 sm:h-20 rounded-2xl bg-white p-1 shadow-2xl flex-shrink-0 flex items-center justify-center border-2 border-gold-500/60 group-hover:scale-105 transition">
               <img src="assets/images/logo.jpeg" alt="NVS Logo" class="w-full h-full object-contain">
             </div>
-            <div>
-              <div class="flex flex-wrap items-center justify-center md:justify-start gap-2 mb-1">
+            <div class="min-w-0 flex-1">
+              <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-0.5 sm:mb-1">
                 <span class="px-2 py-0.5 text-[10px] tracking-widest font-semibold uppercase bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded">Est. 1986</span>
                 <span class="text-xs text-amber-300 font-hindi font-bold tracking-wide">।। प्रज्ञानं ब्रह्म ।।</span>
               </div>
-              <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight text-slate-50"><span class="font-sans font-extrabold text-amber-400 brand-jnvg-title">JNVGFamily</span> <span class="font-cinzel text-slate-50 brand-association-title">• Jawahar Navodaya Vidyalaya Alumni Association</span></h1>
-              <p class="text-xs sm:text-sm text-slate-300 font-medium header-subtext">Gauriganj, Sultanpur / Amethi (U.P.) • <span class="text-amber-400 font-mono font-bold">jnvgfamily.in</span> <span class="text-amber-400 font-hindi ml-1 italic font-semibold">"हमीं नवोदय हों"</span></p>
+              <h1 class="text-lg sm:text-2xl lg:text-3xl font-bold tracking-tight text-slate-50 break-words"><span class="font-sans font-extrabold text-amber-400 brand-jnvg-title">JNVGFamily</span> <span class="font-cinzel text-slate-50 brand-association-title">• Jawahar Navodaya Vidyalaya Alumni Association</span></h1>
+              <p class="text-xs sm:text-sm text-slate-300 font-medium header-subtext break-words">Gauriganj, Sultanpur / Amethi (U.P.) • <span class="text-amber-400 font-mono font-bold">jnvgfamily.in</span> <span class="text-amber-400 font-hindi ml-1 italic font-semibold">"हमीं नवोदय हों"</span></p>
             </div>
           </div>
           
           <!-- 4 Houses Color Strip (Official NVS Mapping) -->
-          <div class="flex items-center gap-2 bg-slate-900/90 border border-slate-800 p-2 sm:p-2.5 rounded-xl shadow-inner">
-            <div class="text-center px-2.5 py-1 bg-red-950/80 border border-red-500/60 rounded-lg min-w-[70px]">
-              <span class="block text-xs font-bold text-red-400">Aravali</span>
-              <span class="text-[9px] text-red-300">Ashok</span>
+          <div class="grid grid-cols-4 gap-1.5 sm:gap-2 bg-slate-900/90 border border-slate-800 p-1.5 sm:p-2.5 rounded-xl shadow-inner w-full md:w-auto max-w-full">
+            <div class="text-center px-1.5 sm:px-2.5 py-1 bg-red-950/80 border border-red-500/60 rounded-lg min-w-0">
+              <span class="block text-[11px] sm:text-xs font-bold text-red-400 truncate">Aravali</span>
+              <span class="text-[8px] sm:text-[9px] text-red-300 truncate block">Ashok</span>
             </div>
-            <div class="text-center px-2.5 py-1 bg-blue-950/80 border border-blue-500/60 rounded-lg min-w-[70px]">
-              <span class="block text-xs font-bold text-blue-400">Shivalik</span>
-              <span class="text-[9px] text-blue-300">Raman & Shivaji</span>
+            <div class="text-center px-1.5 sm:px-2.5 py-1 bg-blue-950/80 border border-blue-500/60 rounded-lg min-w-0">
+              <span class="block text-[11px] sm:text-xs font-bold text-blue-400 truncate">Shivalik</span>
+              <span class="text-[8px] sm:text-[9px] text-blue-300 truncate block">Raman & Shivaji</span>
             </div>
-            <div class="text-center px-2.5 py-1 bg-yellow-950/80 border border-yellow-500/60 rounded-lg min-w-[70px]">
-              <span class="block text-xs font-bold text-yellow-400">Udaigiri</span>
-              <span class="text-[9px] text-yellow-300">Subhash</span>
+            <div class="text-center px-1.5 sm:px-2.5 py-1 bg-yellow-950/80 border border-yellow-500/60 rounded-lg min-w-0">
+              <span class="block text-[11px] sm:text-xs font-bold text-yellow-400 truncate">Udaigiri</span>
+              <span class="text-[8px] sm:text-[9px] text-yellow-300 truncate block">Subhash</span>
             </div>
-            <div class="text-center px-2.5 py-1 bg-emerald-950/80 border border-emerald-500/60 rounded-lg min-w-[70px]">
-              <span class="block text-xs font-bold text-emerald-400">Nilgiri</span>
-              <span class="text-[9px] text-emerald-300">Tagore</span>
+            <div class="text-center px-1.5 sm:px-2.5 py-1 bg-emerald-950/80 border border-emerald-500/60 rounded-lg min-w-0">
+              <span class="block text-[11px] sm:text-xs font-bold text-emerald-400 truncate">Nilgiri</span>
+              <span class="text-[8px] sm:text-[9px] text-emerald-300 truncate block">Tagore</span>
             </div>
           </div>
         </div>
@@ -1133,37 +1163,41 @@
       <!-- ============================================== -->
       <section id="tab-helpdesk" class="tab-content hidden space-y-8">
         <!-- Official Academic Block Campus Banner -->
-        <div class="rounded-3xl overflow-hidden border border-cyan-500/35 bg-slate-950 shadow-2xl relative group">
-          <div class="relative w-full overflow-hidden max-h-[440px]">
-            <img src="assets/images/academic-block.jpeg" alt="JNV Gauriganj Academic Block Campus" class="w-full h-auto max-h-[440px] object-cover object-center group-hover:scale-[1.015] transition duration-700 block">
-            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/45 to-transparent"></div>
+        <div class="rounded-3xl overflow-hidden border border-cyan-500/35 bg-slate-950 shadow-2xl relative group max-w-full">
+          <div class="relative w-full overflow-hidden min-h-[220px] sm:min-h-[280px] max-h-[440px]">
+            <img src="assets/images/academic-block.jpeg" alt="JNV Gauriganj Academic Block Campus" class="w-full h-auto min-h-[220px] sm:min-h-[280px] max-h-[440px] object-cover object-center group-hover:scale-[1.015] transition duration-700 block">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/25 to-transparent pointer-events-none"></div>
             
             <!-- Top Badges -->
-            <div class="absolute top-4 left-4 z-10 flex flex-wrap items-center gap-2">
-              <span class="px-3 py-1 rounded-full bg-cyan-950/90 border border-cyan-500/50 text-cyan-300 text-xs font-bold backdrop-blur flex items-center gap-1.5 shadow-lg">
+            <div class="absolute top-3 sm:top-4 left-3 sm:left-4 z-10 flex flex-wrap items-center gap-2">
+              <span class="px-2.5 sm:px-3 py-1 rounded-full text-[11px] sm:text-xs font-bold backdrop-blur flex items-center gap-1.5 shadow-lg border border-cyan-500/50" style="background: rgba(8, 28, 44, 0.92) !important; color: #67e8f9 !important; -webkit-text-fill-color: #67e8f9 !important; text-shadow: 0 1px 4px rgba(0,0,0,0.8);">
                 <span>🏛️</span> <span>Academic Block • JNV Gauriganj (शैक्षणिक भवन)</span>
               </span>
-              <span class="px-2.5 py-1 rounded-full bg-slate-900/90 border border-slate-700 text-slate-300 text-[11px] backdrop-blur font-mono">
-                Campus Headquarters of Mentorship & Student Welfare
+              <span class="px-2.5 py-1 rounded-full text-[11px] backdrop-blur font-mono border border-slate-700 hidden sm:inline-flex" style="background: rgba(15, 23, 42, 0.92) !important; color: #e2e8f0 !important; -webkit-text-fill-color: #e2e8f0 !important; text-shadow: 0 1px 4px rgba(0,0,0,0.8);">
+                Campus Mentorship & Student Welfare Headquarters
               </span>
             </div>
 
-            <!-- Bottom Floating Description -->
-            <div class="hero-banner-card absolute bottom-3 sm:bottom-4 left-3 sm:left-4 right-3 sm:right-4 z-20 p-4 sm:p-5 rounded-2xl shadow-2xl flex flex-col md:flex-row items-start md:items-end justify-between gap-4" style="background: rgba(8, 14, 28, 0.94) !important; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1.5px solid rgba(6, 182, 212, 0.55) !important; box-shadow: 0 12px 36px rgba(0, 0, 0, 0.85) !important;">
-              <div class="space-y-1.5 max-w-2xl">
-                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold tracking-wider uppercase font-hindi shadow-sm" style="background: rgba(6, 182, 212, 0.2) !important; border: 1px solid rgba(6, 182, 212, 0.6) !important; color: #67e8f9 !important; -webkit-text-fill-color: #67e8f9 !important; text-shadow: 0 1px 4px rgba(0,0,0,0.9);">।। विद्या ददाति विनयं ।। • परस्पर देवो भव</span>
-                <h3 class="hero-banner-text text-xl sm:text-2xl lg:text-3xl font-extrabold font-cinzel leading-tight" style="color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95), 0 1px 3px rgba(0, 0, 0, 0.9) !important; font-weight: 800 !important;">Sahayata Central • Fraternity Care & Relief</h3>
-                <p class="hero-banner-text text-xs sm:text-sm font-medium leading-relaxed" style="color: #f8fafc !important; -webkit-text-fill-color: #f8fafc !important; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.95) !important; font-weight: 500 !important;">Rooted in our alma mater: From the historic corridors of the Academic Block to nationwide alumni solidarity.</p>
+            <!-- Sleek Bottom Caption Bar: Never covers or hoods the Academic Block photo -->
+            <div class="helpdesk-banner-card absolute bottom-2.5 sm:bottom-4 left-2.5 sm:left-4 right-2.5 sm:right-4 z-20 p-2.5 sm:p-4 rounded-2xl shadow-xl flex items-center justify-between gap-3 bg-slate-950/70 backdrop-blur-md border border-cyan-500/40">
+              <div class="space-y-0.5 min-w-0">
+                <div class="flex items-center gap-2">
+                  <span class="text-cyan-400 text-xs sm:text-sm">🤝</span>
+                  <h3 class="hero-banner-text text-xs sm:text-base font-extrabold font-cinzel leading-tight truncate" style="color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95), 0 1px 3px rgba(0, 0, 0, 0.9) !important; font-weight: 800 !important;">
+                    Sahayata Central • Fraternity Care & Relief
+                  </h3>
+                </div>
+                <p class="text-[10px] sm:text-xs text-cyan-200/90 font-hindi truncate hidden xs:block">
+                  ।। विद्या ददाति विनयं ।। • परस्पर देवो भव • Nationwide Solidarity
+                </p>
               </div>
-              <div class="flex items-center gap-2.5 flex-shrink-0">
-                <button onclick="openHelpRequestModal()" class="px-5 py-3 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-slate-950 font-bold text-xs sm:text-sm flex items-center gap-2 shadow-xl shadow-cyan-500/25 transition touch-ripple">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                  <span>Request Assistance / सहायता आवेदन</span>
-                </button>
-              </div>
+              <button onclick="openHelpRequestModal()" class="px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-slate-950 font-bold text-xs sm:text-sm flex items-center gap-1.5 shadow-lg shadow-cyan-500/20 whitespace-nowrap touch-ripple flex-shrink-0 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                <span>Request Assistance / सहायता आवेदन</span>
+              </button>
             </div>
           </div>
-          <div class="px-5 py-3 bg-slate-900/90 border-t border-slate-800 flex flex-wrap items-center justify-between text-xs text-slate-400">
+          <div class="px-4 sm:px-5 py-2.5 sm:py-3 bg-slate-900/90 border-t border-slate-800 flex flex-wrap items-center justify-between text-xs text-slate-400 gap-2">
             <span>📍 JNV Gauriganj, Sultanpur / Amethi • Academic Block & Assembly Quadrangle</span>
             <span class="text-cyan-400 font-semibold font-mono text-[11px]">Est. 1986 • Multi-Tier Support Matrix</span>
           </div>
@@ -1422,61 +1456,61 @@
             </div>
 
             <!-- Right: Digitally Transcribed & Audited Donor Ledger -->
-            <div class="lg:col-span-6 space-y-3.5">
-              <div class="p-4 rounded-2xl bg-slate-950/80 border border-amber-500/30 flex items-start justify-between gap-4">
-                <div class="space-y-1">
+            <div class="lg:col-span-6 space-y-3.5 max-w-full">
+              <div class="p-4 rounded-2xl bg-slate-950/80 border border-amber-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-4 max-w-full">
+                <div class="space-y-1 min-w-0 flex-1">
                   <div class="flex items-center gap-2">
-                    <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-300 text-xs font-bold flex items-center justify-center">1</span>
+                    <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-300 text-xs font-bold flex items-center justify-center flex-shrink-0">1</span>
                     <strong class="text-white text-sm">Shri Vivek Tiwari</strong>
                   </div>
                   <p class="text-xs text-amber-300 font-medium ml-8">Alumnus 1987-1994 Batch • Aravali House</p>
                 </div>
-                <div class="text-right flex-shrink-0">
+                <div class="w-full sm:w-auto text-left sm:text-right mt-1 sm:mt-0 flex-shrink-0">
                   <span class="text-xs font-bold text-emerald-400 block">Trophy Worth ₹54,000/-</span>
                   <span class="text-[10px] text-slate-400">National Cricket Championship 2023</span>
                 </div>
               </div>
 
-              <div class="p-4 rounded-2xl bg-slate-950/80 border border-amber-500/30 flex items-start justify-between gap-4">
-                <div class="space-y-1">
+              <div class="p-4 rounded-2xl bg-slate-950/80 border border-amber-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-4 max-w-full">
+                <div class="space-y-1 min-w-0 flex-1">
                   <div class="flex items-center gap-2">
-                    <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-300 text-xs font-bold flex items-center justify-center">2</span>
+                    <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-300 text-xs font-bold flex items-center justify-center flex-shrink-0">2</span>
                     <strong class="text-white text-sm">Shri Vivek Tiwari</strong>
                   </div>
                   <p class="text-xs text-amber-300 font-medium ml-8">Alumnus 1987-1994 Batch • Aravali House</p>
                 </div>
-                <div class="text-right flex-shrink-0">
+                <div class="w-full sm:w-auto text-left sm:text-right mt-1 sm:mt-0 flex-shrink-0">
                   <span class="text-xs font-bold text-emerald-400 block">Earth Filling Worth ₹96,000/-</span>
                   <span class="text-[10px] text-slate-400">Vidyalaya Ground Development</span>
                 </div>
               </div>
 
-              <div class="p-4 rounded-2xl bg-slate-950/80 border border-amber-500/30 flex items-start justify-between gap-4">
-                <div class="space-y-1">
+              <div class="p-4 rounded-2xl bg-slate-950/80 border border-amber-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-4 max-w-full">
+                <div class="space-y-1 min-w-0 flex-1">
                   <div class="flex items-center gap-2">
-                    <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-300 text-xs font-bold flex items-center justify-center">3</span>
+                    <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-300 text-xs font-bold flex items-center justify-center flex-shrink-0">3</span>
                     <strong class="text-white text-sm">Shri Rama Sankar Yadav</strong>
                   </div>
                   <p class="text-xs text-amber-300 font-medium ml-8">Alumnus 1987-1994 Batch • Head Master Model School Pachehari</p>
                 </div>
-                <div class="text-right flex-shrink-0">
+                <div class="w-full sm:w-auto text-left sm:text-right mt-1 sm:mt-0 flex-shrink-0">
                   <span class="text-xs font-bold text-emerald-400 block">8 Cement Campus Benches</span>
                   <span class="text-[10px] text-slate-400">Campus Seating Infrastructure</span>
                 </div>
               </div>
 
-              <div class="p-4 rounded-2xl bg-gradient-to-r from-amber-950/60 via-slate-950 to-amber-950/40 border-2 border-amber-500/60 shadow-lg space-y-2">
-                <div class="flex items-start justify-between gap-4">
-                  <div class="space-y-1">
+              <div class="p-4 rounded-2xl bg-gradient-to-r from-amber-950/60 via-slate-950 to-amber-950/40 border-2 border-amber-500/60 shadow-lg space-y-2 max-w-full">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-4 max-w-full">
+                  <div class="space-y-1 min-w-0 flex-1">
                     <div class="flex items-center gap-2">
-                      <span class="w-6 h-6 rounded-full bg-amber-500 text-slate-950 text-xs font-bold flex items-center justify-center">4</span>
-                      <div>
+                      <span class="w-6 h-6 rounded-full bg-amber-500 text-slate-950 text-xs font-bold flex items-center justify-center flex-shrink-0">4</span>
+                      <div class="min-w-0 flex-1">
                         <strong class="text-white text-sm block">Shri Vivek Tiwari <span class="text-xs font-normal text-slate-300">(1987-1994)</span> & Dr. Ratnesh Tiwari <span class="text-xs font-normal text-slate-300">(1996-2003)</span></strong>
-                        <span class="text-[11px] text-amber-300 font-semibold">Proprietors: Satyapath Foundation & Koshish Marketing Solutions Pvt. Ltd.</span>
+                        <span class="text-[11px] text-amber-300 font-semibold block">Proprietors: Satyapath Foundation & Koshish Marketing Solutions Pvt. Ltd.</span>
                       </div>
                     </div>
                   </div>
-                  <div class="text-right flex-shrink-0">
+                  <div class="w-full sm:w-auto text-left sm:text-right mt-1 sm:mt-0 flex-shrink-0">
                     <span class="text-sm font-black text-amber-400 block font-mono">₹13,00,000/- (13 Lakhs)</span>
                     <span class="text-[10px] text-emerald-300 font-bold uppercase">Mega Institutional Grant</span>
                   </div>

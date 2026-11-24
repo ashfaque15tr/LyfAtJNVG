@@ -1416,6 +1416,33 @@ densities.forEach(d => {
 const legacyV24 = path.join(rootDir, 'android', 'app', 'src', 'main', 'res', 'drawable-v24', 'ic_launcher_foreground.xml');
 assert(!fs.existsSync(legacyV24), 'Legacy Capacitor robot vector ic_launcher_foreground.xml is removed');
 
+// ----------------------------------------------------
+// TEST SUITE 28: MOBILE VIEWPORT CONTAINMENT & HELPDESK BANNER UNHOODING
+// ----------------------------------------------------
+console.log('\n--- TEST SUITE 28: MOBILE VIEWPORT CONTAINMENT & HELPDESK BANNER UNHOODING ---');
+
+const freshRootIndex = fs.readFileSync(path.join(rootDir, 'index.html'), 'utf8');
+const freshMobIndex = fs.readFileSync(path.join(rootDir, 'mobile_app', 'index.html'), 'utf8');
+const freshStylesCss = fs.readFileSync(path.join(rootDir, 'assets', 'css', 'styles.css'), 'utf8');
+const freshAppJs = fs.readFileSync(path.join(rootDir, 'assets', 'js', 'app.js'), 'utf8');
+
+assert(freshRootIndex.includes('class="helpdesk-banner-card'), 'index.html contains sleek helpdesk-banner-card');
+assert(freshMobIndex.includes('class="helpdesk-banner-card'), 'mobile_app/index.html contains sleek helpdesk-banner-card');
+assert(!freshRootIndex.includes('Rooted in our alma mater: From the historic corridors of the Academic Block to nationwide alumni solidarity.'), 'Helpdesk Academic Block banner giant text box removed so campus photo is never hooded');
+assert(!freshMobIndex.includes('Rooted in our alma mater: From the historic corridors of the Academic Block to nationwide alumni solidarity.'), 'mobile_app Helpdesk Academic Block banner is never hooded');
+assert(freshStylesCss.includes('overflow-x: hidden !important'), 'styles.css enforces global overflow-x: hidden !important');
+assert(freshStylesCss.includes('max-width: 100vw'), 'styles.css enforces strict 100vw maximum viewport containment');
+assert(freshRootIndex.includes('grid-cols-4 gap-1.5 sm:gap-2'), 'index.html house strip uses responsive grid-cols-4 preventing horizontal push');
+assert(freshMobIndex.includes('grid-cols-4 gap-1.5 sm:gap-2'), 'mobile_app/index.html house strip uses responsive grid-cols-4');
+assert(freshAppJs.includes('feed-card') && freshAppJs.includes('max-w-full overflow-hidden'), 'Feed cards enforce max-w-full overflow containment');
+assert(freshAppJs.includes('dir-card') && freshAppJs.includes('max-w-full overflow-hidden'), 'Directory cards enforce max-w-full overflow containment');
+
+// 5. Version Code & Name Increment for Google Play Store (Release 4 / 1.0.2)
+const rootGradle = fs.readFileSync(path.join(rootDir, 'android', 'app', 'build.gradle'), 'utf8');
+const mobGradle = fs.readFileSync(path.join(rootDir, 'mobile_app', 'android', 'app', 'build.gradle'), 'utf8');
+assert(rootGradle.includes('versionCode 4') && rootGradle.includes('versionName "1.0.2"'), 'android/app/build.gradle configured with versionCode 4 (v1.0.2)');
+assert(mobGradle.includes('versionCode 4') && mobGradle.includes('versionName "1.0.2"'), 'mobile_app/android/app/build.gradle configured with versionCode 4 (v1.0.2)');
+
 console.log('\n====================================================');
 console.log(`TEST RESULTS: ${passedTests} / ${totalTests} ASSERTIONS PASSED`);
 console.log('====================================================');

@@ -9587,8 +9587,8 @@ function renderFeed(append = false) {
     const article = document.createElement('article');
     article.id = 'feed-card-' + post.id;
     article.className = isTeacherPost 
-      ? "feed-card bg-gradient-to-br from-amber-950/30 via-slate-900 to-slate-900 border border-amber-500/40 rounded-2xl p-5 hover:border-amber-400/60 transition space-y-3 shadow-lg shadow-amber-500/5 ring-1 ring-amber-500/20"
-      : "feed-card bg-slate-900 border border-slate-800 rounded-2xl p-5 hover:border-slate-700 transition space-y-3";
+      ? "feed-card bg-gradient-to-br from-amber-950/30 via-slate-900 to-slate-900 border border-amber-500/40 rounded-2xl p-4 sm:p-5 hover:border-amber-400/60 transition space-y-3 shadow-lg shadow-amber-500/5 ring-1 ring-amber-500/20 max-w-full overflow-hidden"
+      : "feed-card bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 hover:border-slate-700 transition space-y-3 max-w-full overflow-hidden";
     article.setAttribute('data-category', post.category);
 
     const canDeleteThis = canDeleteAll || (curUser.name && curUser.name.toLowerCase() === (post.author || '').toLowerCase());
@@ -9622,12 +9622,12 @@ function renderFeed(append = false) {
       : '';
 
     const authorSubtext = isTeacherPost
-      ? `<p class="text-[10px] text-amber-300/90 font-medium">${post.roleTitle || 'Revered Faculty'} • ${post.house} House</p>`
-      : `<p class="text-[10px] text-slate-400">Batch of ${post.batch} • ${post.house} House</p>`;
+      ? `<p class="text-[10px] text-amber-300/90 font-medium truncate">${post.roleTitle || 'Revered Faculty'} • ${post.house} House</p>`
+      : `<p class="text-[10px] text-slate-400 truncate">Batch of ${post.batch} • ${post.house} House</p>`;
 
     const tagBadge = isTeacherPost
-      ? `<span class="text-[10px] px-2 py-0.5 rounded font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">${post.tag || 'Guru Sandesh'}</span>`
-      : `<span class="text-[10px] text-slate-500">${post.tag || 'Memories'}</span>`;
+      ? `<span class="text-[10px] px-2 py-0.5 rounded font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 whitespace-nowrap">${post.tag || 'Guru Sandesh'}</span>`
+      : `<span class="text-[10px] text-slate-500 whitespace-nowrap">${post.tag || 'Memories'}</span>`;
 
     let authorPhoto = post.authorPhoto;
     if (!authorPhoto) {
@@ -9643,31 +9643,31 @@ function renderFeed(append = false) {
     }
 
     article.innerHTML = `
-      <div class="flex items-center justify-between">
-        <div class="flex items-center space-x-3">
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <div class="flex items-center space-x-2.5 sm:space-x-3 min-w-0 flex-1">
           ${authorPhoto 
-            ? `<img src="${authorPhoto}" alt="${post.author}" class="w-10 h-10 rounded-full object-cover border ${isTeacherPost ? 'border-amber-400' : 'border-amber-500/40'} shadow-sm flex-shrink-0">` 
-            : `<div class="w-10 h-10 rounded-full ${isTeacherPost ? 'bg-amber-950 border border-amber-500/50 text-amber-300' : 'bg-blue-950 border border-blue-500/30 text-blue-400'} flex items-center justify-center font-bold text-xs flex-shrink-0">${post.initials || 'NV'}</div>`}
-          <div>
-            <h4 class="text-xs font-bold ${isTeacherPost ? 'text-amber-300' : 'text-slate-100'} flex items-center gap-1.5">
+            ? `<img src="${authorPhoto}" alt="${post.author}" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full object-cover border ${isTeacherPost ? 'border-amber-400' : 'border-amber-500/40'} shadow-sm flex-shrink-0">` 
+            : `<div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full ${isTeacherPost ? 'bg-amber-950 border border-amber-500/50 text-amber-300' : 'bg-blue-950 border border-blue-500/30 text-blue-400'} flex items-center justify-center font-bold text-xs flex-shrink-0">${post.initials || 'NV'}</div>`}
+          <div class="min-w-0 flex-1">
+            <h4 class="text-xs font-bold ${isTeacherPost ? 'text-amber-300' : 'text-slate-100'} flex flex-wrap items-center gap-1.5 leading-tight">
               ${isTeacherPost ? '<span>🪔</span>' : ''}
-              <span>${post.author}</span>
+              <span class="truncate">${post.author}</span>
               ${authorRoleBadge}
             </h4>
             ${authorSubtext}
           </div>
         </div>
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-1.5 sm:gap-2 flex-wrap flex-shrink-0">
           ${tagBadge}
           ${canDeleteThis ? `
-            <button onclick="deleteFeedPost('${post.id}')" class="text-rose-400 hover:text-rose-300 transition flex items-center gap-1 text-[11px] px-2 py-0.5 rounded bg-rose-500/10 border border-rose-500/20" title="Delete Post (Moderator / Admin / Author Authority)">
+            <button onclick="deleteFeedPost('${post.id}')" class="text-rose-400 hover:text-rose-300 transition flex items-center gap-1 text-[10px] sm:text-[11px] px-2 py-0.5 rounded bg-rose-500/10 border border-rose-500/20" title="Delete Post (Moderator / Admin / Author Authority)">
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
               <span>Delete</span>
             </button>
           ` : ''}
         </div>
       </div>
-      <p class="text-xs sm:text-sm text-slate-200 leading-relaxed font-hindi">"${postText}"</p>
+      <p class="text-xs sm:text-sm text-slate-200 leading-relaxed font-hindi break-words">"${postText}"</p>
       ${imageHtml}
       <div class="flex items-center justify-between pt-2 border-t border-slate-800/80 text-xs text-slate-400">
         <div class="flex items-center space-x-4">
@@ -10867,7 +10867,7 @@ function renderDirectory(append = false) {
 
   result.items.forEach(item => {
     const card = document.createElement('div');
-    card.className = "dir-card bg-slate-900 border border-slate-800 rounded-2xl p-5 hover:border-slate-700 transition space-y-3";
+    card.className = "dir-card bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 hover:border-slate-700 transition space-y-3 max-w-full overflow-hidden";
     card.setAttribute('data-name', item.name);
     card.setAttribute('data-batch', item.batch);
     card.setAttribute('data-house', item.house);
@@ -10898,9 +10898,9 @@ function renderDirectory(append = false) {
     if (isCurAdmin) {
       roleControlHtml = `
         <div class="mt-2 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] gap-2 flex-wrap">
-          <div class="flex items-center gap-1.5">
+          <div class="flex flex-wrap items-center gap-1.5">
             <span class="text-[10px] text-amber-400 font-bold uppercase tracking-wider">Role Admin:</span>
-            <select onchange="changeUserRole('${item.name.replace(/'/g, "\\'")}', this.value)" class="bg-slate-950 border border-slate-700 rounded-lg px-2 py-0.5 text-[10px] text-amber-300 font-bold focus:outline-none focus:border-amber-500">
+            <select onchange="changeUserRole('${item.name.replace(/'/g, "\\'")}', this.value)" class="bg-slate-950 border border-slate-700 rounded-lg px-2 py-0.5 text-[10px] text-amber-300 font-bold focus:outline-none focus:border-amber-500 max-w-[130px]">
               <option value="member" ${targetSystemRole === 'member' ? 'selected' : ''}>Member</option>
               <option value="moderator" ${targetSystemRole === 'moderator' ? 'selected' : ''}>Moderator</option>
               <option value="host" ${targetSystemRole === 'host' || targetSystemRole === 'batch_admin' ? 'selected' : ''}>Host</option>
@@ -10945,38 +10945,38 @@ function renderDirectory(append = false) {
     }
 
     card.innerHTML = `
-      <div class="flex items-start justify-between">
-        <div class="flex items-center space-x-3">
+      <div class="flex items-start justify-between gap-2">
+        <div class="flex items-center space-x-2.5 sm:space-x-3 min-w-0 flex-1">
           ${(item.photo || item.avatarImage) 
-            ? `<img src="${item.photo || item.avatarImage}" alt="${item.name}" class="w-12 h-12 rounded-xl object-cover border border-slate-700 shadow-sm flex-shrink-0">` 
-            : `<div class="w-12 h-12 rounded-xl border flex items-center justify-center font-bold flex-shrink-0 ${aClass}">${item.initials || 'NV'}</div>`}
-          <div>
-            <h4 class="text-sm font-bold text-white">${item.name}</h4>
-            <span class="text-xs text-amber-400 font-medium">${item.tag || `Batch of ${item.batch}`}</span>
+            ? `<img src="${item.photo || item.avatarImage}" alt="${item.name}" class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl object-cover border border-slate-700 shadow-sm flex-shrink-0">` 
+            : `<div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl border flex items-center justify-center font-bold flex-shrink-0 ${aClass}">${item.initials || 'NV'}</div>`}
+          <div class="min-w-0 flex-1">
+            <h4 class="text-sm font-bold text-white truncate">${item.name}</h4>
+            <span class="text-xs text-amber-400 font-medium block truncate">${item.tag || `Batch of ${item.batch}`}</span>
           </div>
         </div>
-        <span class="px-2 py-0.5 rounded text-[10px] font-bold ${hClass}">${item.house}</span>
+        <span class="px-2 py-0.5 rounded text-[10px] font-bold flex-shrink-0 ${hClass}">${item.house}</span>
       </div>
-      <div class="text-xs text-slate-300 space-y-1">
+      <div class="text-xs text-slate-300 space-y-1 break-words">
         <p><strong class="text-slate-400">Role:</strong> ${item.role}</p>
         <p><strong class="text-slate-400">Location:</strong> ${item.location}</p>
         <p><strong class="text-slate-400">Domain:</strong> ${item.domain}</p>
       </div>
-      <div class="pt-2 border-t border-slate-800 flex items-center justify-between text-xs">
+      <div class="pt-2 border-t border-slate-800 flex flex-wrap items-center justify-between gap-2 text-xs">
         <span class="text-[10px] text-slate-400 font-medium flex items-center gap-1">
           <svg class="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
           <span class="text-slate-300">Phone Protected</span> • <span class="text-emerald-400">Verified</span>
         </span>
-        <div class="flex items-center gap-2">
+        <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
           ${(isSelf || isCurAdmin) ? `
-            <button onclick="openEditProfileModal('${item.name.replace(/'/g, "\\'")}')" class="px-2.5 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 font-bold text-xs flex items-center gap-1 shadow-sm transition" title="Modify your alumnus profile">
+            <button onclick="openEditProfileModal('${item.name.replace(/'/g, "\\'")}')" class="px-2 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 font-bold text-[11px] sm:text-xs flex items-center gap-1 shadow-sm transition" title="Modify your alumnus profile">
               <span>✏️</span> <span>Edit</span>
             </button>
           ` : ''}
-          <button onclick="openChatWithAlumnus('${item.name}')" class="px-2.5 py-1 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-1 shadow-sm transition">
+          <button onclick="openChatWithAlumnus('${item.name}')" class="px-2 py-1 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold text-[11px] sm:text-xs flex items-center gap-1 shadow-sm transition">
             <span>💬</span> <span>Message</span>
           </button>
-          <button onclick="showToast('🔒 Privacy Protected: Alumni phone numbers are confidential. Direct peer message initiated via portal.')" class="text-gold-400 hover:text-gold-300 font-semibold text-xs flex items-center gap-1">Connect →</button>
+          <button onclick="showToast('🔒 Privacy Protected: Alumni phone numbers are confidential. Direct peer message initiated via portal.')" class="text-gold-400 hover:text-gold-300 font-semibold text-[11px] sm:text-xs flex items-center gap-1">Connect →</button>
         </div>
       </div>
       ${roleControlHtml}
