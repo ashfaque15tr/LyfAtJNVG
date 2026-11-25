@@ -58,13 +58,16 @@ jobs:
           enablement: true
 
       - name: Upload Pages Artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v5
         with:
           path: 'www'
 
+      - name: Wait for Artifact Propagation
+        run: sleep 10
+
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
 
   build-android-apk:
     name: Build Android Native APK
