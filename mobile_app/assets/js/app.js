@@ -9629,7 +9629,7 @@ function renderFeed(append = false) {
       `;
 
     const authorRoleBadge = isTeacherPost 
-      ? `<span class="px-1.5 py-0.2 rounded text-[9px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 uppercase">Gurujan</span>` 
+      ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 uppercase whitespace-nowrap flex-shrink-0">Gurujan</span>` 
       : '';
 
     const authorSubtext = isTeacherPost
@@ -9654,21 +9654,21 @@ function renderFeed(append = false) {
     }
 
     article.innerHTML = `
-      <div class="flex flex-wrap items-center justify-between gap-2">
-        <div class="flex items-center space-x-2.5 sm:space-x-3 min-w-0 flex-1">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div class="flex items-center space-x-2.5 sm:space-x-3 min-w-0 w-full sm:w-auto sm:flex-1">
           ${authorPhoto 
             ? `<img src="${authorPhoto}" alt="${post.author}" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full object-cover border ${isTeacherPost ? 'border-amber-400' : 'border-amber-500/40'} shadow-sm flex-shrink-0">` 
             : `<div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full ${isTeacherPost ? 'bg-amber-950 border border-amber-500/50 text-amber-300' : 'bg-blue-950 border border-blue-500/30 text-blue-400'} flex items-center justify-center font-bold text-xs flex-shrink-0">${post.initials || 'NV'}</div>`}
           <div class="min-w-0 flex-1">
-            <h4 class="text-xs font-bold ${isTeacherPost ? 'text-amber-300' : 'text-slate-100'} flex flex-wrap items-center gap-1.5 leading-tight">
-              ${isTeacherPost ? '<span>🪔</span>' : ''}
-              <span class="truncate">${post.author}</span>
+            <h4 class="text-xs font-bold ${isTeacherPost ? 'text-amber-300' : 'text-slate-100'} flex flex-wrap items-center gap-1.5 leading-snug">
+              ${isTeacherPost ? '<span class="flex-shrink-0">🪔</span>' : ''}
+              <span class="break-words">${post.author}</span>
               ${authorRoleBadge}
             </h4>
             ${authorSubtext}
           </div>
         </div>
-        <div class="flex items-center gap-1.5 sm:gap-2 flex-wrap flex-shrink-0">
+        <div class="flex items-center justify-between sm:justify-end gap-1.5 sm:gap-2 flex-wrap w-full sm:w-auto flex-shrink-0">
           ${tagBadge}
           ${canDeleteThis ? `
             <button onclick="deleteFeedPost('${post.id}')" class="text-rose-400 hover:text-rose-300 transition flex items-center gap-1 text-[10px] sm:text-[11px] px-2 py-0.5 rounded bg-rose-500/10 border border-rose-500/20" title="Delete Post (Moderator / Admin / Author Authority)">
@@ -12197,23 +12197,26 @@ function deleteAdminSuggestion(idx) {
   }
 }
 
-// 16. Countdown: Days To Go (resets cleanly at 00:00 Midnight IST)
+// 16. Countdown: Days To Go (resets cleanly at 00:00 Midnight IST; shows 17 on 25 Nov -> 0 on 12 Dec -> Meet Day on 13 Dec)
 function updateCountdown() {
   const targetMidnight = Date.parse('2026-12-13T00:00:00+05:30');
-  // Compute current calendar date in IST (+05:30)
-  const nowUtcMs = Date.now();
-  const istOffsetMs = 5.5 * 60 * 60 * 1000;
-  const nowIst = new Date(nowUtcMs + istOffsetMs);
-  const todayIstMidnight = Date.UTC(nowIst.getUTCFullYear(), nowIst.getUTCMonth(), nowIst.getUTCDate()) - istOffsetMs;
-  const days = Math.round((targetMidnight - todayIstMidnight) / (1000 * 60 * 60 * 24));
+  const diff = targetMidnight - Date.now();
   const dEl = document.getElementById('cd-days');
   const boxEl = document.getElementById('cd-days-box');
-  if (days > 0) {
-    if (dEl) dEl.textContent = days;
-  } else if (days === 0) {
-    if (boxEl) boxEl.innerHTML = `<span class="text-xl font-bold font-cinzel text-amber-300">🎉 Today is Meet Day!</span>`;
+  if (diff > 0) {
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    if (days > 0) {
+      if (dEl) dEl.textContent = days;
+    } else {
+      if (boxEl) boxEl.innerHTML = `<span class="text-lg sm:text-xl font-bold font-cinzel text-amber-300">⏳ Tomorrow is Meet Day!</span>`;
+    }
   } else {
-    if (boxEl) boxEl.innerHTML = `<span class="text-xl font-bold font-cinzel text-emerald-300">✨ 4th Annual Meet Celebrated!</span>`;
+    const meetEnd = Date.parse('2026-12-14T00:00:00+05:30');
+    if (Date.now() < meetEnd) {
+      if (boxEl) boxEl.innerHTML = `<span class="text-xl font-bold font-cinzel text-amber-300">🎉 Today is Meet Day!</span>`;
+    } else {
+      if (boxEl) boxEl.innerHTML = `<span class="text-xl font-bold font-cinzel text-emerald-300">✨ 4th Annual Meet Celebrated!</span>`;
+    }
   }
 }
 

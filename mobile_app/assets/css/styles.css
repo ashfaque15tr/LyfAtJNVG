@@ -34,10 +34,13 @@ img, video, iframe, canvas {
   height: auto;
 }
 
-/* Force wrapping long words and URLs */
-p, span, h1, h2, h3, h4, h5, h6, a {
+/* Force wrapping only for oversized unbroken URLs/strings, never break normal badge words */
+.feed-card p,
+.dir-card p,
+.tch-card p,
+a {
   overflow-wrap: break-word;
-  word-break: break-word;
+  word-wrap: break-word;
 }
 
 /* Ensure feed cards, directory cards, and banners stay compact within viewport */

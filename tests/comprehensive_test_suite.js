@@ -1437,11 +1437,11 @@ assert(freshMobIndex.includes('grid-cols-4 gap-1.5 sm:gap-2'), 'mobile_app/index
 assert(freshAppJs.includes('feed-card') && freshAppJs.includes('max-w-full overflow-hidden'), 'Feed cards enforce max-w-full overflow containment');
 assert(freshAppJs.includes('dir-card') && freshAppJs.includes('max-w-full overflow-hidden'), 'Directory cards enforce max-w-full overflow containment');
 
-// 5. Version Code & Name Increment for Google Play Store (Release 5 / 1.0.3)
+// 5. Version Code & Name Increment for Google Play Store (Release 6 / 1.0.4)
 const rootGradle = fs.readFileSync(path.join(rootDir, 'android', 'app', 'build.gradle'), 'utf8');
 const mobGradle = fs.readFileSync(path.join(rootDir, 'mobile_app', 'android', 'app', 'build.gradle'), 'utf8');
-assert(rootGradle.includes('versionCode 5') && rootGradle.includes('versionName "1.0.3"'), 'android/app/build.gradle configured with versionCode 5 (v1.0.3)');
-assert(mobGradle.includes('versionCode 5') && mobGradle.includes('versionName "1.0.3"'), 'mobile_app/android/app/build.gradle configured with versionCode 5 (v1.0.3)');
+assert(rootGradle.includes('versionCode 6') && rootGradle.includes('versionName "1.0.4"'), 'android/app/build.gradle configured with versionCode 6 (v1.0.4)');
+assert(mobGradle.includes('versionCode 6') && mobGradle.includes('versionName "1.0.4"'), 'mobile_app/android/app/build.gradle configured with versionCode 6 (v1.0.4)');
 
 // ----------------------------------------------------
 // TEST SUITE 29: UNIVERSAL ACTIVITY SYNC & MIDNIGHT COUNTDOWN

@@ -236,6 +236,12 @@ const AlumniCloudSync = (() => {
           }
         }
       }
+    } else if (evt.type === 'FEED_POST_PHOTO' && evt.payload && evt.payload.postId && evt.payload.image) {
+      const target = AppState.feedPosts.find(p => String(p.id) === String(evt.payload.postId));
+      if (target && target.image !== evt.payload.image) {
+        target.image = evt.payload.image;
+        hasChanges = true;
+      }
     } else if (evt.type === 'LIKE_FEED_POST' && evt.payload && evt.payload.postId) {
       const target = AppState.feedPosts.find(p => String(p.id) === String(evt.payload.postId));
       if (target) {
@@ -269,7 +275,13 @@ const AlumniCloudSync = (() => {
   }
 
   async function broadcastFeedPost(post) {
-    return await publishEvent(FEED_TOPIC, 'NEW_FEED_POST', { ...post, updatedAt: Date.now() });
+    const hasLargeImage = post && typeof post.image === 'string' && post.image.length > 2500;
+    const basePost = hasLargeImage ? { ...post, image: null, updatedAt: Date.now() } : { ...post, updatedAt: Date.now() };
+    const ok = await publishEvent(FEED_TOPIC, 'NEW_FEED_POST', basePost);
+    if (hasLargeImage) {
+      await publishEvent(FEED_TOPIC, 'FEED_POST_PHOTO', { postId: post.id, image: post.image });
+    }
+    return ok;
   }
 
   async function broadcastFeedLike(postId, likes) {
