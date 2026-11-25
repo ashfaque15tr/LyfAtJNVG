@@ -8812,6 +8812,9 @@ function saveAppData() {
 function switchTab(tabId) {
   if (tabId === 'memories') tabId = 'gallery';
   AppState.activeTab = tabId;
+  if (typeof window !== 'undefined' && window.AlumniCloudSync && typeof window.AlumniCloudSync.syncAll === 'function') {
+    window.AlumniCloudSync.syncAll();
+  }
   
   document.querySelectorAll('.tab-content').forEach(el => {
     el.classList.add('hidden');
@@ -9162,6 +9165,9 @@ function handleGenerateReceipt(e) {
 
   AppState.contributions.unshift(newTxn);
   saveAppData();
+  if (window.AlumniCloudSync && typeof window.AlumniCloudSync.broadcastActivity === 'function') {
+    window.AlumniCloudSync.broadcastActivity('DONATION_SUBMITTED', newTxn);
+  }
   renderContributionLedger();
 
   document.getElementById('recDonorName').textContent = donorName;
@@ -9370,6 +9376,9 @@ function handleRsvpSubmit(e) {
 
   AppState.rsvps.unshift(newRsvp);
   saveAppData();
+  if (window.AlumniCloudSync && typeof window.AlumniCloudSync.broadcastActivity === 'function') {
+    window.AlumniCloudSync.broadcastActivity('RSVP_SUBMITTED', newRsvp);
+  }
   renderRsvpTable();
   closeModal('rsvpModal');
   showToast(`RSVP Confirmed for ${name}! See you on 13 Dec 2026.`);
@@ -9603,19 +9612,21 @@ function renderFeed(append = false) {
       `;
     }
 
-    let commentsHtml = '';
-    if (post.comments && post.comments.length > 0) {
-      commentsHtml = `
-        <div id="comment-box-${post.id}" class="hidden pt-3 border-t border-slate-800 space-y-2 text-xs">
-          ${post.comments.map(c => `
+    const existingCommentsHtml = (post.comments || []).map(c => `
             <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
               <strong class="text-amber-400">${c.author}:</strong> 
               <span class="text-slate-300 ml-1">${c.text}</span>
             </div>
-          `).join('')}
+          `).join('');
+    const commentsHtml = `
+        <div id="comment-box-${post.id}" class="hidden pt-3 border-t border-slate-800 space-y-2 text-xs">
+          ${existingCommentsHtml}
+          <form onsubmit="submitFeedComment(event, '${post.id}')" class="flex gap-2 pt-1">
+            <input type="text" id="comment-input-${post.id}" required placeholder="Write a comment..." class="flex-1 min-w-0 bg-slate-950 border border-slate-700 rounded-xl px-3 py-1.5 text-white placeholder-slate-500 focus:border-amber-500 text-xs">
+            <button type="submit" class="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs whitespace-nowrap">Post</button>
+          </form>
         </div>
       `;
-    }
 
     const authorRoleBadge = isTeacherPost 
       ? `<span class="px-1.5 py-0.2 rounded text-[9px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 uppercase">Gurujan</span>` 
@@ -9671,7 +9682,7 @@ function renderFeed(append = false) {
       ${imageHtml}
       <div class="flex items-center justify-between pt-2 border-t border-slate-800/80 text-xs text-slate-400">
         <div class="flex items-center space-x-4">
-          <button onclick="likePost(this)" class="flex items-center gap-1.5 hover:text-red-400 transition">
+          <button onclick="likePost(this, '${post.id}')" class="flex items-center gap-1.5 hover:text-red-400 transition">
             <svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/></svg>
             <span class="like-count font-mono">${post.likes}</span>
           </button>
@@ -9725,17 +9736,57 @@ function deleteFeedPost(postId) {
     if (window.AlumniStorageEngine) {
       window.AlumniStorageEngine.deleteFromStore('posts', postId);
     }
+    if (window.AlumniCloudSync && typeof window.AlumniCloudSync.broadcastDeleteFeedPost === 'function') {
+      window.AlumniCloudSync.broadcastDeleteFeedPost(postId);
+    }
     renderFeed();
     showToast('Post removed successfully.');
   }
 }
 
-function likePost(btn) {
+function likePost(btn, postId) {
   const counter = btn.querySelector('.like-count');
   let val = parseInt(counter.textContent) || 0;
-  counter.textContent = val + 1;
+  const nextLikes = val + 1;
+  counter.textContent = nextLikes;
   btn.classList.add('text-red-400');
+  if (postId && Array.isArray(AppState.feedPosts)) {
+    const target = AppState.feedPosts.find(p => String(p.id) === String(postId));
+    if (target) {
+      target.likes = nextLikes;
+      saveAppData();
+      if (window.AlumniCloudSync && typeof window.AlumniCloudSync.broadcastFeedLike === 'function') {
+        window.AlumniCloudSync.broadcastFeedLike(postId, nextLikes);
+      }
+    }
+  }
   showToast("Liked post!");
+}
+
+function submitFeedComment(e, postId) {
+  if (e && e.preventDefault) e.preventDefault();
+  const input = document.getElementById(`comment-input-${postId}`);
+  const text = (input ? input.value : '').trim();
+  if (!text) return;
+  const curUser = (typeof getCurrentUser === 'function' ? getCurrentUser() : null) || { name: "Alumni Member" };
+  const target = (AppState.feedPosts || []).find(p => String(p.id) === String(postId));
+  if (!target) return;
+  if (!Array.isArray(target.comments)) target.comments = [];
+  const commentObj = {
+    id: 'cmt-' + Date.now() + '-' + Math.floor(Math.random() * 10000),
+    author: curUser.name || 'Alumni Member',
+    text: text,
+    time: 'Just now'
+  };
+  target.comments.push(commentObj);
+  saveAppData();
+  if (window.AlumniCloudSync && typeof window.AlumniCloudSync.broadcastFeedComment === 'function') {
+    window.AlumniCloudSync.broadcastFeedComment(postId, commentObj);
+  }
+  renderFeed();
+  const box = document.getElementById(`comment-box-${postId}`);
+  if (box) box.classList.remove('hidden');
+  showToast("Comment posted!");
 }
 
 function toggleComments(id) {
@@ -12146,18 +12197,23 @@ function deleteAdminSuggestion(idx) {
   }
 }
 
-// 16. Countdown: Days To Go
+// 16. Countdown: Days To Go (resets cleanly at 00:00 Midnight IST)
 function updateCountdown() {
-  const targetDate = new Date('2026-12-13T09:00:00+05:30').getTime();
-  const now = new Date().getTime();
-  const diff = targetDate - now;
+  const targetMidnight = Date.parse('2026-12-13T00:00:00+05:30');
+  // Compute current calendar date in IST (+05:30)
+  const nowUtcMs = Date.now();
+  const istOffsetMs = 5.5 * 60 * 60 * 1000;
+  const nowIst = new Date(nowUtcMs + istOffsetMs);
+  const todayIstMidnight = Date.UTC(nowIst.getUTCFullYear(), nowIst.getUTCMonth(), nowIst.getUTCDate()) - istOffsetMs;
+  const days = Math.round((targetMidnight - todayIstMidnight) / (1000 * 60 * 60 * 24));
   const dEl = document.getElementById('cd-days');
   const boxEl = document.getElementById('cd-days-box');
-  if (diff > 0) {
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  if (days > 0) {
     if (dEl) dEl.textContent = days;
-  } else {
+  } else if (days === 0) {
     if (boxEl) boxEl.innerHTML = `<span class="text-xl font-bold font-cinzel text-amber-300">🎉 Today is Meet Day!</span>`;
+  } else {
+    if (boxEl) boxEl.innerHTML = `<span class="text-xl font-bold font-cinzel text-emerald-300">✨ 4th Annual Meet Celebrated!</span>`;
   }
 }
 
@@ -12631,6 +12687,9 @@ function saveTeacherMessage(e) {
 
     if (window.AlumniCloudSync && typeof window.AlumniCloudSync.broadcastFeedPost === 'function') {
       window.AlumniCloudSync.broadcastFeedPost(existingFeedPost);
+    }
+    if (window.AlumniCloudSync && typeof window.AlumniCloudSync.broadcastTeacherUpdate === 'function') {
+      window.AlumniCloudSync.broadcastTeacherUpdate({ id: teacher.id, name: teacher.name, message: teacher.message }, 'TEACHER_UPDATED');
     }
 
     saveAppData();
@@ -13708,6 +13767,9 @@ function handleHelpRequestSubmit(e) {
   if (!AppState.helpRequests) AppState.helpRequests = [];
   AppState.helpRequests.unshift(newHelp);
   saveAppData();
+  if (window.AlumniCloudSync && typeof window.AlumniCloudSync.broadcastActivity === 'function') {
+    window.AlumniCloudSync.broadcastActivity('HELP_REQUEST_SUBMITTED', newHelp);
+  }
   renderHelpRequests(currentHelpFilter);
   closeHelpRequestModal();
   e.target.reset();
@@ -14016,19 +14078,25 @@ function handleScheduleSubmit(e) {
 
   if (!AppState.meetSchedule) AppState.meetSchedule = [...(defaultData.meetSchedule || [])];
 
+  let syncedScheduleItem = null;
   if (eventId) {
     const idx = AppState.meetSchedule.findIndex(item => item.id === eventId);
     if (idx !== -1) {
-      AppState.meetSchedule[idx] = { id: eventId, time, color, title, desc };
+      syncedScheduleItem = { id: eventId, time, color, title, desc };
+      AppState.meetSchedule[idx] = syncedScheduleItem;
       showToast(`Schedule event "${title}" updated successfully.`);
     }
   } else {
     const newId = `sch-${Date.now()}`;
-    AppState.meetSchedule.push({ id: newId, time, color, title, desc });
+    syncedScheduleItem = { id: newId, time, color, title, desc };
+    AppState.meetSchedule.push(syncedScheduleItem);
     showToast(`New event "${title}" added to 4th Annual Meet schedule.`);
   }
 
   saveAppData();
+  if (syncedScheduleItem && window.AlumniCloudSync && typeof window.AlumniCloudSync.broadcastActivity === 'function') {
+    window.AlumniCloudSync.broadcastActivity('SCHEDULE_ADDED', syncedScheduleItem);
+  }
   renderMeetSchedule();
   closeModal('scheduleEventModal');
 }
@@ -14047,6 +14115,9 @@ function deleteScheduleEvent(eventId) {
   if (confirm(`Are you sure you want to remove "${ev.title}" from the official program itinerary?`)) {
     AppState.meetSchedule.splice(idx, 1);
     saveAppData();
+    if (window.AlumniCloudSync && typeof window.AlumniCloudSync.broadcastActivity === 'function') {
+      window.AlumniCloudSync.broadcastActivity('SCHEDULE_DELETED', { eventId });
+    }
     renderMeetSchedule();
     showToast(`Schedule event "${ev.title}" removed.`);
   }
@@ -14159,6 +14230,9 @@ function handlePerformanceSubmit(e) {
   if (!AppState.culturalActs) AppState.culturalActs = [...(defaultData.culturalActs || [])];
   AppState.culturalActs.unshift(newAct);
   saveAppData();
+  if (window.AlumniCloudSync && typeof window.AlumniCloudSync.broadcastActivity === 'function') {
+    window.AlumniCloudSync.broadcastActivity('CULTURAL_ACT_SUBMITTED', newAct);
+  }
 
   renderCulturalActs();
   closeModal('performanceModal');
@@ -14185,6 +14259,9 @@ function saveCulturalActNotes(actId) {
   if (notesEl) act.notes = notesEl.value.trim();
 
   saveAppData();
+  if (window.AlumniCloudSync && typeof window.AlumniCloudSync.broadcastActivity === 'function') {
+    window.AlumniCloudSync.broadcastActivity('CULTURAL_ACT_NOTES', { actId, status: act.status, notes: act.notes });
+  }
   renderCulturalActs();
   showToast(`Command notes updated for "${act.title}" (${act.performer}).`);
 }
@@ -14692,6 +14769,9 @@ function handleProfileUpdate(e) {
 
   if (typeof saveAppData === 'function') {
     saveAppData();
+  }
+  if (window.AlumniCloudSync && typeof window.AlumniCloudSync.broadcastProfileUpdate === 'function') {
+    window.AlumniCloudSync.broadcastProfileUpdate(curUser);
   }
 
   // Refresh live UI

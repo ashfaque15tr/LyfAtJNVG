@@ -1732,6 +1732,19 @@ function registerAlumni(userData) {
       }
     } catch(e) {}
   }
+
+  // Broadcast registration & profile claim across all devices via CloudSync
+  try {
+    if (typeof window !== 'undefined' && window.AlumniCloudSync) {
+      if (typeof window.AlumniCloudSync.broadcastRegistration === 'function') {
+        window.AlumniCloudSync.broadcastRegistration(newAlumnus);
+      }
+      if (typeof window.AlumniCloudSync.broadcastApproval === 'function') {
+        window.AlumniCloudSync.broadcastApproval(newAlumnus);
+      }
+    }
+  } catch(e) {}
+
   return { success: true, user: newAlumnus, pendingApproval: false, claimedDirectoryId: claimedId, claimedTeacherId: claimedTeacherId };
 }
 
