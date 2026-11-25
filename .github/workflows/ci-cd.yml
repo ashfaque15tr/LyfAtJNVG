@@ -43,15 +43,24 @@ jobs:
       - name: Checkout Codebase
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Prepare Production Web Portal Directory
+        run: |
+          node scripts/prepare-www.js
+
       - name: Setup Pages
-        uses: actions/configure-pages@v4
+        uses: actions/configure-pages@v5
         with:
           enablement: true
 
       - name: Upload Pages Artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
-          path: '.'
+          path: 'www'
 
       - name: Deploy to GitHub Pages
         id: deployment
