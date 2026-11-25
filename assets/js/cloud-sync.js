@@ -242,6 +242,12 @@ const AlumniCloudSync = (() => {
         target.image = evt.payload.image;
         hasChanges = true;
       }
+    } else if (evt.type === 'FEED_POST_AUTHOR_PHOTO' && evt.payload && evt.payload.postId && evt.payload.authorPhoto) {
+      const target = AppState.feedPosts.find(p => String(p.id) === String(evt.payload.postId));
+      if (target && target.authorPhoto !== evt.payload.authorPhoto) {
+        target.authorPhoto = evt.payload.authorPhoto;
+        hasChanges = true;
+      }
     } else if (evt.type === 'LIKE_FEED_POST' && evt.payload && evt.payload.postId) {
       const target = AppState.feedPosts.find(p => String(p.id) === String(evt.payload.postId));
       if (target) {
@@ -276,10 +282,19 @@ const AlumniCloudSync = (() => {
 
   async function broadcastFeedPost(post) {
     const hasLargeImage = post && typeof post.image === 'string' && post.image.length > 2500;
-    const basePost = hasLargeImage ? { ...post, image: null, updatedAt: Date.now() } : { ...post, updatedAt: Date.now() };
+    const hasLargeAuthorPhoto = post && typeof post.authorPhoto === 'string' && post.authorPhoto.length > 2500;
+    const basePost = {
+      ...post,
+      image: hasLargeImage ? null : post.image,
+      authorPhoto: hasLargeAuthorPhoto ? null : post.authorPhoto,
+      updatedAt: Date.now()
+    };
     const ok = await publishEvent(FEED_TOPIC, 'NEW_FEED_POST', basePost);
     if (hasLargeImage) {
       await publishEvent(FEED_TOPIC, 'FEED_POST_PHOTO', { postId: post.id, image: post.image });
+    }
+    if (hasLargeAuthorPhoto) {
+      await publishEvent(FEED_TOPIC, 'FEED_POST_AUTHOR_PHOTO', { postId: post.id, authorPhoto: post.authorPhoto });
     }
     return ok;
   }
@@ -607,7 +622,13 @@ const AlumniCloudSync = (() => {
   }
 
   async function broadcastProfileUpdate(userObj) {
-    return await publishEvent(REG_TOPIC, 'PROFILE_UPDATED', userObj);
+    const hasLargePhoto = userObj && typeof userObj.photo === 'string' && userObj.photo.length > 2500;
+    const baseUser = hasLargePhoto ? { ...userObj, photo: null, avatarImage: null } : userObj;
+    const ok = await publishEvent(REG_TOPIC, 'PROFILE_UPDATED', baseUser);
+    if (hasLargePhoto) {
+      await publishEvent(REG_TOPIC, 'PROFILE_UPDATED', { id: userObj.id, email: userObj.email, name: userObj.name, batch: userObj.batch, photo: userObj.photo });
+    }
+    return ok;
   }
 
   async function broadcastRoleUpdate(data) {
@@ -722,9 +743,12 @@ const AlumniCloudSync = (() => {
     } else if (evt.type === 'HELP_REQUEST_NOTE') {
       if (Array.isArray(AppState.helpRequests)) {
         const req = AppState.helpRequests.find(h => String(h.id) === String(p.requestId));
-        if (req && req.adminNotes !== p.adminNotes) {
-          req.adminNotes = p.adminNotes;
+        if (req) {
+          if (p.adminNotes !== undefined) req.adminNotes = p.adminNotes;
           if (p.status) req.status = p.status;
+          if (p.statusLabel) req.statusLabel = p.statusLabel;
+          if (p.currentTier) req.currentTier = p.currentTier;
+          if (Array.isArray(p.resolutionNotes)) req.resolutionNotes = p.resolutionNotes;
           changed = true;
           if (typeof renderHelpRequests === 'function') renderHelpRequests();
         }

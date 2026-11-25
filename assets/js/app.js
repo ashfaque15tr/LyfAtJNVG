@@ -11106,6 +11106,9 @@ function deleteAlumniProfile(targetName) {
 
   // 3. Save AppData
   saveAppData();
+  if (window.AlumniCloudSync && typeof window.AlumniCloudSync.broadcastProfileDelete === 'function') {
+    window.AlumniCloudSync.broadcastProfileDelete({ name: targetName, email: targetUser ? targetUser.email : '' });
+  }
 
   // 4. Rebuild search indexes if available
   if (window.AlumniStorageEngine && typeof window.AlumniStorageEngine.buildCacheIndexes === 'function') {
@@ -12601,6 +12604,14 @@ function submitTeacherTribute(e) {
     AppState.feedPosts.unshift(tributeFeedPost);
 
     saveAppData();
+    if (window.AlumniCloudSync) {
+      if (typeof window.AlumniCloudSync.broadcastTeacherUpdate === 'function') {
+        window.AlumniCloudSync.broadcastTeacherUpdate({ id: teacher.id, name: teacher.name, tributes: teacher.tributes, tributeCount: teacher.tributeCount, respectCount: teacher.respectCount }, 'TEACHER_TRIBUTE');
+      }
+      if (typeof window.AlumniCloudSync.broadcastFeedPost === 'function') {
+        window.AlumniCloudSync.broadcastFeedPost(tributeFeedPost);
+      }
+    }
     renderTeachers(currentTeacherFilter);
     renderFeed();
 
@@ -12696,6 +12707,14 @@ function saveTeacherMessage(e) {
     }
 
     saveAppData();
+    if (window.AlumniCloudSync) {
+      if (typeof window.AlumniCloudSync.broadcastTeacherUpdate === 'function') {
+        window.AlumniCloudSync.broadcastTeacherUpdate({ id: teacher.id, name: teacher.name, tributes: teacher.tributes, tributeCount: teacher.tributeCount, respectCount: teacher.respectCount }, 'TEACHER_TRIBUTE');
+      }
+      if (typeof window.AlumniCloudSync.broadcastFeedPost === 'function') {
+        window.AlumniCloudSync.broadcastFeedPost(tributeFeedPost);
+      }
+    }
     renderTeachers(currentTeacherFilter);
     renderFeed();
     closeEditTeacherMessageModal();
@@ -12791,6 +12810,9 @@ function handleTeacherEnrollment(e) {
   };
 
   AppState.teachers.unshift(newTeacher);
+  if (window.AlumniCloudSync && typeof window.AlumniCloudSync.broadcastTeacherUpdate === 'function') {
+    window.AlumniCloudSync.broadcastTeacherUpdate(newTeacher, 'TEACHER_ENROLLED');
+  }
 
   // Register Teacher Portal Login Account if email is provided
   const emailInput = document.getElementById('tchEmail');
@@ -12927,6 +12949,14 @@ function submitTeacherPranam(e) {
 
     teacher.respectCount = (teacher.respectCount || 0) + 1;
     saveAppData();
+    if (window.AlumniCloudSync) {
+      if (typeof window.AlumniCloudSync.broadcastTeacherUpdate === 'function') {
+        window.AlumniCloudSync.broadcastTeacherUpdate({ id: teacher.id, name: teacher.name, tributes: teacher.tributes, tributeCount: teacher.tributeCount, respectCount: teacher.respectCount }, 'TEACHER_TRIBUTE');
+      }
+      if (typeof window.AlumniCloudSync.broadcastFeedPost === 'function') {
+        window.AlumniCloudSync.broadcastFeedPost(tributeFeedPost);
+      }
+    }
     renderTeachers(currentTeacherFilter);
     refreshInboxBadge();
   }
@@ -13800,6 +13830,9 @@ function escalateHelpRequest(requestId) {
   });
 
   saveAppData();
+  if (window.AlumniCloudSync && typeof window.AlumniCloudSync.broadcastActivity === 'function') {
+    window.AlumniCloudSync.broadcastActivity('HELP_REQUEST_NOTE', { requestId, status: req.status, statusLabel: req.statusLabel, currentTier: req.currentTier, resolutionNotes: req.resolutionNotes });
+  }
   renderHelpRequests(currentHelpFilter);
   showToast(`Escalated to Tier ${req.currentTier}! The broader alumni network has been notified.`);
 }
@@ -13815,6 +13848,9 @@ function resolveHelpRequest(requestId) {
     note: "Case successfully resolved and assistance delivered. Gratitude recorded."
   });
   saveAppData();
+  if (window.AlumniCloudSync && typeof window.AlumniCloudSync.broadcastActivity === 'function') {
+    window.AlumniCloudSync.broadcastActivity('HELP_REQUEST_NOTE', { requestId, status: req.status, statusLabel: req.statusLabel, resolutionNotes: req.resolutionNotes });
+  }
   renderHelpRequests(currentHelpFilter);
   showToast(`Assistance case marked resolved. Gratitude to the Navodaya fraternity!`);
 }
@@ -14451,6 +14487,10 @@ function changeUserRole(targetIdentifier, newRole) {
   }
 
   saveAppData();
+  if (window.AlumniCloudSync && typeof window.AlumniCloudSync.broadcastRoleUpdate === 'function') {
+    const targetU = userIdx !== -1 ? allUsers[userIdx] : null;
+    window.AlumniCloudSync.broadcastRoleUpdate({ name: targetDisplayName, email: targetU ? targetU.email : '', role: newRole, roleTitle: targetU ? targetU.roleTitle : '' });
+  }
   renderRoleGovernanceList(document.getElementById('roleManageSearch') ? document.getElementById('roleManageSearch').value : '');
   renderDirectory(); if (typeof renderBatchLeaderboard === "function") renderBatchLeaderboard();
 
