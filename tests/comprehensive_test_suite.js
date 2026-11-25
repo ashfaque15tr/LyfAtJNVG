@@ -1437,11 +1437,11 @@ assert(freshMobIndex.includes('grid-cols-4 gap-1.5 sm:gap-2'), 'mobile_app/index
 assert(freshAppJs.includes('feed-card') && freshAppJs.includes('max-w-full overflow-hidden'), 'Feed cards enforce max-w-full overflow containment');
 assert(freshAppJs.includes('dir-card') && freshAppJs.includes('max-w-full overflow-hidden'), 'Directory cards enforce max-w-full overflow containment');
 
-// 5. Version Code & Name Increment for Google Play Store (Release 7 / 1.0.5)
+// 5. Version Code & Name Increment for Google Play Store (Release 8 / 1.0.6)
 const rootGradle = fs.readFileSync(path.join(rootDir, 'android', 'app', 'build.gradle'), 'utf8');
 const mobGradle = fs.readFileSync(path.join(rootDir, 'mobile_app', 'android', 'app', 'build.gradle'), 'utf8');
-assert(rootGradle.includes('versionCode 7') && rootGradle.includes('versionName "1.0.5"'), 'android/app/build.gradle configured with versionCode 7 (v1.0.5)');
-assert(mobGradle.includes('versionCode 7') && mobGradle.includes('versionName "1.0.5"'), 'mobile_app/android/app/build.gradle configured with versionCode 7 (v1.0.5)');
+assert(rootGradle.includes('versionCode 8') && rootGradle.includes('versionName "1.0.6"'), 'android/app/build.gradle configured with versionCode 8 (v1.0.6)');
+assert(mobGradle.includes('versionCode 8') && mobGradle.includes('versionName "1.0.6"'), 'mobile_app/android/app/build.gradle configured with versionCode 8 (v1.0.6)');
 
 // ----------------------------------------------------
 // TEST SUITE 29: UNIVERSAL ACTIVITY SYNC & MIDNIGHT COUNTDOWN
@@ -1457,6 +1457,7 @@ assert(freshCloudSyncJs.includes('existingIdx === -1') && freshCloudSyncJs.inclu
 assert(!freshCloudSyncJs.includes("val.startsWith('data:')"), 'AlumniCloudSync preserves compressed user photos for cross-device sync');
 assert(freshCloudSyncJs.includes('parseNtfyItem'), 'AlumniCloudSync uses unified attachment-aware parser across polling and SSE');
 assert(freshAuthJs.includes('broadcastRegistration'), 'auth.js registerNewUser broadcasts registrations & claims via AlumniCloudSync');
+assert(freshCloudSyncJs.includes('jnvgfamily-a154e-default-rtdb.asia-southeast1.firebasedatabase.app'), 'AlumniCloudSync connects to permanent Firebase Realtime Database');
 assert(freshAppJs.includes('2026-12-13T00:00:00+05:30'), 'updateCountdown resets cleanly at 00:00 Midnight IST');
 
 console.log('\n====================================================');

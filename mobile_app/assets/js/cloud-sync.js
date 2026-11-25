@@ -1,29 +1,41 @@
 /**
  * JNV Gauriganj Alumni Platform - Global Cloud Synchronization Engine
- * Enables real-time cross-device data persistence and synchronization for:
- * 1. Community Memory Wall Posts (New, Edits, Photos, Likes, Comments, Deletions)
- * 2. New Alumni Registrations, Profile Claims, Profile Edits, Role Updates & Deletions
- * 3. Gurujan / Faculty Messages, Photos, Tributes & Enrollment
- * 4. 4th Annual Meet RSVPs, Cultural Acts, Schedule, Donations, Helpdesk & Suggestions
- * 5. Confidential End-to-End Private Chat Messaging & Audit Logs
- * Works seamlessly across Mobile App (Android/iOS) and Web Portal (GitHub Pages).
+ * Dual-Layer Architecture:
+ * 1. Primary Permanent Cloud Database: Firebase Realtime Database (persistent forever, full photos & history)
+ * 2. Instant Real-Time Push Layer: ntfy.sh SSE + Polling + Persistent Offline Outbox Queue
+ * Synchronizes across Mobile App (Android/iOS) and Web Portal (jnvgfamily.in):
+ * - Memory Wall Posts (New, Edits, Photos, Likes, Comments, Deletions)
+ * - New Alumni Registrations, Profile Claims, Profile Edits, Role Updates & Deletions
+ * - Gurujan / Faculty Messages, Photos, Tributes & Enrollment
+ * - 4th Annual Meet RSVPs, Cultural Acts, Schedule, Donations, Helpdesk & Suggestions
+ * - Confidential End-to-End Private Chat Messaging & Audit Logs
  */
 
 const AlumniCloudSync = (() => {
   const SYNC_VERSION = 'v1';
+  const FIREBASE_DB_URL = 'https://jnvgfamily-a154e-default-rtdb.asia-southeast1.firebasedatabase.app/jnvg_v1';
   const BASE_URL = 'https://ntfy.sh';
   const FEED_TOPIC = `jnvg_feed_${SYNC_VERSION}`;
   const REG_TOPIC = `jnvg_reg_${SYNC_VERSION}`;
   const ACTIVITY_TOPIC = `jnvg_activity_${SYNC_VERSION}`;
   const OUTBOX_STORAGE_KEY = 'jnvg_cloud_outbox_v1';
 
-  // Helper to sanitize usernames/emails into clean pubsub topics
   function sanitizeTopic(nameOrEmail) {
     if (!nameOrEmail) return 'anon';
     return 'jnvg_dm_' + String(nameOrEmail).toLowerCase().replace(/[^a-z0-9]/g, '_').slice(0, 48);
   }
 
-  // Active event listeners
+  function fbKey(str) {
+    return String(str || ('k_' + Date.now())).replace(/[.#$\[\]\/]/g, '_').slice(0, 120);
+  }
+
+  function normalizeComments(comments) {
+    if (!comments) return [];
+    if (Array.isArray(comments)) return comments.filter(Boolean);
+    if (typeof comments === 'object') return Object.values(comments).filter(Boolean);
+    return [];
+  }
+
   let feedEventSource = null;
   let chatEventSource = null;
   let adminAliasChatEventSource = null;
@@ -32,20 +44,15 @@ const AlumniCloudSync = (() => {
   let pollIntervalTimer = null;
   let isFlushingOutbox = false;
 
-  // Preserve compressed photos (<= 350KB) so Memory Wall & Profile photos sync across devices
-  function sanitizeForCloud(data) {
+  function sanitizeForCloud(data, maxLen = 350000) {
     if (!data || typeof data !== 'object') return data;
     const clean = Array.isArray(data) ? [] : {};
     for (const k in data) {
       const val = data[k];
       if (typeof val === 'string') {
-        if (val.length > 350000) {
-          clean[k] = null;
-        } else {
-          clean[k] = val;
-        }
+        clean[k] = val.length > maxLen ? null : val;
       } else if (typeof val === 'object' && val !== null) {
-        clean[k] = sanitizeForCloud(val);
+        clean[k] = sanitizeForCloud(val, maxLen);
       } else {
         clean[k] = val;
       }
@@ -53,7 +60,7 @@ const AlumniCloudSync = (() => {
     return clean;
   }
 
-  // Persistent Outbox Queue so no post, like, registration or activity is lost on network blips
+  // Persistent Outbox Queue for both Firebase & ntfy
   function getOutbox() {
     try {
       if (typeof localStorage === 'undefined') return [];
@@ -66,25 +73,33 @@ const AlumniCloudSync = (() => {
   function saveOutbox(queue) {
     try {
       if (typeof localStorage !== 'undefined') {
-        localStorage.setItem(OUTBOX_STORAGE_KEY, JSON.stringify(queue.slice(-40)));
+        localStorage.setItem(OUTBOX_STORAGE_KEY, JSON.stringify(queue.slice(-50)));
       }
     } catch (e) {}
   }
 
-  function enqueueOutbox(topic, eventType, body) {
+  function enqueueOutbox(entry) {
     const queue = getOutbox();
     const id = 'ob-' + Date.now() + '-' + Math.floor(Math.random() * 100000);
-    queue.push({ id, topic, eventType, body, createdAt: Date.now() });
+    queue.push({ id, ...entry, createdAt: Date.now() });
     saveOutbox(queue);
     return id;
   }
 
   function removeFromOutbox(id) {
-    const queue = getOutbox().filter(item => item.id !== id);
-    saveOutbox(queue);
+    saveOutbox(getOutbox().filter(item => item.id !== id));
   }
 
-  async function sendRawToNtfy(topic, eventType, body) {
+  async function sendFirebaseRaw(path, method, body) {
+    const res = await fetch(`${FIREBASE_DB_URL}/${path}.json`, {
+      method: method || 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: body
+    });
+    return res.ok;
+  }
+
+  async function sendNtfyRaw(topic, eventType, body) {
     const res = await fetch(`${BASE_URL}/${topic}`, {
       method: 'POST',
       headers: {
@@ -104,12 +119,15 @@ const AlumniCloudSync = (() => {
     try {
       for (const item of queue) {
         try {
-          const ok = await sendRawToNtfy(item.topic, item.eventType, item.body);
-          if (ok) {
-            removeFromOutbox(item.id);
+          let ok = false;
+          if (item.target === 'firebase') {
+            ok = await sendFirebaseRaw(item.path, item.method, item.body);
+          } else {
+            ok = await sendNtfyRaw(item.topic, item.eventType, item.body);
           }
+          if (ok) removeFromOutbox(item.id);
         } catch (err) {
-          break; // Stop flushing if still offline
+          break;
         }
       }
     } finally {
@@ -117,12 +135,33 @@ const AlumniCloudSync = (() => {
     }
   }
 
-  /**
-   * Publish payload to cloud pubsub topic with automatic Outbox retry
-   */
+  async function fbWrite(path, data, method = 'PUT') {
+    try {
+      const clean = sanitizeForCloud(data, 900000);
+      const body = JSON.stringify(clean);
+      const outboxId = enqueueOutbox({ target: 'firebase', path, method, body });
+      const ok = await sendFirebaseRaw(path, method, body);
+      if (ok) removeFromOutbox(outboxId);
+      return ok;
+    } catch (err) {
+      console.warn(`[CloudSync] Firebase write queued (${path}):`, err.message);
+      return false;
+    }
+  }
+
+  async function fbRead(path) {
+    try {
+      const res = await fetch(`${FIREBASE_DB_URL}/${path}.json?t=${Date.now()}`);
+      if (!res.ok) return null;
+      return await res.json();
+    } catch (err) {
+      return null;
+    }
+  }
+
   async function publishEvent(topic, eventType, payload) {
     try {
-      const cleanPayload = sanitizeForCloud(payload);
+      const cleanPayload = sanitizeForCloud(payload, 350000);
       const body = JSON.stringify({
         type: eventType,
         source: 'jnvg_platform',
@@ -130,21 +169,16 @@ const AlumniCloudSync = (() => {
         payload: cleanPayload
       });
 
-      const outboxId = enqueueOutbox(topic, eventType, body);
-      const ok = await sendRawToNtfy(topic, eventType, body);
-      if (ok) {
-        removeFromOutbox(outboxId);
-      }
+      const outboxId = enqueueOutbox({ target: 'ntfy', topic, eventType, body });
+      const ok = await sendNtfyRaw(topic, eventType, body);
+      if (ok) removeFromOutbox(outboxId);
       return ok;
     } catch (err) {
-      console.warn(`[CloudSync] Publish queued for retry (${topic}/${eventType}):`, err.message);
+      console.warn(`[CloudSync] ntfy publish queued (${topic}/${eventType}):`, err.message);
       return false;
     }
   }
 
-  /**
-   * Unified ntfy message parser: supports both inline JSON and attachment.json (for photos)
-   */
   async function parseNtfyItem(item) {
     if (!item || item.event !== 'message') return null;
     try {
@@ -162,9 +196,6 @@ const AlumniCloudSync = (() => {
     return null;
   }
 
-  /**
-   * Poll events from topic with since parameter
-   */
   async function pollTopic(topic, since = 'all') {
     try {
       const url = `${BASE_URL}/${topic}/json?poll=1&since=${encodeURIComponent(since)}`;
@@ -183,7 +214,6 @@ const AlumniCloudSync = (() => {
       }
       return events;
     } catch (err) {
-      console.warn(`[CloudSync] Poll failed for topic ${topic}:`, err.message);
       return [];
     }
   }
@@ -197,7 +227,16 @@ const AlumniCloudSync = (() => {
     let hasChanges = false;
 
     if ((evt.type === 'NEW_FEED_POST' || evt.type === 'UPDATE_FEED_POST') && evt.payload && evt.payload.id) {
-      const post = evt.payload;
+      const post = { ...evt.payload, comments: normalizeComments(evt.payload.comments) };
+      if (post.deleted) {
+        const delIdx = AppState.feedPosts.findIndex(p => String(p.id) === String(post.id));
+        if (delIdx !== -1) {
+          AppState.feedPosts.splice(delIdx, 1);
+          return true;
+        }
+        return false;
+      }
+
       const existingIdx = AppState.feedPosts.findIndex(p => String(p.id) === String(post.id));
       if (existingIdx === -1) {
         AppState.feedPosts.unshift(post);
@@ -206,23 +245,33 @@ const AlumniCloudSync = (() => {
         const existing = AppState.feedPosts[existingIdx];
         const incomingTs = evt.timestamp || post.updatedAt || 0;
         const existingTs = existing.updatedAt || 0;
+        const existingComments = normalizeComments(existing.comments);
+        const mergedComments = [...existingComments];
+        post.comments.forEach(c => {
+          if (!mergedComments.some(x => (c.id && x.id === c.id) || (x.author === c.author && x.text === c.text))) {
+            mergedComments.push(c);
+          }
+        });
+        const maxLikes = Math.max(existing.likes || 0, post.likes || 0);
         const contentChanged = (post.content && post.content !== existing.content) || (post.text && post.text !== existing.text);
         const imageChanged = post.image && post.image !== existing.image;
         const photoChanged = post.authorPhoto && post.authorPhoto !== existing.authorPhoto;
-        if (incomingTs >= existingTs && (contentChanged || imageChanged || photoChanged || evt.type === 'UPDATE_FEED_POST')) {
+        const metaChanged = maxLikes !== (existing.likes || 0) || mergedComments.length !== existingComments.length;
+
+        if ((incomingTs >= existingTs && (contentChanged || imageChanged || photoChanged || evt.type === 'UPDATE_FEED_POST')) || metaChanged) {
           AppState.feedPosts[existingIdx] = {
             ...existing,
             ...post,
-            likes: Math.max(existing.likes || 0, post.likes || 0),
-            comments: Array.isArray(existing.comments) && existing.comments.length >= (post.comments || []).length
-              ? existing.comments
-              : (post.comments || []),
-            updatedAt: incomingTs || Date.now()
+            image: post.image || existing.image || null,
+            authorPhoto: post.authorPhoto || existing.authorPhoto || null,
+            likes: maxLikes,
+            comments: mergedComments,
+            updatedAt: Math.max(incomingTs, existingTs)
           };
           hasChanges = true;
         }
       }
-      // Also keep matching teacher card message in sync if this is a Gurujan Sandesh post
+
       if (post.isTeacher && Array.isArray(AppState.teachers) && post.author) {
         const tMatch = AppState.teachers.find(t =>
           (t.name && t.name.toLowerCase() === post.author.toLowerCase()) ||
@@ -260,7 +309,7 @@ const AlumniCloudSync = (() => {
     } else if (evt.type === 'COMMENT_FEED_POST' && evt.payload && evt.payload.postId && evt.payload.comment) {
       const target = AppState.feedPosts.find(p => String(p.id) === String(evt.payload.postId));
       if (target) {
-        if (!Array.isArray(target.comments)) target.comments = [];
+        if (!Array.isArray(target.comments)) target.comments = normalizeComments(target.comments);
         const c = evt.payload.comment;
         const already = target.comments.some(x => (c.id && x.id === c.id) || (x.author === c.author && x.text === c.text));
         if (!already) {
@@ -281,42 +330,65 @@ const AlumniCloudSync = (() => {
   }
 
   async function broadcastFeedPost(post) {
+    const stampedPost = { ...post, updatedAt: Date.now() };
+    const fbPromise = fbWrite(`feed/${fbKey(post.id)}`, stampedPost, 'PUT');
+
     const hasLargeImage = post && typeof post.image === 'string' && post.image.length > 2500;
     const hasLargeAuthorPhoto = post && typeof post.authorPhoto === 'string' && post.authorPhoto.length > 2500;
     const basePost = {
-      ...post,
+      ...stampedPost,
       image: hasLargeImage ? null : post.image,
-      authorPhoto: hasLargeAuthorPhoto ? null : post.authorPhoto,
-      updatedAt: Date.now()
+      authorPhoto: hasLargeAuthorPhoto ? null : post.authorPhoto
     };
     const ok = await publishEvent(FEED_TOPIC, 'NEW_FEED_POST', basePost);
-    if (hasLargeImage) {
-      await publishEvent(FEED_TOPIC, 'FEED_POST_PHOTO', { postId: post.id, image: post.image });
-    }
-    if (hasLargeAuthorPhoto) {
-      await publishEvent(FEED_TOPIC, 'FEED_POST_AUTHOR_PHOTO', { postId: post.id, authorPhoto: post.authorPhoto });
-    }
+    if (hasLargeImage) await publishEvent(FEED_TOPIC, 'FEED_POST_PHOTO', { postId: post.id, image: post.image });
+    if (hasLargeAuthorPhoto) await publishEvent(FEED_TOPIC, 'FEED_POST_AUTHOR_PHOTO', { postId: post.id, authorPhoto: post.authorPhoto });
+    await fbPromise;
     return ok;
   }
 
   async function broadcastFeedLike(postId, likes) {
-    return await publishEvent(FEED_TOPIC, 'LIKE_FEED_POST', { postId, likes });
+    const fbPromise = fbWrite(`feed/${fbKey(postId)}`, { id: postId, likes, updatedAt: Date.now() }, 'PATCH');
+    const ok = await publishEvent(FEED_TOPIC, 'LIKE_FEED_POST', { postId, likes });
+    await fbPromise;
+    return ok;
   }
 
   async function broadcastFeedComment(postId, comment) {
-    return await publishEvent(FEED_TOPIC, 'COMMENT_FEED_POST', { postId, comment });
+    const fbPromise = fbWrite(`feed/${fbKey(postId)}/comments/${fbKey(comment.id)}`, comment, 'PUT');
+    const ok = await publishEvent(FEED_TOPIC, 'COMMENT_FEED_POST', { postId, comment });
+    await fbPromise;
+    return ok;
   }
 
   async function broadcastDeleteFeedPost(postId) {
-    return await publishEvent(FEED_TOPIC, 'DELETE_FEED_POST', { postId });
+    const fbPromise = fbWrite(`feed/${fbKey(postId)}`, { id: postId, deleted: true, deletedAt: Date.now() }, 'PUT');
+    const ok = await publishEvent(FEED_TOPIC, 'DELETE_FEED_POST', { postId });
+    await fbPromise;
+    return ok;
   }
 
   async function syncFeed() {
     if (typeof AppState === 'undefined' || !AppState.feedPosts) return;
-    const events = await pollTopic(FEED_TOPIC, 'all');
     let hasChanges = false;
 
-    events.forEach(evt => {
+    const [fbPosts, ntfyEvents] = await Promise.all([
+      fbRead('feed'),
+      pollTopic(FEED_TOPIC, 'all')
+    ]);
+
+    if (fbPosts && typeof fbPosts === 'object') {
+      const sorted = Object.values(fbPosts)
+        .filter(Boolean)
+        .sort((a, b) => (a.updatedAt || 0) - (b.updatedAt || 0));
+      sorted.forEach(post => {
+        if (post && post.id && applyFeedEvent({ type: 'NEW_FEED_POST', timestamp: post.updatedAt || 0, payload: post })) {
+          hasChanges = true;
+        }
+      });
+    }
+
+    ntfyEvents.forEach(evt => {
       if (applyFeedEvent(evt)) hasChanges = true;
     });
 
@@ -338,8 +410,7 @@ const AlumniCloudSync = (() => {
             const item = JSON.parse(e.data);
             const data = await parseNtfyItem(item);
             if (!data) return;
-            const changed = applyFeedEvent(data);
-            if (changed) {
+            if (applyFeedEvent(data)) {
               if (typeof saveAppData === 'function') saveAppData();
               if (typeof renderFeed === 'function') renderFeed();
               if (typeof renderTeachers === 'function') renderTeachers();
@@ -366,7 +437,6 @@ const AlumniCloudSync = (() => {
     const uBatch = parseInt(u.batch, 10) || 2025;
     const isTeacher = u.role === 'teacher' || u.isTeacher || u.profession === 'Faculty';
 
-    // 1. Update or Insert in allUsers
     let existingUser = allUsers.find(x =>
       (cleanEmail && (x.email || '').toLowerCase() === cleanEmail) ||
       (cleanPhone && cleanPhone.length === 10 && (x.phone || '').replace(/\D/g, '').slice(-10) === cleanPhone)
@@ -413,7 +483,6 @@ const AlumniCloudSync = (() => {
       saveAllUsers(allUsers);
     }
 
-    // 2. Directory Synchronization
     if (typeof AppState !== 'undefined' && Array.isArray(AppState.directory) && !isTeacher) {
       let existingDir = null;
       if (u.claimedDirectoryId) {
@@ -463,7 +532,6 @@ const AlumniCloudSync = (() => {
       }
     }
 
-    // 3. Faculty Synchronization if Teacher
     if (isTeacher && typeof AppState !== 'undefined' && Array.isArray(AppState.teachers)) {
       const existingTch = AppState.teachers.find(t =>
         (u.claimedTeacherId && String(t.id) === String(u.claimedTeacherId)) ||
@@ -481,7 +549,6 @@ const AlumniCloudSync = (() => {
       }
     }
 
-    // 4. Remove from Pending Registrations if approved
     if (typeof AppState !== 'undefined' && Array.isArray(AppState.pendingRegistrations)) {
       const pIdx = AppState.pendingRegistrations.findIndex(p =>
         (cleanEmail && (p.email || '').toLowerCase() === cleanEmail) ||
@@ -614,39 +681,83 @@ const AlumniCloudSync = (() => {
   }
 
   async function broadcastRegistration(userData) {
-    return await publishEvent(REG_TOPIC, 'REGISTRATION_SUBMITTED', userData);
+    const key = fbKey(userData.email || userData.phone || userData.id || userData.name);
+    const fbPromise = fbWrite(`registrations/${key}`, { type: 'REGISTRATION_SUBMITTED', payload: userData, updatedAt: Date.now() }, 'PUT');
+    const ok = await publishEvent(REG_TOPIC, 'REGISTRATION_SUBMITTED', userData);
+    await fbPromise;
+    return ok;
   }
 
   async function broadcastApproval(userObj) {
-    return await publishEvent(REG_TOPIC, 'REGISTRATION_APPROVED', userObj);
+    const key = fbKey(userObj.email || userObj.phone || userObj.id || userObj.name);
+    const fbPromise = fbWrite(`registrations/${key}`, { type: 'REGISTRATION_APPROVED', payload: userObj, updatedAt: Date.now() }, 'PUT');
+    const ok = await publishEvent(REG_TOPIC, 'REGISTRATION_APPROVED', userObj);
+    await fbPromise;
+    return ok;
   }
 
   async function broadcastProfileUpdate(userObj) {
+    const key = fbKey(userObj.email || userObj.phone || userObj.id || userObj.name);
+    const fbPromise = fbWrite(`registrations/${key}`, { type: 'PROFILE_UPDATED', payload: userObj, updatedAt: Date.now() }, 'PUT');
     const hasLargePhoto = userObj && typeof userObj.photo === 'string' && userObj.photo.length > 2500;
     const baseUser = hasLargePhoto ? { ...userObj, photo: null, avatarImage: null } : userObj;
     const ok = await publishEvent(REG_TOPIC, 'PROFILE_UPDATED', baseUser);
     if (hasLargePhoto) {
       await publishEvent(REG_TOPIC, 'PROFILE_UPDATED', { id: userObj.id, email: userObj.email, name: userObj.name, batch: userObj.batch, photo: userObj.photo });
     }
+    await fbPromise;
     return ok;
   }
 
   async function broadcastRoleUpdate(data) {
-    return await publishEvent(REG_TOPIC, 'ROLE_UPDATED', data);
+    const key = 'role_' + fbKey(data.email || data.name);
+    const fbPromise = fbWrite(`registrations/${key}`, { type: 'ROLE_UPDATED', payload: data, updatedAt: Date.now() }, 'PUT');
+    const ok = await publishEvent(REG_TOPIC, 'ROLE_UPDATED', data);
+    await fbPromise;
+    return ok;
   }
 
   async function broadcastProfileDelete(data) {
-    return await publishEvent(REG_TOPIC, 'PROFILE_DELETED', data);
+    const key = 'del_' + fbKey(data.email || data.name);
+    const fbPromise = fbWrite(`registrations/${key}`, { type: 'PROFILE_DELETED', payload: data, updatedAt: Date.now() }, 'PUT');
+    const ok = await publishEvent(REG_TOPIC, 'PROFILE_DELETED', data);
+    await fbPromise;
+    return ok;
   }
 
   async function broadcastTeacherUpdate(teacherObj, type = 'TEACHER_UPDATED') {
-    return await publishEvent(REG_TOPIC, type, teacherObj);
+    const key = fbKey(teacherObj.id || teacherObj.name);
+    const fbPromise = fbWrite(`teachers/${key}`, { type, payload: teacherObj, updatedAt: Date.now() }, 'PUT');
+    const ok = await publishEvent(REG_TOPIC, type, teacherObj);
+    await fbPromise;
+    return ok;
   }
 
   async function syncRegistrations() {
-    const events = await pollTopic(REG_TOPIC, 'all');
+    const [fbRegs, fbTeachers, fbLogs, ntfyEvents] = await Promise.all([
+      fbRead('registrations'),
+      fbRead('teachers'),
+      fbRead('audit_logs'),
+      pollTopic(REG_TOPIC, 'all')
+    ]);
     let anyChanged = false;
-    events.forEach(evt => {
+
+    if (fbRegs && typeof fbRegs === 'object') {
+      Object.values(fbRegs).filter(Boolean).sort((a, b) => (a.updatedAt || 0) - (b.updatedAt || 0)).forEach(evt => {
+        if (applyRegEvent(evt)) anyChanged = true;
+      });
+    }
+    if (fbTeachers && typeof fbTeachers === 'object') {
+      Object.values(fbTeachers).filter(Boolean).forEach(evt => {
+        if (applyRegEvent(evt)) anyChanged = true;
+      });
+    }
+    if (fbLogs && typeof fbLogs === 'object') {
+      Object.values(fbLogs).filter(Boolean).forEach(evt => {
+        if (applyRegEvent(evt)) anyChanged = true;
+      });
+    }
+    ntfyEvents.forEach(evt => {
       if (applyRegEvent(evt)) anyChanged = true;
     });
     if (anyChanged) {
@@ -664,10 +775,7 @@ const AlumniCloudSync = (() => {
             const item = JSON.parse(e.data);
             const data = await parseNtfyItem(item);
             if (!data) return;
-            const changed = applyRegEvent(data);
-            if (changed && data.payload && data.payload.name) {
-              console.log(`[CloudSync] Real-time sync (${data.type}) for ${data.payload.name}`);
-            }
+            applyRegEvent(data);
           } catch (err) {}
         };
       }
@@ -676,7 +784,6 @@ const AlumniCloudSync = (() => {
 
   // ==========================================
   // 3. UNIVERSAL PLATFORM ACTIVITY SYNC
-  // (RSVPs, Cultural Acts, Schedule, Donations, Helpdesk, Suggestions, Notable)
   // ==========================================
 
   function applyActivityEvent(evt) {
@@ -782,13 +889,25 @@ const AlumniCloudSync = (() => {
   }
 
   async function broadcastActivity(eventType, payload) {
-    return await publishEvent(ACTIVITY_TOPIC, eventType, payload);
+    const key = fbKey(payload.id || payload.actId || payload.requestId || payload.eventId || ('act_' + Date.now()));
+    const fbPromise = fbWrite(`activities/${key}`, { type: eventType, payload, updatedAt: Date.now() }, 'PUT');
+    const ok = await publishEvent(ACTIVITY_TOPIC, eventType, payload);
+    await fbPromise;
+    return ok;
   }
 
   async function syncActivities() {
-    const events = await pollTopic(ACTIVITY_TOPIC, 'all');
+    const [fbActs, ntfyEvents] = await Promise.all([
+      fbRead('activities'),
+      pollTopic(ACTIVITY_TOPIC, 'all')
+    ]);
     let anyChanged = false;
-    events.forEach(evt => {
+    if (fbActs && typeof fbActs === 'object') {
+      Object.values(fbActs).filter(Boolean).sort((a, b) => (a.updatedAt || 0) - (b.updatedAt || 0)).forEach(evt => {
+        if (applyActivityEvent(evt)) anyChanged = true;
+      });
+    }
+    ntfyEvents.forEach(evt => {
       if (applyActivityEvent(evt)) anyChanged = true;
     });
     if (anyChanged) {
@@ -819,7 +938,10 @@ const AlumniCloudSync = (() => {
   async function sendChatMessage(msg) {
     if (!msg || !msg.recipientName) return false;
     const topic = sanitizeTopic(msg.recipientName);
-    return await publishEvent(topic, 'NEW_CHAT_MESSAGE', msg);
+    const fbPromise = fbWrite(`chats/${topic}/${fbKey(msg.id)}`, { type: 'NEW_CHAT_MESSAGE', payload: msg, updatedAt: Date.now() }, 'PUT');
+    const ok = await publishEvent(topic, 'NEW_CHAT_MESSAGE', msg);
+    await fbPromise;
+    return ok;
   }
 
   function getMyChatTopics(curUser) {
@@ -841,8 +963,17 @@ const AlumniCloudSync = (() => {
     let hasNew = false;
 
     for (const myTopic of myTopics) {
-      const events = await pollTopic(myTopic, 'all');
-      events.forEach(evt => {
+      const [fbChats, events] = await Promise.all([
+        fbRead(`chats/${myTopic}`),
+        pollTopic(myTopic, 'all')
+      ]);
+      const combined = [];
+      if (fbChats && typeof fbChats === 'object') {
+        Object.values(fbChats).filter(Boolean).forEach(x => combined.push(x));
+      }
+      events.forEach(x => combined.push(x));
+
+      combined.forEach(evt => {
         if (evt.type === 'NEW_CHAT_MESSAGE' && evt.payload && evt.payload.id) {
           const m = evt.payload;
           const isAdmin = curUser.role === 'admin' || (curUser.email && curUser.email.toLowerCase() === 'ashfaque15tr@gmail.com');
@@ -866,7 +997,7 @@ const AlumniCloudSync = (() => {
     }
   }
 
-  function startChatStreamForTopic(topic, isPrimary) {
+  function startChatStreamForTopic(topic) {
     try {
       if (typeof EventSource === 'undefined') return null;
       const es = new EventSource(`${BASE_URL}/${topic}/sse`);
@@ -902,9 +1033,9 @@ const AlumniCloudSync = (() => {
     if (adminAliasChatEventSource) adminAliasChatEventSource.close();
 
     const myTopics = getMyChatTopics(curUser);
-    chatEventSource = startChatStreamForTopic(myTopics[0], true);
+    chatEventSource = startChatStreamForTopic(myTopics[0]);
     if (myTopics[1]) {
-      adminAliasChatEventSource = startChatStreamForTopic(myTopics[1], false);
+      adminAliasChatEventSource = startChatStreamForTopic(myTopics[1]);
     }
   }
 
@@ -918,16 +1049,11 @@ const AlumniCloudSync = (() => {
     ]);
   }
 
-  /**
-   * Master Initializer - Starts periodic sync and real-time streams
-   */
   function init() {
-    console.log("[CloudSync] Initializing JNV Alumni Universal Cloud Synchronization Engine...");
+    console.log("[CloudSync] Initializing JNV Alumni Permanent Firebase + Real-Time Cloud Sync Engine...");
 
-    // Flush any queued offline events and perform initial sync
     syncAll();
 
-    // Start live SSE streams
     startFeedStream();
     startRegStream();
     startActivityStream();
@@ -940,7 +1066,6 @@ const AlumniCloudSync = (() => {
       });
     }
 
-    // Background interval sync every 12 seconds to guarantee cross-device consistency
     if (pollIntervalTimer) clearInterval(pollIntervalTimer);
     pollIntervalTimer = setInterval(() => {
       syncAll();
@@ -973,14 +1098,16 @@ const AlumniCloudSync = (() => {
     startChatStream,
     publish: async (eventType, payload) => {
       if (eventType === 'AUDIT_LOG_CREATED') {
-        return await publishEvent(REG_TOPIC, 'AUDIT_LOG_CREATED', payload);
+        const fbPromise = fbWrite(`audit_logs/${fbKey(payload.id)}`, { type: 'AUDIT_LOG_CREATED', payload, updatedAt: Date.now() }, 'PUT');
+        const ok = await publishEvent(REG_TOPIC, 'AUDIT_LOG_CREATED', payload);
+        await fbPromise;
+        return ok;
       }
-      return await publishEvent(ACTIVITY_TOPIC, eventType, payload);
+      return await broadcastActivity(eventType, payload);
     }
   };
 })();
 
-// Attach to global window
 if (typeof window !== 'undefined') {
   window.AlumniCloudSync = AlumniCloudSync;
 }
